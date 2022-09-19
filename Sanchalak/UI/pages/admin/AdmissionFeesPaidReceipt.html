@@ -1,0 +1,220 @@
+﻿
+<style>
+    table, th {
+        padding: 5px;
+        border: 2px solid black;
+        white-space:normal !important;
+    }
+    td {
+        padding: 5px;
+        border: 1px solid black;
+        white-space: normal !important;
+    }
+
+    .heading {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 5px;
+    }
+</style>
+<script>
+
+    function createPDF() {
+        var sTable = document.getElementById('print').innerHTML;
+
+        var style = "<style>";
+        style = style + "table {width: 1000px;font: 15px Calibri;}";
+        style = style + "table, th, td {border: solid 1px black; border-collapse: collapse;";
+        style = style + "padding: 2px 3px;}";
+        style = style + "</style>";
+
+        // CREATE A WINDOW OBJECT.
+        var win = window.open('', 'height=700,width=700');
+
+        win.document.write('<html><head>');
+	win.document.write('<link href="assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" />');  
+	win.document.write('<link href="bower_components/bootstrap/css/bootstrap.min.css" rel="stylesheet" />'); 
+        //win.document.write('<title>Profile</title>');   // <title> FOR PDF HEADER.
+        win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+        win.document.write('</head>');
+        win.document.write('<body>');
+        win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+        win.document.write('</body></html>');
+
+        win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+
+        win.print();    // PRINT THE CONTENTS.
+    }
+
+</script>
+<div id="print">
+    <br />
+    <div class="card" ng-init="AdmAdmissionFeesPaidRecieptDetailGet()">
+        <table  class="table table-striped table-bordered" style="width: 100%">
+            <tr>
+                <td class="align-self-center" style="width:50%; text-align:left"><b>Receipt No:</b><b>{{FeeReceiept.OrderId}}</b></td>
+                <td class="align-self-center" style="width:50%; text-align:right"><b>Payment Date:</b><b>{{FeeReceiept.PaymentDateDisplay}}</b></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table class="table table-framed" style="border: 1px;" width="1000px" align="center" template-pagination="none">
+                        <tr style="border: 1px;" class="logo">
+                            <td class="align-self-center" style="border: 0px;text-align: center;"><img src="images/MSU_Logo_1.png" style="border: 1px;" alt=""></td>
+
+                        </tr>
+                        <tr style="border: 1px;" class="logo">
+
+                            <td class="align-self-center" style="border: 1px;text-align: center;"><h4 class="heading"><b>The Maharaja Sayajirao University, Baroda</b></h4></td>
+
+                        </tr>
+                        <tr style="border: 1px;" class="logo">
+
+                            <td class="align-self-center" style="border: 1px;text-align: center;"><h4 class="heading"><b>Student Admission Online Payment E-Receipt {{FeeReceiept.AcademicYearCode}}</b></h4></td>
+
+                        </tr>
+
+                    </table>
+            
+                    <!--<table class="table table-framed" style="border: 1px;" width="1000px" align="center" template-pagination="none">
+
+            <tr style="border: 0px;" class="logo">
+                <td style="border: 0px;width:100px;display:inline"><b>Academic Year:</b><b>{{FeeReceiept.AcademicYearCode}}</b></td>
+                <td style="border: 0px;width:100px;"><b>Faculty Name:</b><b>{{FeeReceiept.FacultyName}}</b></td>
+            </tr>
+
+            <tr>
+                <td class="align-self-center" style="border: 0px;width:100px; text-align:center"><b>Course Name:</b><b>{{FeeReceiept.ProgrammeName}} : {{FeeReceiept.BranchName}}</b></td>
+
+            </tr>
+            <tr>
+                <td style="border: 0px; width:600px; text-align:center"><h4 class="heading" style="align=center"><b>E-Receipt</b></h4></td>
+            </tr>
+            <tr>
+                <td class="align-self-center" style="border: 0px;width:100px; text-align:center"><b>Applicant Name:</b><b>{{FeeReceiept.NameAsPerMarksheet}}</b></td>
+
+            </tr>
+            <tr>
+                <td class="align-self-center" style="border: 0px;width:100px; text-align:center"><b>Fee Name:</b><b>{{FeeReceiept.FeeTypeName}} : {{FeeReceiept.FeeCategoryName}}</b></td>
+
+            </tr>
+            <tr>
+                <td class="align-self-center" style="border: 0px;width:100px; text-align:center"><b>Total Amount:&nbsp;</b><b><i class="fa fa-inr">&nbsp;</i>{{FeeReceiept.TotalAmount| number:2}} : <b>Amount Paid:&nbsp;</b><b><i class="fa fa-inr">&nbsp;</i>{{FeeReceiept.AmountPaid| number:2}}</b></td>
+
+            </tr>
+            <tr>
+                <td class="align-self-center" style="border: 0px;width:100px; text-align:center"><b>InstalmentNo.:</b><b>{{FeeReceiept.InstalmentNo}}</b></td>
+
+            </tr>
+        </table>-->
+                    <table id="res-config" class="table table-striped table-bordered nowrap" style="width: 100%" template-pagination="none">
+                        <thead>
+                            <tr>
+                                <td class="font-weight-bold text-wrap" style="width:10%">Academic Year:</td>
+                                <td style="width:40%" class="text-wrap">
+                                    <label>{{FeeReceiept.AcademicYearCode}}</label>
+                                </td>
+                                <td class="font-weight-bold text-wrap" style="width:10%">User Name / PRN:</td>
+                                <td style="width:40%" class="text-wrap">
+                                    <label>{{FeeReceiept.PRN}}</label>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="font-weight-bold text-wrap" style="width:10%">Faculty Name:</td>
+                                <td style="width:40%" class="text-wrap">
+                                    <label>{{FeeReceiept.FacultyName}}</label>
+                                </td>
+                                <td class="font-weight-bold text-wrap" style="width:10%">Name:</td>
+                                <td style="width:40%" class="text-wrap">
+                                    <label>{{FeeReceiept.NameAsPerMarksheet}}</label>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="font-weight-bold text-wrap" style="width:10%">Course Name:</td>
+                                <td style="width:40%" class="text-wrap">
+                                    <label>{{FeeReceiept.ProgrammeName}} : {{FeeReceiept.BranchName}}</label>
+                                </td>
+                                <td class="font-weight-bold text-wrap" style="width:10%">Mobile No.:</td>
+                                <td style="width:40%" class="text-wrap">
+                                    <label>{{FeeReceiept.MobileNo}}</label>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="font-weight-bold text-wrap" style="width:10%">Course Year:</td>
+                                <td style="width:40%" class="text-wrap">
+                                    <label>{{FeeReceiept.InstancePartName}}</label>
+                                </td>
+                                <td class="font-weight-bold text-wrap" style="width:10%">Fee Name:</td>
+                                <td style="width:40%" class="text-wrap">
+                                    <label>{{FeeReceiept.FeeTypeName}} : {{FeeReceiept.FeeCategoryName}}</label>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="font-weight-bold text-wrap" style="width:10%">Bulding Name:</td>
+                                <td style="width:40%" class="text-wrap">
+                                    <label>{{FeeReceiept.InstituteName}}</label>
+                                </td>
+                                <td class="font-weight-bold text-wrap" style="width:10%">Instalment No.:</td>
+                                <td style="width:40%" class="text-wrap">
+                                    <label>{{FeeReceiept.InstalmentNo}}</label>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="width:100%; text-align:center"><b>Total Amount:&nbsp;</b><b><i class="fa fa-inr">&nbsp;</i>{{FeeReceiept.TotalAmount| number:2}}</b> : <b>Amount Paid:&nbsp;</b><b><i class="fa fa-inr">&nbsp;</i>{{FeeReceiept.AmountPaid| number:2}}</b></td>
+
+                            </tr>
+                        </thead>
+
+                    </table>
+             
+                    <table id="res-config" class="table table-striped table-bordered nowrap" template-pagination="none">
+                        <thead>
+                            <tr>
+                                <th class="font-weight-bold">Fee Head</th>
+                                <th class="font-weight-bold">Fee Sub Head</th>
+                                <th class="font-weight-bold">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-repeat="Fee in FeeReceiept.AFDR">
+                            <tr>
+                                <td data-title="'Fee Head'" class="font-weight-bold w-25 text-wrap">
+                                    <label style="text-align:center;">{{Fee.FeeHeadName}}</label>
+                                </td>
+                                <td data-title="'Part Sub Head'" class="font-weight-bold w-50 text-wrap">
+                                    <label>{{Fee.FeeSubHeadName}}</label>
+                                </td>
+                                <td data-title="'Amount'" class="font-weight-bold text-right" style="width:10% !important">
+                                    <label><i class="fa fa-inr">&nbsp;</i>{{Fee.AmountPaid| number:2}}</label>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2" class="text-right font-weight-bold">Total Paid Amount</td>
+
+                                <td class="text-right font-weight-bold"> <i class="fa fa-inr">&nbsp;</i>{{FeeReceiept.AmountPaid| number:2}}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        
+    </div>
+
+</div>
+<p align="center">
+    <button type="button" class="btn btn-info btn-round" id="btPrint" value="Print" onclick="createPDF()" style="border:double;font-size:large">Print</button>
+</p>
+<script>
+    $(function () {
+        var displaysTime = $('#divTime');
+        displaysTime.text(moment.utc('27/04/2017', 'DD/MM/YYYY', true).toISOString());
+    });
+</script>

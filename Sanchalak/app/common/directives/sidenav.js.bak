@@ -1,0 +1,367 @@
+﻿app.directive("sidenav", function ($rootScope) {
+    return {
+        templateUrl: "UI/layouts/common/directives/sidenav.html",
+        restrict: "E",
+        replace: !0,
+		controller: ["$scope", function (e) {
+			e.menuItemList = [
+				{
+					"icon": "ti-home",
+					"displayName": "Dashboard",
+					"state": "dashboardadmin",
+					"showSubMenu": false,
+					"hasSubMenu": false,
+				},
+
+				//{
+				//	"icon": "ti-view-grid",
+				//	"displayName": "Define Master",
+				//	"state": "users",
+				//	"showSubMenu": false,
+				//	"hasSubMenu": true,
+				//	"submenu": [
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Faculty Master",
+				//			"state": "FacultyEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Department Master",
+				//			"state": "MstDepartmentEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Subject Master",
+				//			"state": "SubjectEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "BOS Master",
+				//			"state": "BOSEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Paper Master",
+				//			"state": "mstPaperEdit"
+				//		}
+				//		//{
+				//		//	"icon": "ti-home",
+				//		//	"displayName": "Dashboard",
+				//		//	"state": "dashboardadmin",
+    //  //                  }
+				//	]
+				//},
+				//{
+				//	"icon": "ti-view-grid",
+				//	"displayName": "Programme Master",
+				//	"state": "users",
+				//	"showSubMenu": false,
+				//	"hasSubMenu": true,
+				//	"submenu": [
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Programme Master",
+				//			"state": "ProgrammeEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Part Master",
+				//			"state": "ProgrammePartEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Part Term Master",
+				//			"state": "ProgrammePartTermEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Specialisation Master",
+				//			"state": "SpecialisationEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "SubSpecialisation Master",
+				//			"state": "SubSpecialisationEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Programme Branch Map Master",
+				//			"state": "ProgrammeBranchMapEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Instance Master",
+				//			"state": "ProgrammeInstanceEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Instance Part Master",
+				//			"state": "ProgrammeInstancePartEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Instance Part Term Master",
+				//			"state": "ProgrammeInstancePartTermEdit"
+				//		}
+				//	]
+				//},				
+				//{
+				//	"icon": "ti-view-grid",
+				//	"displayName": "Miscellaneous Master",
+				//	"state": "users",
+				//	"showSubMenu": false,
+				//	"hasSubMenu": true,
+				//	"submenu": [
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Programme Level Master",
+				//			"state": "ProgrammeLevelEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Programme Mode Master",
+				//			"state": "ProgrammeModeEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Programme Type Master",
+				//			"state": "ProgrammeTypeEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Evaluation Master",
+				//			"state": "EvaluationEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Programme Pattern Master",
+				//			"state": "examinationPatternEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Instruction Medium Master",
+				//			"state": "instructionMediumEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Teaching Learning Method Master",
+				//			"state": "assessmentMethodEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Assessment Method Master",
+				//			"state": "teachingLearningMethodEdit"
+				//		},
+				//		{
+				//			"icon": "icofont icofont-book-alt",
+				//			"displayName": "Teaching Learning Assessment Map Master",
+				//			"state": "teachingLearningAssessmentMapEdit"
+				//		}
+				//	]
+				//},
+				//{
+				//	"icon": "ti-view-grid",
+				//	"displayName": "Students 1",
+				//	"state": "students",
+				//	"showSubMenu": false,
+				//	"hasSubMenu": false,
+				//},
+
+				{
+					//"icon": "ti-view-grid",
+					"displayName": "Programme Configuration",
+					//"state": "",
+					"showSubMenu": false,
+					"hasSubMenu": true,
+					"submenu": [
+						{
+							"icon": "icofont icofont-book-alt",
+							"displayName": "Instance Configuration",
+							"state": "PreProgInstanceConfigEdit",
+						},
+						{
+							"icon": "icofont icofont-book-alt",
+							"displayName": "Part Configuration",
+							"state": "PreProgInstancePartConfigEdit",
+						},
+						{
+							"icon": "icofont icofont-book-alt",
+							"displayName": "Part-Term Configuration",
+							"state": "PreProgInstancePartTermConfigEdit",
+						}
+					]
+				},				
+
+				{
+					"icon": "ti-view-grid",
+					"displayName": "Instance Configuration",
+					"state": "PreProgInstanceConfigEdit",
+					"showSubMenu": false,
+					"hasSubMenu": false,
+				},
+			
+				{
+					"icon": "ti-view-grid",
+					"displayName": "Part Configuration",
+					"state": "PreProgInstancePartConfigEdit",
+					"showSubMenu": false,
+					"hasSubMenu": false,
+				},
+				
+				{
+					"icon": "ti-view-grid",
+					"displayName": "Part-Term Configuration",
+					"state": "PreProgInstancePartTermConfigEdit",
+					"showSubMenu": false,
+					"hasSubMenu": false,
+				},
+				{
+					"icon": "ti-view-grid",
+					"displayName": "Pre-Programme Configuration",
+					"state": "PreProgPartTermConfig",
+					"showSubMenu": false,
+					"hasSubMenu": false,
+				}
+
+				//{
+				//	"icon": "ti-view-grid",
+				//	"displayName": "Eligibility Group",
+				//	"state": "AdmEligibilityGroupEdit",
+				//	"showSubMenu": false,
+				//	"hasSubMenu": false
+				//},
+				//{
+				//	"icon": "ti-view-grid",
+				//	"displayName": "Eligibility Group Component",
+				//	"state": "AdmEligibilityGroupComponentEdit",
+				//	"showSubMenu": false,
+				//	"hasSubMenu": false
+				//},
+				//{
+				//	"icon": "ti-view-grid",
+				//	"displayName": "Programm AddOn Criteria",
+				//	"state": "AdmProgrammeAddOnCriteriaEdit",
+				//	"showSubMenu": false,
+				//	"hasSubMenu": false
+				//},
+				//{
+				//	"icon": "ti-view-grid",
+				//	"displayName": "Adm Required Documents Program",
+				//	"state": "AdmRequiredDocumentsProgramEdit",
+				//	"showSubMenu": false,
+				//	"hasSubMenu": false
+				//},
+				//{
+				//	"icon": "ti-view-grid",
+				//	"displayName": "Required Documents Program",
+				//	"state": "AdmRequiredDocumentsProgram",
+				//	"showSubMenu": false,
+				//	"hasSubMenu": false
+				//},
+				//{
+				//	"icon": "ti-view-grid",
+				//	"displayName": "Eligibility Criteria Component",
+				//	"state": "AdmEligibilityCriteriaComponent",
+				//	"showSubMenu": false,
+				//	"hasSubMenu": false
+				//},
+
+				//{
+				//	"icon": "icofont icofont-book-alt",
+				//	"displayName": "Pre-Application Configuration",
+				//	"state": "PreApplicationConfigurationEdit",
+				//	"showSubMenu": false,
+				//	"hasSubMenu": false,
+				//}
+			]
+
+			e.toggle = function (data) {
+				data.showSubMenu = !data.showSubMenu;
+			}
+			if (!$rootScope.reloadPage) {
+				$("#pcoded").pcodedmenu({
+					themelayout: 'vertical',
+					verticalMenuplacement: 'left',		// value should be left/right
+					verticalMenulayout: 'wide',   		// value should be wide/box/widebox
+					MenuTrigger: 'click',
+					SubMenuTrigger: 'click',
+					activeMenuClass: 'active',
+					ThemeBackgroundPattern: 'pattern2',
+					HeaderBackground: 'theme4',
+					LHeaderBackground: 'theme4',
+					NavbarBackground: 'theme4',
+					ActiveItemBackground: 'theme5',
+					SubItemBackground: 'theme2',
+					ActiveItemStyle: 'style0',
+					ItemBorder: true,
+					ItemBorderStyle: 'none',
+					SubItemBorder: true,
+					DropDownIconStyle: 'style3', // Value should be style1,style2,style3
+					FixedNavbarPosition: false,
+					FixedHeaderPosition: false,
+					collapseVerticalLeftHeader: true,
+					VerticalSubMenuItemIconStyle: 'style6',  // value should be style1,style2,style3,style4,style5,style6
+					VerticalNavigationView: 'view1',
+					verticalMenueffect: {
+						desktop: "shrink",
+						tablet: "overlay",
+						phone: "overlay",
+					},
+					defaultVerticalMenu: {
+						desktop: "expanded",	// value should be offcanvas/collapsed/expanded/compact/compact-acc/fullpage/ex-popover/sub-expanded
+						tablet: "collapsed",		// value should be offcanvas/collapsed/expanded/compact/fullpage/ex-popover/sub-expanded
+						phone: "offcanvas",		// value should be offcanvas/collapsed/expanded/compact/fullpage/ex-popover/sub-expanded
+					},
+					onToggleVerticalMenu: {
+						desktop: "collapsed",		// value should be offcanvas/collapsed/expanded/compact/fullpage/ex-popover/sub-expanded
+						tablet: "expanded",		// value should be offcanvas/collapsed/expanded/compact/fullpage/ex-popover/sub-expanded
+						phone: "expanded",			// value should be offcanvas/collapsed/expanded/compact/fullpage/ex-popover/sub-expanded
+					},
+
+				});
+			}
+
+            //e.tabActive = [],
+            //    e.$watch("tabActive", function () {
+            //        e.perfectSCrollbarObj && setTimeout(function () {
+            //            e.perfectSCrollbarObj.perfectScrollbar("update")
+            //        }, 100)
+            //    }, !0)
+        }],
+        link: function (e, t, a) {
+            setTimeout(function () {
+                e.perfectSCrollbarObj = t.find(".tab-content").perfectScrollbar()
+            }, 0)
+        }
+    }
+})
+
+/*e.menuItemList = [
+	{
+		"icon": "ti-view-grid",
+		"displayName": "Users 1",
+		"state": "users",
+		"showSubMenu": false,
+		"hasSubMenu": true,
+		"submenu": [
+			{
+				"icon": "ti-view-grid",
+				"displayName": "User Sub 1",
+				"state": "students"
+			},
+			{
+				"icon": "ti-view-grid",
+				"displayName": "User Sub 2",
+				"state": "students"
+			}
+		]
+	},
+	{
+		"icon": "ti-view-grid",
+		"displayName": "Students 1",
+		"state": "students",
+		"showSubMenu": false,
+		"hasSubMenu": false,
+	}
+]*/

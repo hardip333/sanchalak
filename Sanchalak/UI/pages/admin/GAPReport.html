@@ -1,0 +1,151 @@
+﻿
+<style>
+    .jstree-anchor {
+        display: inline-table;
+    }
+</style>
+<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+<div>
+    <div class="form">
+        <h4>Group and Paper Selection</h4>
+        <div class="card">
+            <div class="card-header">
+                <h4>Group and Paper</h4>
+            </div>
+            <div class="card-block">
+                <form ng-model="GAPR">
+                    <div class="form-group row" ng-init="IncAcademicYearListGet()">
+                        <label for="Activity" class="col-sm-2 col-form-label">Academic Year Code <span style="color:red">*</span>:</label>
+                        <div class="col-sm-8 col-lg-10">
+                            <span class="nullable">
+                                <select class="form-control" ng-model="GAPR.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicList" ng-change="FacultyGet()" [value]="GAPR.AcademicYearId" name="AcademicYear">
+                                    <option value="" disabled selected>--SELECT--</option>
+                                </select>
+
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-2 col-form-label">Faculty Name :</label>
+                        <div class="col-sm-8 col-lg-10">
+                            <span class="nullable">
+                                <select class="form-control" ng-model="GAPR.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" ng-change="ProgrammeGet()" [value]="GAPR.FacultyId" name="Faculty">
+                                    <option value="" disabled selected>--SELECT--</option>
+                                </select>
+
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-2 col-form-label">Programme Name :</label>
+                        <div class="col-sm-8 col-lg-10">
+                            <span class="nullable">
+                                <select class="form-control" ng-model="GAPR.ProgrammeId" ng-options="d.Id as d.ProgrammeName for d in ProgrammeList" ng-change="ProgPartInstListGet()" [value]="GAPR.ProgrammeId" name="Programme">
+                                    <option value="" disabled selected>--SELECT--</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2">Programme Part Name<span style="color:red;"> * </span></div>
+                        <div class="col-sm-6">
+                            <div>
+                                <span class="nullable">
+                                    <select ng-model="GAPR.ProgrammeInstancePartId" ng-options="d.Id as d.PartShortName for d in ProgPartList" [value]="ProgInst.ProgrammePartId" class="form-control" name="ProgPartShortNamedropdown" ng-change="BranchGet()" required>
+                                        <option value="" disabled selected>-- select --</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-2 col-form-label">Branch Name :</label>
+                        <div class="col-sm-8 col-lg-10">
+                            <span class="nullable">
+                                <select class="form-control" ng-model="GAPR.SpecialisationId" ng-options="d.Id as d.BranchName for d in BList" [value]="GAPR.ProgrammeId" name="Programme">
+                                    <option value="" disabled selected>--SELECT--</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <button type="button" ng-click="GetStudent()" class="btn btn-info btn-round ">Get Student List</button>
+                        
+                    </div>
+                </form>
+            </div>
+            
+            <div class="card-block" ng-show="ShowTable">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered" id="StudentDetail">
+                        <thead>
+                            <tr>
+                                <th><label>Sr. No.</label></th>
+                                <th><label>PRN</label></th>
+                                <th><label>Student Name</label></th>
+                                <th ng-repeat="PT in PTData"><label>{{PT.InstancePartTermName}}</label></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="Student in StudentList">
+                                <th><label>{{Student.Index}}</label></th>
+                                <th><label>{{Student.PRN}}</label></th>
+                                <th><label>{{Student.NameAsPerMarksheet}}</label></th>
+                                <td>
+                                    <button type="button" id="1" ng-if="Student.PaperSelected1 == false" ng-click="ReportdataFetch('1',Student)" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Select Paper</button>
+                                    <button type="button" id="1" ng-if="Student.PaperSelected1 == true" ng-click="EditPaperdataFetch('1',Student)" class="tabledit-edit-button btn btn-info waves-effect waves-light">Edit Paper Selection</button>
+                                </td>
+                                <td>
+                                    <button type="button" id="2" ng-if="Student.PaperSelected2 == false" ng-click="ReportdataFetch('2',Student)" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Select Paper</button>
+                                    <button type="button" id="2" ng-if="Student.PaperSelected2 == true" ng-click="EditPaperdataFetch('2',Student)" class="tabledit-edit-button btn btn-info waves-effect waves-light">Edit Paper Selection</button>
+                                </td>
+                                <td>
+                                    <button type="button" id="3" ng-if="Student.PartTerm3 > 0 && Student.PaperSelected3 == false" ng-click="ReportdataFetch('3',Student)" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Select Paper</button>
+                                    <button type="button" id="3" ng-if="Student.PartTerm3 > 0 && Student.PaperSelected3 == true" ng-click="EditPaperdataFetch('3',Student)" class="tabledit-edit-button btn btn-info waves-effect waves-light">Edit Paper Selection</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card" ng-show="ShowTree">
+                <div class="card-header">
+                    <h4>Paper Selection</h4>
+                </div>
+                <div class="card-block" ng-show="ShowTable" ng-hide="ShowInstitute">
+                    <h4>{{GAPdata.PRN}} - {{GAPdata.StudentName}}</h4>
+                </div>
+                <div class="card-block">
+                    <div class="card-block tree-view">
+                        <div id="checkTree">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-block">
+                    <button type="button" ng-click="SaveTreeData()" class="btn btn-info btn-round ">Submit</button>
+                </div>
+            </div>
+            <div class="card" ng-show="ShowTreeEdit">
+                <div class="card-header">
+                    <h4>Paper Selection Edit</h4>
+                </div>
+                <div class="card-block" ng-show="ShowTable" ng-hide="ShowInstitute">
+                    <h4>{{GAPEditData.PRN}} - {{GAPEditData.StudentName}}</h4>
+                </div>
+                <div class="card-block">
+                    <div class="card-block tree-view">
+                        <div id="checkTreeEdit">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-block">
+                    <button type="button" ng-click="SaveTreeEditData()" class="btn btn-info btn-round ">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

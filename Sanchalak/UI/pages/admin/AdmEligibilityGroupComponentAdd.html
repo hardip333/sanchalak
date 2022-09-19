@@ -1,0 +1,128 @@
+﻿
+<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-init="getGroupComponentListById()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left">
+                            <h4>Add Group Component</h4>
+                        </div>
+                        <div class="float-right">
+                            <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Modify</button>&nbsp;&nbsp;
+                            <button type="button" ng-click="nextAdd()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Next</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <nav class="navbar navbar-expand-lg navbar-light light-nav-border">
+                        <span style="font-size:medium;color:navy"><b>{{ProgrammeInstanceName}} / {{PartName}} / {{ProgrammePartTermName}}</b></span>
+                    </nav>
+                    <br />
+
+                    <div class="col-md-12 offset-md-2">
+                        <form name="GroupComponentAdd" ng-model="GroupComponent">
+
+                            <div class="form-group row" ng-init="getEligibilityGroupListById()">
+                                <div class="col-sm-2">Eligibility Group Criteria<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="GroupComponent.EligibilityGroupId" ng-options="d.Id as d.EligibilityGroup for d in GroupList" [value]="GroupComponent.EligibilityGroupId" class="form-control" name="Facdropdown" required>
+                                                <option value="" disabled selected>select Eligibility</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getDegree()">
+                                <div class="col-sm-2">Degree Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="GroupComponent.EligibleDegreeId" ng-options="d.Id as d.EligibleDegreeName for d in DegreeList" [value]="GroupComponent.EligibleDegreeId" class="form-control" name="Facdropdown" required>
+                                                <option value="" disabled selected>select Degree</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getSpecialization()">
+                                <div class="col-sm-2">Specialization Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="GroupComponent.EligibilitySpecializationId" ng-options="d.Id as d.EligibilitySpecializationName for d in SpecializationList" [value]="GroupComponent.EligibilitySpecializationId" class="form-control" name="Facdropdown" required>
+                                                <option value="" disabled selected>select Specialization</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Minimum Percentage</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" ng-model="GroupComponent.MinimumPercentage" placeholder="Minimum Percentage ">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Minimum Grade/CGPA</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="GroupComponent.GradeCGPA" placeholder="Grade/CGPA " oninput="this.value = this.value.toUpperCase()">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Additional Information</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="GroupComponent.AdditionalInfo" placeholder="Additional Information">
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="addGroupComponent()">Add</button>
+                                        <button class="btn btn-disabled disabled" ng-click="cancelGroupComponent()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="GroupComponentTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="GroupComponent in $data">
+                                            <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                            <td data-title="'Eligibility Group'" filter="{EligibilityGroup: 'text'}" sortable="'EligibilityGroup'" style="border-top:none;"><label>{{GroupComponent.EligibilityGroup}}</label></td>
+                                            <td data-title="'Eligible Degree Name'" filter="{EligibleDegreeName: 'text'}" sortable="'EligibleDegreeName'" style="border-top:none;"><label>{{GroupComponent.EligibleDegreeName}}</label></td>
+                                            <td data-title="'Eligibility Specialization Name'" filter="{EligibilitySpecializationName: 'text'}" sortable="'EligibilitySpecializationName'" style="border-top:none;"><label>{{GroupComponent.EligibilitySpecializationName}}</label></td>
+                                            <td data-title="'Minimum Percentage'" filter="{MinimumPercentage: 'text'}" sortable="'MinimumPercentage'" style="border-top:none;"><label>{{GroupComponent.MinimumPercentage}}</label></td>
+                                            <td data-title="'Grade CGPA'" filter="{GradeCGPA: 'text'}" sortable="'GradeCGPA'" style="border-top:none;"><label>{{GroupComponent.GradeCGPA}}</label></td>
+                                            <td data-title="'Additional Information'" filter="{AdditionalInfo: 'text'}" sortable="'AdditionalInfo'" style="border-top:none;"><label>{{GroupComponent.AdditionalInfo}}</label></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

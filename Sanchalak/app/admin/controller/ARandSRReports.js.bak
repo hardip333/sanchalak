@@ -1,0 +1,298 @@
+﻿app.controller('SRARCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams, $localStorage) {
+
+
+    $rootScope.pageTitle = "Structure and Assessment report";
+
+    $localStorage.GAPR = {};
+    $scope.ShowTable = false;
+    $scope.IncAcademicYearListGet = function () {     
+        $scope.AcademicList = {};
+        $http({
+            method: 'POST',
+            url: 'api/FeeConfiguration/AcademicYearGet',
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+                if (response.response_code == "0") {
+                    $state.go('login');
+                }
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    if (response.response_code == "201") {
+                        $scope.AcademicList = {};
+                    }
+                }
+                else {
+                    $scope.AcademicList = response.obj;
+                    $scope.showMatrixFlag = false;
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+    /* Faculty List Get Method*/
+    $scope.FacultyGet = function () {
+        alert("in");
+        $scope.FacultyList = {};
+        $http({
+            method: 'POST',
+            url: 'api/FeeConfiguration/FacultyGet',
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+                if (response.response_code == "0") {
+                    $state.go('login');
+                }
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    if (response.response_code == "201") {
+                        $scope.FacultyList = {};
+                    }
+                }
+                else {
+                    $scope.FacultyList = response.obj;
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+    /* Programme List Get Method*/
+    $scope.ProgrammeGet = function () {
+        $scope.ProgrammeList = {};
+        $http({
+            method: 'POST',
+            url: 'api/GroupAndPaperReport/MstProgrammeGetByFacultyId',
+            data: $scope.GAPR,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+                if (response.response_code == "0") {
+                    $state.go('login');
+                }
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    if (response.response_code == "201") {
+                        $scope.ProgrammeList = {};
+                    }
+                }
+                else {
+                    $scope.ProgrammeList = response.obj;
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+    /* Branch List Get Method*/
+    $scope.BranchGet = function () {
+        $scope.BList = {};
+        $http({
+            method: 'POST',
+            url: 'api/GroupAndPaperReport/MstProgrammeBranchListGetByProgrammePartId',
+            data: $scope.GAPR,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+                if (response.response_code == "0") {
+                    $state.go('login');
+                }
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    if (response.response_code == "201") {
+                        $scope.BList = {};
+                    }
+                }
+                else {
+                    $scope.BList = response.obj;
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+
+
+    $scope.getReportList = function () {
+        $localStorage.SRData = {};
+        $scope.reportOTHERdata = {};
+        $http({
+            method: 'POST',
+            url: 'api/GroupAndPaperReport/GroupReportGetbyProgrammeId',
+            data: $localStorage.GAPR1,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+                if (response.response_code == "0") {
+                    $state.go('login');
+                }
+                else if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    alert(response.obj);
+                    $state.go('GetGAPReport');
+                }
+                else {
+                    $localStorage.SRData = response.obj.Item1;
+                    $scope.reportOTHERdata = response.obj.Item2;
+                    
+                    $scope.treeCall();
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+    $scope.treeCall = function () {
+        $scope.treeViewOptions = {
+            items: $localStorage.SRData,
+        };
+    };
+
+    $scope.getAssessmentReportList = function () {
+        $localStorage.ARData = {};
+        $scope.reportOTHERdata = {};
+        $http({
+            method: 'POST',
+            url: 'api/GroupAndPaperReport/AssessmentReportGetbyProgrammeId',
+            data: $localStorage.GAPR1,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+
+                if (response.response_code == "0") {
+                    $state.go('login');
+
+                }
+                else if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    $localStorage.ARData = response.obj.Item1;
+                    $scope.reportOTHERdata = response.obj.Item2;
+                    $scope.treeCall1();
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+    $scope.treeCall1 = function () {
+        $scope.treeViewOptions = {
+            items: $localStorage.ARData,
+        };
+    };
+
+    $scope.printDiv = function (divName, ReportName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        //var style = "<style>";
+        //style = style + "table {width: 1000px;font: 15px Calibri;}";
+        //style = style + "table, th, td {border: solid 1px black; border-collapse: collapse;";
+        //style = style + "padding: 2px 3px;}";
+        //style = style + "</style>";
+
+        // CREATE A WINDOW OBJECT.
+        var win = window.open('', 'height=700,width=700');
+        win.document.write('<html>');
+        win.document.write('<head>');
+        win.document.write('<title>Programme ' + ReportName + ' Report</title>');   // <title> FOR PDF HEADER.
+        //win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+        win.document.write('<script src="scripts/angular/angular.min.js"></script>');
+        win.document.write('<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/css/bootstrap.min.css">');
+        win.document.write('<script src="scripts/bootstrap-select/bootstrap-select.min.js"></script>');
+        win.document.write('<script src="scripts/angular/ui-bootstrap-tpls-2.0.0.js"></script>');
+        win.document.write('<script type="text/javascript" src="bower_components/bootstrap/js/bootstrap.min.js"></script>');
+        win.document.write('<script type="text/javascript" src="bower_components/bootstrap-tagsinput/js/bootstrap-tagsinput.js"></script>');
+        win.document.write('<script type="text/javascript" src="bower_components/bootstrap-maxlength/js/bootstrap-maxlength.js"></script>');
+        win.document.write('</head>');
+        win.document.write('<body>');
+        win.document.write(printContents);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+        win.document.write('</body></html>');
+        win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+        setTimeout(function () { win.print(); }, 1000);            // PRINT THE CONTENTS.
+        $scope.GAPR = {};
+        $localStorage.reportData = {};
+    };
+
+    
+    $scope.GetProgrammeComplete = function () {
+        $scope.PartTermData = $localStorage.SRData;
+        for (var i in $scope.PartTermData) {
+            $scope.PartTermData[i].items = {};
+        }
+        $scope.PTTableParams = new NgTableParams({}, {    dataset: $scope.PartTermData    });
+        $scope.ShowTable = true;
+    };
+    $scope.CompletePT = function (PT) {
+        
+        //for (var i in $scope.PTTableParams.data) {
+            
+        //    debugger;
+        //    if ($scope.PTTableParams.data[i].Id == PT.Id) {
+        //        $scope.PTTableParams.data[i].IsCompleted = true;
+        //    }
+        //}
+        debugger;
+        if (PT.PaperCompleteStatus == true && PT.GroupCompleteStatus == true && PT.IsCompleted == false) {
+            $http({
+                method: 'POST',
+                url: 'api/GroupAndPaperReport/PTCompleteStatusTrue',
+                data: PT,
+                headers: { "Content-Type": 'application/json' }
+            })
+                .success(function (response) {
+                    $rootScope.showLoading = false;
+
+                    if (response.response_code == "0") {
+                        $state.go('login');
+
+                    }
+                    else if (response.response_code != "200") {
+                        $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                        alert(response.obj);
+                    }
+                    else {
+                        console.log(PT);
+                        console.log($scope.PTTableParams);
+                        for (var i in $scope.PTTableParams.data) {
+
+                            debugger;
+                            if ($scope.PTTableParams.data[i].Id == PT.Id) {
+                                $scope.PTTableParams.data[i].IsCompleted = true;
+                            }
+                        }
+                    }
+                })
+                .error(function (res) {
+                    $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                });
+        }
+    };
+    $scope.getSR = function () {
+        $localStorage.GAPR1 = {};
+        $localStorage.GAPR1.AcademicYearId = $scope.GAPR.AcademicYearId;
+        $localStorage.GAPR1.FacultyId = $scope.GAPR.FacultyId;
+        $localStorage.GAPR1.ProgrammeId = $scope.GAPR.ProgrammeId;
+        $localStorage.GAPR1.SpecialisationId = $scope.GAPR.SpecialisationId;
+      
+        $state.go('StructureReport');
+    };
+    $scope.getAR = function () {
+        $localStorage.GAPR1 = {};
+        $localStorage.GAPR1.AcademicYearId = $scope.GAPR.AcademicYearId;
+        $localStorage.GAPR1.FacultyId = $scope.GAPR.FacultyId;
+        $localStorage.GAPR1.ProgrammeId = $scope.GAPR.ProgrammeId;
+        $localStorage.GAPR1.SpecialisationId = $scope.GAPR.SpecialisationId;
+        $state.go('AssessmentReport');
+    };
+    $scope.backToList = function () {
+
+        $state.go('GetGAPReport');
+    };
+});

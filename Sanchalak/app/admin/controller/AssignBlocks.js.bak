@@ -1,0 +1,246 @@
+﻿app.controller('AssignBlocksCtrl', function ($scope, $http, $rootScope, $filter, $localStorage, $state, $cookies, $mdDialog, NgTableParams, $window) {
+
+    $rootScope.pageTitle = "Manage Assign Blocks";
+
+
+    $rootScope.showLoading = false;
+    $scope.isPaperWiseAllocationChecked = false;
+
+    $scope.showButtonFlag = true;
+    $scope.showManualAllocationFlag = false;
+    $scope.showManualList = function () {
+        $scope.showButtonFlag = true;
+        $scope.showManualAllocationFlag = true;
+     
+        $scope.getavailablegetAvailableExamBlockList();
+    }
+
+    $scope.backToButtonFlag = function () {
+        $scope.showButtonFlag = true;
+        $scope.showManualAllocationFlag = false;
+    }
+
+    //$scope.cancelMstTimeTableMasterAdd = function () {
+    //    $scope.filter = {
+     
+    //        ProgrammeId:0,
+    //        ExamMasterId: 0,
+    //        FacultyExamMapId: 0,
+    //        ProgrammePartTermId: 0,
+    //    /*    BranchId:0*/
+    //    };
+    //};
+
+    //$scope.cancelMstTimeTableMasterAdd();
+
+    // for get specilization list
+    $scope.pendingMstSpecialisationGetByPId = function () {
+
+        $rootScope.showLoading = true;
+
+
+        $http({
+            method: 'POST',
+/*            url: 'api/TimeTableMaster/MstTimeTableMasterGetPending',*/
+            url: 'api/BlockAllocation/MstSpecialisationGetByPId',
+            data: $scope.filter,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+
+                if (response.response_code != "200") {
+                    alert(response.obj);
+                }
+                else {
+
+                    $scope.MstSpecialisationGetByPIdList = response.obj.SpecialisationsList;
+                    $scope.details = response.obj;
+
+                }
+             
+    
+            })
+            .error(function (res) {
+                $rootScope.showLoading = false;
+                alert(res.obj);
+            });
+    };
+
+
+     // for get paper list
+    $scope.getPaperList = function () {
+
+        $scope.isPaperWiseAllocationChecked = true;
+
+        var len = $scope.MstSpecialisationGetByPIdList.length;
+
+        $scope.specialisationIds = "";
+        // for  comma separated string
+        for (var i = 0; i < len; i++) {
+
+            if ($scope.MstSpecialisationGetByPIdList[i].IsSelected)
+                $scope.specialisationIds += $scope.MstSpecialisationGetByPIdList[i].Id + ",";
+
+        }
+        // for last comma remove from string 
+        if ($scope.specialisationIds.length > 0) {
+
+            $scope.specialisationIds = $scope.specialisationIds.substring(0, $scope.specialisationIds.length - 1);
+
+            $rootScope.showLoading = true;
+
+            $scope.filter.SpecialisationId = $scope.specialisationIds;
+
+            $http({
+                method: 'POST',
+                url: 'api/BlockAllocation/MstPaperListGetByProgPartTermIdAndSpeciliationId',
+                data: $scope.filter,
+                headers: { "Content-Type": 'application/json' }
+            })
+                .success(function (response) {
+                    $rootScope.showLoading = false;
+
+                    if (response.response_code != "200") {
+                        alert(response.obj);
+                    }
+                    else {
+
+                        $scope.MstPaperListGetByProgPartTermIdAndSpeciliationIdList = response.obj;
+                        $scope.paperList = response.obj.PaperList;
+            
+                  
+                     
+
+                    }
+
+                })
+                .error(function (res) {
+                    $rootScope.showLoading = false;
+                    alert(res.obj);
+                });
+        }
+        else {
+
+            alert("Select atleast one Specialisation");
+
+        }
+
+
+    }
+
+    // for auto allocation
+
+
+    $scope.showAutoAllocationBlockList = function () {
+
+
+        var len = $scope.paperList.length;
+
+        $scope.paperIds = "";
+        // for  comma separated string for paper id
+        for (var i = 0; i < len; i++) {
+
+            if ($scope.paperList[i].PaperChecked)
+        
+                $scope.paperIds += $scope.paperList[i].Id + ",";
+
+        }
+        // for last comma remove from string 
+        if ($scope.paperIds.length > 0) {
+
+            $scope.paperIds = $scope.paperIds.substring(0, $scope.paperIds.length - 1);
+
+          
+            $scope.filter.PaperId = $scope.paperIds;
+      
+            $scope.filter.SpecialisationId = $scope.specialisationIds;
+        
+        $rootScope.showLoading = true;
+
+
+        $http({
+            method: 'POST',
+            url: 'api/BlockAllocation/AssignBlocks',
+            data: $scope.filter,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+
+                if (response.response_code != "200") {
+                    alert(response.obj);
+                }
+                else {
+                    $scope.AssignBlocksList = response.obj;
+                    alert($scope.AssignBlocksList);
+                    //$scope.assignTableParams = new NgTableParams({
+                    //    count: 1000
+                    //}, {
+                    //    dataset: $scope.MstSpecialisationGetByPIdList
+                    //});
+
+                    /*                    $scope.getExamSlotMasterListGetActive();*/
+
+                }
+
+
+            })
+            .error(function (res) {
+                $rootScope.showLoading = false;
+                alert(res.obj);
+            });
+
+        }
+        else {
+
+            alert("Select atleast one Paper");
+
+        }
+    };
+
+
+     // for manuall allocation
+    $scope.getavailablegetAvailableExamBlockList = function () {
+
+        $rootScope.showLoading = true;
+      
+
+        $http({
+            method: 'POST',
+            /*            url: 'api/TimeTableMaster/MstTimeTableMasterGetPending',*/
+            url: 'api/BlockAllocation/getAvailableExamBlockList',
+            data: $scope.filter,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+
+                if (response.response_code != "200") {
+                    alert(response.obj);
+                }
+                else {
+                    $scope.availableExamBlockList = response.obj;
+
+                    $scope.manualTableParams = new NgTableParams({
+                        count: 1000
+                    }, {
+                        dataset: $scope.availableExamBlockList
+                    });
+
+                    /*                    $scope.getExamSlotMasterListGetActive();*/
+
+                }
+
+
+            })
+            .error(function (res) {
+                $rootScope.showLoading = false;
+                alert(res.obj);
+            });
+    };
+
+
+
+
+});

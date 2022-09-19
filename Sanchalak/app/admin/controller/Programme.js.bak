@@ -1,0 +1,492 @@
+﻿app.controller('ProgrammeCtrl', function ($scope,$localStorage, $filter,$http, $rootScope, $state, $cookies, $mdDialog, NgTableParams) {
+
+    $rootScope.pageTitle = "Manage Programme";
+    $scope.showDefineBtn = false;
+
+    /*Reset Programme*/
+    $scope.resetProgramme = function () {
+        $scope.Programme = {};
+    };
+
+    /*Get Programme List*/
+    $scope.getProgrammeList = function () {
+        
+        var data = new Object();
+        
+        $http({
+            method: 'POST',
+            url: 'api/MstProgramme/MstProgrammeListGet',
+           
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+
+                if (response.response_code == "0") {
+                    $state.go('login');
+
+                } else if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    $scope.ProgTableParams = new NgTableParams({
+                    }, {
+                        dataset: response.obj
+                    });
+                    $scope.ProgrammeData = response.obj;
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+
+    /*Get Faculty List*/
+    $scope.getFacultyList = function () {
+
+        $http({
+            method: 'POST',
+            url: 'api/MstFaculty/MstFacultyGetForDropDown',
+            //data: $scope.Faculty,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $scope.FacList = response.obj;
+
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+
+    /*Add Programme*/
+    $scope.addProgramme = function () {
+          
+        /*if (parseInt($scope.Programme.MaxMarks) < parseInt($scope.Programme.MinMarks)) {
+            alert("Minimum Marks are not greater than Maximum Marks");
+        }
+        if (parseInt($scope.Programme.MaxCredits) < parseInt($scope.Programme.MinCredits)) {
+            alert("Minimum Credits are not greater than Maximum Credits");
+        }*/
+
+        if ($scope.Programme.ProgrammeName == null || $scope.Programme.ProgrammeName === undefined
+            || $scope.Programme.FacultyId == null || $scope.Programme.FacultyId === undefined
+            || $scope.Programme.ProgrammeCode == null || $scope.Programme.ProgrammeCode === undefined
+            || $scope.Programme.ProgrammeDescription == null || $scope.Programme.ProgrammeDescription === undefined
+            || $scope.Programme.ProgrammeLevelId == null || $scope.Programme.ProgrammeLevelId === undefined
+            || $scope.Programme.ProgrammeModeId == null || $scope.Programme.ProgrammeModeId === undefined
+            || $scope.Programme.ProgrammeTypeId == null || $scope.Programme.ProgrammeTypeId === undefined
+            || $scope.Programme.EvaluationId == null || $scope.Programme.EvaluationId === undefined
+            || $scope.Programme.InstructionMediumId == null || $scope.Programme.InstructionMediumId === undefined
+            || $scope.Programme.IsCBCS == null || $scope.Programme.IsCBCS === undefined
+            //|| $scope.Programme.MaxMarks == null || $scope.Programme.MaxMarks === undefined
+            //|| $scope.Programme.MinMarks == null || $scope.Programme.MinMarks === undefined
+            //|| $scope.Programme.IsSepartePassingHead == null || $scope.Programme.IsSepartePassingHead === undefined            
+            || $scope.Programme.ProgrammeDuration == null || $scope.Programme.ProgrammeDuration === undefined
+            || $scope.Programme.ProgrammeValidity == null || $scope.Programme.ProgrammeValidity === undefined
+            || $scope.Programme.TotalParts == null || $scope.Programme.TotalParts === undefined
+        ) {
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title("Error")
+                    .textContent("Please complete the form before Click...")
+                    .ariaLabel('Alert Dialog Demo')
+                    .ok('Okay!')
+            );
+        }
+        else if (parseInt($scope.Programme.MaxMarks) < parseInt($scope.Programme.MinMarks)) {
+            alert("Minimum Marks are not greater than Maximum Marks");
+        }
+        else if (parseInt($scope.Programme.MaxCredits) < parseInt($scope.Programme.MinCredits)) {
+            alert("Minimum Credits are not greater than Maximum Credits");
+        }
+        else {
+            $http({
+                method: 'POST',
+                url: 'api/MstProgramme/MstProgrammeAdd',
+                data: $scope.Programme,
+                headers: { "Content-Type": 'application/json' }
+            })
+                .success(function (response) {
+                    $rootScope.showLoading = false;
+
+                    if (response.response_code == "0") {
+                        $state.go('login');
+
+                    } else if (response.response_code != "200") {
+                        $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    }
+                    else {
+                        //alert(response.obj.Item2);     
+                        $scope.Programme.Id = response.obj.Item2;
+                        //console.log($scope.Programme.Id);
+                        //$scope.Programme = {};
+                        $scope.getProgrammeList();   
+                        alert(response.obj.Item1);
+                        $scope.showDefineBtn = true;
+                    }
+                })
+                .error(function (res) {
+                    alert(res.obj);
+                    $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                });
+        }
+    };
+
+    /*Define Programme Part Using LocalStorage*/
+    $scope.defineProgrammePart = function () {
+        $localStorage.define = {};
+        $localStorage.define.faculty = $scope.Programme.FacultyId;        
+        $localStorage.define.ProgrammeId = $scope.Programme.Id;             
+        $state.go('ProgrammePartAdd');
+        
+    };
+
+    /*Modify Programme Data*/
+    $scope.modifyProgrammeData = function (data) {
+        $scope.showFormFlag = true;
+        $scope.Programme = data;                  
+    };
+
+    /*Update Programme*/
+    $scope.editProgramme = function () {       
+
+        /*if ($scope.Programme.MaxMarks < $scope.Programme.MinMarks) {
+            alert("Minimum Marks are not greater than Maximum Marks");
+        }
+        if ($scope.Programme.MaxCredits < $scope.Programme.MinCredits) {
+            alert("Minimum Credits are not greater than Maximum Credits");
+        }*/
+
+        if ($scope.Programme.ProgrammeName == null || $scope.Programme.ProgrammeName === undefined
+            || $scope.Programme.FacultyId == null || $scope.Programme.FacultyId === undefined
+            || $scope.Programme.ProgrammeCode == null || $scope.Programme.ProgrammeCode === undefined
+            || $scope.Programme.ProgrammeDescription == null || $scope.Programme.ProgrammeDescription === undefined
+            || $scope.Programme.ProgrammeLevelId == null || $scope.Programme.ProgrammeLevelId === undefined
+            || $scope.Programme.ProgrammeModeId == null || $scope.Programme.ProgrammeModeId === undefined
+            || $scope.Programme.ProgrammeTypeId == null || $scope.Programme.ProgrammeTypeId === undefined
+            || $scope.Programme.EvaluationId == null || $scope.Programme.EvaluationId === undefined
+            || $scope.Programme.InstructionMediumId == null || $scope.Programme.InstructionMediumId === undefined
+            || $scope.Programme.IsCBCS == null || $scope.Programme.IsCBCS === undefined
+            //|| $scope.Programme.MaxMarks == null || $scope.Programme.MaxMarks === undefined
+            //|| $scope.Programme.MinMarks == null || $scope.Programme.MinMarks === undefined
+            //|| $scope.Programme.IsSepartePassingHead == null || $scope.Programme.IsSepartePassingHead === undefined
+            || $scope.Programme.ProgrammeDuration == null || $scope.Programme.ProgrammeDuration === undefined
+            || $scope.Programme.ProgrammeValidity == null || $scope.Programme.ProgrammeValidity === undefined
+            || $scope.Programme.TotalParts == null || $scope.Programme.TotalParts === undefined
+        ) {
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title("Error")
+                    .textContent("Please complete the form before Click...")
+                    .ariaLabel('Alert Dialog Demo')
+                    .ok('Okay!')
+            );
+        }
+        else if (parseInt($scope.Programme.MaxMarks) < parseInt($scope.Programme.MinMarks)) {
+            alert("Minimum Marks are not greater than Maximum Marks");
+        }
+        else if (parseInt($scope.Programme.MaxCredits) < parseInt($scope.Programme.MinCredits)) {
+            alert("Minimum Credits are not greater than Maximum Credits");
+        }
+        else {
+
+            $http({
+                method: 'POST',
+                url: 'api/MstProgramme/MstProgrammeUpdate',
+                data: $scope.Programme,
+                headers: { "Content-Type": 'application/json' }
+            })
+                .success(function (response) {
+                    if (response.response_code == "0") {
+                        $state.go('login');
+
+                    } else if (response.response_code != "200") {
+                        $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    }
+                    else {
+                        alert(response.obj);
+                        $scope.Programme = {};
+                        $scope.showFormFlag = false;
+                        $scope.getProgrammeList();
+
+                    }
+                })
+                .error(function (res) {
+                    $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                });
+        }
+    };
+
+    /*Delete Programme*/
+    $scope.deleteProgramme = function (ev,data) {
+        var confirm = $mdDialog.confirm()
+            .title('Would you like to delete?')
+            .textContent('')
+            .ariaLabel('Lucky day')
+            .targetEvent(ev)
+            .ok('Yes')
+            .cancel('No');
+
+        $mdDialog.show(confirm).then(function () {
+            
+        $scope.Programme = data;
+        
+        $http({
+            method: 'POST',
+            url: 'api/MstProgramme/MstProgrammeDelete',
+            data: $scope.Programme,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code == "0") {
+                    $state.go('login');
+
+                } else if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    alert(response.obj);                    
+                    $scope.getProgrammeList();
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+        }, function () {
+            $scope.status = 'You decided not to delete your data.';
+            alert($scope.status);
+        });
+    };
+
+    /*Active Enable Programme*/
+    $scope.showProgramme = function (data) {
+        
+        $scope.newProgramme = data;
+        
+        $http({
+            method: 'POST',
+            url: 'api/MstProgramme/MstProgrammeIsActiveEnable',
+            data: $scope.newProgramme,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code == "0") {
+                    $state.go('login');
+
+                } else if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    alert(response.obj);
+                    $scope.getProgrammeList();                    
+
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+
+    };
+
+    /*Active Disable Programme*/
+    $scope.hideProgramme = function (data) {
+                
+        $scope.newProgramme = data;
+       
+        $http({
+            method: 'POST',
+            url: 'api/MstProgramme/MstProgrammeIsActiveDisable',
+            data: $scope.newProgramme,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code == "0") {
+                    $state.go('login');
+
+                } else if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    alert(response.obj);
+                    $scope.getProgrammeList();
+                    
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+
+    };
+
+    /*Get ProgrammeLevel List*/
+    $scope.getProgrammeLevelList = function () {
+        
+        $http({
+            method: 'POST',
+            url: 'api/MstProgrammeLevel/MstProgrammeLevelListGetForDropDown',
+            //data: $scope.ProgLevel,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $scope.ProgLevelList = response.obj;
+
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+
+    /*Get ProgrammeMode List*/
+    $scope.getProgrammeModeList = function () {
+
+        $http({
+            method: 'POST',
+            url: 'api/MstProgrammeMode/MstProgrammeModeListGetForDropDown',
+            //data: $scope.ProgMode,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $scope.ProgModeList = response.obj;
+
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+
+    /*Get ProgrammeType List*/
+    $scope.getProgrammeTypeList = function () {
+
+        $http({
+            method: 'POST',
+            url: 'api/MstProgrammeType/MstProgrammeTypeListGetForDropDown',
+            //data: $scope.ProgType,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $scope.ProgTypeList = response.obj;
+
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+
+    /*Get Evaluation List*/
+    $scope.getEvaluationList = function () {
+
+        $http({
+            method: 'POST',
+            url: 'api/MstEvaluation/EvaluationGetForDropDown',
+            //data: $scope.ProgEval,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $scope.EvalList = response.obj;
+
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+
+    /*Get Instruction Medium List*/
+    $scope.getInstMediumList = function () {
+
+        $http({
+            method: 'GET',
+            url: 'api/InstructionMedium/InstructionMediumGetForDropDown',
+            //data: $scope.InstrMedium,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $scope.MediumList = response.obj;
+
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+
+    /*Add New Programme*/
+    $scope.newProgrammeAdd = function () {
+        $state.go('ProgrammeAdd');
+    };
+
+    /*Back to Edit Page of Programme*/
+    $scope.backToList = function () {
+        $localStorage.define = {};
+        $state.go('ProgrammeEdit');
+    };  
+
+    /*Display Programme Data*/
+    $scope.displayMstProgramme = function (data) {
+        $scope.Programme = data;
+    };
+
+    $scope.exportDataofProgramme = function () {
+
+        alert("Please wait, Excel is being prepared...");
+
+        var LongDate = new Date($.now());
+        var ShortDate = $filter('date')(LongDate, "yyyy-MM-dd");
+        var DateWithoutDashed = ShortDate.replace(new RegExp('-', 'g'), "");
+        var time = "_" + LongDate.getHours() + LongDate.getMinutes() + LongDate.getSeconds();
+
+        var DateAndTime = ShortDate + " " + LongDate.getHours() + ":" + LongDate.getMinutes();
+        var ExcelFileName = "ProgrammeData_" + DateWithoutDashed + time;
+
+        var mystyle = {
+            headers: true,
+            style: 'font-size:25px;font-weight:bold',
+            caption: {
+                title: 'Programme List | Date and Time: ' + DateAndTime,
+            },
+            columns: [
+                { columnid: 'IndexId', title: 'Sr.No' },
+                { columnid: 'FacultyName', title: 'Faculty Name' },
+                { columnid: 'ProgrammeName', title: 'Programme Name' },
+                { columnid: 'ProgrammeCode', title: 'Programme Code' },
+                { columnid: 'ProgrammeDescription', title: 'Programme Description' },
+                { columnid: 'ProgrammeTypeName', title: 'Programme Type Name' },
+                { columnid: 'InstructionMediumName', title: 'Instruction Medium Name' },
+                { columnid: 'EvaluationName', title: 'Evaluation Name' },
+                { columnid: 'IsSeparatePassingHeadSts', title: 'Separate Passing Head Status' },
+                { columnid: 'ProgrammeDuration', title: 'Programme Duration' },
+                { columnid: 'ProgrammeValidity', title: 'Programme Validity' },
+                { columnid: 'TotalParts', title: 'Total Parts' },                
+            ],
+        };
+
+        //Create XLS format using alasql.js file.
+        alasql('SELECT * INTO XLS("' + ExcelFileName + '.xls",?) FROM ?', [mystyle, $scope.ProgrammeData]);
+    };
+});
+
+app.directive('allowPattern', [allowPatternDirective]);
+
+function allowPatternDirective() {
+    return {
+        restrict: "A",
+        compile: function (tElement, tAttrs) {
+            return function (scope, element, attrs) {
+
+                element.bind("keypress", function (event) {
+                    var keyCode = event.which || event.keyCode;
+                    var keyCodeChar = String.fromCharCode(keyCode);
+
+                    if (!keyCodeChar.match(new RegExp(attrs.allowPattern, "i"))) {
+                        event.preventDefault();
+                        return false;
+                    }
+
+                });
+            };
+        }
+    };
+}

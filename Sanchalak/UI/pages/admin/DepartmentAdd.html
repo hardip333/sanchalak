@@ -1,0 +1,93 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="DepartmentCtrl" ng-init="getDepartmentList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Add Department Master</h4></div>
+                        <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+
+                        <form>
+
+                            <div class="form-group row" ng-init="getFacultyList()">
+                                <div class="col-sm-2">Faculty Name</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="Department.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" [value]="Department.FacultyId" class="form-control" name="Facdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Department Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="Department.DepartmentName" placeholder="Type Department Name " required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Department Code</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="Department.DepartmentCode" placeholder="Type Department Code " required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="addDepartment()">Add</button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetDept()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="DeptTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="Department in $data">
+                                            <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;text-align:center;"><label>{{Department.IndexId}}</label></td>
+                                            <td data-title="'FacultyName'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style="border-top:none;"><label>{{Department.FacultyName}}</label></td>
+                                            <td data-title="'DepartmentName'" filter="{DepartmentName: 'text'}" sortable="'DepartmentName'" style="border-top:none;"><label>{{Department.DepartmentName}}</label></td>
+                                            <td data-title="'DepartmentCode'" filter="{DepartmentCode: 'text'}" sortable="'DepartmentCode'" style="border-top:none;"><label>{{Department.DepartmentCode}}</label></td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

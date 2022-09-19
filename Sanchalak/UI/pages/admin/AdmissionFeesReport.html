@@ -1,0 +1,217 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .spinner {
+        height: 60px;
+        width: 60px;
+        margin: auto;
+        display: flex;
+        position: absolute;
+        -webkit-animation: rotation .6s infinite linear;
+        -moz-animation: rotation .6s infinite linear;
+        -o-animation: rotation .6s infinite linear;
+        animation: rotation .6s infinite linear;
+        border-left: 6px solid rgba(0, 174, 239, .15);
+        border-right: 6px solid rgba(0, 174, 239, .15);
+        border-bottom: 6px solid rgba(0, 174, 239, .15);
+        border-top: 6px solid rgba(0, 174, 239, .8);
+        border-radius: 100%;
+    }
+</style>
+
+<!--Page body start-->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!--Basic Form Inputs card start-->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Admission Fees Report</h4>
+                </div>
+                <div class="card-block">
+
+
+                    <div class="form-group row" ng-init="AcademicYearGet()">
+                        <label for="Activity" class="col-sm-2 col-form-label">Academic Year Code <span style="color:red">*</span>:</label>
+                        <div class="col-sm-8 col-lg-10">
+                            <span class="nullable">
+                                <select class="form-control" ng-model="ADFP.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicList" ng-change="FacultyGet()" name="AcademicYear" required>
+                                    <option value="" disabled selected>--SELECT--</option>
+                                </select>
+                                <span ng-show="myForm.AcademicYear.$touched && myForm.AcademicYear.$invalid" style="color:red">The Field is required.</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-2 col-form-label">Faculty Name <span style="color:red">*</span>:</label>
+                        <div class="col-sm-8 col-lg-10">
+                            <span class="nullable">
+                                <select ng-model="ADFP.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" ng-change="getProgrammeInstanceListByAcadId()" class="form-control" name="Facultydropdown">
+                                    <option value="" disabled selected>--SELECT--</option>
+                                </select>
+                                <span ng-show="myForm.Faculty.$touched && myForm.Faculty.$invalid" style="color:red">The Field is required.</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-2 col-form-label">Select Instance/Object :</label>
+                        <div class="col-sm-8 col-lg-10">
+                            <span class="nullable">
+                                <select ng-model="ADFP.ProgrammeInstanceId" [value]="AFP.ProgrammeInstanceId" ng-options="d.Id as d.FacultyName+'-'+d.ProgrammeName+'-'+d.AcademicYear for d in InstList" ng-change="getProgrammePartListByProgInstId()" class="form-control" name="ProgrammeInstance">
+                                    <option value="" disabled selected>--SELECT--</option>
+                                </select>
+                                <span ng-show="myForm.ProgrammeInstance.$touched && myForm.ProgrammeInstance.$invalid" style="color:red">The Field is required.</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-2 col-form-label">Programme Part Short Name :</label>
+                        <div class="col-sm-8 col-lg-10">
+                            <span class="nullable">
+                                <select ng-model="ADFP.ProgrammeInstancePartId" ng-options="d.Id as d.PartShortName for d in ProgPartList" [value]="AFP.ProgrammePartId" ng-change="getBranchListByProgInstId()" class="form-control" name="ProgrammePart">
+                                    <option value="" disabled selected>--SELECT--</option>
+                                </select>
+                                <span ng-show="myForm.ProgrammePart.$touched && myForm.ProgrammePart.$invalid" style="color:red">The Field is required.</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-2 col-form-label">Select Branch :</label>
+                        <div class="col-sm-8 col-lg-10">
+                            <span class="nullable">
+                                <select ng-model="ADFP.SpecialisationId" ng-options="d.Id as d.BranchName for d in BranchList" [value]="AFP.SpecialisationId" ng-change="getProgPartTermListByProgInstPartId()" class="form-control" name="Specialisation">
+                                    <option value="" disabled selected>--SELECT--</option>
+                                </select>
+                                <span ng-show="myForm.Specialisation.$touched && myForm.Specialisation.$invalid" style="color:red">The Field is required.</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-2 col-form-label">Programme Part Term Short Name <span style="color:red">*</span>:</label>
+                        <div class="col-sm-8 col-lg-10">
+                            <span class="nullable">
+                                <select ng-model="ADFP.ProgrammeInstancePartTermId" ng-options="d.Id as d.PartTermShortName for d in ProgPartTermList" [value]="AFP.ProgrammeInstancePartTermId" class="form-control" name="ProgrammePartTerm" required>
+                                    <option value="" disabled selected>--SELECT--</option>
+                                </select>
+                                <span ng-show="myForm.ProgrammePartTerm.$touched && myForm.ProgrammePartTerm.$invalid" style="color:red">The Field is required.</span>
+                            </span>
+                        </div>
+                    </div>
+                    <!--<div class="form-group row" ng-init="getFTList()">
+                    <label class="col-sm-2 col-form-label">Fee Type Name <span style="color:red">*</span>:</label>-->
+                    <!--FTList-->
+                    <!--<div class="col-sm-10">
+                            <span class="nullable">
+                                <select name="FEECONFIGFT" ng-model="AFP.FeeTypeId" ng-options="d.Id as d.FeeTypeName for d in FTList" [value]="FEECONFIG.FeeTypeName" class="form-control" required>
+                                    <option value="">--SELECT--</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>-->
+
+
+                    <div layout="row" style="margin-top:3px" class="float-left">
+                        <button class="btn btn-success" ng-click="AdmissionFeesReport()">Submit </button>
+                        <div id="overlay">
+                            <div class="w-100 d-flex justify-content-center align-items-center">
+                                <div class="spinner"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br />
+                    <br />
+                    <div class="card-block">
+                        <div class="table-responsive">
+
+                            <table id="example" class="table table-striped table-bordered">
+                                <thead>
+
+                                    <tr>
+                                        <th><label>Sr.No.</label></th>
+                                        <th><label>NameAsPerMarksheet</label></th>
+                                        <th><label>Order Id</label></th>
+                                        <th><label>Mobile No</label></th>
+                                        <th><label>Email-Id</label></th>
+                                        <th><label>FeeCategoryName</label></th>
+                                        <th><label>Faculty Name</label></th>
+                                        <th><label>Programme Name</label></th>
+                                        <th><label>Branch Name</label></th>
+                                        <th><label>Instance Part Term Name</label></th>
+                                        <th><label>Instalment Selected</label></th>
+                                        <th><label>Total Instalment Given</label></th>
+                                        <th><label>Total Instalment Selected</label></th>
+                                        <th><label>Remaining Installment</label></th>
+                                        <th><label>Instalment No</label></th>
+                                        <th><label>Total Amount</label></th>
+                                        <th><label>Amount Paid</label></th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+
+                                    <tr ng-repeat="ADFP in AdmissionFeesList">
+                                        <th><label>{{$index +1}}</label></th>
+                                        <th><label>{{ADFP.NameAsPerMarksheet}}</label></th>
+                                        <th><label>{{ADFP.OrderId}}</label></th>
+                                        <th><label>{{ADFP.MobileNo}}</label></th>
+                                        <th><label>{{ADFP.EmailId}}</label></th>
+                                        <th><label>{{ADFP.FeeCategoryName}}</label></th>
+                                        <th><label>{{ADFP.FacultyName}}</label></th>
+                                        <th><label>{{ADFP.ProgrammeName}}</label></th>
+                                        <th><label>{{ADFP.BranchName}}</label></th>
+
+                                        <th><label>{{ADFP.InstancePartTermName}}</label></th>
+
+                                        <th><label>{{ADFP.IsInstalmentSelectedSts}}</label></th>
+                                        <th><label>{{ADFP.TotalInstalmentGiven}}</label></th>
+                                        <th><label>{{ADFP.TotalInstalmentSelected}}</label></th>
+                                        <th><label>{{ADFP.RemainingInstallment}}</label></th>
+                                        <th><label>{{ADFP.InstalmentNo}}</label></th>
+                                        <th><label>{{ADFP.TotalAmount}}</label></th>
+                                        <th><label>{{ADFP.AmountPaid}}</label></th>
+
+
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+
+                                        <th>
+                                            <label>Total Collection</label>
+                                        </th>
+                                        <th>
+                                            <label>{{Tot}}</label>
+                                        </th>
+                                    </tr>
+
+
+                                </tbody>
+                                <tfoot>
+
+                                </tfoot>
+
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+

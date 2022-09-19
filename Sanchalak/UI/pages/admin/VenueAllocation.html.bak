@@ -1,0 +1,277 @@
+﻿
+<style>
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+
+
+    /*   for table*/
+    .card .card-block table tr {
+        padding-bottom: 20px;
+    }
+
+    .table td {
+        padding: .25rem;
+    }
+
+    .table label {
+        margin-bottom: 0px;
+        margin-top: 8px;
+    }
+
+
+    /*  for button in table*/
+    .table button {
+        width: 45px;
+        height: 40px;
+        padding: 0px;
+    }
+
+        .table button i {
+            margin-right: 0px;
+        }
+
+
+
+    .ng-table th.sortable .sort-indicator {
+        padding-right: 18px;
+        position: relative;
+        white-space: normal;
+    }
+
+    .ng-table th.sortable .sort-indicator:after, .ng-table th.sortable .sort-indicator:before {
+            content: "";
+            border-width: 0 4px 4px;
+            border-style: solid;
+            border-color: #000 transparent;
+            visibility: hidden;
+            right: 5px;
+            top: 50%;
+            position: absolute;
+            opacity: .3;
+        }
+
+    .ng-table th.sortable.sort-desc .sort-indicator:after {
+        border-bottom: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid #000;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:before {
+        opacity: 1;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:after {
+        opacity: 1;
+        visibility: hidden;
+    }
+
+/*    .horizontal{
+        color:black;
+        background-color:black;
+    }*/
+    
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-init="setValue();">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card" style="margin-bottom:15px;">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4 style="margin-bottom:0px;">Venue Allocation</h4></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-6">
+                    <div class="card" style="margin-bottom: 0px;">
+
+                        <div class="card-body" style="padding:10px 20px 0px 20px;">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <label class="form-label">Exam Event</label>
+                                            <div>
+                                                <span class="nullable">
+                                                    <examevent-select style="margin-bottom:3px;" ng-model="examseat.ExamMasterId" ng-change="getFacultyExamMapListGetActive(examseat.ExamMasterId)"></examevent-select>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="form-label">Schedule</label>
+                                                            <div>
+                                                                <span class="nullable">
+                                                                    <schedulewithexamevent-select style="margin-bottom:3px;" ng-model="examseat.FacultyExamMapId" ng-change="MstProgrammeMasterGet(examseat.FacultyExamMapId)"></schedulewithexamevent-select>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <label class="form-label">Programme</label>
+                                                            <div>
+                                                                <span class="nullable">
+                                                                    <programmewithschedule-select style="margin-bottom:3px;" ng-model="examseat.ProgrammeId" ng-change="getMstProgrammeBranchListGetByProgrammeIdList(examseat.ProgrammeId) ; getMstProgrammePartTermGetByProgrammeIdAndBranchIdList(examseat)"></programmewithschedule-select>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <label class="form-label">Branch</label>
+                                                            <div>
+                                                                <span class="nullable">
+                                                                    <branchwithpro-select style="margin-bottom:3px;" ng-model="examseat.BranchId" ng-change="getMstProgrammePartTermGetByProgrammeIdAndBranchIdList(examseat) ; getExamFormDetails(examseat);"></branchwithpro-select>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <label class="form-label">Programme Part Term</label>
+                                                            <div>
+                                                                <span class="nullable">
+                                                                    <parttermbranchprogramme-select style="margin-bottom:3px;" ng-model="examseat.ProgrammePartTermId" ng-change="AllocateVenueCount(examseat);"></parttermbranchprogramme-select>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-lg-12" ng-model="ModelDetailsCount">
+                    <div class="card" style="margin-bottom:0px;">
+
+                        <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                            <h3 class="card-title" style="font-size:18px;">Allocation Details</h3>
+                        </div>
+                        <div class="card-body" style="padding:10px 20px 20px 20px;">
+                            <div class="row" style="text-align:center;">
+                                <div class="col-lg-12 col-sm-12 col-md-12">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-sm-6 col-md-6" style="text-align:right;">
+                                            <label class="form-label"><b style="font-weight:600">No. of SeatNo Generated Students :</b> </label>
+                                        </div>
+                                        <div class="col-lg-6 col-sm-6 col-md-6" style="text-align:left;">
+
+                                            <label>
+                                                <span style="color:red;margin-left:0px;" ng-if="ModelDetailsCount.SeatNoGeneratedCount == undefined"><b style="color:red;">NA</b></span>
+                                                <span style="color:red;margin-left:0px;"><b style="color:blue;">{{ModelDetailsCount.SeatNoGeneratedCount}}</b></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-sm-12 col-md-12">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-sm-6 col-md-6" style="text-align:right;">
+                                            <label class="form-label"><b style="font-weight:600">No. of Venue Allocated Students :</b>  </label>
+                                        </div>
+                                        <div class="col-lg-6 col-sm-6 col-md-6" style="text-align:left;">
+
+                                            <label>
+                                                <span style="color:red;margin-left:0px;" ng-if="ModelDetailsCount.VenueAllocatedCount == undefined"><b style="color:red;">NA</b></span>
+                                                <span style="color: red; margin-left: 0px;"><b style="color:forestgreen;">{{ModelDetailsCount.VenueAllocatedCount}}</b></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-sm-12 col-md-12">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-sm-6 col-md-6" style="text-align:right;">
+
+                                            <label class="form-label"><b style="font-weight:600">No. of Pending Venue Allocated Students :</b> </label>
+                                        </div>
+
+                                        <div class="col-lg-6 col-sm-6 col-md-6" style="text-align:left;">
+
+                                            <label>
+                                                <span style="color:red;margin-left:0px;" ng-if="ModelDetailsCount.VenueAllocatedPendingCount == undefined"><b style="color:red;">NA</b></span>
+                                                <span style="color:red;"><b style="color: red; margin-left: 0px;">{{ModelDetailsCount.VenueAllocatedPendingCount}} </b></span>
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                                    <div class="float-left" style="padding-top:0px;">
+                                        <button type="button" title="Generate" ng-click="VenueAllocationVenueGet()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Click for Allocation </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row clearfix">
+
+
+                <div class="col-lg-12 col-md-12">
+                    <div class="card" style="margin-bottom:100px;">
+                        <!--<div class="card-header" style="padding:10px 20px 10px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                            <h3 class="card-title float-left" style="font-size:18px;margin-top:10px;">List of Attach Venue</h3>
+                            <div class="float-right">
+                                <button type="button" ng-click="saveAttachVenue()" class="tabledit-edit-button btn btn-primary waves-effect waves-light float-right">Save</button>
+                            </div>
+                        </div>-->
+
+                        <div class="card-block" style="margin-bottom:30px;" ng-show="showVenueAllocationFlag == true">
+                           
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="table-responsive">
+                                        <table id="VenueList" class="table table-striped table-bordered" ng-table="VenueListTableParams" show-filter="true">
+                                            <tbody>
+                                                <tr style="text-align:center" ng-repeat="examseat in $data">
+                                                    <!--<td data-title="'Sr No.'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;text-align:center;"><label>{{examseat.IndexId}}</label></td>-->
+                                                    <td data-title="'Venue Name'" filter="{DisplayName: 'text'}" sortable="'DisplayName'" style="border-top:none;"><label>{{examseat.DisplayName}}</label></td>
+                                                    <td data-title="'Capacity'" filter="{Capacity: 'text'}" sortable="'Capacity'" style="border-top:none;"><label>{{examseat.Capacity}}</label></td>
+                                                    <td data-title="'Pending Capacity'" filter="{PendingCapacity: 'text'}" sortable="'PendingCapacity'" style="border-top:none;text-align:center;"><label>{{examseat.PendingCapacity}}</label></td>
+                                                    <td data-title="'Sequence'" filter="{Sequence: 'text'}" sortable="'Sequence'" style="border-top:none;text-align:center;"><label>{{examseat.Sequence}}</label></td>
+                                                    <td data-title="'Select'" filter="{'VenueSelected': 'text'}" sortable="'VenueSelected'" style="border-top: none; width: 20%; padding: .25rem;height:38.5px;">
+                                                        <input type="checkbox" ng-model="examseat.VenueSelected" ng-disabled="examseat.PendingCapacity == 0" ng-change="CheckVenueList()" style="margin-top: 9px;">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div ng-if="VenueListFlag == true">
+                                            <div style="color:red;margin:1px;text-align:center;padding:10px;">No Venue available for Particular Programme.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                                    <div class="float-right" style="padding-top:0px;">
+                                        <button type="button" title="Generate" ng-click="VenueAllocationForPendingStudents()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Submit </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

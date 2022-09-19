@@ -1,0 +1,171 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>PreRequisite Paper List</h4>
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="ProgrammeInstancePartTerm">
+
+                            <div class="form-group row" ng-init="IncAcademicYearListGet()">
+                                <div class="col-sm-2">Academic Year Code:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgrammeInstancePartTerm.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicList" [value]="ProgrammeInstancePartTerm.AcademicYearId" ng-change="FacultyGet()" class="form-control" name="AcadYearName" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Faculty Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgrammeInstancePartTerm.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" [value]="ProgrammeInstancePartTerm.FacultyId" ng-change="getProgrammeInstanceListByAcadId()" class="form-control" name="FacultyName" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Instance/Object Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgrammeInstancePartTerm.ProgrammeInstanceId" ng-options="d.Id as d.InstanceName for d in InstList" [value]="ProgrammeInstancePartTerm.ProgrammeInstanceId" ng-change="getProgrammePartListByProgInstId()" class="form-control" name="Progdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Programme Part Short Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgrammeInstancePartTerm.ProgrammeInstancePartId" ng-options="d.Id as d.PartShortName for d in ProgPartList" [value]="ProgrammeInstancePartTerm.ProgrammePartId" ng-change="getBranchListByProgInstId()" class="form-control" name="ProgPartShortNamedropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Branch Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgrammeInstancePartTerm.SpecialisationId" ng-options="d.Id as d.BranchName for d in BranchList" [value]="ProgrammeInstancePartTerm.SpecialisationId" ng-change="getProgPartTermListByProgInstPartId()" class="form-control" name="spedropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Programme Part Term Short Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgrammeInstancePartTerm.ProgrammeInstancePartTermId" ng-options="d.Id as d.PartTermShortName for d in ProgPartTermList" [value]="ProgrammeInstancePartTerm.ProgrammePartTermId" class="form-control" name="ProgPartTermShortNamedropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="PreRequisitePaperListGet()">Submit </button>
+                                        <button class="btn btn-success" ng-click="ClearSelection()">Clear Selection</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-block" ng-show="PreReqPaperListShow">
+                    <!--<h4 class="pb-2">Instance Part Term wise Paper List</h4>-->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" ng-table="PreRequisitePaperListTableParams" show-filter="true">
+                            <tbody>
+                                <tr ng-repeat="PreReqPaperList in $data">
+                                    <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;"><label>{{PreReqPaperList.IndexId}}</label></td>
+                                    <td data-title="'Instance Part Term'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style="border-top:none;"><label>{{PreReqPaperList.InstancePartTermName}}</label></td>
+                                    <td data-title="'Papers'" filter="{PaperName: 'text'}" sortable="'PaperName'" style="border-top:none;"><label>{{PreReqPaperList.PaperName}}</label></td>
+                                    <td data-title="'Actions'">
+                                        <div layout="row">
+                                            <span flex></span>
+                                            <button type="submit" ng-click="PreRequisitePaperListGetByPTandPaperId(PreReqPaperList)" class="btn btn-info btn-icon mr-2" title="View"><span class="icofont ion-eye"></span></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="float:right;padding-top: 8px;">
+                        <button class="btn btn-success" ng-click="exportData()">Export to Excel Short</button>
+                    </div>
+                </div>
+                <div id="ShowDiv" class="card-block second" ng-show="PreReqPaperListInDetailShow">
+                    <h6 class="pb-2 font-weight-bold">Source Instance Part Term: {{SInstPartTermName}}</h6>
+                    <h6 class="pb-2 font-weight-bold">Source Paper: {{SPaperName}}</h6>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" ng-table="PreRequisitePaperListGetByPTandPaperIdTableParams" show-filter="true">
+                            <tbody>
+                                <tr ng-repeat="PreReqPaperListInDetail in $data">
+                                    <!--<td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;"><label>{{PreReqPaperListInDetail.IndexId}}</label></td>-->
+                                    <!--<td data-title="'Source Instance Part Term'" filter="{SourceInstancePartTermName: 'text'}" sortable="'SourceInstancePartTermName'" style="border-top:none;"><label>{{PreReqPaperListInDetail.SourceInstancePartTermName}}</label></td>-->
+                                    <!--<td data-title="'Source Paper'" filter="{SourcePaperName: 'text'}" sortable="'SourcePaperName'" style="border-top:none;"><label>{{PreReqPaperListInDetail.SourcePaperName}}</label></td>-->
+                                    <td data-title="'PreRequisite Lable'" filter="{PreRequisiteLableName: 'text'}" sortable="'PreRequisiteLableName'" style="border-top:none;"><label>{{PreReqPaperListInDetail.PreRequisiteLableName}}</label></td>
+                                    <td data-title="'Destination Paper'" filter="{DestiPaperName: 'text'}" sortable="'DestiPaperName'" style="border-top:none;"><label>{{PreReqPaperListInDetail.DestiPaperName}}</label></td>
+                                    <td data-title="'Destination Instance Part Term'" filter="{DestiInstancePartTermName: 'text'}" sortable="'DestiInstancePartTermName'" style="border-top:none;"><label>{{PreReqPaperListInDetail.DestiInstancePartTermName}}</label></td>
+                                    <td data-title="'PreRequisite Type'" filter="{PreRequisiteTypeName: 'text'}" sortable="'PreRequisiteTypeName'" style="border-top:none;"><label>{{PreReqPaperListInDetail.PreRequisiteTypeName}}</label></td>
+                                    <td data-title="'Minimum'" filter="{Minimum: 'text'}" sortable="'Minimum'" style="border-top:none;"><label>{{PreReqPaperListInDetail.Minimum}}</label></td>
+                                    <td data-title="'Maximum'" filter="{Maximum: 'text'}" sortable="'Maximum'" style="border-top:none;"><label>{{PreReqPaperListInDetail.Maximum}}</label></td>                                    
+                                </tr>
+                            </tbody>
+                        </table>                        
+                    </div>
+                    <div style="float:right;padding-top: 8px;">                            
+                         <button class="btn btn-success" ng-click="exportDataFull()">Export to Excel Full</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

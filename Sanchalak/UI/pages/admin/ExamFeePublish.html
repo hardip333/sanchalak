@@ -1,0 +1,179 @@
+﻿
+<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+
+<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Exam Fee Publish Configuration</h4></div>
+                        <div ng-show="Backbtn" class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+                    </div>
+
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12">
+                        <form name="vaidateForm" novalidate>
+
+                            <div class="form-group row" ng-init="ExamEventGet()">
+                                <div class="col-sm-4"><b>Select Exam Event:</b><span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ExamFeePublish.ExamEventId" ng-change="FacultyGetByExamEventId()" ng-options="d.Id as d.DisplayName for d in ExamEventList" class="form-control" required>
+                                                <option value="" disabled selected>-- Select Exam Event --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getFacultyList()">
+                                <div class="col-sm-4"><b>Faculty Name:</b><span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ExamFeePublish.FacultyId" ng-options="d.FacultyId as d.FacultyName for d in FacultyList" ng-change="IsVisibleSubmitBtn()" class="form-control" name="Facdropdown" required>
+                                                <option value="" disabled selected>-- Select Faculty --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-4"></div>
+                                <div class="col-sm-6">
+                                    <button type="button" ng-show="IsSubmitBtnVisible" ng-click="ExamFeePublishConfigurationGetByExamEventId()" class="btn btn-success">&nbsp; Submit</button>
+
+                                </div>
+                            </div>
+
+
+
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+                <div class="table-responsive" ng-show="showTableFlag">
+                    <div class="card-block">
+                       
+                        <table ng-table="ExamFeePublishConfigurationTableParams" show-filter="true" class="table table-bordered table-hover"> 
+                            <tbody id="myTable" ng-repeat="ExamFeePublish in $data">
+                                <tr>
+
+
+                                    <td><label>{{ExamFeePublish.IndexId}}</label></td>
+
+                                    <td>
+                                        <button ng-show="ExamFeePublish.ExamFeePublish==0 && ExamFeePublish.ExamFeeAmount!=0" ng-click="UpdateExamFeePublishConfig(ExamFeePublish)" type="button" class="btn btn-primary">Publish</button>
+                                        <button ng-show="ExamFeePublish.ExamFeePublish==1" ng-click="UpdateExamFeeUnPublishConfig(ExamFeePublish)" type="button" class="btn btn-warning">UnPublish</button>
+                                    </td>
+
+                                    <td data-title="'ExamFeeAmount'" filter="{ExamFeeAmount: 'text'}" sortable="'ExamFeeAmount'" style="border-top:none;text-align:center;"><label>{{ExamFeePublish.ExamFeeAmount}}</label></td>
+                                    <td data-title="'ScheduleCode'" filter="{ScheduleCode: 'text'}" sortable="'ScheduleCode'" style="border-top:none;text-align:center;"><label>{{ExamFeePublish.ScheduleCode}}</label></td>
+                                    <td data-title="'FacultyName'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style="border-top:none;text-align:center;"><label>{{ExamFeePublish.FacultyName}}</label></td>
+                                    <td data-title="'InstituteName'" filter="{InstituteName: 'text'}" sortable="'InstituteName'" style="border-top:none;text-align:center;"><label>{{ExamFeePublish.InstituteName}}</label></td>
+                                    <td data-title="'PartTermName'" filter="{PartTermName: 'text'}" sortable="'PartTermName'" style="border-top:none;text-align:center;"><label>{{ExamFeePublish.PartTermName}}</label></td>
+                                    <td data-title="'ExamFeeStartDate'" filter="{ExamFeeStartDate: 'text'}" sortable="'ExamFeeStartDate'" style="border-top:none;text-align:center;"><label>{{ExamFeePublish.ExamFeeStartDate}}</label></td>
+                                    <td data-title="'ExamFeeEndDateForStudent'" filter="{ExamFeeEndDateForStudent: 'text'}" sortable="'ExamFeeEndDateForStudent'" style="border-top:none;text-align:center;"><label>{{ExamFeePublish.ExamFeeEndDateForStudent}}</label></td>
+                                    <td data-title="'ExamFeeEndDateForFaculty'" filter="{ExamFeeEndDateForFaculty: 'text'}" sortable="'ExamFeeEndDateForFaculty'" style="border-top:none;text-align:center;"><label>{{ExamFeePublish.ExamFeeEndDateForFaculty}}</label></td>
+
+
+
+                                </tr>                         
+
+                            </tbody>
+                        </table>&nbsp;
+
+                    
+
+
+                    </div>
+                  
+                </div>
+
+                <div class="card" ng-show="NoRecLabel">
+                    <label style="font:bold; text-align:center; font-size:medium; color:red;">No Record Found..!</label>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    div.example input[type=text] {
+        padding: 10px;
+        font-size: 17px;
+        border: 1px solid grey;
+        float: left;
+        width: 80%;
+        background: #f1f1f1;
+    }
+
+    div.example button {
+        float: left;
+        width: 20%;
+        padding: 10px;
+        background: #2196F3;
+        color: white;
+        font-size: 17px;
+        border: 1px solid grey;
+        border-left: none;
+        cursor: pointer;
+    }
+
+    form.example button:hover {
+        background: #0b7dda;
+    }
+
+    div.example::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+</style>
+
+

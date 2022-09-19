@@ -1,0 +1,126 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+<!-- Page body start -->
+
+<div ng-controller="IncStudentAcademicInformationCtrl" ng-init="getIncStudentAcademicInformationByReport()">
+    <!-- Verticle Wizard card start -->
+    <div class="card">
+        <div class="card-header">
+            <h4>
+                <label> Student Academic Information Report</label>
+
+            </h4>
+            
+        </div>
+        <div class="card">
+
+            <div class="card-block">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered" id="studentinfo" ng-table="IncStudentAcademicInformationByReportTableParams" show-filter="true" style="width:100%" template-pagination="none">
+                        <tbody ng-repeat="IncStudentAcademicInformationByReport in $data">
+                            
+
+                            <tr>
+                                <td class="expand_data" id="{{'first_col'+ $index}}" ng-click="expand_row($index)">+</td>
+                                <td data-title="'Sr.No.'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                <td data-title="'AcademicYearDisplayName'" filter="{AcademicYearDisplayName: 'text'}" sortable="'AcademicYearDisplayName'" style=" border-top: none;"><label>{{IncStudentAcademicInformationByReport.AcademicYearDisplayName}}</label></td>
+                                <td data-title="'PRN'" filter="{PRN: 'text'}" sortable="'PRN'" style=" border-top: none;"><label>{{IncStudentAcademicInformationByReport.PRN}}</label></td>
+                                <td data-title="'Student Name'" filter="{StudentName: 'text'}" sortable="'StudentName'" style=" border-top: none;"><label>{{IncStudentAcademicInformationByReport.FirstName}}.{{IncStudentAcademicInformationByReport.MiddleName}}.{{IncStudentAcademicInformationByReport.LastName}}</label></td>
+                                <td data-title="'Faculty Name'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style=" border-top: none;"><label>{{IncStudentAcademicInformationByReport.FacultyName}}</label></td>
+                                <td data-title="'Programme Name'" filter="{ProgrammeName: 'text'}" sortable="'ProgrammeName'" style=" border-top: none;"><label>{{IncStudentAcademicInformationByReport.ProgrammeName}}</label></td>
+                                <td data-title="'InstancePartTermName'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style=" border-top: none;"><label>{{IncStudentAcademicInformationByReport.InstancePartTermName}}</label></td>
+                                <td data-title="'Approved On Academics'" filter="{ApprovedOnAcademics: 'text'}" sortable="'ApprovedOnAcademics'" style=" border-top: none;"><label>{{IncStudentAcademicInformationByReport. ApprovedOnAcademicsView}}</label></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                    <p>
+                        <div class="card-header-right"> <button type="button" ng-click="exportDataFull()" class="btn btn-info">Export To Excel</button></div>
+                    </p>
+                    <div ng-if="contentPresent">
+                        <h2 style="font-size:small; text-align:center">You have not appllied to any Course. Click on "Apply Online" to apply in course</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Verticle Wizard card end -->
+
+
+    <div class="modal fade" id="ignismytrueModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label=""><span>×</span></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="thank-you-pop">
+                        <div class="swal2-icon swal2-success swal2-animate-success-icon" style="display: flex;">
+                            <div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+                            <span class="swal2-success-line-tip"></span>
+                            <span class="swal2-success-line-long"></span>
+                            <div class="swal2-success-ring"></div>
+                            <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+                            <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+                        </div>
+                        <!--<img src="http://goactionstations.co.uk/wp-content/uploads/2017/03/Green-Round-Tick.png" alt="">-->
+                        <h1>Thank You!</h1>
+                        <p>Your application fee is received.</p>
+                        <h3 class="cupon-pop">Your ApplicationId : <span>{{ApplicationId}}</span></h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="ignismyfalseModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label=""><span>×</span></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="thank-you-pop">
+                        <div class="swal2-icon swal2-error swal2-animate-error-icon" style="display: flex;"><span class="swal2-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span></div>
+                        <!--<img src="http://goactionstations.co.uk/wp-content/uploads/2017/03/Green-Round-Tick.png" alt="">-->
+                        <h1>Try Again...</h1>
+                        <p>Your application fee is pending.</p>
+                        <h3 class="cupon-pop">Your ApplicationId : <span>{{ApplicationId}}</span></h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function CloseModalignismytrueModal() {
+            $('#ignismytrueModal').modal('hide');
+        }
+
+        function CloseModalignismyfalseModal() {
+            $('#ignismyfalseModal').modal('hide');
+        }
+        $("#verticle-wizard").steps({
+            headerTag: "h3",
+            bodyTag: "fieldset",
+            transitionEffect: "slide",
+            stepsOrientation: "vertical",
+            autoFocus: true
+        });
+
+    </script>
+
+</div>

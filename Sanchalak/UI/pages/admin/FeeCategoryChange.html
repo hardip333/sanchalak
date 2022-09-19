@@ -1,0 +1,289 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="FeeCategoryChangeCtrl" >
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Change Fee Category</h4>
+                </div>
+                <div class="card-block">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Application ID <span style="color:red">*</span>:</label>
+                        <div class="col-sm-10 col-lg-4">
+                            <input type="text" class="form-control" ng-model="FCC.ApplicationId" placeholder="Type Application ID">
+
+                        </div>
+                        <div class="col-sm-10 col-lg-4">
+                            <button class="btn btn-success" ng-click="SubmitApplicationId()">Next </button>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+
+
+                        </div>
+                    </div>
+                    <div class="card" ng-show="Showbuttonflag">
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Application Form No :</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{FCCList.ApplicationId}}</label><br />
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Name As Per Marksheet :</b> </label>
+                            <label for="Activity" class="col-sm-4 col-form-label">{{FCCList.NameAsPerMarksheet}}</label>
+
+                        </div>
+                        <!--<div class="form-group row">
+            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>ApplicationStatus:</b></label>
+            <label for="Activity" class="col-sm-2 col-form-label">{{FCCList.ApplicationStatus}}</label>
+
+        </div>-->
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Faculty Name :</b></label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{FCCList.FacultyName}}</label>
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Programme Name :</b> </label>
+                            <label for="Activity" class="col-sm-4 col-form-label">{{FCCList.ProgrammeName}}</label><br />
+                        </div>
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Branch Name :</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{FCCList.BranchName}}</label>
+
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Instance PartTerm Name :</b> </label>
+                            <label for="Activity" class="col-sm-4 col-form-label">{{FCCList.InstancePartTermName}}</label><br />
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Group Name :</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{FCCList.GroupName}}</label>
+
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Admitted Institute :</b> </label>
+                            <label for="Activity" class="col-sm-4 col-form-label">{{FCCList.AdmittedInstituteName}}</label><br />
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Verified Status By Faculty :</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{FCCList.EligibilityStatus}}</label>
+
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Verified Status By Academic :</b> </label>
+                            <label for="Activity" class="col-sm-4 col-form-label">{{FCCList.EligibilityByAcademics}}</label><br />
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Sent SMS Status :</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">
+                                <span ng-if="FCCList.IsVerificationSMSOnView == ''">Not Sent</span>
+                                <span ng-if="FCCList.IsVerificationSMSOnView != ''">{{FCCList.IsVerificationSMSOnView}}</span>
+                            </label>
+
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Sent Email Status :</b> </label>
+                            <label for="Activity" class="col-sm-4 col-form-label">
+                                <span ng-if="FCCList.IsVerificationEmailOnView == ''">Not Sent</span>
+                                <span ng-if="FCCList.IsVerificationEmailOnView != ''">{{FCCList.IsVerificationEmailOnView}}</span>
+                            </label><br />
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Admission Fee Payment Status :</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">
+                                <span ng-if="FCCList.IsAdmissionFeePaid == false">Not Paid</span>
+                                <span ng-if="FCCList.IsAdmissionFeePaid == true">Paid</span>
+                            </label>
+
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>PRN Generated Status :</b> </label>
+                            <label for="Activity" class="col-sm-4 col-form-label">---</label><br />
+
+                        </div>
+                        <!--<div class="form-group row">
+            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>EligibilityStatus:</b> </label>
+            <label for="Activity" class="col-sm-2 col-form-label">{{FCCList.EligibilityStatus}}</label><br />
+
+        </div>-->
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Fee Category Name :</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{FCCList.FeeCategoryName}}</label>
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Amount :</b> </label>
+                            <label for="Activity" class="col-sm-4 col-form-label">{{FCCList.TotalAmount|currency:"&#8377;"}}</label><br />
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button class="btn btn-success" ng-click="FeeCategoryChange($event,FCC)">Submit </button>
+
+                            </div>
+                        </div>
+                        <div class="card" ng-show="Showbuttonflag1">
+                            <div class="form-group row">
+                            </div>
+
+
+                            <span style="color:red;" ng-show="FCCList.IsAdmissionFeePaid == true"><b>Fill Applicant Account Details As Passbook.</b></span><br />
+
+                            <div class="form-group row" ng-show="FCCList.IsAdmissionFeePaid == true">
+                                <label class="col-sm-2 col-form-label"><b>Account Number </b><span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="AccountNumber" allow-Pattern="\d" name="Academic" class="form-control" ng-model="FCC.AccountNumber" placeholder="Enter Account Number" onkeypress="if (this.value.length == 18) return false;" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-show="FCCList.IsAdmissionFeePaid == true">
+                                <label class="col-sm-2 col-form-label"><b>Account Name </b><span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" allow-pattern="[a-zA-Z ]" name="Academic" class="form-control" ng-model="FCC.AccountName" placeholder="Enter Account Holder Name" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-show="FCCList.IsAdmissionFeePaid == true" ng-init="getBankList()">
+                                <div class="col-sm-2 col-form-label"><b>Bank Name </b><span style="color:red">*</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="FCC.Bank" ng-options="d.BankName for d in BankList" [value]="FCC.BankId" class="form-control" name="Bankdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-show="FCCList.IsAdmissionFeePaid == true">
+                                <label class="col-sm-2 col-form-label"><b>IFSC Code </b><span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="IFSCCode" id="ifsc" ng-change="getRequest()" ng-model="FCC.IFSCCode" class="form-control" placeholder="Enter IFSCCode" onkeypress="if (this.value.length == 11) return false;" required>
+                                    <span style="color:red;" ng-show="IsError">Invalid IFSC Code</span><br />
+                                    <span style="color:red;" ng-show="FCC.IFSCCode.$touched && FCC.IFSCCode.$invalid"> IFSCCode is Required! </span>
+                                    <span id="ifscCheck" style="color:red;"></span>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive" ng-show="IsVisible && FCCList.IsAdmissionFeePaid == true && FCC.IFSCCode != null">
+                                <div class="card-header">
+                                    <h5 class="card-header-text">Check Your Bank Details</h5>
+
+
+
+                                </div>
+                                <table class="table table-bordered table-striped">
+                                    <tbody>
+
+
+
+                                        <tr>
+                                            <th>ADDRESS:</th>
+                                            <td>{{list.ADDRESS}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>BANK:</th>
+                                            <td>{{list.BANK}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>BANKCODE:</th>
+                                            <td>{{list.BANKCODE}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>BRANCH:</th>
+                                            <td>{{list.BRANCH}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>CITY:</th>
+                                            <td>{{list.CITY}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>CONTACT:</th>
+                                            <td>{{list.CONTACT}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th> DISTRICT:</th>
+                                            <td>{{list.DISTRICT}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th> STATE:</th>
+                                            <td>{{list.STATE}}</td>
+                                        </tr>
+
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="form-group row" ng-show="FCCList.IsAdmissionFeePaid == true">
+                                <label class="col-sm-2 col-form-label"><b>Upload PassBook </b><span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="file" name="file1" ng-model="FCC.PassbookDoc" id="file1" class="form-control" ngf-select="UploadStudentPassBookImage($files)" required />
+                                    <span style="color:blue;text-align:left;font-weight:bold">Note:image Should below 512KB size and .jpg .jpeg file format</span><br />
+                                    <span id="ErrorMsgPassbookImg" style="color:red" ng-show="FCC.PassbookDoc != null"></span>
+                                    <span id="SuccessMsgPassbookImg" style="color:green" ng-show="FCC.PassbookDoc != null"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-show="FCCList.IsAdmissionFeePaid == true">
+                                <label class="col-sm-2 col-form-label"><b>RTGS Form </b></label>
+                                <div class="col-sm-6">
+                                    <input type="file" name="RTGSForm1" ng-model="FCC.RTGSForm" id="RTGSForm1" class="form-control" ngf-select="UploadStudentRTGSForm($files)" required />
+                                    <span style="color:blue;text-align:left;font-weight:bold">Note:image Should below 512KB size and .pdf file format</span><br/><span style="color:red">Mandatory If non BOB Account.</span><br />
+                                    <span id="ErrorMsgRTGSForm" style="color:red" ng-show="FCC.RTGSForm != null"></span>
+                                    <span id="SuccessMsgRTGSForm" style="color:green" ng-show="FCC.RTGSForm != null"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"><b>Fee Category Name </b><span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" ng-model="FCC.FeeCategoryPartTermMapId" ng-options="d.FeeCategoryPartTermMapId as d.FeeCategoryName for d in NewFCCList" ng-change="ShowTotalAmount()">
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"><b>Fee Category Change Remarks </b><span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <textarea class="form-control" ng-model="FCC.FeeCategoryChangeRemark" id="FeeCategoryChangeRemark" placeholder="Enter Remarks"></textarea>
+                                </div>
+                            </div>
+
+                            <div ng-show="Showbuttonflag2">
+                                <div class="form-group row">
+                                    <label for="Activity" class="col-form-label">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<b>You have selected:</b>&nbsp;&nbsp;{{DropdownTotalAmount.FeeCategoryName}}
+                                        <br />
+                                        <label for="Activity" class="col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>TotalAmount:</b> </label>
+                                        <label for="Activity" class="col-form-label">{{DropdownTotalAmount.TotalAmount|currency:"&#8377;"}}</label><br />
+
+                                    </label>
+
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <div class="col-sm-10">
+                                        <button class="btn btn-success" ng-click="FinalFeeChange()">Update </button>
+
+                                    </div>
+                                </div>
+                                <div ng-show="Showbuttonflag">
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>    
+            </div>  
+        </div>
+    </div>
+
+</div>

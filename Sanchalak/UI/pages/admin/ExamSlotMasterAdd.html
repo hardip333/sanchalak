@@ -1,0 +1,137 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="ExamSlotMasterCtrl" ng-init="getExamSlotMaster()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Add Exam Slot Master</h4>
+
+
+                </div>
+                <div class="card-block">
+
+                    <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Back</button><br /><br />
+                    <!--<button type="button" ng-click="backToGet()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Back</button><br /><br />-->
+                    <form ng-model="ExamSlotMaster">
+
+                        <div class="form-group row">
+                            <div class="col-sm-2 col-lg-4">
+                                <label for="ActivityNameDetails" class="block">Start Time *</label>
+                            </div>
+                            <div class="col-sm-8 col-lg-10">
+                                <input type="time" name="StartTime" ng-model="ExamSlotMaster.DtStartTime" placeholder="HH:mm:ss" class="form-control" required>
+                                <span ng-show="myForm.StartTime.$touched && myForm.StartTime.$invalid" style="color:red">The StartTime is required.</span>
+                            </div>
+                            <!--value="{{ExamSlotMaster.StartTime | "HH:mm:ss"}}"-->
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-2 col-lg-4">
+                                <label for="ActivityNameDetails" class="block">End Time *</label>
+                            </div>
+                            <div class="col-sm-8 col-lg-10">
+                                <input type="time" name="EndTime" ng-model="ExamSlotMaster.DtEndTime" class="form-control" placeholder="HH:mm:ss" required />
+                                <span ng-show="myForm.EndTime.$touched && myForm.EndTime.$invalid" style="color:red">The EndTime is required.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2 col-lg-4">
+                                <label for="ActivityNameDetails" class="block">Slot Name *</label>
+                            </div>
+                            <div class="col-sm-8 col-lg-10">
+                                <input type="text" name="SlotName" class="form-control" ng-model="ExamSlotMaster.SlotName" placeholder="Type Slot name" required />
+                            </div>
+                        </div>
+
+                        <!--{{typeof("StartDate")}}-->
+                        <div class="form-group row">
+
+                            <div class="col-sm-10">
+
+                                <button class="btn btn-success" ng-click="addExamSlotMaster()">Insert </button>
+                                <button class="btn btn-disabled disabled" ng-click="resetExamSlotMaster()">Cancel</button>
+                            </div>
+                        </div>
+
+
+
+                    </form>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="ExamSlotMasterTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="ExamSlotMaster in $data">
+                                            <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                            <td data-title="'StartTime'" filter="{StartTime: 'text'}" sortable="'StartTime'" style=" border-top: none;"><label>{{ExamSlotMaster.StartTimeView}}</label></td>
+                                            <td data-title="'EndTime'" filter="{EndTime: 'text'}" sortable="'EndTime'" style=" border-top: none;"><label>{{ExamSlotMaster.EndTimeView}}</label></td>
+                                            <td data-title="'SlotName'" filter="{SlotName: 'text'}" sortable="'SlotName'" style=" border-top: none;"><label>{{ExamSlotMaster.SlotName}}</label></td>
+
+
+                                            <td data-title="'Actions'">
+                                                <div layout="row">
+                                                    <span flex></span>
+
+                                                    <button type="button" ng-click="displayExamSlotMaster(ExamSlotMaster)" class="btn btn-info btn-icon mr-2" data-target="#large-Modal" data-toggle="modal"><span class="icofont ion-eye"></span></button>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="large-Modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">User Slot Master</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5></h5>
+                                    <table class="table table-striped table-bordered">
+                                        <tr>
+                                            <td>Start Time:</td>
+                                            <td>{{ExamSlotMaster.StartTimeView}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>End Time:</td>
+                                            <td>{{ExamSlotMaster.EndTimeView}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Slot Name:</td>
+                                            <td>{{ExamSlotMaster.SlotName}}</td>
+                                        </tr>
+
+
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <!--<button type="button" class="btn btn-default waves-effect " data-dismiss="modal" disabled>Close</button>-->
+                                    <button type="button" class="btn btn-primary waves-effect waves-light " data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>

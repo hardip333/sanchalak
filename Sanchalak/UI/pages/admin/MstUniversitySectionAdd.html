@@ -1,0 +1,123 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="MstUniversitySectionCtrl" ng-init="getUSList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Add University Section</h4></div>
+                        <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form name="form">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">University Section Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="US.UniversitySectionName" placeholder="Type University Section Name" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">University Section Code</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="US.UniversitySectionCode" placeholder="Type University Section Code " required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">University Section Address</label>
+                                <div class="col-sm-6">
+                                    <textarea class="form-control" ng-model="US.UniversitySectionAddress" placeholder="Type University Section Address "></textarea>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">City Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="US.CityName" placeholder="Type City Name ">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Pincode</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="US.Pincode" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="6" allow-Pattern="\d" placeholder="Type Pincode ">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">University Section Contact No.</label>
+                                <div class="col-sm-1">
+                                    <span class="input-group-addon" id="basic-addon4"> + 91  </span>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" name="phone" class="form-control" ng-model="US.UniversitySectionContactNo" ng-pattern="/^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/" allow-Pattern="\d" placeholder="Type University Section Contact No. ">
+                                    <span ng-show="form.phone.$touched && form.phone.$invalid" style="color:red">Enter valid Contact Number.</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">University Section Fax No.</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="fax" class="form-control" ng-model="US.UniversitySectionFaxNo" ng-pattern="/^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/" placeholder="Type University Section Fax No. ">
+                                    <span ng-show="form.fax.$touched && form.fax.$invalid" style="color:red">Enter valid fax.</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">University Section Email</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="EmailId" class="form-control" ng-model="US.UniversitySectionEmail" ng-pattern="/^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/" placeholder="Type University Section Email ">
+                                    <span ng-show="form.EmailId.$touched && form.EmailId.$invalid" style="color:red">Enter valid email.</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">University Section Url</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="url" class="form-control" ng-model="US.UniversitySectionUrl" ng-pattern="/^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/" placeholder="Type University Section Url ">
+                                    <span ng-show="form.url.$touched && form.url.$invalid" style="color:red">Enter valid url.</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-10">
+                                        <button class="btn btn-success" ng-click="addUS()">Add </button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetUS()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" id="example-2" ng-table="MstUniversitySectionTableParams" show-filter="true">
+                            <tbody>
+                                <tr ng-repeat="US in $data">
+                                    <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                    <td data-title="'University Section Name'" filter="{UniversitySectionName: 'text'}" sortable="'UniversitySectionName'" style="border-top:none;"><label>{{US.UniversitySectionName}}</label></td>
+                                    <td data-title="'University Section Code'" filter="{UniversitySectionCode: 'text'}" sortable="'UniversitySectionCode'" style="border-top:none;"><label>{{US.UniversitySectionCode}}</label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

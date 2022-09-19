@@ -1,0 +1,46 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-init="getInstituteList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Get Details of Institute </h4></div>
+                        <!--<div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>-->
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                   <!-- <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Back</button><br /><br />-->
+                  
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="InstituteTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="Institute in $data">
+                                            <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                            <td data-title="'InstituteCode'" filter="{InstituteCode: 'text'}" sortable="'InstituteCode'" style="border-top:none;"><label>{{Institute.InstituteCode}}</label></td>
+                                            <td data-title="'InstituteName'" filter="{InstituteName: 'text'}" sortable="'InstituteName'" style="border-top:none;"><label>{{Institute.InstituteName}}</label></td>
+                                            <td button type="button" ng-click="MoveToInstitutePartermMap(Institute.Id)" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Click To Proceed
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

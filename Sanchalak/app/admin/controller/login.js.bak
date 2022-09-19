@@ -1,0 +1,113 @@
+﻿app.controller('loginCtrl', function ($scope, $http, $rootScope, $localStorage, $state, $cookies, $mdDialog) {
+
+    $cookies.remove("id");
+
+    $rootScope.showLoading = false;
+
+    $scope.myFunct = function (keyEvent) {
+        if (keyEvent.which === 13)
+            $scope.login();
+    }
+
+
+    $scope.loginObj = {};
+
+    $scope.login = function () {
+        $localStorage.$reset();
+        $rootScope.showLoading = false;
+
+        if ($scope.loginObj.username === null || $scope.loginObj.username === undefined || $scope.loginObj.username === "" || $scope.loginObj.password === undefined || $scope.loginObj.password === null || $scope.loginObj.password === "") {
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title("Notification")
+                    .textContent("Please enter username and password...")
+                    .ariaLabel('Alert Dialog Demo')
+                    .ok('Got it!')
+            );
+        }
+        else {
+            $scope.loginData = {};
+            //$scope.loginData.username = $scope.loginObj.username + "@msubaroda.ac.in";
+            $scope.loginData.username = $scope.loginObj.username;
+            $scope.loginData.password = $scope.loginObj.password;
+
+            $http({
+                method: 'POST',
+                url: 'api/admin/login',
+                data: $scope.loginData,
+                headers: { "Content-Type": 'application/json' }
+            }).success(function (response) {
+                $rootScope.showLoading = false;                   
+                if (response.response_code != "200") {
+                    $mdDialog.show(
+                        $mdDialog.alert()
+                            .parent(angular.element(document.querySelector('#popupContainer')))
+                            .clickOutsideToClose(true)
+                            .title("Notification")
+                            .textContent(response.obj)
+                            .ariaLabel('Alert Dialog Demo')
+                            .ok('Got it!')
+                    );
+                }else{
+
+                    //$rootScope.id = response.obj.id;
+                    $localStorage.id = response.obj.id;
+                    $cookies.put("id", response.obj.id);
+                    $cookies.put("token", response.token);
+                    $cookies.put("userRole", response.obj.userTypeName);
+                    $scope.userTypeName=response.obj.userTypeName;
+                    //console.log("====");alert(Object.keys(response.obj).length);
+                    //console.log(Object.keys(response.obj).length);
+
+                    $scope.loginData.token = response.token;
+                    $scope.loginData.id = response.obj.id;
+
+                    $http({
+                        method: 'POST',
+                        url: 'api/Role/GetRoleByUserId',
+                        data: $scope.loginData,
+                        headers: { "Content-Type": 'application/json' }
+                    }).success(function (response) {
+                        $rootScope.showLoading = false;
+
+                        if (response.response_code == "0") {
+                            //For log in 
+                        } else if (response.response_code != "200") {
+
+                        } else {
+                            $scope.stateCheckNo="Yes";
+                            
+                          /*  if (Object.keys(response.obj).length > 1) {
+                                $scope.stateCheckNo = "Yes";
+                            }*/
+                            //alert("Test==>" + Object.keys(response.obj).length + "===" + $scope.userTypeName+ "===" + $scope.stateCheckNo );
+                            if ($scope.userTypeName == "Students") {
+                                $state.go('users');
+                                $cookies.put('roleId', 4);//For student
+                            } else if ($scope.userTypeName == "Employees") {
+                                //  alert($scope.stateCheckNo);
+                                if ($scope.stateCheckNo == "Yes") {
+                                    $state.go('EmpDashboard1');
+                                } else {
+                                    $state.go('users');
+                                }
+                            }  
+
+                        }
+
+                    })
+                    
+                     
+                    
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+        }
+    };
+
+});
+

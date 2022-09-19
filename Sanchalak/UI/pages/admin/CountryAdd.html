@@ -1,0 +1,64 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="CountryMasterCtrl" ng-init="getCMList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Country Name</h4>
+                </div>
+                <div class="card-block">
+                    <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Back</button><br /><br />
+                    <form ng-model="CM" name="CMAdd">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Country Name <span style="color:red">*</span>:</label>
+                            <div class="col-sm-10 col-lg-9 col-md-9">
+                                <input type="text" class="form-control" ng-model="CM.CountryName" placeholder="Type your Country Name" name="CountryName" required>
+                                <span ng-show="CMAdd.CountryName.$touched && CMAdd.CountryName.$invalid" style="color:red">The Field is required.</span>
+                            </div>
+                            
+                            <label class="col-sm-2 col-form-label">Country Code Two-digit <span style="color:red">*</span>:</label>
+                            <div class="col-sm-10 col-lg-9 col-md-9">
+                                 <input type="text" class="form-control" ng-model="CM.Alpha2Code" placeholder="Type Two-digit Country Code" name="Alpha2Code" required>
+                                 <span ng-show="CMAdd.Alpha2Code.$touched && CMAdd.Alpha2Code.$invalid" style="color:red">The Field is required.</span>
+                            </div>
+                            
+                            <label class="col-sm-2 col-form-label">Country Code Three-digit <span style="color:red">*</span>:</label>
+                            <div class="col-sm-10 col-lg-9 col-md-9">
+                                  <input type="text" class="form-control" ng-model="CM.Alpha3Code" placeholder="Type Two-digit Country Code" name="Alpha3Code" required>
+                                  <span ng-show="CMAdd.Alpha3Code.$touched && CMAdd.Alpha3Code.$invalid" style="color:red">The Field is required.</span>
+                            </div>
+                            </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-10">
+                                        <button class="btn btn-success" ng-click="addCM()">Add </button>
+                                        <button class="btn btn-disabled disabled" ng-click="cancelCM()">Cancel</button>
+                                    </div>
+                                </div>
+</form>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="CountryMasterTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="CM in $data">
+                                            <td data-title="'Country Name'" filter="{CountryName: 'text'}" sortable="'CountryName'" style="text-align:center;"><label>{{CM.CountryName}}</label></td>
+                                            <td data-title="'Country Code Two-digit'" filter="{Alpha2Code: 'text'}" sortable="'Alpha2Code'" style="text-align:center;"><label>{{CM.Alpha2Code}}</label></td>
+                                            <td data-title="'Country Code Three-digit'" filter="{Alpha3Code: 'text'}" sortable="'Alpha3Code'" style="text-align:center;"><label>{{CM.Alpha3Code}}</label></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

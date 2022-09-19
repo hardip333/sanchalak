@@ -1,0 +1,191 @@
+﻿
+<style>
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+
+    /*   for table*/
+    .card .card-block table tr {
+        padding-bottom: 20px;
+    }
+
+    /*   for table*/
+    .card .card-block table tr {
+        padding-bottom: 20px;
+    }
+
+    .table td {
+        padding: .25rem;
+    }
+
+    .table label {
+        margin-bottom: 0px;
+        margin-top: 8px;
+    }
+
+
+    /*  for button in table*/
+    .table button {
+        width: 45px;
+        height: 40px;
+        padding: 0px;
+    }
+
+        .table button i {
+            margin-right: 0px;
+        }
+
+    /*  for sort indicator*/
+    .ng-table th.sortable .sort-indicator {
+        padding-right: 18px;
+        position: relative;
+        white-space: normal;
+    }
+
+        .ng-table th.sortable .sort-indicator:after, .ng-table th.sortable .sort-indicator:before {
+            content: "";
+            border-width: 0 4px 4px;
+            border-style: solid;
+            border-color: #000 transparent;
+            visibility: hidden;
+            right: 5px;
+            top: 50%;
+            position: absolute;
+            opacity: .3;
+        }
+
+    .ng-table th.sortable.sort-desc .sort-indicator:after {
+        border-bottom: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid #000;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:before {
+        opacity: 1;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:after {
+        opacity: 1;
+        visibility: hidden;
+    }
+</style>
+
+<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>APPLICANT VERIFICATION PENDING LIST </h4></div>
+                    </div>
+
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="AVPending" novalidate>
+
+                            <div class="form-group row" ng-init="IncAcademicYearListGet()">
+                                <div class="col-sm-3">Select Academic Year:<span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="AVPending.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicYearList" ng-change="FacultyGet()" class="form-control" name="Instdropdown" required>
+                                                <option value="" disabled selected>-- select Academic Year --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-3">Select Faculty:<span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="AVPending.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" class="form-control" name="Instdropdown" required>
+                                                <option value="" disabled selected>-- select Faculty --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button" ng-click="getApplicantAcademicVerificationPendingReport()" class="btn btn-success">&nbsp; Submit</button>
+
+                                        <button class="btn btn-disabled disabled" ng-click="cancelApplicantAcademicVerificationPendingReport()">Cancel</button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+
+
+                    </div>
+
+
+
+
+                </div>
+
+
+                <div class="card-block">
+
+                    <div class="table-responsive" ng-show="IsTableVisible">
+                        <table class="table table-striped table-bordered" id="example-2" ng-table="ApplicantAcademicVerificationTableParams" show-filter="true">
+                            <tbody>
+                                <tr ng-repeat="ApplicantVerification in $data">
+                                    <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;text-align:center;"><label>{{ApplicantVerification.IndexId }}</label></td>
+                                    <td data-title="'Application No'" filter="{Id: 'text'}" sortable="'Id'" style=" border-top: none;"><label>{{ApplicantVerification.Id}}</label></td>
+                                    <td data-title="'Applicant Name'" filter="{NameAsPerMarksheet: 'text'}" sortable="'NameAsPerMarksheet'" style=" border-top: none; "><label>{{ApplicantVerification.NameAsPerMarksheet}}</label></td>
+                                    <td data-title="'Instance Part Term Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style=" border-top: none; "><label>{{ApplicantVerification.InstancePartTermName}}</label></td>
+                                    <td data-title="'Academics Eligibility Status'" filter="{EligibilityByAcademics: 'text'}" sortable="'EligibilityByAcademics'" style=" border-top: none;text-align:center;"><label>{{ApplicantVerification.EligibilityByAcademics}}</label></td>
+                                    <td data-title="'Academic Remark'" filter="{AdminRemarkByAcademics: 'text'}" sortable="'EligibilityByAcademics'" style=" border-top: none; text-align:center;"><label>{{ApplicantVerification.AdminRemarkByAcademics}}</label></td>
+                                    <td data-title="'Approved Academic Date'" filter="{ApprovedOnAcademics: 'text'}" sortable="'ApprovedOnAcademics'" style=" border-top: none; text-align:center;"><label>{{ApplicantVerification.ApprovedOnAcademics}}</label></td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card" ng-show="NoRecLabel">
+                        <label style="font:bold; text-align:center; font-size:medium; color:red;">No Record Found..!</label>
+                    </div>
+
+                </div>
+
+
+                <div style="text-align:right;width:100%" ng-show="IsExcelButton">
+                    <button type="button" class="btn btn-success text-left" ng-click="exportData()">Export To Excel</button>
+                </div>
+                <div id="overlay" class="col-lg-6 offset-md-2">
+                    <div class="w-100 d-flex justify-content-lg-center align-items-center">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

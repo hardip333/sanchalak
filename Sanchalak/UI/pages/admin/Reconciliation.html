@@ -1,0 +1,663 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .bg-primary {
+        border: 4px solid #8CDDCD !important;
+        background-color: aliceblue !important;
+    }
+
+    .accordion-msg {
+        border-top: 0px solid #ddd !important;
+    }
+
+    .md-tabs .nav-item {
+        width: calc(100% / 3);
+    }
+
+    .nav-tabs .slide {      
+        width: calc(100% / 3);       
+    }
+
+</style>
+
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Fee - Reconciliation</h4></div>
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <!--Text Box For PRN and Submit Button-->
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="Reconciliation">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"><b>User Name/PRN</b></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="Reconciliation.PRN" placeholder="Type User Name/PRN" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button" ng-click="submit();" class="btn btn-success">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <!--After Clicking Submit - Show Tabs-->
+                    <div class="border border-primary" ng-show="IsTabVisible">
+                        <ul class="nav nav-tabs md-tabs tab-timeline" role="tablist" id="mytab">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="" data-toggle="tab" ng-click="ApplicationFees()" role="tab">
+                                    <i class="icofont icofont-ui-user"></i>&nbsp;&nbsp;Application Fees
+                                </a>
+                                <div class="slide"></div>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link active" href="" data-toggle="tab" ng-click="ExaminationFees()" role="tab">
+                                    <i class="ion-briefcase"></i>&nbsp;&nbsp;Examination Fees
+                                </a>
+                                <div class="slide"></div>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link active" href="" data-toggle="tab" ng-click="AdmissionFees()" role="tab">
+                                    <i class="ion-university"></i>&nbsp;&nbsp;Admission Fees
+                                </a>
+                                <div class="slide"></div>
+                            </li>
+                            <li class="nav-item">
+
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <!--Application Fees-->
+                    <div class="tab-content" ng-show="AppFees">
+                        <div role="tabpanel">
+                            <div class="card-header">
+                                <div class="text-center">
+                                    <h4 class="btn btn-info">Application Fees</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-xl-12">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered">
+                                    <thead class="thead-info">
+                                        <tr>
+                                            <th> </th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">S.No</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Name</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Semester Name.</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Actions</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-repeat="info in ApplicationFeesDetails">
+                                        <tr>
+
+                                            <td class="expand_data" id="{{'first_col'+$index}}" ng-click="expand_row($index)">+</td>
+                                            <td style="border-top:none;text-align:center"><label>{{$index + 1}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.NameAsPerMarksheet}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.InstancePartTermName}}</label></td>
+                                            <td style="border-top:none;text-align:center">
+                                                <button ng-if="info.TransactionStatus != 'success'" type="button" class="btn btn-primary" ng-click="ShowApplication(info.OrderId)">Reconcile</button>
+                                                <button ng-if="info.TransactionStatus != 'success'" type="button" class="btn btn-info" ng-click="AppAuto(info.OrderId)">Update Status</button>
+                                            </td>
+                                        </tr>
+                                        <tr id="{{'expand'+$index}}" class="collapse text-wrap">
+                                            <td style="text-wrap:inherit" colspan="7">
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Email Id :</b></span></div>
+                                                        <div class="col-md-2"><span>{{info.EmailId}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Mobile No :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.MobileNo}}</span></div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Transaction Id :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.TransactionId}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Transaction Date :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.TransactionDate}}</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Bank Referance Number :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.BankReferanceNumber}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Order Id :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.OrderId}}</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Application Fees Amount :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.FeesPaidInr}}</span></div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Transaction Status :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.TransactionStatus}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Application Status :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.ApplicationStatus}}</span></div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="border border-dark" ng-show="AppReconcile">
+                            <br />
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"><b>Transaction Id</b></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" name="TId" class="form-control" ng-model="Reconciliation.AppFee.TransactionId" placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"><b>Bank Referance Number</b></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" name="BRN" class="form-control" ng-model="Reconciliation.AppFee.BankReferanceNumber" placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"><b>Transaction Date</b></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" name="TD" class="form-control" ng-model="Reconciliation.AppFee.TransactionDate" placeholder="2022-07-13 11:34:45.657" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 offset-md-2">
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <button type="button" ng-click="AppFeeReconcile(Reconciliation.AppFee.TransactionId,Reconciliation.AppFee.BankReferanceNumber,Reconciliation.AppFee.TransactionDate);" class="btn btn-success">Reconcile Application Fees</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Examination Fees-->
+                    <div class="tab-content" ng-show="ExamFees">
+                        <div role="tabpanel">
+                            <div class="card-header">
+                                <div class="text-center">
+                                    <h4 class="btn btn-info">Exam Fees</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-xl-12">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered">
+                                    <thead class="thead-info">
+                                        <tr>
+                                            <th> </th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">S.No</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Name</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Semester Name.</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Appearance Type</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Actions</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-repeat="info in ExamFeesDetails">
+                                        <tr>
+
+                                            <td class="expand_data" id="{{'first_col_exam'+$index}}" ng-click="expand_row_exam($index)">+</td>
+                                            <td style="border-top:none;text-align:center"><label>{{$index + 1}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.NameAsPerMarksheet}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.InstancePartTermName}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.AppearanceType}}</label></td>
+                                            <td style="border-top:none;text-align:center">
+                                                <button ng-if="info.TransactionStatus != 'Success' && info.AppearanceType != 'Fresher'" type="button" class="btn btn-primary" ng-click="ShowExam(info,Reconciliation.PRN)">Reconcile</button>
+                                                <button ng-if="info.TransactionStatus != 'Success' && info.AppearanceType != 'Fresher'" type="button" class="btn btn-info" ng-click="ExamAuto(info.OrderId)">Update Status</button>
+                                            </td>
+
+                                        </tr>
+                                        <tr id="{{'expand_exam'+$index}}" class="collapse text-wrap">
+                                            <td style="text-wrap:inherit" colspan="7">
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Email Id :</b></span></div>
+                                                        <div class="col-md-2"><span>{{info.EmailId}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Mobile No :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.MobileNo}}</span></div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Transaction Id :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.TransactionId}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Transaction Date :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.TransactionDate}}</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Bank Referance Number :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.BankReferanceNumber}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Order Id :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.OrderId}}</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Transaction Status :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.TransactionStatus}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Exam Fees Amount :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.ExamFeeAmount}}</span></div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="border border-dark" ng-show="ExamReconcile">
+                            <br />
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"><b>Transaction Id</b></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" name="TId" class="form-control" ng-model="Reconciliation.ExamFee.TransactionId" placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"><b>Bank Referance Number</b></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" name="BRN" class="form-control" ng-model="Reconciliation.ExamFee.BankReferanceNumber" placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"><b>Transaction Date</b></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" name="TD" class="form-control" ng-model="Reconciliation.ExamFee.TransactionDate" placeholder="2022-07-13 11:34:45.657" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 offset-md-2">
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <button type="button" ng-click="ExamFeeReconcile(Reconciliation.ExamFee.TransactionId,Reconciliation.ExamFee.BankReferanceNumber,Reconciliation.ExamFee.TransactionDate);" class="btn btn-success">Reconcile Exam Fees</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Admission Fees-->
+                    <!--<div class="tab-content" ng-show="AdmFees">
+                        <div role="tabpanel">
+                            <div class="card-header">
+                                <div class="text-center">
+                                    <h4 class="btn btn-info">Admission Fees</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-xl-12">
+                            <div class="table-responsive">
+                                <span style="font-size: 20px;color:red;">Student Admission Fees</span>
+
+                                <table class="table table-hover table-bordered">
+                                    <thead class="thead-info">
+                                        <tr>
+                                            <th> </th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">S.No</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Name</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Semester Name.</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Actions</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-repeat="info in AdmFeesDetails3">
+                                        <tr>
+
+                                            <td class="expand_data" id="{{'first_col_adm3'+$index}}" ng-click="expand_row_adm3($index)">+</td>
+                                            <td style="border-top:none;text-align:center"><label>{{$index + 1}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.NameAsPerMarksheet}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.InstancePartTermName}}</label></td>
+                                            <td style="border-top:none;text-align:center"><button ng-if="info.TransactionStatus != 'Success'" type="button" class="btn btn-primary" ng-click="ShowAdmission(info,Reconciliation.PRN)">Reconcile</button></td>
+
+                                        </tr>
+                                        <tr id="{{'expand_adm3'+$index}}" class="collapse text-wrap">
+                                            <td style="text-wrap:inherit" colspan="7">
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Email Id :</b></span></div>
+                                                        <div class="col-md-2"><span>{{info.EmailId}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Mobile No :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.MobileNo}}</span></div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Transaction Id :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.TransactionId}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Transaction Date :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.TransactionDate}}</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Bank Referance Number :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.BankReferanceNumber}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Order Id :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.OrderId}}</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Transaction Status :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.TransactionStatus}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Amount Paid :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.AmountPaid}}</span></div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <table class="table table-hover table-bordered">
+                                                    <thead class="thead-info">
+                                                        <tr>
+                                                            <th style="border-top:none;text-align:center;font-size:medium;">S.No</th>
+                                                            <th style="border-top:none;text-align:center;font-size:medium;">Fee Sub Head Name.</th>
+                                                            <th style="border-top:none;text-align:center;font-size:medium;">Amount.</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody ng-repeat="info1 in info.FeeDetails">
+                                                        <tr>
+                                                            <td style="border-top:none;text-align:center"><label>{{$index + 1}}</label></td>
+                                                            <td style="border-top:none;text-align:center"><label>{{info1.FeeSubHeadName}}</label></td>
+                                                            <td style="border-top:none;text-align:center"><label>{{info1.AmountPaid}}</label></td>
+
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <span style="font-size: 20px; color: red;">Payment Transaction</span>
+
+                                <table class="table table-hover table-bordered">
+                                    <thead class="thead-info">
+                                        <tr>
+                                            <th> </th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">S.No</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Name</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Semester Name.</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-repeat="info in AdmFeesDetails2">
+                                        <tr>
+
+                                            <td class="expand_data" id="{{'first_col_adm2'+$index}}" ng-click="expand_row_adm2($index)">+</td>
+                                            <td style="border-top:none;text-align:center"><label>{{$index + 1}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.NameAsPerMarksheet}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.InstancePartTermName}}</label></td>
+
+
+                                        </tr>
+                                        <tr id="{{'expand_adm2'+$index}}" class="collapse text-wrap">
+                                            <td style="text-wrap:inherit" colspan="7">
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Email Id :</b></span></div>
+                                                        <div class="col-md-2"><span>{{info.EmailId}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Mobile No :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.MobileNo}}</span></div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Transaction Id :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.TransactionId}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Transaction Date :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.TransactionDate}}</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Bank Referance Number :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.BankReferanceNumber}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Order Id :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.OrderId}}</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Transaction Status :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.TransactionStatus}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Amount Paid :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.AmountPaid}}</span></div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="border border-dark" id="cover" ng-show="AdmReconcile">
+                            <br />
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"><b>Transaction Id</b></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" name="TId" class="form-control" ng-model="Reconciliation.AdmFee.TransactionId" placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"><b>Bank Referance Number</b></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" name="BRN" class="form-control" ng-model="Reconciliation.AdmFee.BankReferanceNumber" placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"><b>Transaction Date</b></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" name="TD" class="form-control" ng-model="Reconciliation.AdmFee.TransactionDate" placeholder="2022-07-13 11:34:45.657" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 offset-md-2">
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <button type="button" ng-click="AdmFeeReconcile(Reconciliation.AdmFee.TransactionId,Reconciliation.AdmFee.BankReferanceNumber,Reconciliation.AdmFee.TransactionDate);" class="btn btn-success">Reconcile Admission Fees</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+
+                    <!--Admission Fees-->
+                    <div class="tab-content" ng-show="AdmFees">
+                        <div role="tabpanel">
+                            <div class="card-header">
+                                <div class="text-center">
+                                    <h4 class="btn btn-info">Admission Fees</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-xl-12">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered">
+                                    <thead class="thead-info">
+                                        <tr>
+                                            <th> </th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">S.No</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Name</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Semester Name.</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Actions</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-repeat="info in AdmissionFeesDetails">
+                                        <tr>
+
+                                            <td class="expand_data" id="{{'first_col_adm3'+$index}}" ng-click="expand_row_adm3($index)">+</td>
+                                            <td style="border-top:none;text-align:center"><label>{{$index + 1}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.NameAsPerMarksheet}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.InstancePartTermName}}</label></td>
+                                            <td style="border-top:none;text-align:center">
+                                                <button ng-if="info.TransactionStatus != 'Success' && info.TransactionStatus !='Refunded' && info.TransactionStatus != 'Refund Initiated'" type="button" class="btn btn-primary" ng-click="ShowAdmission(info.OrderId)">Reconcile</button>
+                                                <button ng-if="info.TransactionStatus != 'Success' && info.TransactionStatus !='Refunded' && info.TransactionStatus != 'Refund Initiated'" type="button" class="btn btn-info" ng-click="AdmAuto(info.OrderId)">Update Status</button>
+                                            </td>
+
+                                        </tr>
+                                        <tr id="{{'expand_adm3'+$index}}" class="collapse text-wrap">
+                                            <td style="text-wrap:inherit" colspan="7">
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Email Id :</b></span></div>
+                                                        <div class="col-md-2"><span>{{info.EmailId}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Mobile No :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.MobileNo}}</span></div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Transaction Id :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.TransactionId}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Transaction Date :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.TransactionDate}}</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Bank Referance Number :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.BankReferanceNumber}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Order Id :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.OrderId}}</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Transaction Status :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.TransactionStatus}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Total Fees Amount :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.TotalAmountPaid}}</span></div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="border border-dark" ng-show="AdmReconcile">
+                            <br />
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"><b>Transaction Id</b></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" name="TId" class="form-control" ng-model="Reconciliation.AdmFee.TransactionId" placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"><b>Bank Referance Number</b></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" name="BRN" class="form-control" ng-model="Reconciliation.AdmFee.BankReferanceNumber" placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"><b>Transaction Date</b></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" name="TD" class="form-control" ng-model="Reconciliation.AdmFee.TransactionDate" placeholder="2022-07-13 11:34:45.657" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 offset-md-2">
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <button type="button" ng-click="AdmFeeReconcile(Reconciliation.AdmFee.TransactionId,Reconciliation.AdmFee.BankReferanceNumber,Reconciliation.AdmFee.TransactionDate);" class="btn btn-success">Reconcile Admission Fees</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

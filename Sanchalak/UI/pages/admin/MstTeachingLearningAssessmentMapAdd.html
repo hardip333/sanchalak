@@ -1,0 +1,86 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+<!-- Page body start -->
+<div class="page-body" ng-controller="TeachingLearningAssessmentMapCtrl" ng-init="getTeachingLearningAssessmentMap()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Add Teaching Learning Assessment Map Master</h4></div>
+                        <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+                    </div>
+                </div>
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="MstTeachingLearningAssessmentMap">
+
+                            <div class="form-group row" ng-init="getTeachingLearningMethod()">
+                                <div class="col-sm-2">Teaching Learning Method Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="MstTeachingLearningAssessmentMap.TeachingLearningMethodId" ng-options="d.Id as d.TeachingLearningMethodName for d in TLMList" [value]="MstTeachingLearningAssessmentMap.TeachingLearningMethodId" class="form-control" name="Tlmdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getAssessmentMethod()">
+                                <div class="col-sm-2">Assessment Method Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="MstTeachingLearningAssessmentMap.AssessmentMethodId" ng-options="d.Id as d.AssessmentMethodName for d in AMList" [value]="MstTeachingLearningAssessmentMap.AssessmentMethodId" class="form-control" name="Amdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-10">
+                                        <button class="btn btn-success" ng-click="addTeachingLearningAssessmentMap()">Add</button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetMstTeachingLearningAssessmentMap()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        </div>
+                        <div class="card">
+                            <div class="card-block">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="example-2" ng-table="MstTeachingLearningAssessmentMapTableParams" show-filter="true">
+                                        <tbody>
+                                            <tr ng-repeat="MstTeachingLearningAssessmentMap in $data">
+                                                <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;text-align:center;"><label>{{MstTeachingLearningAssessmentMap.IndexId}}</label></td>
+                                                <td data-title="'Teaching Learning Method Name'" filter="{TeachingLearningMethodName: 'text'}" sortable="'TeachingLearningMethodName'" style="border-top:none;"><label>{{MstTeachingLearningAssessmentMap.TeachingLearningMethodName}}</label></td>
+                                                <td data-title="'Assessment Method Name'" filter="{AssessmentMethodName: 'text'}" sortable="'AssessmentMethodName'" style="border-top:none;"><label>{{MstTeachingLearningAssessmentMap.AssessmentMethodName}}</label></td>
+                                                
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page body end -->

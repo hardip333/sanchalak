@@ -1,0 +1,94 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+    
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="FEECONFIGCtrl">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Fee Configuration :: {{FeeTypeName}} :: {{PartTermShortName}}</h4>
+                </div>
+                <div class="card-block">
+                    <form ng-model="FEECONFIG">
+                        <div class="form-group row" ng-init="getFCList()">
+
+                            <div class="table-responsive">
+                                <label>Only Fee Category Name to Filter:</label>&nbsp; <input ng-model="searchtxt.FeeCategoryName" type="text" placeholder="Fee Category Name"><br /><br />
+                                <table class="table table-striped table-bordered" id="FeecatSelect" show-filter="true">
+                                    <tr>
+                                        <th>Attach Fee Category</th>
+                                        <th>Fee Category Name</th>
+                                        <th>Select To Give Instalment</th>
+                                        <th>No. Of Instalment</th>
+                                    </tr>
+                                    <tr ng-repeat="FC in newCategorylist | filter : searchtxt">
+                                        <td><input ng-model="FC.FeeCat" type='checkbox' ng-change="CheckFee()" /></td>
+                                        <td><label>{{FC.FeeCategoryName}}</label></td><!--{{CheckFee()}}-->
+                                        <td><input ng-model="FC.IsInstalmentGiven" type='checkbox' ng-disabled="FC.FeeState" /></td>
+                                        <td><input type="number" ng-model="FC.NoOfInstalment" ng-disabled="FC.FeeState" /></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button class="btn btn-success" ng-click="getFSHList()">Get Matrix</button>
+                            </div>
+                        </div>
+                        <div class="card" ng-show="showtable">
+                            <div class="card-block">
+                                <div class="table-responsive">
+                                    <table id="example-2" class="table table-striped table-bordered" show-filter="true">
+
+                                        <thead>
+                                            <tr>
+                                                <th ><label>Sr.No.</label></th>
+                                                <th><label>Fee Head Name</label></th>
+                                                <th><label>Fee Sub Head Name</label></th>
+
+                                                <th ng-repeat="FC in newFClist"><label>{{FC.FeeCategoryName}}</label></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="FeeSubHead in FEECONFIG.AmountList">
+                                                <th ><label>{{FeeSubHead.FeeSubHeadSrno}}</label></th>
+                                                <th><label>{{FeeSubHead.FeeHeadName}}</label></th>
+                                                <th><label>{{FeeSubHead.FeeSubHeadName}}</label></th>
+
+                                                <td style="width:120px" ng-repeat="Amount in FeeSubHead.Amount"><input type="number" ng-model="Amount.FeeAmount" style="width:100px"/>&nbsp;<input type="checkbox" ng-model="Amount.IsInstalmentAllowed" ng-disabled="Amount.InstalmentGivenCheck" true"" /></td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+
+                                                <th><label>Total</label>{{TotalFee()}}</th>
+                                                <th></th>
+                                                <th></th>
+
+                                                <th style="width:120px" ng-repeat="TotalAmount in FEECONFIG.TotalAmountList"><input type="text" style="width:100px" ng-model="TotalAmount.TotalFee" disabled /></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-10">
+                                    <button class="btn btn-success" ng-click="addFEECONFIG()">Add </button>
+                                    <button class="btn btn-disabled disabled" ng-click="cancelFEECONFIG()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>

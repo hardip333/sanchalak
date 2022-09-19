@@ -1,0 +1,759 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>MSUIS</title>
+    <!--<link href="App_Themes/assets/plugins/custom-select/css/select2.min.css" rel="stylesheet" type="text/css" />-->
+    <script src="scripts/jquery-1.10.2.min.js"></script>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css" />
+
+    <!--<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css" />-->
+    <!-- Favicon icon -->
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+    <link href="assets/fonts/Release 5.15.4/FortAwesome-Font-Awesome-7d3d774/css/fontawesome.min.css" rel="stylesheet" />
+
+    <link href="assets/fonts/Release 5.15.4/FortAwesome-Font-Awesome-7d3d774/css/all.css" rel="stylesheet" />
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/css/bootstrap.min.css">
+    <!-- themify icon -->
+    <link rel="stylesheet" type="text/css" href="assets/icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="assets/icon/icofont/css/icofont.css">
+    <!-- flag icon framework css -->
+    <link rel="stylesheet" type="text/css" href="assets/pages/flag-icon/flag-icon.min.css">
+    <!-- Menu-Search css -->
+    <link rel="stylesheet" type="text/css" href="assets/pages/menu-search/css/component.css">
+    <!-- Horizontal-Timeline css -->
+    <link rel="stylesheet" type="text/css" href="assets/pages/dashboard/horizontal-timeline/css/style.css">
+    <!-- Treeview css -->
+    <link rel="stylesheet" type="text/css" href="../bower_components/jstree/css/style.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/pages/treeview/treeview.css">
+    <!-- amchart css -->
+    <link rel="stylesheet" type="text/css" href="assets/pages/dashboard/amchart/css/amchart.css">
+    <!-- flag icon framework css -->
+    <link rel="stylesheet" type="text/css" href="assets/pages/flag-icon/flag-icon.min.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <!--color css-->
+    <!--forms-wizard css-->
+    <link rel="stylesheet" type="text/css" href="bower_components/jquery.steps/css/jquery.steps.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" type="text/css" href="bower_components/animate.css/css/animate.css">
+    <!-- Notification.css -->
+    <link rel="stylesheet" type="text/css" href="assets/pages/notification/notification.css">
+
+    <link rel="stylesheet" type="text/css" href="assets/pages/j-pro/css/j-pro-modern.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/linearicons.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/simple-line-icons.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/ionicons.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery.mCustomScrollbar.css">
+    <!--Spinner css-->
+    <link rel="stylesheet" type="text/css" href="Styles/AdminSpinner.css" />
+
+    <!--<link href="Styles/bootstrap.min.css" rel="stylesheet" />-->
+    <link href="Styles/angular-datepicker.css" rel="stylesheet" />
+    <link href="Styles/ng-table.min.css" rel="stylesheet" />
+    <link href="Styles/angular-material.min.css" rel="stylesheet" />
+    <link href="Styles/angular-material-calendar.css" rel="stylesheet" />
+
+
+    <!--<script src="Scripts/jquery.isotope.min.js"></script>
+    <script src="Scripts/jquery.flexslider.js"></script>-->
+    <!--<script src="scripts/bootstrap.min.js"></script>-->
+    <script src="scripts/angular/angular.min.js"></script>
+    <script src="scripts/angular/angular/angular-cookies.min.js"></script>
+    <script src="scripts/angular/angular-flexslider.js"></script>
+    <script src="scripts/angular/angular-ui-router.min.js"></script>
+    <script src="scripts/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="scripts/angular/angular-animate.js"></script>
+    <!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.js"></script>-->
+    <script src="scripts/angular/angular-touch.min.js"></script>
+    <script src="scripts/angular/TweenMax.min.js"></script>
+    <script src="scripts/angular/angular-modal-service.min.js"></script>
+    <script src="scripts/angular/ui-bootstrap-tpls-2.0.0.js"></script>
+    <script src="scripts/angular/ng-file-upload-shim.min.js"></script>
+    <script src="scripts/angular/ng-file-upload.min.js"></script>
+    <script src="scripts/angular/ngToast.min.js"></script>
+    <script src="scripts/angular/angular-datepicker.js"></script>
+    <script src="scripts/angular/ng-table.js"></script>
+    <script src="scripts/angular/angular-cookies.min.js"></script>
+    <script src="scripts/angular/angular-aria.min.js"></script>
+    <script src="scripts/angular/angular-messages.min.js"></script>
+    <script src="bower_components/jstree/js/jstree.min.js"></script>
+
+    <!-- Angular Material Library -->
+    <script src="scripts/angular/angular-material.min.js"></script>
+    <script src="scripts/angular/angular-animate.min.js"></script>
+    <script src="scripts/angular/angular-aria.min.js"></script>
+    <script src="scripts/angular/angular-sanitize.min.js"></script>
+    <script src="scripts/angular/angular-material-calendar.min.js"></script>
+
+    <script src="scripts/angular/ngToast.min.js"></script>
+
+    <!--<script src="app/admin/script.js"></script>-->
+    <script type="text/javascript">
+        var _c = new Date().getTime();
+        document.write('<script type="text/javascript" src="app/admin/script.js?c=' + _c + '"><\/script>');
+    </script>
+    <!--Jay Code-->
+    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/20.2.6/css/dx.common.css">
+    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/20.2.6/css/dx.light.css">
+    <!--Jay Code end-->
+    <!--Jay Code Start-->
+    <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/20.2.6/js/dx.all.js"></script>
+    <!--Jay Code End-->
+    <script src="app/common/directives/sidenav.js"></script>
+    <script src="app/common/directives/sidenavicon.js"></script>
+    <script src="app/admin/directives/menu.js"></script>
+    <script src="app/admin/directives/menuicon.js"></script>
+    <script src="app/admin/directives/topnav.js"></script>
+    <script src="app/common/directives/footer.js"></script>
+
+    <script src="scripts/angular/ngStorage.min.js"></script>
+
+    <script src="app/admin/controller/login.js"></script>
+    <script src="app/admin/controller/dashboard.js"></script>
+    <script src="app/admin/controller/index.js"></script>
+    <script src="app/admin/controller/navbar.js"></script>
+    <script src="app/admin/controller/users.js"></script>
+    <script src="app/admin/controller/students.js"></script>
+    <script src="app/components/controller/studentform.js"></script>
+    <script src="app/admin/controller/confirmRole.js"></script>
+    <!--<script src="app/admin/controller/occupation.js"></script>-->
+    <!--<script src="app/admin/controller/occupationForm.js"></script>-->
+    <!--Start Academic Project Script Done By Krunal 12-05-21-->
+    <script src="app/admin/controller/MstFaculty.js"></script>
+    <script src="app/admin/controller/Department.js"></script>
+    <script src="app/admin/controller/MstInstitute.js"></script>
+    <script src="app/admin/controller/FacultyInstituteMap.js"></script>
+    <script src="app/admin/controller/MstSubject.js"></script>
+    <script src="app/admin/controller/MstBoardOfStudy.js"></script>
+    <script src="app/admin/controller/BoardOfStudySubjectMap.js"></script>
+    <script src="app/admin/controller/mstPaper.js"></script>
+    <script src="app/admin/controller/PaperTLMMap.js"></script>
+    <script src="app/admin/controller/Programme.js"></script>
+    <script src="app/admin/controller/ProgrammePart.js"></script>
+    <script src="app/admin/controller/MstProgrammePartTerm.js"></script>
+    <script src="app/admin/controller/ProgrammeBranchMap.js"></script>
+    <script src="app/admin/controller/MstSpecialisation.js"></script>
+    <script src="app/admin/controller/SubSpecialisation.js"></script>
+    <script src="app/admin/controller/ProgrammeInstance.js"></script>
+    <script src="app/admin/controller/ProgrammeInstancePart.js"></script>
+    <script src="app/admin/controller/IncProgInstancePaperMap.js"></script>
+    <script src="app/admin/controller/ProgrammeInstancePartTerm.js"></script>
+    <script src="app/admin/controller/AcademicYear.js"></script>
+    <script src="app/admin/controller/ProgrammeLevel.js"></script>
+    <script src="app/admin/controller/ProgrammeMode.js"></script>
+    <script src="app/admin/controller/ProgrammeType.js"></script>
+    <script src="app/admin/controller/Evaluation.js"></script>
+    <script src="app/admin/controller/examinationPattern.js"></script>
+    <script src="app/admin/controller/InstructionMedium.js"></script>
+    <script src="app/admin/controller/MstTeachingLearningMethod.js"></script>
+    <script src="app/admin/controller/MstAssessmentMethod.js"></script>
+    <script src="app/admin/controller/MstTeachingLearningAssessmentMap.js"></script>
+    <script src="app/admin/controller/LaunchProgPartTerm.js"></script>
+    <script src="app/admin/controller/IncProgInstanceGroup.js"></script>
+    <script src="app/admin/controller/ApplicationFeeReport.js"></script>
+    <script src="app/admin/controller/StudentTransferRequestReport.js"></script>
+    <script src="app/admin/controller/InstGroupChangeRequest.js"></script>
+    <script src="app/admin/controller/VerifyStructureReport.js"></script>
+    <script src="app/admin/controller/VerifyStructureReportView.js"></script>
+    <script src="app/admin/controller/VerifyAssessmentReport.js"></script>
+    <script src="app/admin/controller/VerifyAssessmentReportView.js"></script>
+    <script src="app/admin/controller/StudentRequest.js"></script>
+    <script src="app/admin/controller/ExamEventDateWiseReport.js"></script>
+    <script src="app/admin/controller/EventClosure.js"></script>
+    <script src="app/admin/controller/PreExamDataReport.js"></script>
+    <script src="app/admin/controller/HallTicket.js"></script>
+    <script src="app/admin/controller/GeneralRegister.js"></script>
+    <script src="app/admin/controller/ApplicationFormDocuments.js"></script>
+    <script src="app/admin/controller/Reconciliation.js"></script>
+    <!--End Academic Project Script Done By Krunal 12-05-21-->
+    <script src="app/admin/controller/TransferCertificate.js"></script>
+    <!--Steffi Start Project Script-->
+    <script src="app/admin/controller/ProvisionalResult.js"></script>
+    <script src="app/admin/controller/IncStudentReAdmissionRequest.js"></script>
+    <script src="app/admin/controller/PaperWiseStudentBlockChange.js"></script>
+    <script src="app/admin/controller/WrittenTestHallTicketConfiguration.js"></script>
+    <script src="app/admin/controller/RequiredDocumentsSubmittedByApplicant.js"></script>
+    <script src="app/admin/controller/ProgrammeWisePaperTLMDetails.js"></script>
+    <script src="app/admin/controller/ProgrammeWiseMarksCreditDetails.js"></script>
+    <script src="app/admin/controller/CenterWiseBlockReport.js"></script>
+    <script src="app/admin/controller/StudentPaymentPendingReport.js"></script>
+    <script src="app/admin/controller/ExamFeePublish.js"></script>
+    <script src="app/admin/controller/ExamFeeConfig.js"></script>
+    <script src="app/admin/controller/ExamFormDiscrepancyStatistics.js"></script>
+    <script src="app/admin/controller/ExamScheduleReport.js"></script>
+    <script src="app/admin/controller/PaperWiseInwardReport.js"></script>
+    <script src="app/admin/controller/FacultyWiseCategoryReport.js"></script>
+    <script src="app/admin/controller/HallticketInstructionConfiguration.js"></script>
+    <script src="app/admin/controller/ApplicantAcademicPendingReport.js"></script>
+    <script src="app/admin/controller/ApplicantsAdmissionInformationDetails.js"></script>
+    <script src="app/admin/controller/ManualEntryOfFee.js"></script>
+    <script src="app/admin/controller/OfficeOfInternalAffairsAcademics.js"></script>
+    <script src="app/admin/controller/AdmCancelApplicationForm.js"></script>
+    <script src="app/admin/controller/alasql.js"></script>
+    <script src="app/admin/controller/RequiredDocumentPendingList.js"></script>
+    <script src="app/admin/controller/InstituteMapToPartTerm.js"></script>
+    <script src="app/admin/controller/MstProgrammePartTermPaperMap.js"></script>
+    <script src="app/admin/controller/OfficeOfInternalAffairsFaculty.js"></script>
+    <script src="app/admin/controller/AddOnInfoDetails.js"></script>
+    <script src="app/admin/controller/ApplicationGroupPreferenceReport.js"></script>
+    <script src="app/admin/controller/ApplicationInstitutePreferenceReport.js"></script>
+    <script src="app/admin/controller/StudentQueryMasterFaculty.js"></script>
+    <script src="app/admin/controller/AcademicDashboard.js"></script>
+    <script src="app/admin/controller/MstDocument.js"></script>
+    <script src="app/admin/controller/EmployeeRegistration.js"></script>
+    <script src="app/admin/controller/RequiredDocumentList.js"></script>
+    <!--Steffi End Project Script-->
+	
+	<!--Janhvi Files Start-->
+	<script src="app/admin/controller/MstChoiceType.js"></script>
+	<!--Jahnvi Files end-->
+	
+	
+    <!--Gayatri Start Project Script-->
+    <script src="app/admin/controller/StateMaster.js"></script>
+    <script src="app/admin/controller/CountryMaster.js"></script>
+    <script src="app/admin/controller/InstructionName.js"></script>
+    <script src="app/admin/controller/SocialCategory.js"></script>
+    <script src="app/admin/controller/MstUniversitySection.js"></script>
+    <script src="app/admin/controller/MstProgrammePartTermGroupMap.js"></script>
+    <script src="app/admin/controller/FeeTypeReport.js"></script>
+    <script src="app/admin/controller/AppFeesReport.js"></script>
+    <script src="app/admin/controller/AdmissionFeesReport.js"></script>
+    <script src="app/admin/controller/FeeCategoryChange.js"></script>
+    <script src="app/admin/controller/ResCourseEvalSystem.js"></script>
+    <script src="app/admin/controller/ResExemptionConfig.js"></script>
+    <script src="app/admin/controller/NewResExemptionDependency.js"></script>
+    <script src="app/admin/controller/Sectionwiseblankmarksheet.js"></script>
+    <script src="app/admin/controller/LaunchResultConfiguration.js"></script>
+    <!--Gayatri End Project Script-->
+    <!--start Archana Project Script-->
+    <script src="app/admin/controller/AdmEligibilityCriteriaComponent.js"></script>
+    <script src="app/admin/controller/AdmRequiredDocumentsProgram.js"></script>
+    <script src="app/admin/controller/AdmEligibilityGroup.js"></script>
+    <script src="app/admin/controller/AdmProgrammeAddOnCriteria.js"></script>
+    <script src="app/admin/controller/AdmEligibilityGroupComponent.js"></script>
+    <!--Created On 22 March 2021-->
+    <script src="app/admin/controller/PreConfiguration.js"></script>
+
+    <script src="app/admin/controller/PreProgrammeInstance.js"></script>
+    <script src="app/admin/controller/PreProgrammeInstancePart.js"></script>
+    <script src="app/admin/controller/PreProgrammeInstancePartTerm.js"></script>
+    <script src="app/admin/controller/PostConfiguration.js"></script>
+    <script src="app/admin/controller/AdminChangePassword.js"></script>
+    <script src="app/admin/controller/ApplicationStatistics.js"></script> <!--Created Archana Nigam-- April 23 2021-->
+    <script src="app/admin/controller/ApplicationList.js"></script> <!--Created Archana Nigam---April 23 2021-->
+    <script src="app/admin/controller/AdmApplicationAdmFeeNotPaid.js"></script> <!--Created Archana Nigam---April 23 2021-->
+    <script src="app/admin/controller/ResMarksLevels.js"></script><!--Created by Archana Nigam---August 16 2021-->
+    <script src="app/admin/controller/ResMarksTemplate.js"></script><!--Created by Archana Nigam---August 16 2021-->
+    <script src="app/admin/controller/ResMarksTemplateConfig.js"></script><!--Created by Archana Nigam---August 16 2021-->
+    <script src="app/admin/controller/ResGradeScales.js"></script><!--Created by Archana Nigam---August 16 2021-->
+    <script src="app/admin/controller/ResGradeLevels.js"></script><!--Created by Archana Nigam---August 16 2021-->
+    <script src="app/admin/controller/ResGPATemplate.js"></script><!--Created by Archana Nigam---August 16 2021-->
+    <script src="app/admin/controller/ResGPATemplateConfig.js"></script><!--Created by Archana Nigam---August 16 2021-->
+    <script src="app/admin/controller/ResCalculation.js"></script><!--Created by Archana Nigam---August 16 2021-->
+    <script src="app/admin/controller/ResBasisForAwarding.js"></script><!--Created by Archana Nigam---August 16 2021-->
+    <script src="app/admin/controller/ResDefineAPH.js"></script><!--Created by Archana Nigam---August 16 2021-->
+    <script src="app/admin/controller/ResConfigAPH.js"></script><!--Created by Archana Nigam---August 16 2021-->
+    <script src="app/admin/controller/AdmPaymentTransactionReport.js"></script><!--Created by A N---September 6 2021-->
+    <script src="app/admin/controller/StudentTransferRequest.js"></script><!--Created by Archana Nigam---May 8 2021-->
+    <script src="app/admin/controller/Mandate.js"></script> <!--Created Archana Nigam---April 29 2021-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
+    <!--End Archana Project Script-->
+    <!--start Mohini Project Script-->
+    <script src="app/admin/controller/PostConfigurationByAcademic.js"></script>
+    <script src="app/admin/controller/PreApplicationConfiguration.js"></script>
+    <script src="app/admin/controller/PostApplicantVerification.js"></script>
+    <script src="app/admin/controller/PostApplicantVerificationByAcademic.js"></script>
+    <script src="app/admin/controller/PostApprovalList.js"></script>
+    <script src="app/admin/controller/eligible-degree.js"></script>
+    <script src="app/admin/controller/eligibility-specialization.js"></script>
+    <script src="app/admin/controller/PostSMSEmailConfigByAcademic.js"></script>
+    <script src="app/admin/controller/PostSMSEmailConfigByFaculty.js"></script>
+    <script src="app/admin/controller/RefundCaseByAcademic.js"></script>
+    <script src="app/admin/controller/RefundCaseByAudit.js"></script>
+    <script src="app/admin/controller/RefundCaseCancelByAcademic.js"></script>
+    <script src="app/admin/controller/RefundCaseCancelByAudit.js"></script>
+    <script src="app/admin/controller/RefundCaseByAccount.js"></script>
+    <script src="app/admin/controller/RefundCaseCancelByAccount.js"></script>
+    <script src="app/admin/controller/RefundCaseCancelRefundReport.js"></script>
+    <script src="app/admin/controller/RefundCaseRefundReport.js"></script>
+    <script src="app/admin/controller/DualAdmissionByAcademic.js"></script>
+    <script src="app/admin/controller/SelectedPaperReportAcademic.js"></script>
+    <script src="app/admin/controller/TimeTableScheduled.js"></script>
+    <script src="app/admin/controller/MultipleProgrammesAdmittedList.js"></script>
+    <script src="app/admin/controller/ApplicationConfigurationByAcademic.js"></script>
+    <script src="app/admin/controller/MstDesignation.js"></script>
+    <script src="app/admin/controller/MstUniversitySectionNew.js"></script>
+    <script src="app/admin/controller/MstUserNew.js"></script>
+    <script src="app/admin/controller/RolePermissionMap.js"></script>
+    <script src="app/admin/controller/UserRoleMap.js"></script>
+    <script src="app/admin/controller/ReportForJrSupervisor.js"></script>
+    <script src="app/admin/controller/VenueAllocation.js"></script>
+    <script src="app/admin/controller/VenueReAllocation.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.0/html2pdf.min.js" integrity="sha512-2ziYH4Qk1Cs0McWDB9jfPYzvRgxC8Cj62BUC2fhwrP/sUBkkfjYk3142xTKyuCyGWL4ooW8wWOzMTX86X1xe3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="app/admin/controller/barcode/JsBarcode.all.min.js"></script>
+    <script src="app/admin/controller/barcode/JsBarcode.code39.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>-->
+    <script src="app/admin/controller/TimeSlot.js"></script>
+    <script src="app/admin/controller/ExamVenueExamCenter.js"></script>
+    <script src="app/admin/controller/ReportForJrSupervisorCenterWise.js"></script>
+    <script src="app/admin/controller/ReportForJrSupervisorIAExam.js"></script>
+    <script src="app/admin/controller/PreConfigurationForApplication.js"></script>
+    <script src="app/admin/controller/PreApplicantVerification.js"></script>
+    <script src="app/admin/controller/DownloadWrittenTestList.js"></script>
+    <script src="app/admin/controller/InwardStatistics.js"></script>
+    <!--End Mohini Project Script-->
+    <!--start Jay Project Script 24032021-->
+
+    <script src="app/admin/controller/FeeConfiguration.js"></script>
+    <script src="app/admin/controller/FeeTypeFeeCategoryMap.js"></script>
+    <script src="app/admin/controller/MstFeeCategory.js"></script>
+    <script src="app/admin/controller/MstFeeHead.js"></script>
+    <script src="app/admin/controller/MstFeeSubHead.js"></script>
+    <script src="app/admin/controller/MstFeeType.js"></script>
+    <script src="app/admin/controller/FeeTypeFeeHeadMap.js"></script>
+    <script src="app/admin/controller/FeeCategoryType.js"></script>
+    <script src="app/admin/controller/MstApplicationFee.js"></script>
+    <script src="app/admin/controller/GroupandPaperReport.js"></script>
+    <script src="app/admin/controller/InstitutePartTermPaperMap.js"></script>
+    <script src="app/admin/controller/VerificationReport.js"></script>
+    <script src="app/admin/controller/BranchChange.js"></script>
+    <script src="app/admin/controller/ARandSRReports.js"></script>
+    <script src="app/admin/controller/SelectedPaperReport.js"></script>
+    <script src="app/admin/controller/StudentPartTermPaperReport.js"></script>
+    <script src="app/admin/controller/PublishHallTicket.js"></script>
+    <script src="app/admin/controller/PreRequisite.js"></script>
+    <script src="app/admin/controller/ReportForJrSupervisorAllBlock.js"></script>
+
+
+    <!--End Jay Controllers-->
+    <!--start Jay Directives-->
+    <script src="app/common/directives/AcademicYearDD.js"></script>
+    <script src="app/common/directives/FacultyDD.js"></script>
+    <script src="app/common/directives/ProgrammeInstanceByFacultyAYIdDD.js"></script>
+    <script src="app/common/directives/BranchByPIidDD.js"></script>
+    <script src="app/common/directives/ProgrammePartInstByPIidDD.js"></script>
+    <script src="app/common/directives/PartTermInstanceByProgPartBranchIdDD.js"></script>
+    <!--End Jay Directives-->
+    <!--nidhi files start-->
+    <script src="app/admin/controller/EligibilityCriteriaConfiguration.js"></script>
+    <script src="app/admin/controller/GetEligibleStudentList.js"></script>
+    <script src="app/admin/controller/StudentPendingForFeeCategoryMapping.js"></script>
+    <!--nidhi files end-->
+    <!--start Bhushan Project Script-->
+    <script src="app/admin/controller/ApplicationPaymentReport.js"></script>
+    <script src="app/admin/controller/PaymentDetails.js"></script>
+    <script src="app/admin/controller/CancleStudentApplication.js"></script>
+    <script src="app/admin/controller/InstituteQuery.js"></script>
+    <script src="app/admin/controller/MstPreferenceGroup.js"></script>
+    <script src="app/admin/controller/MstGroupCode.js"></script>
+    <script src="app/admin/controller/MstPreferenceCodeMap.js"></script>
+    <script src="app/admin/controller/IncStudentAcademicInformation.js"></script>
+    <script src="app/admin/controller/AppearanceType.js"></script>
+    <script src="app/admin/controller/ExaminationBody.js"></script>
+    <script src="app/admin/controller/AdmSpecializationMaster.js"></script>
+    <script src="app/admin/controller/MstInstituteProgrammeMap.js"></script>
+    <script src="app/admin/controller/AddonDetailsReport.js"></script>
+    <script src="app/admin/controller/AdmAdditionalDocumentsReport.js"></script>
+    <script src="app/admin/controller/MstAdmissionCommittee.js"></script>
+    <script src="app/admin/controller/VenueMaster.js"></script>
+    <script src="app/admin/controller/EligibilityStatusMaster.js"></script>
+    <script src="app/admin/controller/MstInstituteType.js"></script>
+    <script src="app/admin/controller/UserNotification.js"></script>
+    <script src="app/admin/controller/NotificationType.js"></script>
+    <script src="app/admin/controller/InstitutePartTermMap.js"></script>
+    <script src="app/admin/controller/MstGroupType.js"></script>
+    <script src="app/admin/controller/InstancePreferenceCount.js"></script>
+    <script src="app/admin/controller/AdmApplicationEligibilityStatus.js"></script>
+    <script src="app/admin/controller/MstPreRequisiteType.js"></script>
+    <script src="app/admin/controller/MstPreRequisiteLable.js"></script>
+    <script src="app/admin/controller/StudentAdmissionFeesPaidReport.js"></script>
+    <script src="app/admin/controller/BlockApplicantsFromAdmission.js"></script>
+    <script src="app/admin/controller/AdmissionFeesReportByAcademic.js"></script>
+    <script src="app/admin/controller/AdmissionFeesReportByFaculty.js"></script>
+    <script src="app/admin/controller/CancelledByStudent.js"></script>
+    <script src="app/admin/controller/CancelledByFaculty.js"></script>
+    <script src="app/admin/controller/CancelledByAcademics.js"></script>
+    <script src="app/admin/controller/AdmittedStudent.js"></script>
+    <script src="app/admin/controller/RefundStudentReportForFaculty.js"></script>
+    <script src="app/admin/controller/RefundStudentsReportForAcademics.js"></script>
+    <script src="app/admin/controller/PaperSelected.js"></script>
+    <script src="app/admin/controller/PrnGenerated.js"></script>
+    <script src="app/admin/controller/ProgDefStatisticsFaculty.js"></script>
+    <script src="app/admin/controller/ProgDefStatisticsAcademics.js"></script>
+    <script src="app/admin/controller/ApprovedByFaculty.js"></script>
+    <script src="app/admin/controller/ApprovedByAcademic.js"></script>
+    <script src="app/admin/controller/NotApprovedByFaculty.js"></script>
+    <script src="app/admin/controller/NotApprovedByAcademic.js"></script>
+    <script src="app/admin/controller/NotApprovedByAcademic.js"></script>
+    <script src="app/admin/controller/PRNNotGenerated.js"></script>
+    <script src="app/admin/controller/MobileEmailData.js"></script>
+    <script src="app/admin/controller/PreVerificationVerifried.js"></script>
+    <script src="app/admin/controller/PreVerificationPending.js"></script>
+    <script src="app/admin/controller/PreVerificationNotApproved.js"></script>
+	<script src="app/admin/controller/PreVerificationPendingVerified.js"></script>
+    <script src="app/admin/controller/ProgDefStatusAcademics.js"></script>
+    <script src="app/admin/controller/PendingApprovedByAcademic.js"></script>
+    <script src="app/admin/controller/ARandSRReportsFaculty.js"></script>
+    <script src="app/admin/controller/RefundRequestByStudent.js"></script>
+    <script src="app/admin/controller/RefundRequestByFaculty.js"></script>
+    <script src="app/admin/controller/RefundRequestByAcademics.js"></script>
+    <script src="app/admin/controller/RefundRequestByAudit.js"></script>
+    <script src="app/admin/controller/RefundRequestByAccount.js"></script>
+    <script src="app/admin/controller/ExamSlotMaster.js"></script>
+    <script src="app/admin/controller/PreExaminationStatistics.js"></script>
+    <script src="app/admin/controller/PreExamStatisticsforStudentList.js"></script>
+    <script src="app/admin/controller/PaperWiseStudentCount.js"></script>
+    <script src="app/admin/controller/PaperWiseStudentList.js"></script>
+    <script src="app/admin/controller/OESRegistrationPending.js"></script>
+    <script src="app/admin/controller/PreExaminationStatisticsFaculty.js"></script>
+    <script src="app/admin/controller/PreExamStatisticsforStudentListFaculty.js"></script>
+    <script src="app/admin/controller/InstituteSubjectMap.js"></script>
+    <script src="app/admin/controller/DailyPaperReport.js"></script>
+    <script src="app/admin/controller/DatewiseCenterwisePaperReport.js"></script>
+    <script src="app/admin/controller/StudentWisePaperList.js"></script>
+    <script src="app/admin/controller/ManualFeesReport.js"></script>
+    <script src="app/admin/controller/StudentListByVenue.js"></script>
+    <script src="app/admin/controller/EligibiltyStatisticsReport.js"></script>
+    <script src="app/admin/controller/ProvisionallyEligibleStudentsReport.js"></script>
+    <script src="app/admin/controller/EligibleStudentsReport.js"></script>
+    <script src="app/admin/controller/SeatingArragementReport.js"></script>
+    <script src="app/admin/controller/GenderLocalOutsideCount.js"></script>
+    <script src="app/admin/controller/CopyCourseProgrammeDefination.js"></script>
+    <script src="app/admin/controller/ReplacePaper.js"></script>
+    <script src="app/admin/controller/SeatNumberWiseBlockChange.js"></script>
+    <script src="app/admin/controller/ExamFormMasterListGenerated.js"></script>
+    <script src="app/admin/controller/PreferenceWiseReport.js"></script>
+    <script src="app/admin/controller/TransferCertificateReport.js"></script>
+    <script src="app/admin/controller/UfmAbentReport.js"></script> <!--Nidhhi Index-->
+    <!--End Bhushan Project Script-->
+    <!--Start -- Author : Harsh Mistry Scripts-->
+    <script src="app/admin/controller/VerifiedApplicant.js"></script>
+    <script src="app/admin/controller/ApplicantInformationGet.js"></script>
+    <script src="app/admin/controller/DepartmentReports.js"></script>
+    <!--End -- Author : Harsh Mistry Scripts-->
+    <!--Start -- Author : Parth Scripts-->
+    <script src="app/admin/controller/DeanSign.js"></script>
+    <script src="app/admin/controller/SecBarcode.js"></script>
+    <!--End -- Author : Parth Scripts-->
+    <!-- Start -- Author: Devanshu Shah Scripts For PreExamination-->
+
+    <script src="app/admin/controller/ExamEvent.js"></script>
+    <script src="app/admin/controller/ScheduleMater.js"></script>
+    <script src="app/admin/controller/ExamFeeConfiguration.js"></script>
+    <script src="app/admin/controller/ExamCenter.js"></script>
+    <script src="app/admin/controller/ExamVenue.js"></script>
+    <script src="app/admin/controller/CreateTimeTable.js"></script>
+    <script src="app/admin/controller/AttachVenue.js"></script>
+    <script src="app/admin/controller/ExamConfigStatus.js"></script>
+    <script src="app/admin/controller/ScheduleStatus.js"></script>
+    <script src="app/admin/controller/ExamFeeHead.js"></script>
+    <script src="app/admin/controller/ExamFormGeneration.js"></script>
+    <script src="app/admin/controller/InWard.js"></script>
+    <script src="app/admin/controller/SeatNoGeneration.js"></script>
+    <script src="app/admin/controller/CopyExamFeeConfiguration.js"></script>
+    <script src="app/admin/controller/PrnGenerated.js"></script>
+    <script src="app/admin/controller/BlankMarksheet.js"></script>
+    <script src="app/admin/controller/ExamBlocks.js"></script>
+    <script src="app/admin/controller/AssignBlocks.js"></script>
+    <script src="app/admin/controller/ExamFormBarcodeGeneration.js"></script>
+    <script src="app/admin/controller/ExamFormBarcodePdfGenerationRequest.js"></script>
+    <script src="app/admin/controller/MeritListInstance.js"></script>
+
+    <script src="app/common/directives/academicSelect.js"></script>
+    <script src="app/common/directives/monthsSelect.js"></script>
+    <script src="app/common/directives/yearsSelect.js"></script>
+    <script src="app/common/directives/examcenterSelect.js"></script>
+    <script src="app/common/directives/facultySelect.js"></script>
+    <script src="app/common/directives/programmeSelect.js"></script>
+    <script src="app/common/directives/branchSelect.js"></script>
+    <script src="app/common/directives/programmepartSelect.js"></script>
+    <script src="app/common/directives/parttermSelect.js"></script>
+    <script src="app/common/directives/slotSelect.js"></script>
+    <script src="app/common/directives/exameventSelect.js"></script>
+    <script src="app/common/directives/scheduleSelect.js"></script>
+    <script src="app/common/directives/courseSelect.js"></script>
+    <script src="app/common/directives/programmeinstanceSelect.js"></script>
+    <script src="app/common/directives/instanceparttermSelect.js"></script>
+    <script src="app/common/directives/instituteSelect.js"></script>
+    <script src="app/common/directives/exameventwithyearSelect.js"></script>
+    <script src="app/common/directives/schedulewithexameventSelect.js"></script>
+    <script src="app/common/directives/programmewithscheduleSelect.js"></script>
+    <script src="app/common/directives/insparttermwithcourseSelect.js"></script>
+    <script src="app/common/directives/coursewithschedulemapSelect.js"></script>
+    <script src="app/common/directives/typesSelect.js"></script>
+    <script src="app/common/directives/branchwithproSelect.js"></script>
+    <script src="app/common/directives/parttermbranchprogrammeSelect.js"></script>
+    <script src="app/common/directives/proinsparttermwithproparttermSelect.js"></script>
+    <script src="app/common/directives/coursewithfacultySelect.js"></script>
+    <script src="app/common/directives/parttermforexamfeeSelect.js"></script>
+    <script src="app/common/directives/institutewithfacultySelect.js"></script>
+
+    <script src="app/common/directives/teachinglearningmethodSelect.js"></script>
+    <script src="app/common/directives/assetsmentmethodSelect.js"></script>
+    <script src="app/common/directives/examvenueSelect.js"></script>
+    <script src="app/common/directives/semesterSelect.js"></script>
+    <script src="app/common/directives/examvenuewithscheduleSelect.js"></script>
+
+    <!--<script src="app/common/directives/limitToAlphabet.js"></script>-->
+    <script src="app/common/directives/limitTo.js"></script>
+    <script src="app/common/directives/limitToEmail.js"></script>
+    <script src="app/common/directives/limitToNumber.js"></script>
+    <script src="app/common/directives/limitToFloat.js"></script>
+    <script src="app/common/directives/limitToNo.js"></script>
+    <script src="app/common/directives/limitToNumber.js"></script>
+    <script src="app/common/directives/limitToPhNo.js"></script>
+    <script src="app/common/directives/limitToYearRange.js"></script>
+    <script src="app/common/directives/ngFocusOut.js"></script>
+    <script src="app/common/directives/myEnter.js"></script>
+
+    <script src="app/common/directives/referencemeritlistSelect.js"></script>
+    <script src="app/common/directives/programmeindependentSelect.js"></script>
+    <script src="app/common/directives/predefinedSelect.js"></script>
+    <script src="app/common/directives/categotyforseatmatrixSelect.js"></script>
+    <script src="app/common/directives/proinsparttermwithacademicyearandfacultySelect.js"></script>
+    <script src="app/common/directives/standardlevelSelect.js"></script>
+    <script src="app/common/directives/addonquestionsSelect.js"></script>
+    <script src="app/common/directives/preferanceforseatmatrixSelect.js"></script>
+    <script src="app/common/directives/specialcategoryforseatmatrixSelect.js"></script>
+    <script src="app/common/directives/socialcategoryforseatmatrixSelect.js"></script>
+    <script src="app/common/directives/hscschoolcitySelect.js"></script>
+    <script src="app/common/directives/currentstateforprovisionallistSelect.js"></script>
+
+    <!-- End -- Author: Devanshu Shah Scripts For PreExamination-->
+    <!-- Required Jqurey -->
+    <!--<script type="text/javascript" src="bower_components/jquery/js/jquery.min.js"></script>-->
+    <script src="bower_components/jquery-ui/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="bower_components/popper.js/js/popper.min.js"></script>
+    <script type="text/javascript" src="bower_components/bootstrap/js/bootstrap.min.js"></script>
+    <!-- jquery slimscroll js -->
+    <script type="text/javascript" src="bower_components/jquery-slimscroll/js/jquery.slimscroll.js"></script>
+    <!-- modernizr js -->
+    <script type="text/javascript" src="bower_components/modernizr/js/modernizr.js"></script>
+    <script type="text/javascript" src="bower_components/modernizr/js/css-scrollbars.js"></script>
+    <!-- classie js -->
+    <script type="text/javascript" src="bower_components/classie/js/classie.js"></script>
+    <!-- Rickshow Chart js -->
+    <script src="bower_components/d3/js/d3.js"></script>
+    <!--<script src="bower_components/rickshaw/js/rickshaw.js"></script>-->
+    <!-- Morris Chart js -->
+    <script src="bower_components/raphael/js/raphael.min.js"></script>
+    <script src="bower_components/morris.js/js/morris.js"></script>
+    <!-- Horizontal-Timeline js -->
+    <script type="text/javascript" src="assets/pages/dashboard/horizontal-timeline/js/main.js"></script>
+    <!-- amchart js -->
+    <script type="text/javascript" src="assets/pages/dashboard/amchart/js/amcharts.js"></script>
+    <script type="text/javascript" src="assets/pages/dashboard/amchart/js/serial.js"></script>
+    <script type="text/javascript" src="assets/pages/dashboard/amchart/js/light.js"></script>
+    <script type="text/javascript" src="assets/pages/dashboard/amchart/js/custom-amchart.js"></script>
+    <!-- jquery file upload js -->
+    <script src="assets/pages/jquery.filer/js/jquery.filer.min.js"></script>
+    <script src="assets/pages/filer/custom-filer.js" type="text/javascript"></script>
+    <script src="assets/pages/filer/jquery.fileuploads.init.js" type="text/javascript"></script>
+    <!-- Tags js -->
+    <script type="text/javascript" src="bower_components/bootstrap-tagsinput/js/bootstrap-tagsinput.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.4/typeahead.bundle.min.js"></script>
+    <!-- Max-length js -->
+    <script type="text/javascript" src="bower_components/bootstrap-maxlength/js/bootstrap-maxlength.js"></script>
+    <!-- i18next.min.js -->
+    <!-- i18next.min.js -->
+    <script type="text/javascript" src="bower_components/i18next/js/i18next.min.js"></script>
+    <script type="text/javascript" src="bower_components/i18next-xhr-backend/js/i18nextXHRBackend.min.js"></script>
+    <script type="text/javascript" src="bower_components/i18next-browser-languagedetector/js/i18nextBrowserLanguageDetector.min.js"></script>
+    <script type="text/javascript" src="bower_components/jquery-i18next/js/jquery-i18next.min.js"></script>
+
+    <!-- notification js -->
+    <script type="text/javascript" src="assets/js/bootstrap-growl.min.js"></script>
+    <script type="text/javascript" src="assets/pages/notification/notification.js"></script>
+
+    <!-- Custom js -->
+    <!--<script type="text/javascript" src="assets/pages/dashboard/custom-dashboard.js"></script>-->
+    <script type="text/javascript" src="assets/js/script.js"></script>
+    <!--<script src="assets/pages/user-profile.js"></script>-->
+    <!-- pcmenu js -->
+    <script src="assets/js/pcoded.min.js"></script>
+    <script src="assets/js/demo-12.js"></script>
+    <script src="assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="assets/js/jquery.mousewheel.min.js"></script>
+    <!--Forms - Wizard js-->
+    <script src="bower_components/jquery.steps/js/jquery.steps.js"></script>
+
+</head>
+<body ng-app="MSUISApp">
+
+    <!-- Pre-loader start -->
+    <div class="theme-loader">
+        <div class="ball-scale">
+            <div></div>
+        </div>
+    </div>
+    <!-- Pre-loader end -->
+
+    <div ui-view=""></div>
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        .md-dialog-container {
+            -webkit-box-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+            position: fixed;
+            top: 0 !important;
+            left: 0;
+            width: 100%;
+            height: 100% !important;
+            z-index: 8000;
+            overflow: hidden;
+        }
+        input::-webkit-input-placeholder {
+            color: #ccc !important;
+        }
+        input:focus::-webkit-input-placeholder {
+            color: #ccc !important;
+        }
+        input::-moz-placeholder {
+            color: #ccc !important;
+        }
+        .page-loader-wrapper-loading {
+            text-align: center;
+            z-index: 99999999;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #E8E9E9;
+            display: flex;
+        }
+            .page-loader-wrapper-loading .loader {
+                position: relative;
+                top: calc(40% - 30px);
+                justify-content: center;
+                width: 100%;
+            }
+        .ng-table-pagination li {
+            padding: 3px 5px;
+            border: solid 1px gray;
+        }
+        .spinner {
+            height: 60px;
+            width: 60px;
+            margin: auto;
+            display: flex;
+            position: absolute;
+            -webkit-animation: rotation .6s infinite linear;
+            -moz-animation: rotation .6s infinite linear;
+            -o-animation: rotation .6s infinite linear;
+            animation: rotation .6s infinite linear;
+            border-left: 6px solid rgba(0, 174, 239, .15);
+            border-right: 6px solid rgba(0, 174, 239, .15);
+            border-bottom: 6px solid rgba(0, 174, 239, .15);
+            border-top: 6px solid rgba(0, 174, 239, .8);
+            border-radius: 100%;
+        }
+
+        .spinner-Cancel {
+            height: 30px;
+            width: 30px;
+            margin: auto;
+            display: flex;
+            position: absolute;
+            -webkit-animation: rotation .6s infinite linear;
+            -moz-animation: rotation .6s infinite linear;
+            -o-animation: rotation .6s infinite linear;
+            animation: rotation .6s infinite linear;
+            border-left: 6px solid rgba(0, 174, 239, .15);
+            border-right: 6px solid rgba(0, 174, 239, .15);
+            border-bottom: 6px solid rgba(0, 174, 239, .15);
+            border-top: 6px solid rgba(0, 174, 239, .8);
+            border-radius: 50%;
+        }
+
+        @-webkit-keyframes rotation {
+            from {
+                -webkit-transform: rotate(0deg);
+            }
+            to {
+                -webkit-transform: rotate(359deg);
+            }
+        }
+        @-moz-keyframes rotation {
+            from {
+                -moz-transform: rotate(0deg);
+            }
+            to {
+                -moz-transform: rotate(359deg);
+            }
+        }
+        @-o-keyframes rotation {
+            from {
+                -o-transform: rotate(0deg);
+            }
+            to {
+                -o-transform: rotate(359deg);
+            }
+        }
+        @keyframes rotation {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(359deg);
+            }
+        }
+        #overlay {
+            position: absolute;
+            display: none;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2;
+            cursor: pointer;
+        }
+    </style>
+
+</body>
+</html>

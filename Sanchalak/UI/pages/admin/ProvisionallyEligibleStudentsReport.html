@@ -1,0 +1,148 @@
+﻿<!--#searchResult tr > *:nth-child(n+7) {
+        display: none;
+}-->
+<style>
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+    td {
+        white-space: normal !important;
+        text-align: center;
+    }
+</style>
+
+<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+<!-- Page body start -->
+<!--<script src="https://cdn.jsdelivr.net/npm/alasql@1.7"></script>-->
+<!--<script src="../../../sanchalak/app/admin/controller/alasql.js"></script>-->
+
+<div class="page-body" ng-controller="ProvisionallyEligibleStudentsReportCtrl">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Provisionally Eligible Students Report</h4>
+                    <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+
+                </div>
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form class="ng-pristine ng-untouched ng-valid">
+                            <div class="form-group row">
+                                <div class="col-sm-3" style="flex: 0 0 20%;">Programme Instance Part Term</div>
+                                    <div class="col-sm-3" ng-init="GetLocalStorageValue()">
+                                    <span class="nullable" ng-init="GetPartTermList()">
+                                        <select id="InsPartTerm" ng-options="d.InstancePartTermId as d.InstancePartTermName for d in alGet" ng-model="ProvisionallyEligibleStudentsReport.ProgrammeInstancePartTermId"
+                                                [value]="ProvisionallyEligibleStudentsReport.ProgrammeInstancePartTermId" class="form-control">
+                                            <!--ng-pristine ng-untouched ng-valid-->
+                                            <option value="" disabled selected>-- select --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="col-sm-3">
+                                    <button class="btn btn-success" ng-click="getProvisionallyEligibleStudentsReport(ProvisionallyEligibleStudentsReport.ProgrammeInstancePartTermId,ProvisionallyEligibleStudentsReport.InstituteId)">Search</button>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row" ng-init="getInstituteById()">
+                                <div class="col-sm-3">Institute Name</div>
+                                <div class="col-sm-3">
+                                    <div>
+                                        <span class="nullable">
+                                            <label>{{Institute.InstituteName}}</label>
+
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <div style="font:medium; font-size:large; color:red">
+                    &nbsp; &nbsp; &nbsp; &nbsp; Note: This count contains only those applicants whose PRN is generated.
+                </div><br />
+                <div class="card">
+                    <div class="card-block">
+                        <div class="table-responsive">
+                            <div style="text-align: center;width:100%" class="float-right">
+                                <!--<button class="btn btn-success" ng-click="exportData()">Export to Excel Short</button>-->
+                                <button class="btn btn-success" ng-click="exportProvEligible()">Export to Excel Full</button>
+
+                            </div>
+                            <label>Only Applicant PRN to Filter:</label>&nbsp; <input ng-model="searchtxt.PRN" type="text" placeholder="Applicant PRN"><br /><br />
+                            <table id="searchResult" class="table table-striped table-bordered"  show-filter="true" >
+
+                                <thead>
+                                    <tr>
+                                        <th>Sr.No</th>
+                                        <th>
+                                            <button title="Hide" ng-show="selectallFlag" ng-hide="deselectallFlag" ng-click="selectall()" class="btn btn-success">Select All</button>
+                                            <button title="Hide" ng-show="deselectallFlag" ng-hide="selectallFlag" ng-click="deselectall()" class="btn btn-success">DeSelect All</button>
+                                        </th>
+                                        <th>Academic Year</th>
+                                        <th>PRN</th>
+                                        <th>Application Number</th>
+                                        <th>Name</th>
+                                        <th>Academics Status</th>
+                                        <th>Faculty Remarks</th>
+                                        <th>Academics Remarks</th>
+                                        <th>PRN Generated Date</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody ng-repeat="ProvisionallyEligibleStudentsReport in ProvEligStud | filter : searchtxt ">
+
+                                    <tr>
+                                        <td><label>{{ProvisionallyEligibleStudentsReport.IndexId}}</label></td>
+                                        <td><input ng-model="ProvisionallyEligibleStudentsReport.ApplicationIdCheck" class="checkbox" type='checkbox' /></td>
+                                        <td><label>{{ProvisionallyEligibleStudentsReport.AcademicYearCode}}</label></td>
+                                        <td><label>{{ProvisionallyEligibleStudentsReport.PRN}}</label></td>
+                                        <td><label>{{ProvisionallyEligibleStudentsReport.ApplicationId}}</label></td>
+                                        <td><label>{{ProvisionallyEligibleStudentsReport.FullName}}</label></td>
+                                        <td><label>{{ProvisionallyEligibleStudentsReport.EligibilityByAcademics}}</label></td>
+                                        <td><label>{{ProvisionallyEligibleStudentsReport.FacultyRemarks}}</label></td>
+                                        <td><label>{{ProvisionallyEligibleStudentsReport.AcademicsRemarks}}</label></td>
+                                        <td><label>{{ProvisionallyEligibleStudentsReport.PRNGeneratedOn}}</label></td>
+
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div><br /><br />
+                        <div class="form-group row">
+                            <div class="col-sm-2">Remarks:</div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <span class="nullable">
+                                        <textarea rows="4" cols="50" name="AcademicsRemarks" ng-model="ProvisionallyEligibleStudentsReport.AcademicsRemarks" class="form-control" placeholder="Enter Academic Remark" required></textarea>
+                                        <span ng-show="ProvisionallyEligibleStudentsReport.AdmApp.$touched && ProvisionallyEligibleStudentsReport.AdmApp.$invalid" style="color:red">Remark is required.</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 offset-md-2">
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <button class="btn btn-success" ng-click="updateProvisionallyEligibleStudentsReport()">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,143 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="FEECONFIGCtrl" >
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Fee Configuration  </h4><!--{{FEECONFIG.InstancePartTermName}}-->
+                </div>
+                <div class="card-block">
+                    <!-- Basic Form Inputs card start -->                        
+                    <form name="FeeVerify" ng-model="FEECONFIG">
+                        <div class="form-group row" ng-init="IncAcademicYearListGet()">
+                            <label for="Activity" class="col-sm-2 col-form-label">Academic Year Code <span style="color:red">*</span>:</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <select class="form-control" ng-model="FeeVerifyData.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicList" ng-change="FacultyGet()" [value]="FeeVerifyData.AcademicYearId" name="AcademicYear">
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="FeeVerify.AcademicYear.$touched && FeeVerify.AcademicYear.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-2 col-form-label">Faculty Name :</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <select class="form-control" ng-model="FeeVerifyData.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" ng-change="getProgrammeInstanceListByAcadId()" [value]="FeeVerifyData.FacultyId" name="Faculty">
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="FeeVerify.Faculty.$touched && FeeVerify.Faculty.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row" ng-init="getFTList()">
+                            <label class="col-sm-2 col-form-label">Fee Type Name <span style="color:red">*</span>:</label><!--FTList-->
+                            <div class="col-sm-10">
+                                <span class="nullable">
+                                    <select name="FEECONFIGFT" ng-model="FeeVerifyData.FeeTypeId" ng-options="d.Id as d.FeeTypeName for d in FTList" [value]="FeeVerifyData.FeeTypeName" class="form-control">
+                                        <!--ng-change="showVERIFYbutton()"-->
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="FeeVerify.FEECONFIGFT.$touched && FeeVerify.FEECONFIGFT.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <button class="btn btn-success" ng-click="showVERIFYbutton()" >View</button>
+                        <div class="card" ng-show="Showbuttonflag">
+                            <div class="card-block">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="example-2" ng-table="FEECONFIGFilteredTableParams" show-filter="true">
+                                        <tbody>
+                                            <tr ng-repeat="FEECONFIG in $data">
+                                                <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                                <td data-title="'Faculty Name'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style="border-top:none;"><label>{{FEECONFIG.FacultyName}}</label></td>
+                                                <td data-title="'Branch Name'" filter="{BranchName: 'text'}" sortable="'BranchName'" style="border-top:none;"><label>{{FEECONFIG.BranchName}}</label></td>
+                                                <td data-title="'Instance Part Term / Semester Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style="border-top:none;"><label>{{FEECONFIG.InstancePartTermName}}</label></td>
+                                                <td data-title="'Fee Type Name'" filter="{FeeTypeName: 'text'}" sortable="'FeeTypeName'" style="border-top:none;"><label>{{FEECONFIG.FeeTypeName}}</label></td>
+                                                <td data-title="'Actions'" filter="{IsVerifiedSts: 'text'}" sortable="'IsVerifiedSts'" style="border-top:none;">
+                                                    <div layout="row">
+                                                        <span flex></span>
+                                                        <button class="btn btn-success" ng-click="VerifyGetData(FEECONFIG)" data-toggle="modal" data-target="#large-Modal" ng-hide="FEECONFIG.IsVerified">Verify </button>
+                                                        <button class="btn btn-success" ng-click="VerifyGetData(FEECONFIG)" data-toggle="modal" data-target="#large-Modal" ng-show="FEECONFIG.IsVerified && FEECONFIG.IsPublishedCheck">UnVerify </button>
+                                                        <label ng-show="FEECONFIG.IsPublished">Published</label>
+                                                        
+
+                                                    </div>
+                                                </td>
+                                                <td data-title="'Print'" >
+                                                    <div layout="row">
+                                                        <button type="button" ng-click="Verifyprint(FEECONFIG)" class="btn btn-info"><i class="ion-printer"></i>Print</button>
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="large-Modal" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Fee Configuration Verify for  {{FEECONFIG.InstancePartTermName}} Detail</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="card-block">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-bordered" id="example-2" show-filter="true">
+                                                    <tr>
+                                                        <th><label>Sr. No.</label></th>
+                                                        <th><label>Fee Head Name</label></th>
+                                                        <th><label>Fee Sub Head Name</label></th>
+                                                        <th ng-repeat="FC in FeeCategoryList"><label>{{FC.FeeCategoryName}}</label></th>
+                                                    </tr>
+                                                    <tr ng-repeat="FeeSubHead in AmountDATAList">
+                                                        <th><label>{{FeeSubHead.FeeSubHeadSrno}}</label></th>
+                                                        <th><label>{{FeeSubHead.FeeHeadName}}</label></th>
+                                                        <th><label>{{FeeSubHead.FeeSubHeadName}}</label></th>
+                                                        <td ng-repeat="Amount in FeeSubHead.Amount"><input type="number" ng-model="Amount.FeeAmount" disabled />&nbsp;<input type="checkbox" ng-model="Amount.IsInstalmentAllowed" disabled /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th><label>Total</label>{{TotalFeeVerify()}}</th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th ng-repeat="TotalAmount in FEECONFIG.TotalAmountEditList"><input type="text" ng-model="TotalAmount.TotalFee" disabled /></th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="col-sm-10">
+                                            <!--Hide Button-->
+                                            <button title="Hide" ng-click="VerifyFEECONFIG(FEECONFIG)" class="btn btn-danger ml-2" data-dismiss="modal" ng-hide="FEECONFIG.IsVerifyAll"><i class="fa fa-toggle-on"></i>Click to Verify</button>
+                                            <!--Show Button-->
+                                            <button title="Show" ng-click="UnVerifyFEECONFIG(FEECONFIG)" class="btn btn-success ml-2" data-dismiss="modal" ng-show="FEECONFIG.IsVerifyAll"><i class="fa fa-toggle-off"></i>Click to UnVerify</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <label style="color:red" ng-show="Showbuttonflag"> This button will verify all fee configured for Faculty : {{FeeVerifyData.FacultyName}} and Academic year : {{FeeVerifyData.AcademicYearCode}} and Fee Type : {{FeeVerifyData.FeeTypeName}}</label>
+                        <br />
+                        <button class="btn btn-success" ng-click="VerifyallFee()" ng-show="Showbuttonflag">Verify All</button>
+                    </form>
+                    <!-- Basic Form Inputs card end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page body end -->

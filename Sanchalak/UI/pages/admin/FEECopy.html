@@ -1,0 +1,121 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body"  >
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Fee Copy</h4>
+                </div>
+                <div class="card-block">
+                    <form ng-model="FeeCopy">
+                        <div class="form-group row" ng-init="IncAcademicYearListGet()">
+                            <label for="Activity" class="col-sm-2 col-form-label">Academic Year Code <span style="color:red">*</span>:</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <select class="form-control" ng-model="FeeCopy.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicList" [value]="FeeCopy.AcademicYearId" ng-change="FacultyGet()" name="AcademicYear">
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="myForm.AcademicYear.$touched && myForm.AcademicYear.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-2 col-form-label">Faculty Name <span style="color:red">*</span>:</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <select class="form-control" ng-model="FeeCopy.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" ng-change="ProgrammeLavelGet()" [value]="FEECONFIG.FacultyId" name="Faculty">
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="myForm.Faculty.$touched && myForm.Faculty.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-2 col-form-label">Programme Level <span style="color:red">*</span>:</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <select class="form-control" ng-model="FeeCopy.ProgrammeLevelId" ng-options="d.Id as d.ProgrammeLevelName for d in PLList" ng-change="GetFeeConfiguredPIPT()" [value]="FEECONFIG.ProgrammeLevelId" name="ProgrammeLevel">
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="myForm.ProgrammeLevel.$touched && myForm.ProgrammeLevel.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <!--GetFeeConfiguredPIPT()"-->
+                            <label for="Activity" class="col-sm-2 col-form-label">Select Semester to Copy Fee :</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <select class="form-control" ng-model="FeeCopy.ProgrammeInstancePartTermId" ng-options="d.ProgrammeInstancePartTermId as d.InstancePartTermName for d in PIPTList" ng-change="GetFTbyPIPT()" [value]="FeeCopy.ProgrammeInstancePartTermId" name="ProgrammeInstancePartTerm">
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="myForm.ProgrammeInstancePartTerm.$touched && myForm.ProgrammeInstancePartTerm.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-2 col-form-label">Select Fee Type :</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <select class="form-control" ng-model="FeeCopy.FeeTypeId" ng-options="d.FeeTypeId as d.FeeTypeName for d in FCFTList" ng-change="GetFCbyPIPTFT()" [value]="FeeCopy.FeeTypeId" name="FeeType">
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="myForm.FeeType.$touched && myForm.FeeType.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Choose Fee Category<span style="color:red">*</span>:</label><!--FHList-->
+                            <div class="col-sm-10">
+                                <div ng-repeat="FC in FeeCopyFCList">
+                                    <input ng-model="FeeCopy.FeeCateList[FC.FeeCategoryId]" type='checkbox' />
+                                    <label>{{FC.FeeCategoryName}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button class="btn btn-success" ng-click="GetFeenotConfiguredPIPT()">Next</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-block" ng-show="ShowPIPTFlag">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" id="example-2" ng-table="PIPTtableParams" show-filter="true">
+                            <tbody>
+                                <tr ng-repeat="PIPT in $data">
+                                    <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                    <td data-title="'Faculty Name'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style="border-top:none;"><label>{{PIPT.FacultyName}}</label></td>
+                                    <td data-title="'Programme Level Name'" filter="{ProgrammeLevelName: 'text'}" sortable="'ProgrammeLevelName'" style="border-top:none;"><label>{{PIPT.ProgrammeLevelName}}</label></td>
+                                    <td data-title="'Instance Part Term / Semester Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style="border-top:none;"><label>{{PIPT.InstancePartTermName}}</label></td>
+                                    <td data-title="'Actions'">
+                                        <div layout="row">
+
+                                            <input type="checkbox" ng-model="FeeCopy.PIPTList[PIPT.ProgrammeInstancePartTermId]" />
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button class="btn btn-success" ng-click="FeeCopycall()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

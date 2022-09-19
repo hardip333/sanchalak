@@ -1,0 +1,1249 @@
+﻿<style>
+
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+
+    /*   for table*/
+    .card .card-block table tr {
+        padding-bottom: 20px;
+    }
+
+    .table td {
+        padding: .25rem;
+    }
+
+    .table label {
+        margin-bottom: 0px;
+        margin-top: 8px;
+    }
+
+    /*  for button in table*/
+    .table button {
+        width: 45px;
+        height: 40px;
+        padding: 0px;
+    }
+
+        .table button i {
+            margin-right: 0px;
+        }
+
+    .ng-table th.sortable .sort-indicator {
+        padding-right: 18px;
+        position: relative;
+        white-space: normal;
+    }
+
+        .ng-table th.sortable .sort-indicator:after, .ng-table th.sortable .sort-indicator:before {
+            content: "";
+            border-width: 0 4px 4px;
+            border-style: solid;
+            border-color: #000 transparent;
+            visibility: hidden;
+            right: 5px;
+            top: 50%;
+            position: absolute;
+            opacity: .3;
+        }
+
+    .ng-table th.sortable.sort-desc .sort-indicator:after {
+        border-bottom: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid #000;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:before {
+        opacity: 1;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:after {
+        opacity: 1;
+        visibility: hidden;
+    }
+
+    table, th, td {
+        padding: 5px;
+        border: 1px solid black;
+    }
+
+    .heading {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 5px;
+    }
+
+    .t2 td {
+        white-space: normal !important;
+    }
+
+    .t4 td {
+        white-space: normal !important;
+    }
+
+    td {
+        white-space: normal !important;
+    }
+</style>
+
+<script>
+
+    function createPDF1() {
+        
+        var sTable1 = document.getElementById('printHtmlView1').innerHTML;
+
+        var style = "<style>";
+        style = style + "table {width: 100%;font: 12px Calibri;}";
+        style = style + "table, th, td {border: solid 1px black; border-collapse: collapse;";
+        style = style + "padding: 2px 3px;}";
+        style = style + "</style>";
+
+        // CREATE A WINDOW OBJECT.
+        var win = window.open('', 'height=700,width=700');
+
+        win.document.write('<html><head>');
+        win.document.write('<title></title>');   // <title> FOR PDF HEADER.
+        win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+        win.document.write('</head>');
+        win.document.write('<body>');
+        win.document.write(sTable1);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+        win.document.write('</body></html>');
+
+        win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+
+        win.print();    // PRINT THE CONTENTS.
+    }
+
+</script>
+<script>
+
+    function createPDF() {
+        var sTable = document.getElementById('printHtmlView').innerHTML;
+
+        var style = "<style>";
+        style = style + "table {width: 100%;font: 12px Calibri;}";
+        style = style + "table, th, td {border: solid 1px black; border-collapse: collapse;";
+        style = style + "padding: 2px 3px;}";
+        style = style + "</style>";
+
+        // CREATE A WINDOW OBJECT.
+        var win = window.open('', 'height=700,width=700');
+
+        win.document.write('<html><head>');
+        win.document.write('<title></title>');   // <title> FOR PDF HEADER.
+        win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+        win.document.write('</head>');
+        win.document.write('<body>');
+        win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+        win.document.write('</body></html>');
+
+        win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+
+        win.print();    // PRINT THE CONTENTS.
+    }
+
+</script>
+
+<script>
+    $(function () {
+        var displaysTime = $('#divTime');
+        displaysTime.text(moment.utc('27/04/2017', 'DD/MM/YYYY', true).toISOString());
+    });
+</script>
+
+<div>
+    <!-- Column Rendering table start old -->
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <div class="float-left"> <h4>Application Form And Documents</h4></div>
+
+            </div>
+        </div>
+
+        <div>
+
+            <div class="card-block">
+
+                <div class="col-md-12 offset-md-2">
+                    <form>
+
+                        <div class="form-group row" ng-init="getFacultyById()">
+                            <div class="col-sm-2">Faculty Name</div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <span class="nullable">
+                                        <label>{{Institute.FacultyName}} - {{Institute.Id}}</label>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2">Institute Name</div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <span class="nullable">
+                                        <label>{{Institute.InstituteName}} - {{Institute.Id}}</label>
+
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" ng-init="getAcademicList()">
+                            <div class="col-sm-2">Academic Year<span style="color:red;"> * </span></div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <span class="nullable">
+                                        <select ng-model="ApplicationForm.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcadList" ng-change="getInstancePartTerm()" class="form-control" name="AcadYeardropdown" required>
+                                            <option value="" disabled selected>-- select --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-2">Select Programme Instance Part Term<span style="color:red;"> * </span></div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <span class="nullable">
+                                        <select ng-model="ApplicationForm.ProgrammeInstancePartTermId" ng-options="d.Id as d.InstancePartTermName for d in InstancePartTermList" [value]="ApplicationForm.ProgrammeInstancePartTermId" class="form-control" name="ProgPartTermdropdown" required>
+                                            <option value="" disabled selected>-- select --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2">How You Want Application Form?:</label>
+                            <div class="col-sm-6">
+                                <label>
+                                    <input type="radio" id="Single" ng-value='"Single"' name="ApplicationForm" ng-model="ApplicationForm.AFRadio" ng-required="!ApplicationForm.AFRadio" ng-click="checkRadio(ApplicationForm.AFRadio);" /><b>   Single Application Form</b>  &nbsp;&nbsp;
+
+                                    <input type="radio" id="BulkInSinglePage" ng-value='"BulkInSinglePage"' name="ApplicationForm" ng-model="ApplicationForm.AFRadio" ng-required="!ApplicationForm.AFRadio" ng-click="checkRadio(ApplicationForm.AFRadio);" /><b>   Bulk Application Form In Single Pdf</b>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div ng-show="ApplicationNumber">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Application No.</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="ApplicationForm.ApplicationId" placeholder="" required>
+                                </div>
+                            </div>
+
+                            <!--<div class="form-group row">
+                                <label class="col-sm-2 col-form-label">User Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="ApplicationForm.PRN" placeholder="" required>
+                                </div>
+                            </div>-->
+
+                        </div>
+
+
+
+                        <div class="col-md-12 offset-md-2">
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <button type="button" id="btPrint" value="Print" ng-click="getFeePayCourseList()" class="btn btn-success">&nbsp; Submit</button>
+                                    <button class="btn btn-danger" ng-click="cancelSelection()">Cancel</button>
+                                    <button type="button" ng-show="SinglePrint" class="btn btn-info" id="btPrint" value="Print" onclick="createPDF()">Print</button>
+                                    <button type="button" ng-show="BulkPrint" class="btn btn-info" id="btPrint1" value="Print1" onclick="createPDF1()">Print Bulk</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="overlay" class="col-lg-6 offset-md-2">
+    <div class="w-100 d-flex justify-content-lg-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<div id="printHtmlView" ng-show="showForm">
+    <br />
+    <div class="card">
+        <div class="card-header">
+            <h5>Application Form</h5>
+        </div>
+        <table border="1" ng-table="FeePayCourseList1TableParams" ng-repeat="FeePayCourse in $data" style="border-style:solid;text-align: center;" width="100%" template-pagination="none">
+            <tbody>
+                <tr class="text-center">
+                    <td rowspan=2><img src="assets/images/Msu-Images/Msu_baroda_logo.png" height="130px" width="150px" /></td>
+                    <td rowspan=2>
+                        <h6>
+                            <b>
+                                {{FeePayCourse.FacultyName}}
+                            </b><br />
+                            {{FeePayCourse.FacultyAddress}}<br />
+                        </h6>
+                        <h6>
+                            <b>The Maharaja Sayajirao University of Baroda</b>
+                        </h6>
+                        <h6>
+                            Fatehgunj, Vadodara-390 002, Gujarat (India)<br />
+                            <b>Academic Year: {{FeePayCourse.AcademicYearCode}}</b><br />
+                        </h6>
+                        <h2>
+                            <b>APPLICATION FORM</b>
+                        </h2>
+                    </td>
+                    <td>
+                        Application No:
+                        {{FeePayCourse.AdmissionApplicationId}}
+                    </td>
+                </tr>
+                <tr class="text-center">
+                    <td>
+                        <svg id="barcode2"></svg>
+                    </td>
+                </tr>
+                <tr>
+                    <!--<td colspan="2" style="text-align:left"><b>Course Applied for : </b>Bachelor of Commerce-No Branch-Regular-BCom-I-FSBCOM-I (FCBCOM)</td>-->
+                    <td colspan="3" style="text-align:left"><b>Course Applied for : </b>{{FeePayCourse.ProgrammeName}} - {{FeePayCourse.PartName}} - {{FeePayCourse.PartTermName}} - {{FeePayCourse.BranchName}}</td>
+                    <!--<td>PRN</td>-->
+                </tr>
+                <tr>
+                    <td style="text-align:left"><b>Application Date :  </b>{{FeePayCourse.AdmApplicationCreatedOn}}</td>
+                    <td style="text-align:left" colspan="2"><b>Payment Category :</b> General</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <br />
+        <h4 class="heading"><b>1. Personal Information</b></h4>
+        <table class="t2" border="1" ng-table="ProfileAdmApplicantTableParams" ng-repeat="info in $data" style="border-style:solid;" width="100%" template-pagination="none">
+            <tr>
+                <td><b>Last Name </b>: {{info.LastName}}</td>
+                <td><b>First Name </b>: {{info.FirstName}}</td>
+                <td colspan="2"><b>Middle Name </b>: {{info.MiddleName}}</td>
+                <td rowspan="3">
+
+                    <a id="test1">
+                        <img class="user-img" src="{{info.ApplicantPhoto}}" alt="user-img" style="height:160px;width:170px;">
+                       <!-- <img data-ng-src="data:image/png;base64,{{info.ApplicantPhoto}}" style="height:160px;width:170px;" />-->
+                    </a>
+                    <br />
+                    <a id="test2">
+                        <img class="user-img" src="{{info.ApplicantSignature}}" alt="user-img" style="height:40px; width:170px;">
+                        <!--<img data-ng-src="data:image/png;base64,{{info.ApplicantSignature}}" style="height:40px;width:170px;" />-->
+                    </a>
+
+                </td>
+            </tr>
+            <tr>
+                <td><b>Gender :</b> {{info.Gender}}</td>
+                <td><b>Religion :</b> {{info.ReligionName}}</td>
+                <td colspan="2"><b>Marital Status :</b> {{info.MaritalStatus}}</td>
+            </tr>
+            <tr>
+                <td><b>Mother Tongue :</b> {{info.MotherTongueName}}</td>
+                <td><b>Name as per Marksheet : </b>{{info.NameAsPerMarksheet}}</td>
+                <td colspan="2" id="divTime"><b>Date of Birth (DD/MM/YYYY) : </b><br /> {{info.DOB}}</td>
+            </tr>
+            <tr>
+                <td><b>Blood Group : </b> {{info.BloodGroupName}}</td>
+                <!--<td><b>Religion :</b> Hindu</td>-->
+                <!--<td><b>Country of Citizenship : </b>India</td>-->
+                <td><b>Height :</b> {{info.HeightInCms}}</td>
+                <td><b>Weight :</b> {{info.WeightInKgs}}</td>
+                <td colspan="3"><b>Major Thalassemia Status :</b> {{info.IsMajorThelesamiaStatus}}</td>
+            </tr>
+            <tr>
+                <td><b>Is Student NRI/ Foreign National : </b>{{info.IsNRI}}</td>
+                <td colspan="4"><b>Country Of Citizenship : </b> {{info.CitizenCountry}}</td>
+            </tr>
+            <tr>
+                <td><b>Passport No : </b> {{info.PassportNumber}}</td>
+                <td><b>Aadhar No :</b> {{info.AadharNumber}}</td>
+                <td colspan="3"><b>Name of Aadhar : </b>{{info.NameOnAadhar}}</td>
+            </tr>
+            <tr>
+                <td colspan="5"><b>Permanent Address :</b> {{info.PermanentAddress}}</td>
+            </tr>
+            <tr>
+                <td><b>Country :</b> {{info.PermanentCountry}}</td>
+                <td><b>State :</b> {{info.PermanentState}}</td>
+                <td><b>District :</b> {{info.PermanentDistrict}}</td>
+                <!--<td><b>Tehsil/Taluka :</b> Vadodara</td>-->
+                <td><b>City/Town/Village :</b> {{info.PermanentCityVillage}}</td>
+                <td colspan="5"><b>Pin Code :</b> {{info.PermanentPincode}}</td>
+
+            </tr>
+            <tr>
+                <td colspan="5"><b>Current Address :</b> {{info.CurrentAddress}}</td>
+            </tr>
+            <tr>
+                <td><b>Country :</b> {{info.CurrentCountry}}</td>
+                <td><b>State :</b> {{info.CurrentState}}</td>
+                <td><b>District :</b> {{info.CurrentDistrict}}</td>
+                <!--<td><b>Tehsil/Taluka :</b> Vadodara</td>-->
+                <td><b>City/Town/Village :</b> {{info.CurrentCityVillage}}</td>
+                <td colspan="5"><b>Pin Code :</b> {{info.CurrentPincode}}</td>
+            </tr>
+            <tr>
+                <td colspan="2"><b>Father's/Husband's Name :</b> {{info.NameOfFather}}</td>
+                <td colspan="3"><b>Mother's Name :</b> {{info.NameOfMother}}</td>
+
+            </tr>
+            <tr>
+                <td colspan="2"><b>Social Category Name : </b> {{info.SocialCategoryName}}</td>
+                <td colspan="3"><b>Guardian Social Category :</b> {{info.GSocialCategory}}</td>
+                <!-- <td colspan="2"><b>Reservation Category : </b>{{info.ReservationCategory}}</td>-->
+            </tr>
+            <tr>
+                <td><b>Guardian Name : </b> {{info.GuardianName}}</td>
+                <td><b>Guardian Contact No :</b> {{info.GuardianContactNo}}</td>
+                <td colspan="4"><b>Family Annual Income : </b>{{info.FamilyAnnualIncome}}</td>
+            </tr>
+            <tr>
+
+                <td><b>Father Occupation : </b>{{info.OccupationOfFather}}</td>
+                <td><b>Mother Occupation : </b>{{info.OccupationOfMother}}</td>
+                <td colspan="4"><b>Guardian Occupation : </b>{{info.OccupationOfGuardian}}</td>
+            </tr>
+            <tr>
+
+                <!-- <td><b>Is Self Emp : </b> {{info.IsSelfEmpDisplay}}</td>-->
+                <td><b>Is Gardian EBC :</b> {{info.IsEbcDisplay}}</td>
+                <td colspan="5"><b>Guardian Annual Income : </b>{{info.GuardianAnnualIncome}}</td>
+            </tr>
+            <tr>
+                <td colspan="5"><b>CONTACT DETAILS</b></td>
+            </tr>
+            <tr>
+                <td colspan="2"><b>Email ID:</b> {{info.EmailId}}</td>
+                <td colspan="2"><b>Mobile Number :</b> {{info.MobileNo}}</td>
+                <td colspan="2"><b>Optional Mobile Number :</b> {{info.OptionalMobileNo}}</td>
+
+            </tr>
+            <tr>
+                <td><b>Is Sms PermissionGiven : </b> {{info.IsSmsPermissionGivenDisplay}}</td>
+                <td><b>Is Local To Vadodara :</b> {{ test1 = info.IsLocalToVadodara ? 'Yes':'No'}}</td>
+                <td><!--<b>Activity Id : </b>{{info.ActivityId}}--></td>
+                <td colspan="3"><!--<b>Activity Name : </b> {{info.ActivityName}}--></td>
+            </tr>
+            <tr>
+                <td><b>Is EWS : </b> {{info.IsEWS}} </td>
+                <td colspan="4"><b>EWS Doc :</b> {{info.EWSDoc}}</td>
+                <!--<td  colspan="3"><b>Is Physically Challenged : </b>{{info.IsPhysicallyChallenged}}</td>
+            <td><b>Participation Levels Id : </b>{{info.ParticipationLevelsId}}</td>
+            <td><b>Secured Rank Id : </b>{{info.SecuredRankId}}</td>-->
+
+            </tr>
+            <tr>
+            </tr>
+            <!--<tr>
+            <td><b>PC Doc : </b> {{info.PCDoc}}</td>
+            <td><b>Disability Percentage :</b> {{info.DisabilityPercentage}}</td>
+            <td colspan="4"><b>Disability Type : </b>{{info.DisabilityType}}</td>
+        </tr>-->
+        </table>
+        <!--<div ng-if="ProfileAdmApplicantTableParams == null">
+        <h5><span style="color:red">Please Fill all Personal details.</span></h5>
+    </div>-->
+
+        <br />
+        <h4 class="heading"><b>2.Legal Reservation Information</b></h4>
+        <table border="1" style="border-style:solid" width="100%" ng-table="ProfileAdmApplicantTableParams" ng-repeat="info in $data" template-pagination="none">
+            <tr>
+                <td colspan="5"><b>Reservation Category : </b>{{info.ReservationCategory}}</td>
+
+            </tr>
+            <tr>
+                <td><b>Is Physically Challenged : </b>{{info.IsPhysicallyChallenged}}</td>
+                <td colspan="2"><b>Is Self Emp : </b> {{info.IsSelfEmpDisplay}}</td>
+            </tr>
+            <tr>
+                <td><b>Disability Percentage :</b> {{info.DisabilityPercentage}}</td>
+                <td colspan="4"><b>Disability Type : </b>{{info.DisabilityType}}</td>
+            </tr>
+        </table>
+        <!--<div ng-if="ProfileAdmApplicantTableParams == null">
+        <h5><span style="color:red">Please Fill all Personal details.</span></h5>
+    </div>-->
+
+        <br />
+
+        <!--style="border:outset"-->
+        <h4 class="heading"><b>3.Education Details</b></h4>
+        <table class="t4" id="res-config1" ng-table="ProfileEduTableParams" width="100%" template-pagination="none">
+            <tbody>
+                <tr ng-repeat="EducationDetailsData in $data">
+                    <td data-title="'Education Level'" style="border-top:none;width:10px;text-align:center;">
+                        <label>{{EducationDetailsData.EligibleDegreeName}}</label>
+                    </td>
+                    <td data-title="'Board/ University'" style="border-top:none;text-align:center;">
+                        <label>{{EducationDetailsData.ExaminationBodyName}}</label>
+                    </td>
+                    <td data-title="'Name of School/ College'" style="border-top:none;text-align:center;">
+                        <label>{{EducationDetailsData.InstituteAttended}}</label>
+                    </td>
+                    <td data-title="'Month & Year of Passing'" style="border-top:none;text-align:center;">
+                        <label>{{EducationDetailsData.ExamPassMonth}} {{EducationDetailsData.ExamPassYear}}</label>
+                    </td>
+                    <td data-title="'Class'" style="border-top:none;text-align:center;">
+                        <label>{{EducationDetailsData.ClassName}}</label>
+                    </td>
+                    <td data-title="'CGPA'" style="border-top:none;text-align:center;">
+                        <label>{{EducationDetailsData.CGPA}}</label>
+                    </td>
+                    <td data-title="'Percentage'" style="border-top:none;text-align:center;">
+                        <label>{{EducationDetailsData.Percentage}}</label>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <div ng-if="ProfileEduTableParams == null">
+            <h5><span style="color:red">Please Fill Education details.</span></h5>
+        </div>
+
+        <br />
+
+        <h4 class="heading"><b>4.Add On Details</b></h4>
+        <table ng-if="ObjAddOn.length > 0">
+            <tr>
+                <td><b>Sr.No.</b></td>
+                <td><b>Title</b></td>
+                <td><b>Marks/ CGPA/ Grade</b></td>
+            </tr>
+            <tr ng-repeat="AddOnCriteria in ObjAddOn">
+                <td>{{ $index + 1 }}</td>
+                <td>{{AddOnCriteria.TitleName}}</td>
+                <td>
+                    <span ng-if="AddOnCriteria.Id != 0">
+                        <label>{{AddOnCriteria.AddOnValue}}</label>
+                    </span>
+                    <span ng-if="AddOnCriteria.Id == 0">
+                        NA
+                    </span>
+                </td>
+            </tr>
+
+        </table>
+        <div ng-if="ObjAddOn.length == 0" class="row" style="color:black;margin:1px;border:1px solid;text-align:center;padding:10px;">
+            No Records for Display
+        </div>
+
+        <br />
+
+        <h4 class="heading"><b>5.Group Preference Details</b></h4>
+        <table ng-if="objPreferenceLst.length > 0">
+            <tr>
+                <td><b>Sr.No.</b></td>
+                <td><b>Group Name</b></td>
+                <td><b>Preference No.</b></td>
+            </tr>
+            <tr ng-repeat="Group in objPreferenceLst">
+                <td>{{ $index + 1 }}</td>
+                <td>{{Group.GroupName}}</td>
+                <td>{{Group.PreferenceNo}}</td>
+            </tr>
+
+        </table>
+        <div ng-if="objPreferenceLst.length == 0" class="row" style="color:black;margin:1px;border:1px solid;text-align:center;padding:10px;">
+            No Records for Display
+        </div>
+
+        <br />
+
+        <h4 class="heading"><b>6.Institute Preference Details</b></h4>
+        <table ng-if="objInstituteLst.length > 0">
+            <tr>
+                <td><b>Sr.No.</b></td>
+                <td><b>Institute Name</b></td>
+                <td><b>Preference No.</b></td>
+            </tr>
+            <tr ng-repeat="Inst in objInstituteLst">
+                <td>{{ $index + 1 }}</td>
+                <td>{{Inst.InstituteName}}</td>
+                <td>{{Inst.PreferenceNo}}</td>
+            </tr>
+
+        </table>
+        <div ng-if="objInstituteLst.length == 0" class="row" style="color:black;margin:1px;border:1px solid;text-align:center;padding:10px;">
+            No Records for Display
+        </div>
+
+        <br />
+
+        <h4 class="heading"><b>7.Documents</b></h4>
+        <table border="1" style="border-style:solid" width="100%" ng-table="FeePayCourseList1TableParams" ng-repeat="FeePayCourse in $data" template-pagination="none">
+
+            <tr>
+
+                <td colspan="4">
+                    <label><b>Common Documents</b></label>
+
+                    <li>
+                        <label><b>Photo Id : </b></label>
+                        <span ng-if="ObjPersonal.PhotoIdDoc != null">
+                            <a href="{{ObjPersonal.PhotoIdDoc}}" target="_blank">View</a>
+                        </span>
+                        <span ng-if="ObjPersonal.PhotoIdDoc == null">
+                            Not Uploaded
+                        </span>
+                    </li>
+
+                    <li>
+                        <label><b>Date Of Birth : </b></label>
+                        <span ng-if="ObjPersonal.DOBDoc != null">
+                            <a href="{{ObjPersonal.DOBDoc}}" target="_blank">View</a>
+                        </span>
+                        <span ng-if="ObjPersonal.DOBDoc == null">
+                            Not Uploaded
+                        </span>
+                    </li>
+
+                    <li>
+                        <label><b>Aadhar Card : </b></label>
+                        <span ng-if="ObjPersonal.AadharDoc != null">
+                            <a href="{{ObjPersonal.AadharDoc}}" target="_blank">View</a>
+                        </span>
+                        <span ng-if="ObjPersonal.AadharDoc == null">
+                            Not Uploaded
+                        </span>
+                    </li>
+
+                    <li>
+                        <label><b>Category Document : </b></label>
+                        <span ng-if="ObjPersonal.SocialCategoryDoc != null">
+                            <a href="{{ObjPersonal.SocialCategoryDoc}}" target="_blank">View</a>
+                        </span>
+                        <span ng-if="ObjPersonal.SocialCategoryDoc == 'Not Applicable' || ObjPersonal.SocialCategoryDoc == null">
+                            Not Uploaded
+                        </span>
+                    </li>
+
+                    <li>
+                        <label><b>Reservation Category : </b></label>
+                        <span ng-if="ObjPersonal.ReservationCategoryDoc != null">
+                            <a href="{{ObjPersonal.ReservationCategoryDoc}}" target="_blank">View</a>
+                        </span>
+                        <span ng-if="ObjPersonal.ReservationCategoryDoc == 'Not Applicable' || ObjPersonal.ReservationCategoryDoc == null">
+                            Not Uploaded
+                        </span>
+                    </li>
+
+                    <li>
+                        <label><b>EWS : </b></label>
+                        <span ng-if="ObjPersonal.EWSDoc != null">
+                            <a href="{{ObjPersonal.EWSDoc}}" target="_blank">View</a>
+                        </span>
+                        <span ng-if="ObjPersonal.EWSDoc == 'Not Applicable' || ObjPersonal.EWSDoc == null">
+                            Not Uploaded
+                        </span>
+                    </li>
+
+                    <li>
+                        <label><b>Disability Doc : </b></label>
+                        <span ng-if="ObjPersonal.PCDoc != null">
+                            <a href="{{ObjPersonal.PCDoc}}" target="_blank">View</a>
+                        </span>
+                        <span ng-if="ObjPersonal.PCDoc == 'Not Applicable' || ObjPersonal.PCDoc == null">
+                            Not Uploaded
+                        </span>
+                    </li>
+
+                    <li>
+                        <label><b>Applicant Photo : </b></label>
+                        <span ng-if="ObjPersonal.ApplicantPhoto != null">
+                            <a href="{{ObjPersonal.ApplicantPhoto}}" target="_blank">View</a>
+                        </span>
+                        <span ng-if="ObjPersonal.ApplicantPhoto == null">
+                            Not Uploaded
+                        </span>
+                    </li>
+
+                    <li>
+                        <label><b>Applicant Signature : </b></label>
+                        <span ng-if="ObjPersonal.ApplicantSignature != null">
+                            <a href="{{ObjPersonal.ApplicantSignature}}" target="_blank">View</a>
+                        </span>
+                        <span ng-if="ObjPersonal.ApplicantSignature == null">
+                            Not Uploaded
+                        </span>
+                    </li>
+
+                </td>
+
+            </tr>
+            <tr>
+
+                <td>
+                    <label><b>Education Documents</b></label>
+                    <li ng-if="ObjEducation.length > 0" colspan="4" ng-repeat="ObjEdu in ObjEducation">
+                        <label><b>{{ObjEdu.EligibleDegreeName}} : </b></label>
+                        <span ng-if="ObjEdu.AttachDocument != null">
+                            <a href="{{ObjEdu.AttachDocument}}" target="_blank">View</a>
+                        </span>
+                        <span ng-if="ObjEdu.AttachDocument == null">
+                            Not Uploaded
+                        </span>
+                    </li>
+                    <br />
+                    <span ng-if="ObjEducation.length == 0">
+                        <label>No Records for Display</label>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label><b>Required Submitted Documents</b></label>
+                    <li ng-if="ObjSubmittedDoc.length > 0" colspan="4" ng-repeat="sdocument in ObjSubmittedDoc">
+                        
+                        <span ng-if="sdocument.IsCompulsoryDocument == 'True'"><b>{{sdocument.NameOfTheDocument}}</b></span>
+                        <span ng-if="sdocument.IsCompulsoryDocument == 'False' || sdocument.IsCompulsoryDocument == null">{{sdocument.NameOfTheDocument}}</span>
+                                    
+                        <!--<label>{{sdocument.NameOfTheDocument}}</label>-->
+                        <span ng-if="sdocument.Id != 0">
+                            <a href="{{sdocument.FileNameofDocumnetBySystem}}" target="_blank">View</a>
+                        </span>
+                        <span ng-if="sdocument.Id == 0">
+                            Not Uploaded
+                        </span>
+                    </li>
+                    <br />
+                    <span ng-if="ObjSubmittedDoc.length == 0">
+                        <label>No Records for Display</label>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label><b>Additional Documents</b></label>
+                    <li ng-if="ObjAdditional.length > 0" colspan="4" ng-repeat="additional in ObjAdditional">
+                        <label><b>{{additional.DocName}}</b></label>
+                        <!--<span ng-if="sdocument.Id != 0">-->
+                        <span>
+                            <a href="{{additional.DocFileName}}" target="_blank">View</a>
+                        </span>
+                        <!--<span ng-if="sdocument.Id == 0">
+                        Not Uploaded
+                    </span>-->
+                    </li><br />
+                    <span ng-if="ObjAdditional.length == 0">
+                        <label>No Records for Display</label>
+                    </span>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+</div>
+
+<div id="printHtmlView1" ng-show="showForm1">
+    <br />
+    <div class="card">
+        <div class="card-header">
+            <h5>Application Form</h5>
+        </div>
+        <table>
+            <tr ng-repeat="Applicant in ApplicantData">
+                <td>
+                    <table border="1" ng-repeat="FeePayCourse in Applicant.objFeePayCourseList" style="border-style:solid;text-align: center;" width="100%" template-pagination="none">
+                        <tbody>
+                            <tr class="text-center">
+                                <td rowspan=2><img src="assets/images/Msu-Images/Msu_baroda_logo.png" height="130px" width="150px" /></td>
+                                <td rowspan=2>
+                                    <h6>
+                                        <b>
+                                            {{FeePayCourse.FacultyName}}
+                                        </b><br />
+                                        {{FeePayCourse.FacultyAddress}}<br />
+                                    </h6>
+                                    <h6>
+                                        <b>The Maharaja Sayajirao University of Baroda</b>
+                                    </h6>
+                                    <h6>
+                                        Fatehgunj, Vadodara-390 002, Gujarat (India)<br />
+                                        <b>Academic Year: {{FeePayCourse.AcademicYearCode}}</b><br />
+                                    </h6>
+                                    <h2>
+                                        <b>APPLICATION FORM</b>
+                                    </h2>
+                                </td>
+                                <td>
+                                    Application No:
+                                    {{FeePayCourse.AdmissionApplicationId}}
+                                </td>
+                            </tr>
+                            <!--<tr class="text-center">
+                                <td>
+                                    <svg id="bulkBarcode2{{FeePayCourse.AdmissionApplicationId}}"></svg>
+                                </td>
+                            </tr>-->
+                            <tr>
+
+                                <td colspan="3" style="text-align:left"><b>Course Applied for : </b>{{FeePayCourse.ProgrammeName}} {{FeePayCourse.PartName}} - {{FeePayCourse.PartTermName}} - {{FeePayCourse.BranchName}}</td>
+
+                            </tr>
+                            <tr>
+                                <td style="text-align:left"><b>Application Date :  </b>{{FeePayCourse.AdmApplicationCreatedOn}}</td>
+                                <td style="text-align:left" colspan="2"><b>Payment Category :</b> General</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                    <br />
+                    <h4 class="heading"><b>1. Personal Information</b></h4>
+                    <table class="t2" border="1" ng-repeat="info in Applicant.BulkAdmApplicantRegistrationList" style="border-style:solid;" width="100%" template-pagination="none">
+                        <tr>
+                            <td><b>Last Name </b>: {{info.LastName}}</td>
+                            <td><b>First Name </b>: {{info.FirstName}}</td>
+                            <td colspan="2"><b>Middle Name </b>: {{info.MiddleName}}</td>
+                            <td rowspan="3">
+                               
+                                <a id="test1" href="{{info.ApplicantPhoto}}" target="_blank">Photo
+                                    <!--<img class="user-img" src="{{info.ApplicantPhoto}}" alt="user-img" style="height:160px;width:170px;">-->
+
+                                </a>
+                                <br />
+                                <a id="test2" href="{{info.ApplicantSignature}}" target="_blank">Signature
+                                    <!--  <img class="user-img" src="{{info.ApplicantSignature}}" alt="user-img" style="height:40px; width:170px;">-->
+
+                                </a>
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><b>Gender :</b> {{info.Gender}}</td>
+                            <td><b>Religion :</b> {{info.ReligionName}}</td>
+                            <td colspan="2"><b>Marital Status :</b> {{info.MaritalStatus}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Mother Tongue :</b> {{info.MotherTongueName}}</td>
+                            <td><b>Name as per Marksheet : </b>{{info.NameAsPerMarksheet}}</td>
+                            <td colspan="2" id="divTime"><b>Date of Birth (DD/MM/YYYY) : </b><br /> {{info.DOB}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Blood Group : </b> {{info.BloodGroupName}}</td>
+                            <!--<td><b>Religion :</b> Hindu</td>-->
+                            <!--<td><b>Country of Citizenship : </b>India</td>-->
+                            <td><b>Height :</b> {{info.HeightInCms}}</td>
+                            <td><b>Weight :</b> {{info.WeightInKgs}}</td>
+                            <td colspan="3"><b>Major Thalassemia Status :</b> {{info.IsMajorThelesamiaStatus}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Is Student NRI/ Foreign National : </b>{{info.IsNRI}}</td>
+                            <td colspan="4"><b>Country Of Citizenship : </b> {{info.CitizenCountry}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Passport No : </b> {{info.PassportNumber}}</td>
+                            <td><b>Aadhar No :</b> {{info.AadharNumber}}</td>
+                            <td colspan="3"><b>Name of Aadhar : </b>{{info.NameOnAadhar}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5"><b>Permanent Address :</b> {{info.PermanentAddress}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Country :</b> {{info.PermanentCountry}}</td>
+                            <td><b>State :</b> {{info.PermanentState}}</td>
+                            <td><b>District :</b> {{info.PermanentDistrict}}</td>
+                            <!--<td><b>Tehsil/Taluka :</b> Vadodara</td>-->
+                            <td><b>City/Town/Village :</b> {{info.PermanentCityVillage}}</td>
+                            <td colspan="5"><b>Pin Code :</b> {{info.PermanentPincode}}</td>
+
+                        </tr>
+                        <tr>
+                            <td colspan="5"><b>Current Address :</b> {{info.CurrentAddress}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Country :</b> {{info.CurrentCountry}}</td>
+                            <td><b>State :</b> {{info.CurrentState}}</td>
+                            <td><b>District :</b> {{info.CurrentDistrict}}</td>
+                            <!--<td><b>Tehsil/Taluka :</b> Vadodara</td>-->
+                            <td><b>City/Town/Village :</b> {{info.CurrentCityVillage}}</td>
+                            <td colspan="5"><b>Pin Code :</b> {{info.CurrentPincode}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><b>Father's/Husband's Name :</b> {{info.NameOfFather}}</td>
+                            <td colspan="3"><b>Mother's Name :</b> {{info.NameOfMother}}</td>
+
+                        </tr>
+                        <tr>
+                            <td colspan="2"><b>Social Category Name : </b> {{info.SocialCategoryName}}</td>
+                            <td colspan="3"><b>Guardian Social Category :</b> {{info.GSocialCategory}}</td>
+                            <!-- <td colspan="2"><b>Reservation Category : </b>{{info.ReservationCategory}}</td>-->
+                        </tr>
+                        <tr>
+                            <td><b>Guardian Name : </b> {{info.GuardianName}}</td>
+                            <td><b>Guardian Contact No :</b> {{info.GuardianContactNo}}</td>
+                            <td colspan="4"><b>Family Annual Income : </b>{{info.FamilyAnnualIncome}}</td>
+                        </tr>
+                        <tr>
+
+                            <td><b>Father Occupation : </b>{{info.OccupationOfFather}}</td>
+                            <td><b>Mother Occupation : </b>{{info.OccupationOfMother}}</td>
+                            <td colspan="4"><b>Guardian Occupation : </b>{{info.OccupationOfGuardian}}</td>
+                        </tr>
+                        <tr>
+                            <!-- <td><b>Is Self Emp : </b> {{info.IsSelfEmpDisplay}}</td>-->
+                            <td><b>Is Gardian EBC :</b> {{info.IsEbcDisplay}}</td>
+                            <td colspan="5"><b>GuardianAnnual Income : in</b>{{info.GuardianAnnualIncome}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5"><b>CONTACT DETAILS</b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><b>Email ID:</b> {{info.EmailId}}</td>
+                            <td colspan="2"><b>Mobile Number :</b> {{info.MobileNo}}</td>
+                            <td colspan="2"><b>Optional Mobile Number :</b> {{info.OptionalMobileNo}}</td>
+
+                        </tr>
+                        <tr>
+                            <td><b>Is Sms PermissionGiven : </b> {{info.IsSmsPermissionGivenDisplay}}</td>
+                            <td><b>Is Local To Vadodara :</b> {{ test1 = info.IsLocalToVadodara ? 'Yes':'No'}}</td>
+                            <td><!--<b>Activity Id : </b>{{info.ActivityId}}--></td>
+                            <td colspan="3"><!--<b>Activity Name : </b> {{info.ActivityName}}--></td>
+                        </tr>
+
+                        <tr>
+
+                            <td><b>Is EWS : </b> {{info.IsEWS}} </td>
+                            <td colspan="4"><b>EWS Doc :</b> {{info.EWSDoc}}</td>
+                            <!--<td  colspan="3"><b>Is Physically Challenged : </b>{{info.IsPhysicallyChallenged}}</td>
+            <td><b>Participation Levels Id : </b>{{info.ParticipationLevelsId}}</td>
+            <td><b>Secured Rank Id : </b>{{info.SecuredRankId}}</td>-->
+                        </tr>
+                        <tr>
+                        </tr>
+                        <!--<tr>
+            <td><b>PC Doc : </b> {{info.PCDoc}}</td>
+            <td><b>Disability Percentage :</b> {{info.DisabilityPercentage}}</td>
+            <td colspan="4"><b>Disability Type : </b>{{info.DisabilityType}}</td>
+        </tr>-->
+                    </table>
+                    <!--<div ng-if="ProfileAdmApplicantTableParams == null">
+        <h5><span style="color:red">Please Fill all Personal details.</span></h5>
+    </div>-->
+                    <br />
+
+                    <h4 class="heading"><b>2.Legal Reservation Information</b></h4>
+                    <table border="1" style="border-style:solid" width="100%" ng-repeat="info in Applicant.BulkAdmApplicantRegistrationList" template-pagination="none">
+                        <tr>
+                            <td colspan="5"><b>Reservation Category : </b>{{info.ReservationCategory}}</td>
+
+                        </tr>
+                        <tr>
+                            <td><b>Is Physically Challenged : </b>{{info.IsPhysicallyChallenged}}</td>
+                            <td colspan="2"><b>Is Self Emp : </b> {{info.IsSelfEmpDisplay}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Disability Percentage :</b> {{info.DisabilityPercentage}}</td>
+                            <td colspan="4"><b>Disability Type : </b>{{info.DisabilityType}}</td>
+                        </tr>
+                    </table>
+                    <!--<div ng-if="AdmApplicantRegistrationList1.length < 0">
+        <h5><span style="color:red">Please Fill all Personal details.</span></h5>
+    </div>-->
+                    <br />
+                    <!--style="border:outset"-->
+                    <h4 class="heading"><b>3.Education Details</b></h4>
+                    <table class="t4" id="res-config1" width="100%" template-pagination="none">
+                        <tbody>
+                            <tr ng-repeat="EducationDetailsData in Applicant.BulkProfileEducationDetailsList">
+                                <td data-title="'Education Level'" style="border-top:none;width:10px;text-align:center;">
+                                    <label>{{EducationDetailsData.EligibleDegreeName}}</label>
+                                </td>
+                                <td data-title="'Board/ University'" style="border-top:none;text-align:center;">
+                                    <label>{{EducationDetailsData.ExaminationBodyName}}</label>
+                                </td>
+                                <td data-title="'Name of School/ College'" style="border-top:none;text-align:center;">
+                                    <label>{{EducationDetailsData.InstituteAttended}}</label>
+                                </td>
+                                <td data-title="'Month & Year of Passing'" style="border-top:none;text-align:center;">
+                                    <label>{{EducationDetailsData.ExamPassMonth}} {{EducationDetailsData.ExamPassYear}}</label>
+                                </td>
+                                <td data-title="'Class'" style="border-top:none;text-align:center;">
+                                    <label>{{EducationDetailsData.ClassName}}</label>
+                                </td>
+                                <td data-title="'CGPA'" style="border-top:none;text-align:center;">
+                                    <label>{{EducationDetailsData.CGPA}}</label>
+                                </td>
+                                <td data-title="'Percentage'" style="border-top:none;text-align:center;">
+                                    <label>{{EducationDetailsData.Percentage}}</label>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <!--<div ng-if="ProfileEducationDetailsList == null">
+        <h5><span style="color:red">Please Fill Education details.</span></h5>
+    </div>-->
+                    <br />
+
+                    <h4 class="heading"><b>4.Add On Details</b></h4>
+                    <table ng-if="Applicant.objBulkAddOnDocsLst.length > 0">
+                        <tr>
+                            <td><b>Sr.No.</b></td>
+                            <td><b>Title</b></td>
+                            <td><b>Marks/ CGPA/ Grade</b></td>
+                        </tr>
+                        <tr ng-repeat="AddOnCriteria in Applicant.objBulkAddOnDocsLst">
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{AddOnCriteria.TitleName}}</td>
+                            <td>
+                                <span ng-if="AddOnCriteria.Id != 0">
+                                    <label>{{AddOnCriteria.AddOnValue}}</label>
+                                </span>
+                                <span ng-if="AddOnCriteria.Id == 0">
+                                    NA
+                                </span>
+                            </td>
+                        </tr>
+
+                    </table>
+                    <div ng-if="Applicant.objBulkAddOnDocsLst.length == 0" class="row" style="color:black;margin:1px;border:1px solid;text-align:center;padding:10px;">
+                        No Records for Display
+                    </div>
+
+                    <br />
+
+                    <h4 class="heading"><b>5.Group Preference Details</b></h4>
+
+                    <table ng-if="Applicant.objPreferenceLst.length > 0">
+                        <tr>
+                            <td><b>Sr.No.</b></td>
+                            <td><b>Group Name</b></td>
+                            <td><b>Preference No.</b></td>
+                        </tr>
+                        <tr ng-repeat="Group in Applicant.objPreferenceLst">
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{Group.GroupName}}</td>
+                            <td>{{Group.PreferenceNo}}</td>
+                        </tr>
+                    </table>
+                    <div ng-if="Applicant.objPreferenceLst.length == 0" class="row" style="color:black;margin:1px;border:1px solid;text-align:center;padding:10px;">
+                        No Records for Display
+                    </div>
+
+                    <br />
+
+                    <h4 class="heading"><b>6.Institute Preference Details</b></h4>
+                    <table ng-if="Applicant.objInstituteLst.length > 0">
+                        <tr>
+                            <td><b>Sr.No.</b></td>
+                            <td><b>Institute Name</b></td>
+                            <td><b>Preference No.</b></td>
+                        </tr>
+                        <tr ng-repeat="Inst in Applicant.objInstituteLst">
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{Inst.InstituteName}}</td>
+                            <td>{{Inst.PreferenceNo}}</td>
+                        </tr>
+
+                    </table>
+                    <div ng-if="Applicant.objInstituteLst.length == 0" class="row" style="color:black;margin:1px;border:1px solid;text-align:center;padding:10px;">
+                        No Records for Display
+                    </div>
+
+                    <br />
+
+                    <h4 class="heading"><b>7.Documents</b></h4>
+                    <table border="1" style="border-style:solid" width="100%" template-pagination="none">
+
+                        <tr ng-repeat="ObjPersonal in Applicant.objBulkApplicant">
+
+                            <td colspan="4">
+                                <label><b>Common Documents</b></label>
+
+                                <li>
+                                    <label><b>Photo Id : </b></label>
+                                    <span ng-if="ObjPersonal.PhotoIdDoc != null">
+                                        <a href="{{ObjPersonal.PhotoIdDoc}}" target="_blank">View</a>
+                                    </span>
+                                    <span ng-if="ObjPersonal.PhotoIdDoc == null">
+                                        Not Uploaded
+                                    </span>
+                                </li>
+
+                                <li>
+                                    <label><b>Date Of Birth : </b></label>
+                                    <span ng-if="ObjPersonal.DOBDoc != null">
+                                        <a href="{{ObjPersonal.DOBDoc}}" target="_blank">View</a>
+                                    </span>
+                                    <span ng-if="ObjPersonal.DOBDoc == null">
+                                        Not Uploaded
+                                    </span>
+                                </li>
+
+                                <li>
+                                    <label><b>Aadhar Card : </b></label>
+                                    <span ng-if="ObjPersonal.AadharDoc != null">
+                                        <a href="{{ObjPersonal.AadharDoc}}" target="_blank">View</a>
+                                    </span>
+                                    <span ng-if="ObjPersonal.AadharDoc == null">
+                                        Not Uploaded
+                                    </span>
+                                </li>
+
+                                <li>
+                                    <label><b>Category Document : </b></label>
+                                    <span ng-if="ObjPersonal.SocialCategoryDoc != null">
+                                        <a href="{{ObjPersonal.SocialCategoryDoc}}" target="_blank">View</a>
+                                    </span>
+                                    <span ng-if="ObjPersonal.SocialCategoryDoc == 'Not Applicable' || ObjPersonal.SocialCategoryDoc == null">
+                                        Not Uploaded
+                                    </span>
+                                </li>
+
+                                <li>
+                                    <label><b>Reservation Category : </b></label>
+                                    <span ng-if="ObjPersonal.ReservationCategoryDoc != null">
+                                        <a href="{{ObjPersonal.ReservationCategoryDoc}}" target="_blank">View</a>
+                                    </span>
+                                    <span ng-if="ObjPersonal.ReservationCategoryDoc == 'Not Applicable' || ObjPersonal.ReservationCategoryDoc == null">
+                                        Not Uploaded
+                                    </span>
+                                </li>
+
+                                <li>
+                                    <label><b>EWS : </b></label>
+                                    <span ng-if="ObjPersonal.EWSDoc != null">
+                                        <a href="{{ObjPersonal.EWSDoc}}" target="_blank">View</a>
+                                    </span>
+                                    <span ng-if="ObjPersonal.EWSDoc == 'Not Applicable' || ObjPersonal.EWSDoc == null">
+                                        Not Uploaded
+                                    </span>
+                                </li>
+
+                                <li>
+                                    <label><b>Disability Doc : </b></label>
+                                    <span ng-if="ObjPersonal.PCDoc != null">
+                                        <a href="{{ObjPersonal.PCDoc}}" target="_blank">View</a>
+                                    </span>
+                                    <span ng-if="ObjPersonal.PCDoc == 'Not Applicable' || ObjPersonal.PCDoc == null">
+                                        Not Uploaded
+                                    </span>
+                                </li>
+
+                                <li>
+                                    <label><b>Applicant Photo : </b></label>
+                                    <span ng-if="ObjPersonal.ApplicantPhoto != null">
+                                        <a href="{{ObjPersonal.ApplicantPhoto}}" target="_blank">View</a>
+                                    </span>
+                                    <span ng-if="ObjPersonal.ApplicantPhoto == null">
+                                        Not Uploaded
+                                    </span>
+                                </li>
+
+                                <li>
+                                    <label><b>Applicant Signature : </b></label>
+                                    <span ng-if="ObjPersonal.ApplicantSignature != null">
+                                        <a href="{{ObjPersonal.ApplicantSignature}}" target="_blank">View</a>
+                                    </span>
+                                    <span ng-if="ObjPersonal.ApplicantSignature == null">
+                                        Not Uploaded
+                                    </span>
+                                </li>
+
+                            </td>
+
+                        </tr>
+                        <tr>
+
+                            <td>
+                                <label><b>Education Documents</b></label>
+                                <li colspan="4" ng-if="Applicant.objBulkEduLst.length > 0" ng-repeat="ObjEdu in Applicant.objBulkEduLst">
+                                    <label><b>{{ObjEdu.EligibleDegreeName}} : </b></label>
+                                    <span ng-if="ObjEdu.AttachDocument != null">
+                                        <a href="{{ObjEdu.AttachDocument}}" target="_blank">View</a>
+                                    </span>
+                                    <span ng-if="ObjEdu.AttachDocument == null">
+                                        Not Uploaded
+                                    </span>
+                                </li>
+                                <br />
+                                <span ng-if="Applicant.objBulkEduLst.length == 0">
+                                    <label>No Records for Display</label>
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label><b>Required Submitted Documents</b></label>
+                                <li colspan="4" ng-if="Applicant.objBulkSubDocsLst.length > 0" ng-repeat="sdocument in Applicant.objBulkSubDocsLst">
+
+                                    <span ng-if="sdocument.IsCompulsoryDocument == 'True'"><b>{{sdocument.NameOfTheDocument}}</b></span>
+                                    <span ng-if="sdocument.IsCompulsoryDocument == 'False' || sdocument.IsCompulsoryDocument == null">{{sdocument.NameOfTheDocument}}</span>
+
+
+
+                                    <!--<label>{{sdocument.NameOfTheDocument}}</label>-->
+                                    <span ng-if="sdocument.Id != 0">
+
+                                        <a href="{{sdocument.FileNameofDocumnetBySystem}}" target="_blank">View</a>
+                                    </span>
+                                    <span ng-if="sdocument.Id == 0">
+                                        Not Uploaded
+                                    </span>
+                                </li>
+                                <br />
+                                <span ng-if="Applicant.objBulkSubDocsLst.length == 0">
+                                    <label>No Records for Display</label>
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <!--style=" padding-bottom: 128px; "-->
+                            <td>
+                                <label><b>Additional Documents</b></label>
+
+                                <li colspan="4" ng-if="Applicant.objBulkAdditionalDocsLst.length > 0" ng-repeat="additional in Applicant.objBulkAdditionalDocsLst">
+                                    <label><b>{{additional.DocName}}</b></label>
+
+                                    <span>
+                                        <a href="{{additional.DocFileName}}" target="_blank">View</a>
+                                    </span>
+
+                                </li>
+                                <br />
+                                <span ng-if="Applicant.objBulkAdditionalDocsLst.length == 0">
+                                    <label>No Records for Display</label>
+                                </span>
+                               
+                                <div style="page-break-after: always"></div>
+                                <br />
+
+                            </td>
+                            
+                        </tr>     
+                        
+                    </table>   
+                    
+                </td>
+            </tr>
+        </table>    
+        
+    </div>    
+</div>
+
+

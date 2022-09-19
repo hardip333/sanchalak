@@ -1,0 +1,100 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="RefundStudentReportForFacultyCtrl">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Refund Students Report For Faculty</h4>
+                </div>
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="RefundStudentReportForFaculty">
+
+                            <div class="form-group row" ng-init="getFacultyById()">
+                                <div class="col-sm-2">Faculty Name</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <label>{{Faculty.FacultyName}} - {{Faculty.Id}}</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-4">
+                                        <button type="button" id="btnsubmit" ng-click="getRefundStudentReportforFaculty()" class="btn btn-success">&nbsp; Submit</button>
+                                        <!--<button class="btn btn-success" ng-click="addEligibilityGroup()">Add</button>-->
+                                        <button class="btn btn-disabled disabled" ng-click="cancelPostProgInsPartTermList()">Cancel</button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="RefundStudentReportforFacultyTableParams" show-filter="true">
+                                    <tbody ng-repeat="RefundStudentReportForFaculty in $data">
+                                        <tr>
+                                            <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;text-align:center"><label>{{RefundStudentReportForFaculty.IndexId}}</label></td>
+                                            <td data-title="'Academic Year Code.'" filter="{AcademicYearCode: 'text'}" sortable="'AcademicYearCode'" style="border-top:none;text-align:center"><label>{{RefundStudentReportForFaculty.AcademicYearCode}}</label></td>
+                                            <td data-title="'Faculty Name'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style="border-top:none;text-align:center"><label>{{RefundStudentReportForFaculty.FacultyName}}</label></td>
+                                            <td data-title="'Branch Name'" filter="{BranchName: 'text'}" sortable="'BranchName'" style="border-top:none;"><label>{{RefundStudentReportForFaculty.BranchName}}</label></td>
+                                            <td data-title="'Programme Name'" filter="{ProgrammeName: 'text'}" sortable="'ProgrammeName'" style="border-top:none;"><label>{{RefundStudentReportForFaculty.ProgrammeName}}</label></td>
+                                            <td data-title="'Instance Part Term Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style="border-top:none;"><label>{{RefundStudentReportForFaculty.InstancePartTermName}}</label></td>
+                                            <td data-title="'Total Fee Amount'" filter="{MobileNo: 'text'}" sortable="'TotalAmount'" style="border-top:none;"><label>{{RefundStudentReportForFaculty.TotalAmount}}</label></td>
+                                            <td data-title="'Total Paid Fees'" filter="{AmountPaid: 'text'}" sortable="'AmountPaid'" style="border-top:none;"><label>{{RefundStudentReportForFaculty.AmountPaid}}</label></td>
+                                            <td data-title="'Refunded Amount'" filter="{RefundAmountByAcademic: 'text'}" sortable="'RefundAmountByAcademic'" style="border-top:none;"><label>{{RefundStudentReportForFaculty.RefundAmountByAcademic}}</label></td>
+                                            <td data-title="'Refunded On'" filter="{RefundedOn: 'text'}" sortable="'RefundedOn'" style="border-top:none;"><label>{{RefundStudentReportForFaculty.RefundedOn}}</label></td>
+
+                                        </tr>
+                                    </tbody>
+                                </table><br />
+                                <div layout="row" style="margin-top:3px" class="float-left">
+
+                                    <button ng-click="exportData()" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="min-width:40px;">Export to Excel </button>
+
+
+                                </div>
+                                <div ng-if="checkDataExists">
+
+                                    <div style="color:red;margin:1px;text-align:center;padding:10px;">No Records available for Particular Programme.</div>
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+
+                            <div class="form-group row">
+                                <div class="col-sm-2" ng-if="checkDataExists == false && AllSmsFlag == true">
+
+                                    <button type="button" ng-click="SendBulkSMStoApplicant(applicantTable)" class="btn btn-info">&nbsp;Send Bulk SMS</button>&nbsp;
+                                </div>
+                                <div class="col-sm-3" ng-if="checkDataExists == false && AllEmailFlag == true">
+
+                                    <button type="button" ng-click="SendBulkEmailtoApplicant(applicantTable)" class="btn btn-info">&nbsp;Send Bulk Email</button>&nbsp;
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

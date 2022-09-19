@@ -1,0 +1,299 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+
+    /*   for table*/
+    .card .card-block table tr {
+        padding-bottom: 20px;
+    }
+
+    .table td {
+        padding: .25rem;
+    }
+
+    .table label {
+        margin-bottom: 0px;
+        margin-top: 8px;
+    }
+  
+    /*  for button in table*/
+    .table button {
+        width: 45px;
+        height: 40px;
+        padding: 0px;
+    }
+
+        .table button i {
+            margin-right: 0px;
+        }
+
+
+    .ng-table th.sortable .sort-indicator {
+        padding-right: 18px;
+        position: relative;
+        white-space: normal;
+    }
+
+        .ng-table th.sortable .sort-indicator:after, .ng-table th.sortable .sort-indicator:before {
+            content: "";
+            border-width: 0 4px 4px;
+            border-style: solid;
+            border-color: #000 transparent;
+            visibility: hidden;
+            right: 5px;
+            top: 50%;
+            position: absolute;
+            opacity: .3;
+        }
+
+    .ng-table th.sortable.sort-desc .sort-indicator:after {
+        border-bottom: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid #000;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:before {
+        opacity: 1;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:after {
+        opacity: 1;
+        visibility: hidden;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-init="setValue();">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card" style="margin-bottom: 15px;">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4 style="margin-bottom:0px;">Exam Form Generation</h4></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-6">
+                    <div class="card" style="margin-bottom: 0px;">
+                        <div class="card-body" style="padding:10px 20px 5px 20px;">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <label class="form-label">Exam Event</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <examevent-select style="margin-bottom:3px;" ng-model="filter.ExamMasterId" ng-change="getExamFormMasterPartTermStatusGet()"></examevent-select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12" ng-hide="showCoursesFlag">
+                    <div class="card" style="margin-bottom:100px;">
+                        <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                            <h3 class="card-title float-left" style="font-size:18px;">List of Schedules</h3>
+                        </div>
+
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table id="ApplicationStatsId" class="table table-striped table-bordered" ng-table="formTableParams" show-filter="true" style="text-align:center;">
+                                    <thead style="vertical-align: middle">
+                                        <tr style="text-align:center;">
+                                            <th style="width:auto;text-align:left;" rowspan="2">Schedule</th>
+                                            <th style="width:auto;text-align:center;" colspan="2">
+                                                Fresher
+                                            </th>
+                                            <th style="width: auto; text-align: center;" colspan="2">Repeater</th>
+                                            <th style="width: auto; text-align: center;" colspan="2">Never <br /> Appeared</th>
+
+                                            <th style="width: auto; text-align: center;" rowspan="2">Actions</th>
+                                        </tr>
+                                        <tr>
+                                            <th style="width: auto; text-align: center;">
+                                                Available
+                                            </th>
+                                            <th style="width: auto; text-align: center;">
+                                                Generated
+                                            </th>
+                                    
+                                            <th style="width: auto; text-align: center;">
+                                                Available
+                                            </th>
+                                            <th style="width: auto; text-align: center;">
+                                                Generated
+                                            </th>
+                            
+                                            <th style="width: auto; text-align: center;">
+                                                Available
+                                            </th>
+                                            <th style="width: auto; text-align: center;">
+                                                Generated
+                                            </th>
+                                      
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="text-align:center" ng-repeat="form in $data">
+                                            <td data-title="'Schedule'" filter="{'ScheduleCode': 'text'}" sortable="'ScheduleCode'" style="border-top:none;text-align:left;">
+                                                <label style="text-align:left;">{{form.ScheduleCode}}</label>
+                                            </td>
+                                 
+                                            <td data-title="'Fresher'" filter="{'FreshersAvailable': 'text'}" sortable="'FreshersAvailable'" style="border-top:none;">
+                                                <label style="text-align:center;">{{form.FreshersAvailable}}</label>
+                                            </td>
+                                            <td data-title="'Fresher'" filter="{'FreshersGenerated ': 'text'}" sortable="'FreshersGenerated '" style="border-top:none;">
+                                                <label style="text-align:center;">{{form.FreshersGenerated}}</label>
+                                            </td>
+                                 
+                                            <td data-title="'Repeater'" filter="{'RepeaterAvailable ': 'text'}" sortable="'RepeaterAvailable'" style="border-top:none;">
+                                                <label style="text-align:center;">{{form.RepeaterAvailable }}</label>
+                                            </td>
+                                            <td data-title="'Repeater'" filter="{'RepeaterGenerated': 'text'}" sortable="'RepeaterGenerated'" style="border-top:none;">
+                                                <label style="text-align:center;">{{form.RepeaterGenerated}}</label>
+                                            </td>
+                                      
+                                            <td data-title="'Never Appeared'" filter="{'NeverAppeareadAvailable': 'text'}" sortable="'NeverAppeareadAvailable '" style="border-top:none;">
+                                                <label style="text-align:center;">{{form.NeverAppeareadAvailable}}</label>
+                                            </td>
+                                            <td data-title="'Never Appeared'" filter="{'NeverAppeareadGenerated': 'text'}" sortable="'NeverAppeareadGenerated   '" style="border-top:none;">
+                                                <label style="text-align:center;">{{form.NeverAppeareadGenerated}}</label>
+                                            </td>
+                                
+
+                                            <td data-title="'Actions'" style="border-top:none;">
+                                                <div layout="row" style="padding:0px;">
+                                                    <span flex></span>
+                                                    <!--<button type="button" title="Generate/Process" ng-click="addExamFormMasterAdd(form)" class="tabledit-edit-button btn btn-primary waves-effect waves-light">-->
+                                                        <!--<span class="icofont icofont-file" style="font-size:17px;font-weight:500;"></span>-->
+                                                    <!--<i class="fa fa-spinner"></i>
+                                                    </button>-->
+                                                    <button type="button" title="courses" ng-click="attachCourse(form) ; getExamFormMasterPartTermStatusGetByCourseScheduleMap(form)" class="tabledit-edit-button btn btn-secondary waves-effect waves-light" style="margin-left:10px;">
+                                                        <i class="fa fa-info"></i>
+                                                        <!--<span class="icofont icofont-info" style="font-size:17px;font-weight:500;"></span>-->
+                                                    </button>
+                                                   <span flex></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12" ng-show="showCoursesFlag">
+                    <div class="card" style="margin-bottom:100px;">
+                        <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                            <h3 class="card-title float-left" style="font-size:18px;">List of Courses</h3>
+                            <div class="float-right">
+                                <button type="button" ng-click="cancelCourse()" class="tabledit-edit-button btn btn-primary waves-effect waves-light "><i class="fa fa-reply"></i> Back </button>
+                            </div>
+                        </div>
+
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table id="ApplicationStatsId" class="table table-striped table-bordered" ng-table="coursesTableParams" show-filter="true" style="text-align:center;">
+                                    <thead style="vertical-align: middle">
+                                        <tr style="text-align:center;">
+                                            <th style="width:auto;text-align:center;" rowspan="2">Courses</th>
+                                            <th style="width:auto;text-align:center;" rowspan="2">Branch</th>
+                                            <th style="width:auto;text-align:center;" colspan="2">
+                                                Fresher
+                                            </th>
+                                            <th style="width: auto; text-align: center;" colspan="2">Repeater</th>
+                                            <th style="width: auto; text-align: center;" colspan="2">Never <br /> Appeared</th>
+
+                                            <th style="width: auto; text-align: center;" rowspan="2">Actions</th>
+                                        </tr>
+                                        <tr>
+                                            <th style="width: auto; text-align: center;">
+                                                Available
+                                            </th>
+                                            <th style="width: auto; text-align: center;">
+                                                Generated
+                                            </th>
+                                     
+                                            <th style="width: auto; text-align: center;">
+                                                Available
+                                            </th>
+                                            <th style="width: auto; text-align: center;">
+                                                Generated
+                                            </th>
+
+                                            <th style="width: auto; text-align: center;">
+                                                Available
+                                            </th>
+                                            <th style="width: auto; text-align: center;">
+                                                Generated
+                                            </th>
+                                    
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="text-align:center" ng-repeat="courses in $data">
+
+                                            <td data-title="'Courses'" filter="{'ProgInstancePartTerm': 'text'}" sortable="'ProgInstancePartTerm'" style="border-top: none; text-align: left; white-space: unset !important;">
+                                                <label style="text-align: left; font-size: 13px; white-space: unset !important;">{{courses.ProgrammePartTermName}} </label>
+                                            </td>
+
+                                            <td data-title="'Branch'" filter="{'BranchName': 'text'}" sortable="'BranchName'" style="border-top: none; text-align: left; white-space: unset !important;">
+                                                <label style="text-align: left; font-size: 13px; white-space: unset !important;">{{courses.BranchName}} </label>
+                                            </td>
+                                            <td data-title="'Fresher'" filter="{'FreshersAvailable': 'text'}" sortable="'FreshersAvailable'" style="border-top:none;">
+                                                <label style="text-align: center; font-size: 13px;">{{courses.FreshersAvailable}}</label>
+                                            </td>
+                                            <td data-title="'Fresher'" filter="{'FreshersGenerated ': 'text'}" sortable="'FreshersGenerated '" style="border-top:none;">
+                                                <label style="text-align: center; font-size: 13px;">{{courses.FreshersGenerated}}</label>
+                                            </td>
+
+                                            <td data-title="'Repeater'" filter="{'RepeaterAvailable ': 'text'}" sortable="'RepeaterAvailable'" style="border-top:none;">
+                                                <label style="text-align: center; font-size: 13px;">{{courses.RepeaterAvailable }}</label>
+                                            </td>
+                                            <td data-title="'Repeater'" filter="{'RepeaterGenerated': 'text'}" sortable="'RepeaterGenerated'" style="border-top:none;">
+                                                <label style="text-align: center; font-size: 13px;">{{courses.RepeaterGenerated}}</label>
+                                            </td>
+
+                                            <td data-title="'Never Appeared'" filter="{'NeverAppeareadAvailable': 'text'}" sortable="'NeverAppeareadAvailable '" style="border-top:none;">
+                                                <label style="text-align: center; font-size: 13px;">{{courses.NeverAppeareadAvailable}}</label>
+                                            </td>
+                                            <td data-title="'Never Appeared'" filter="{'NeverAppeareadGenerated': 'text'}" sortable="'NeverAppeareadGenerated   '" style="border-top:none;">
+                                                <label style="text-align: center; font-size: 13px;">{{courses.NeverAppeareadGenerated}}</label>
+                                            </td>
+                                            <td data-title="'Actions'" style="border-top:none;">
+                                                <div layout="row" style="padding:0px;">
+                                                    <span flex></span>
+                                                    <button type="button" title="Generate/Process" ng-click="addExamFormMasterAddByCourseScheduleMapId(courses)" class="tabledit-edit-button btn btn-primary waves-effect waves-light">
+                                                        <span class="icofont icofont-spinner" style="font-size:17px;font-weight:500;"></span>
+                                                    </button>
+                                                    <!--<button type="button" title="courses" ng-click="attachCourse(form) ; getExamFormMasterPartTermStatusGetByCourseScheduleMap(form)" class="tabledit-edit-button btn btn-secondary waves-effect waves-light" style="margin-left:10px;">-->
+                                                    <!--<i class="fa fa-info"></i>-->
+                                                    <!--<span class="icofont icofont-info" style="font-size:17px;font-weight:500;"></span>
+               </button>-->
+                                                    <span flex></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

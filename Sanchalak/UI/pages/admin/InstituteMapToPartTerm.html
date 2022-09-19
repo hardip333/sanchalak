@@ -1,0 +1,226 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left">
+                            <h4>Group-Preference-Instance Part Term Mapping:</h4>
+                        </div>
+                      
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                  
+                    <div class="col-md-12 offset-md-2">
+                        <form name="InstancePartTermMapping">
+
+                            <div class="form-group row" ng-init="getFacultyById()">
+                                <div class="col-sm-2">Faculty Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <label>{{Institute.FacultyName}} - {{Institute.Id}}</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">Institute Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <label>{{Institute.InstituteName}} - {{Institute.Id}}</label>
+
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getAcademicList()">
+                                <div class="col-sm-2">Select Academic Year:<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgInst.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcadList" ng-change="getProgrammeList()" class="form-control" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Select Programme Name:<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgInst.ProgrammeId" ng-options="d.Id as d.ProgrammeName for d in ProgrammeNameList"  ng-change="getBranchListByProgrammeId()" class="form-control"  required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Select Branch Name:<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgInst.SpecialisationId" ng-options="d.Id as d.BranchName for d in BranchList" ng-change="getProgrammePartListByProgrammeId()" class="form-control"  required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Select Programme Instance Part Name:<span style="color:red;"> * </span></div>
+
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgInst.ProgrammePartId" ng-options="d.Id as d.PartShortName for d in ProgPartList"  ng-change="getProgPartTermListByPartId()" class="form-control"  required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Select Programme Instance Part Term Name:<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgInst.ProgInstPartTermId" ng-options="d.Id as d.InstancePartTermName for d in ProgPartTermList" class="form-control"  required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="ShowPreferenceDetails()">Submit</button>
+                                       
+                                        <button type="reset" class="btn btn-warning" ng-click="resetMapToPartTerm()">Clear Selection</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div ng-show="NoRecLabel">
+                        <label id="NoRecLbl" style="font:bold; font-size:medium; color:red;">No Record Found!.</label>
+                    </div>
+                    <div class="card-header" ng-show="IsVisibleHeader">
+
+                        <div>
+                            <h4>Add Group-Preference Details:</h4>
+                        </div>
+
+
+                    </div>
+                    <div class="card-block" ng-show="IsVisible">
+
+                        <div class="col-md-12 offset-md-2">
+
+                            <form>
+                                <div class="form-group row">
+                                    <div class="col-sm-2">Select Group Name: <span style="color:red;"> * </span></div>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <span class="nullable">
+                                                <select ng-model="ProgInst.CodeId" ng-options="d.Id as d.GroupCode for d in GroupCodeList" class="form-control" name="ProgPartTermShortNamedropdown" required>
+                                                    <option value="" disabled selected>-- select --</option>
+                                                </select>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-2">Select Preference Code:<span style="color:red;"> * </span></div>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <span class="nullable">
+                                                <select ng-model="ProgInst.PreferenceId" ng-options="d.Id as d.GroupName for d in PreferenceGroupList" class="form-control" name="ProgPartTermShortNamedropdown" required>
+                                                    <option value="" disabled selected>-- select --</option>
+                                                </select>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-2">Select Programme Instance Part Term Name:<span style="color:red;"> * </span></div>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <span class="nullable">
+                                                <select ng-model="ProgInst.DestinationIncProgInstPartTermId" ng-options="d.Id as d.InstancePartTermName for d in IncProgPartTermList" [value]="ProgInst.ProgrammePartTermId" class="form-control" name="ProgPartTermShortNamedropdown" required>
+                                                    <option value="" disabled selected>-- select --</option>
+                                                </select>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 offset-md-2">
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <button class="btn btn-success" ng-click="MstPreferenceCodeMapAdd()">Add</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <div class="table-responsive" ng-init="MstPreferenceCodeMapGetByIns()">
+                        <table id="example" class="table table-striped table-bordered" show-filter="true">
+                            <thead>
+
+                                <tr>
+                                    <th>Sr.No</th>
+                                    <th>GroupCode</th>
+                                    <th>GroupName</th>
+                                    <th>SourcePartTermName</th>
+                                    <th>DestinationPartTermName</th>
+
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

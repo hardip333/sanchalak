@@ -1,0 +1,59 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="SocialCategoryCtrl" ng-init="getSCList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Social Category Master</h4>
+                </div>
+                <div class="card-block">
+                    <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Back</button><br /><br />
+                    <form ng-model="SC" name="SCAdd">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Social Category Name <span style="color:red">*</span>:</label>
+                            <div class="col-sm-10 col-lg-9 col-md-9">
+                                <input type="text" class="form-control" ng-model="SC.SocialCategoryName" placeholder="Type Your Social Category Name" name="SocialCategoryName" required>
+                                <span ng-show="SCAdd.SocialCategoryName.$touched && SCAdd.SocialCategoryName.$invalid" style="color:red">This Field is required.</span>
+                            </div>
+
+                            <label class="col-sm-2 col-form-label">Social Category Code<span style="color:red">*</span>:</label>
+                            <div class="col-sm-10 col-lg-9 col-md-9">
+                                <input type="text" class="form-control" ng-model="SC.SocialCategoryCode" placeholder="Type Social Category Code" name="SocialCategoryCode" required>
+                                <span ng-show="SCAdd.SocialCategoryCode.$touched && SCAdd.SocialCategoryCode.$invalid" style="color:red">This Field is required.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button class="btn btn-success" ng-click="addSC()">Add </button>
+                                <button class="btn btn-disabled disabled" ng-click="cancelSC()">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="SocialCategoryTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="SC in $data">
+                                            <td data-title="'Social Category Name'" filter="{SocialCategoryName: 'text'}" sortable="'SocialCategoryName'" style="text-align:center;"><label>{{SC .SocialCategoryName}}</label></td>
+                                            <td data-title="'Social Category Code'" filter="{SocialCategoryCode: 'text'}" sortable="'SocialCategoryCode'" style="text-align:center;"><label>{{SC .SocialCategoryCode}}</label></td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

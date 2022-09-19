@@ -1,0 +1,68 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="ExaminationBodyCtrl"  ng-init="getExaminationBody()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Add Examination Body Master</h4></div>
+                        <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+                    </div>                  
+                </div>
+
+                <div class="card-block">
+                    
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="ExaminationBody">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Examination Body Code</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="ExaminationBodyCode" class="form-control" ng-model="ExaminationBody.ExaminationBodyCode" placeholder="Type Examination Body Code" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Examination Body Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="ExaminationBodyName" class="form-control" ng-model="ExaminationBody.ExaminationBodyName" placeholder="Type Examination Body Name" required />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="addExaminationBody()">Add</button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetExaminationBody()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="ExaminationBodyTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="ExaminationBody in $data">
+                                            <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                            <td data-title="'ExaminationBody Code'" filter="{ExaminationBodyCode: 'text'}" sortable="'ExaminationBodyCode'" style=" border-top: none;"><label>{{ExaminationBody.ExaminationBodyCode}}</label></td>
+                                            <td data-title="'ExaminationBody Name'" filter="{ExaminationBodyName: 'text'}" sortable="'ExaminationBodyName'" style=" border-top: none;"><label>{{ExaminationBody.ExaminationBodyName}}</label></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

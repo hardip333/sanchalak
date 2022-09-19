@@ -1,0 +1,744 @@
+﻿
+<style>
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+
+
+    .card .card-block ul {
+        float: right !important;
+    }
+
+
+</style>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12" ng-show="showScheduleMaterListFlag">
+            <!-- Basic Form Inputs card start -->
+            <div class="card" style="margin-bottom:0px;">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Schedule Master</h4></div>
+                        <div class="float-right"> <button type="button" ng-click="cancelItems()" class="tabledit-edit-button btn btn-primary waves-effect waves-light "><i class="ti-close"></i>  </button></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-6">
+                    <div class="card" style="margin-bottom: 0px;">
+                        <div class="card-body" style="padding:10px 20px 20px 20px;">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <label class="form-label">Faculty</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <faculty-select style="margin-bottom:3px;" ng-model="ScheduleMaster.FacultyId" ></faculty-select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label class="form-label">Exam Event</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <examevent-select style="margin-bottom:3px;" ng-model="ScheduleMaster.ExamMasterId"></examevent-select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label class="form-label">Institute</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <institute-select style="margin-bottom:3px;" ng-model="ScheduleMaster.InstituteId"></institute-select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <label class="form-label">Start Date</label>
+                                    <div class="form-group">
+                                        <div>
+                                            <input class="form-control" ng-model="ScheduleMaster.StartDateOfExam" type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" id="date1" placeholder="Start Date">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label class="form-label">End Date</label>
+                                    <div class="form-group">
+                                        <div>
+                                            <input class="form-control" ng-model="ScheduleMaster.EndDateOfExam" type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" id="date2" placeholder="End Date">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label class="form-label">Probable Date</label>
+                                    <div class="form-group">
+                                        <div>
+
+                                            <input class="form-control" ng-model="ScheduleMaster.ProbableDateOfResult" type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" id="date3" placeholder="Probable Date">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div layout="row">
+                                        <label class="form-label" style="height:21px;">Schedule Code</label>
+                                        <span flex></span>
+                                        <p class="input-length" style="margin-bottom:0px;">{{ScheduleMaster.ScheduleCode.length}} / 50</p>
+                                    </div>
+                                    <div class="form-group" style="height:38px;">
+                                        <input type="text" class="form-control" name="example-text-input" placeholder="Enter Schedule Code" ng-model="ScheduleMaster.ScheduleCode" limit-to="50">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-6">
+                    <div class="card">
+                        <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                            <h3 class="card-title" style="font-size:18px;">Last Date For Accepting The Examinations Forms</h3>
+                        </div>
+                        <!--<div class="card-block">
+                            <div class="table-responsive">
+                                <table id="ApplicationStatsId" class="table table-bordered" ng-table="ExameventTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr style="text-align:center">
+                                            <td data-title="''"  style="border-top:none;width:27%;"><label>Without Late Fee</label></td>
+                                            <td data-title="'For Students'"  style="border-top:none;">
+                                                <label>
+
+                                                    <input class="form-control" ng-model="ScheduleMaster.LastDateOfFeesPaymentForStudent" type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" id="date4" placeholder="Date">
+                                                </label>
+                                            </td>
+                                            <td data-title="'For College'"  style="border-top:none;">
+                                                <label>
+                                                    <input class="form-control" ng-model="ScheduleMaster.LastDateOfFeesPaymentForCollege" type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" id="date5" placeholder="Date">
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+         
+                        </div>-->
+
+                        <div class="card-block" style="padding-top:unset !important">
+                            <div class="table-responsive">
+                                <table id="ApplicationStatsId" class="table table-bordered" show-filter="true">
+                                    <thead style="vertical-align: middle">
+                                        <tr>
+                                            <th style="width:auto;"></th>
+                                            <th style="width:auto;text-align:center;">For Students</th>
+                                            <th style="width:auto;text-align:center;">For College</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr style="text-align:center">
+                                            <td data-title="''" style="border-top:none;width:27%;"><label>Without Late Fee</label></td>
+                                            <td data-title="'For Students'" style="border-top:none;">
+                                                <label>
+
+                                                    <input class="form-control" ng-model="ScheduleMaster.LastDateOfFeesPaymentForStudent" type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" id="date4" placeholder="Date">
+                                                </label>
+                                            </td>
+                                            <td data-title="'For College'" style="border-top:none;">
+                                                <label>
+                                                    <input class="form-control" ng-model="ScheduleMaster.LastDateOfFeesPaymentForCollege" type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" id="date5" placeholder="Date">
+                                                </label>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="text-align:center">
+
+                                            <td data-title="''" style="border-top:none;width:20%;">
+                                                <label>
+                                                    Examination Late Fee (6 - 10 days Prior)
+                                                </label>
+                                            </td>
+
+                                            <td data-title="''" style="border-top:none;">
+                                                <label>
+                                                    <input class="form-control" ng-model="ScheduleMaster.LateFees610DaysForStudent" type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" id="date6" placeholder="Date">
+                                                </label>
+                                            </td>
+                                            <td data-title="''" style="border-top:none;">
+                                                <label>
+                                                    <input class="form-control" ng-model="ScheduleMaster.LateFees610DaysForCollege" type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" id="date7" placeholder="Date">
+                                                </label>
+                                            </td>
+
+
+                                        </tr>
+                                        <tr style="text-align:center">
+
+                                            <td data-title="''" style="border-top:none;width:20%;">
+                                                <label>
+                                                    Examination Late Fee (2 - 5 days Prior)
+                                                </label>
+                                            </td>
+
+                                            <td data-title="''" style="border-top:none;">
+                                                <label>
+                                                    <input class="form-control" ng-model="ScheduleMaster.LateFees25DaysForStudent" type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" id="date8" placeholder="Date">
+                                                </label>
+                                            </td>
+                                            <td data-title="''" style="border-top:none;">
+                                                <label>
+                                                    <input class="form-control" ng-model="ScheduleMaster.LateFees25DaysForCollege" type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" id="date9" placeholder="Date">
+                                                </label>
+                                            </td>
+
+
+                                        </tr>
+
+                                        <tr style="text-align:center">
+                                            <td data-title="''" style="border-top:none;width:20%;">
+                                                <label>
+                                                    Examination Late Fee (03 days Prior)
+                                                </label>
+                                            </td>
+                                            <td data-title="''" style="border-top:none;">
+                                                <label>
+                                                    <input class="form-control" ng-model="ScheduleMaster.LateFees03DaysForStudent" type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" id="date10" placeholder="Date">
+                                                </label>
+                                            </td>
+                                            <td data-title="''" style="border-top:none;">
+                                                <label>
+                                                    <input class="form-control" ng-model="ScheduleMaster.LateFees03DaysForCollege" type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" id="date11" placeholder="Date">
+                                                </label>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="text-align:center">
+                                            <td data-title="''" style="border-top:none;width:20%;">
+                                                <label>
+                                                    Examination Late Fee (07 days Prior)
+                                                </label>
+                                            </td>
+                                            <td data-title="''" style="border-top:none;">
+                                                <label>
+                                                    <input class="form-control" ng-model="ScheduleMaster.LateFees07DaysForStudent" type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" id="date12" placeholder="Date">
+                                                </label>
+                                            </td>
+                                            <td data-title="''" style="border-top:none;">
+                                                <label>
+                                                    <input class="form-control" ng-model="ScheduleMaster.LateFees07DaysForCollege" type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" id="date13" placeholder="Date">
+                                                </label>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="text-align:center">
+                                            <td data-title="''" style="border-top:none;width:20%;">
+                                                <label>
+                                                    Examination Late Fee (10 days Prior)
+                                                </label>
+                                            </td>
+                                            <td data-title="''" style="border-top:none;">
+                                                <label>
+                                                    <input class="form-control" ng-model="ScheduleMaster.LateFees10DaysForStudent" type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" id="date14" placeholder="Date">
+                                                </label>
+                                            </td>
+                                            <td data-title="''" style="border-top:none;">
+                                                <label>
+
+                                                    <input class="form-control" ng-model="ScheduleMaster.LateFees10DaysForCollege" type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" id="date15" placeholder="Date">
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div layout="row" style="margin-top:3px" class="float-right">
+                                <button type="button" ng-click="saveMstFacultyExamMapAdd()" class="btn btn-success" style="margin-right:10px;">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12" ng-hide="showScheduleMaterListFlag || showAttachedCoursesFlag || showNewCoursesFlag">
+            <!-- Basic Form Inputs card start -->
+            <div class="card" style="margin-bottom:0px;">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>List of Schedule Master</h4></div>
+                        <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light "><i class="ti-pencil-alt"></i>New Entry </button></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-6">
+                    <div class="card">
+                        <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                            <h3 class="card-title" style="font-size:18px;">Already Defined Schedule</h3>
+
+                            <!--<div layout="row" style="padding:0px;">
+                                <span flex></span>
+                                <div class="float-right"> <button type="button" ng-click="attachCourses()" class="tabledit-edit-button btn btn-success waves-effect waves-light "><i class="ti-info-alt"></i> Attach Courses (Sample) </button></div>
+                                <span flex></span>
+                            </div>-->
+                        </div>
+
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table id="ApplicationStatsId" class="table table-striped table-bordered" ng-table="ScheduleMasterTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr style="text-align:center" ng-repeat="ScheduleMaster in $data">
+                                            
+                                            <td data-title="'Schedule Code.'" filter="{'ScheduleCode': 'text'}" sortable="'ScheduleCode'" style="border-top:none;width:20%;">
+                                                <label>{{ ScheduleMaster.ScheduleCode }}</label>
+                                            </td>
+                                            <td data-title="'Start Date'" filter="{'StartDateOfExam': 'text'}" sortable="'StartDateOfExam'" style="border-top:none;">
+                                                <label>{{ScheduleMaster.StartDateOfExam }}</label>
+                                            </td>
+                                            <td data-title="'End Date'" filter="{'EndDateOfExam': 'text'}" sortable="'EndDateOfExam'" style="border-top:none;">
+                                                <label>{{ScheduleMaster.EndDateOfExam }} </label>
+                                            </td>
+                                            <!--<td data-title="'Actions'" style="border-top:none;">
+                                                <div layout="row" style="padding:0px;">
+                                                    <span flex></span>
+                                                    <md-button title="Edit" ng-click="editMstFacultyExamMapAdd(ScheduleMaster)" class="md-raised md-primary" style="min-width:40px"><i class="fa fa-pencil-square-o"></i></md-button>
+                                                    <md-button title="Click to Enable" ng-click="enableMstFacultyExamMapIsActiveEnable(ScheduleMaster)" ng-hide="ScheduleMaster.IsActive " class="md-raised md-primary" style="min-width:40px;"><i class="fa fa-toggle-off"></i></md-button>
+                                                    <md-button title="Click to Disable" ng-click="disableMstFacultyExamMapIsActiveDisable(ScheduleMaster)" ng-show="ScheduleMaster.IsActive " class="md-raised md-primary" style="min-width:40px;"><i class="fa fa-toggle-on"></i></md-button>-->
+                                                    <!--<md-button title="Delete" ng-click="removeItem(Examevent)" class="md-raised" style="min-width:40px;background-color:#f00e0e;color:white"><i class="fa fa-trash-o"></i></md-button> -->
+                                                    <!--<span flex></span>
+                                                </div>
+                                            </td>-->
+                                            <td data-title="'Actions'" style="border-top:none;">
+                                                <div layout="row" style="padding:0px;">
+                                                    <span flex></span>
+                                                    <button type="button" ng-click="editMstFacultyExamMapAdd(ScheduleMaster)" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><span class="icofont icofont-ui-edit"></span></button>
+                                                    <button title="Show" ng-click="HideScheduleMaster(ScheduleMaster)" class="btn btn-success ml-2 button-size" ng-hide="ScheduleMaster.IsActive"><i class="fas fa-toggle-off"></i></button>
+                                                    <button title="Hide" ng-click="ShowScheduleMaster(ScheduleMaster)" class="btn btn-danger ml-2 button-size" ng-show="ScheduleMaster.IsActive"><i class="fas fa-toggle-on"></i></button>
+                                                    <!--<button title="Delete" ng-click="removeItem(Examevent)" class="md-raised" style="min-width:40px;background-color:#f00e0e;color:white"><i class="fa fa-trash-o"></i></button> -->
+                                                    <span flex></span>
+                                                </div>
+                                            </td>
+                                            <td data-title="'Attach Courses To Schedule'" style="border-top:none;">
+                                                <div layout="row" style="padding:0px;">
+                                                    <span flex></span>
+                                                    <button type="button" ng-click="attachCourses(ScheduleMaster)" class="tabledit-edit-button btn btn-info waves-effect waves-light"><i class="fa fa-info"></i></button>
+                                                    <span flex></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12"  ng-show="showAttachedCoursesFlag">
+            <div class="card" style="margin-bottom:0px;">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left">
+                            <h4>List of Already Attached Courses</h4>
+
+                        </div>
+                        <div class="float-left">
+
+                            <button type="button" ng-click="addNewCourse()" class="tabledit-edit-button btn btn-primary waves-effect waves-light " style="margin-left:15px;"><i class="ti-plus"></i>Add New Courses</button>
+                            <!--<h3 class="card-title">{{selectedSession.subject}} - {{selectedSession.date}}</h3>-->
+                        </div>
+                        <div class="float-right"> <button type="button" ng-click="cancel()" class="tabledit-edit-button btn btn-primary waves-effect waves-light "><i class="ti-close"></i>  </button></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12">
+                    <div class="card">
+                        <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                            <h3 class="card-title" style="font-size:18px;">Already Attached Courses</h3>
+                        </div>
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table id="ApplicationStatsId" class="table table-striped table-bordered" ng-table="newcoursesTableParams" show-filter="true">
+                                    <thead style="vertical-align: middle">
+                                        <tr>
+                                            <th style="width:auto;" rowspan="2">Programme <br />Name</th>
+                                            <th style="width:auto;" rowspan="2">Branch <br /> Name</th>
+                                            <th style="width:auto;" rowspan="2">Programme <br /> Part</th>
+                                            <th style="width:auto;" rowspan="2">Programme  <br />Part <br /> Team</th>
+                                            <th style="width:auto;" colspan="2">
+                                                Fresher
+                                            </th>
+                                            <th style="width:auto;" colspan="2">Repeater</th>
+                                            <th style="width:auto;" colspan="2">Never <br /> Appeared</th>
+                                            <th style="width:auto;" rowspan="2">Academic  <br />Year</th>
+                                            <th style="width:auto;" rowspan="2">Max- <br />TLM- <br />AM- <br />AT- <br />Count</th>
+                                            <th style="width:auto;" rowspan="2">Is <br /> Scheduled <br /> Without <br /> Exam  <br />Form</th>
+                                            <th style="width:auto;" rowspan="2">Edit</th>
+                                            <th style="width:auto;" rowspan="2">Detach</th>
+
+                                        </tr>
+
+                <tr>
+                                    <!--<th style="width:auto;">Co</th>
+              <th style="width:auto;">Branch Name</th>
+              <th style="width:auto;">Course Part</th>
+              <th style="width:auto;">Course Part Team</th>-->
+                                    <th style="width:auto;">
+                Eligible
+            </th>
+            <th style="width:auto;">
+                Provisional Eligible
+            </th>
+            <th style="width:auto;">
+                Eligible
+            </th>
+            <th style="width:auto;">
+                Provisional Eligible
+            </th>
+            <th style="width:auto;">
+                Eligible
+            </th>
+            <th style="width:auto;">
+                Provisional Eligible
+            </th>
+                                    <!--<th style="width:auto;">Regular</th>
+                <th style="width:auto;">Never Appeared</th>
+               <th style="width:auto;">Academic Year</th>
+               <th style="width:auto;">Max-TLM-AM-AT-Count</th>
+             <th style="width:auto;">Is Scheduled Without Exam Form</th>
+            <th style="width:auto;">Detach</th>-->
+                                    </tr>
+
+            </thead>
+
+                                    <tbody>
+                                        <tr style="text-align:center" ng-repeat="newcourses in $data">
+                                            <td data-title="'Programme Name'" filter="{'ProgrammeName': 'text'}" sortable="'ProgrammeName'" style="border-top:none;">
+                                                <label>{{newcourses.ProgrammeName}}</label>
+                                            </td>
+                                            <td data-title="'Branch Name'" filter="{'BranchName': 'text'}" sortable="'BranchName'" style="border-top:none;">
+                                                <label>{{newcourses.BranchName}}</label>
+                                            </td>
+
+                                            <td data-title="'Programme Part'" filter="{'PartName': 'text'}" sortable="'PartName'" style="border-top:none;">
+                                                <label>{{newcourses.PartName}}</label>
+                                            </td>
+                                            <td data-title="'Programme Part Team'" filter="{'InstancePartTermName': 'text'}" sortable="'InstancePartTermName'" style="border-top:none;">
+                                                <label>{{newcourses.ProgrammePartTermName}} </label>
+                                            </td>
+
+                                            <td data-title="'Fresher'" filter="{'FresherEligible ': 'text'}" sortable="'FresherEligible '" style="border-top:none;">
+                                                <div ng-hide="fresherFlag">
+                                                    <label ng-if="newcourses.FresherEligible === true">Yes </label>
+                                                    <label ng-if="newcourses.FresherEligible === false">No </label>
+                                                </div>
+                                                
+                                             
+                                                <input type="checkbox" ng-model="newcourses.FresherEligible" ng-show="fresherFlag">
+                                            </td>
+                                            <td data-title="'Fresher'" filter="{'FresherProvisionalEligible ': 'text'}" sortable="'FresherProvisionalEligible '" style="border-top:none;">
+                                                <!--<label> {{newcourses.FresherProvisionalEligible }}</label>-->
+                                                <div ng-hide="fresherFlag">
+                                                    <label ng-if="newcourses.FresherProvisionalEligible === true">Yes </label>
+                                                    <label ng-if="newcourses.FresherProvisionalEligible === false">No </label>
+                                                </div>
+                                                <input type="checkbox" ng-model="newcourses.FresherProvisionalEligible" ng-show="fresherFlag">
+                                            </td>
+
+                                            <td data-title="'Repeater'" filter="{'RepeaterEligible': 'text'}" sortable="'RepeaterEligible'" style="border-top:none;">
+                                                <!--<label>{{newcourses.RepeaterEligible}} </label>-->
+                                                <div ng-hide="fresherFlag">
+                                                    <label ng-if="newcourses.RepeaterEligible === true">Yes </label>
+                                                    <label ng-if="newcourses.RepeaterEligible === false"> No </label>
+                                                </div>
+                                                
+                                          
+                                                <input type="checkbox" ng-model="newcourses.RepeaterEligible" ng-show="fresherFlag">
+                                            </td>
+                                            <td data-title="'Repeater'" filter="{'RepeaterProvisionalEligible ': 'text'}" sortable="'RepeaterProvisionalEligible '" style="border-top:none;">
+                                                <!--<label>{{newcourses.RepeaterProvisionalEligible }} </label>-->
+                                                <div ng-hide="fresherFlag">
+                                                    <label ng-if="newcourses.RepeaterProvisionalEligible === true">Yes </label>
+                                                    <label ng-if="newcourses.RepeaterProvisionalEligible === false">No </label>
+                                                </div>
+                                    
+                                                <input type="checkbox" ng-model="newcourses.RepeaterProvisionalEligible" ng-show="fresherFlag">
+
+                                               
+
+                                            </td>
+                                            <td data-title="'Never Appeared'" filter="{'NeverAppearedEligible': 'text'}" sortable="'NeverAppearedEligible'" style="border-top:none;">
+                                                <!--<label>{{newcourses.NeverAppearedEligible}}</label>-->
+                                                <div ng-hide="fresherFlag">
+                                                    <label ng-if="newcourses.NeverAppearedEligible === true">
+                                                        Yes
+
+                                                    </label>
+                                                    <label ng-if="newcourses.NeverAppearedEligible === false">
+                                                        No
+                                                    </label>
+                                                </div>
+                                         
+                                                <input type="checkbox" ng-model="newcourses.NeverAppearedEligible" ng-show="fresherFlag">
+                                            </td>
+                                            <td data-title="'Never Appeared'" filter="{'NeverAppearedProvisionalEligible ': 'text'}" sortable="'NeverAppearedProvisionalEligible '" style="border-top:none;">
+                                                <!--<label>{{newcourses.NeverAppearedProvisionalEligible }}</label>-->
+                                                <div ng-hide="fresherFlag">
+                                                    <label ng-if="newcourses.NeverAppearedProvisionalEligible === true">Yes </label>
+                                                    <label ng-if="newcourses.NeverAppearedProvisionalEligible === false">No </label>
+                                                </div>
+                                              
+                                     
+                                                <input type="checkbox" ng-model="newcourses.NeverAppearedProvisionalEligible" ng-show="fresherFlag">
+                                            </td>
+                                            <td data-title="'Academic Year'" filter="{'AcademicYearCode': 'text'}" sortable="'AcademicYearCode'" style="border-top:none;">
+                                                <label>{{newcourses.AcademicYearCode}} </label>
+                                            </td>
+
+                                            <td data-title="'Max-TLM-AM-AT-Count'" filter="{'MaxTLMAMATCount': 'text'}" sortable="'MaxTLMAMATCount'" style="border-top:none;">
+                                                <label ng-hide="fresherFlag" >{{newcourses.MaxTLMAMATCount}}</label>
+                                                <input type="text" class="form-control" name="example-text-input" ng-model="newcourses.MaxTLMAMATCount" ng-show="fresherFlag" >
+                                            </td>
+                                            <td data-title="'Is Scheduled Without Exam Form'" filter="{'IsScheduledWithOutExamForm ': 'text'}" sortable="'IsScheduledWithOutExamForm '" style="border-top:none;">
+                                                <input ng-hide="fresherFlag" type="checkbox" ng-model="newcourses.IsScheduledWithOutExamForm" ng-disabled="true" readonly="readonly">
+                                                <input ng-show="fresherFlag" type="checkbox" ng-model="newcourses.IsScheduledWithOutExamForm">
+                                            </td>
+                                       
+                                            <td data-title="'Edit'" style="border-top:none;">
+                                                <div layout="row" style="padding:0px;">
+                                                    <span flex></span>
+                                                    <button type="button" ng-click="editcourses(newcourses)" ng-hide="fresherFlag" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><span class="icofont icofont-ui-edit"></span></button>
+
+                                                    <button type="button" ng-click="MstCourseScheduleMapAdd(newcourses)" ng-show="fresherFlag" class="tabledit-edit-button btn btn-secondary waves-effect waves-light"><span class="icofont icofont-ui-add"></span></button>
+                                                    <span flex></span>
+                                                </div>
+                                            </td>
+                                            <td data-title="'Detach'"  style="border-top:none;">
+                                                <button title="Delete" type="button" ng-click="MstCourseScheduleMapDelete(newcourses)" class="tabledit-edit-button btn btn-danger waves-effect waves-light" ><span class="icofont icofont-ui-delete"></span></button>
+
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+    
+    
+        <div class="col-sm-12" ng-show="showNewCoursesFlag">
+            <div class="card" style="margin-bottom:0px;">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Add New Attached Courses</h4></div>
+                        <div class="float-right"> 
+                        <button type="button" ng-click="cancelNewCouses()" class="tabledit-edit-button btn btn-primary waves-effect waves-light "><i class="ti-close"></i>  </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-6">
+                    <div class="card" style="margin-bottom: 0px;">
+                        <div class="card-body" style="padding:10px 20px 20px 20px;">
+                            <div class="row">
+
+                                <div class="col-lg-3">
+
+                                    <label class="form-label">Programme</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <course-select style="margin-bottom:3px;" ng-model="new.ProgrammeId" ng-change="IncProgrammeInstanceGetActive(new.ProgrammeId)"></course-select>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <label class="form-label">Programme Instance</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <programmeinstance-select style="margin-bottom:3px;" ng-model="new.ProgrammeInstanceId" ng-change="PendingCourseScheduleMapList(new)"></programmeinstance-select>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!--<div class="col-lg-3">
+             <label class="form-label">Programme Instance Part Term</label>
+        <div>
+            <span class="nullable">
+                <instancepartterm-select style="margin-bottom:3px;" ng-model="new.ProgrammeInstancePartTermId" ng-change="IncProgrammePartGetById(new.ProgrammeInstancePartTermId)"></instancepartterm-select>
+            </span>
+        </div>
+    </div>-->
+                                <div class="col-lg-1" style="visibility:hidden;">
+
+                                </div>
+
+                                <div class="col-lg-2">
+                                    <div class="float-right" style="padding-top:25px;">
+                                        <button type="button" title="Update" ng-click="MstCouseScheduleMapListAdd(new)" class="tabledit-edit-button btn btn-primary waves-effect waves-light "><i class="ti-save"></i>  </button>
+                                    </div>
+                                </div>
+ 
+                            </div>
+                            </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12">
+                    <div class="card">
+                        <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                            <h3 class="card-title" style="font-size:18px;">Add New Attached Courses</h3>
+                         
+                        </div>
+                        <div class="card-block">
+
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" ng-table="newTableParams" show-filter="true">
+                                    <thead style="vertical-align: middle">
+                                        <tr>
+                                            <th style="width:auto;" rowspan="2">Programme <br />Name</th>
+                                            <th style="width:auto;" rowspan="2">Branch <br /> Name</th>
+                                            <th style="width:auto;" rowspan="2">Programme <br /> Part</th>
+                                            <th style="width:auto;" rowspan="2">Programme  <br />Part <br /> Team</th>
+                                            <th style="width:auto;" colspan="2">
+                                                Fresher
+                                            </th>
+                                            <th style="width:auto;" colspan="2">Repeater</th>
+                                            <th style="width:auto;" colspan="2">Never <br /> Appeared</th>
+                                            <th style="width:auto;" rowspan="2">Academic  <br />Year</th>
+                                            <th style="width:auto;" rowspan="2">Max- <br />TLM- <br />AM- <br />AT- <br />Count</th>
+                                            <th style="width:auto;" rowspan="2">Is <br /> Scheduled <br /> Without <br /> Exam  <br />Form</th>
+                                            <th style="width:auto;" rowspan="2">Attach</th>
+                                        </tr>
+
+                                        <tr>
+                                            <!--<th style="width:auto;">Co</th>
+                <th style="width:auto;">Branch Name</th>
+                <th style="width:auto;">Course Part</th>
+                <th style="width:auto;">Course Part Team</th>-->
+                                            <th style="width:auto;">
+                                                Eligible
+                                            </th>
+                                            <th style="width:auto;">
+                                                Provisional Eligible
+                                            </th>
+                                            <th style="width:auto;">
+                                                Eligible
+                                            </th>
+                                            <th style="width:auto;">
+                                                Provisional Eligible
+                                            </th>
+                                            <th style="width:auto;">
+                                                Eligible
+                                            </th>
+                                            <th style="width:auto;">
+                                                Provisional Eligible
+                                            </th>
+                                            <!--<th style="width:auto;">Regular</th>
+                    <th style="width:auto;">Never Appeared</th>
+                   <th style="width:auto;">Academic Year</th>
+                   <th style="width:auto;">Max-TLM-AM-AT-Count</th>
+                 <th style="width:auto;">Is Scheduled Without Exam Form</th>
+                <th style="width:auto;">Detach</th>-->
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+                                        <tr style="text-align:center" ng-repeat="new in  $data">
+                                            <td data-title="'Programme Name'" filter="{'ProgrammeName': 'text'}" sortable="'ProgrammeName'" style="border-top:none;">
+                                          
+                                                <label>{{new.ProgrammeName}}</label>
+                                            </td>
+                                            <td data-title="'Branch Name'" filter="{'BranchName': 'text'}" sortable="'BranchName'" style="border-top:none;">
+                                                <label>{{new.BranchName}}</label>
+                                            </td>
+
+                                            <td data-title="'Programme Part'" filter="{'PartName': 'text'}" sortable="'PartName'" style="border-top:none;">
+                                                <label>{{new.PartName}}</label>
+                                            </td>
+                                            <td data-title="'Programme Part Team'" filter="{'InstancePartTermName': 'text'}" sortable="'InstancePartTermName'" style="border-top:none;">
+                                                <label>{{new.ProgrammePartTermName}} </label>
+                                            </td>
+
+                                            <td data-title="'Fresher'" filter="{'FresherEligible ': 'text'}" sortable="'FresherEligible '" style="border-top:none;">
+                                                <!--<label> 1{{new.FresherEligible }}</label>-->
+                                                <input type="checkbox" ng-model="new.FresherEligible">
+                                            </td>
+                                            <td data-title="'Fresher'" filter="{'FresherProvisionalEligible ': 'text'}" sortable="'FresherProvisionalEligible '" style="border-top:none;">
+                                                <!--<label>2 {{new.fresher}}</label>-->
+                                                <input type="checkbox" ng-model="new.FresherProvisionalEligible ">
+                                            </td>
+
+                                            <td data-title="'Repeater'" filter="{'RepeaterEligible ': 'text'}" sortable="'RepeaterEligible '" style="border-top:none;">
+
+                                                <input type="checkbox" ng-model="new.RepeaterEligible ">
+                                            </td>
+
+                                            <td data-title="'Repeater'" filter="{'RepeaterProvisionalEligible ': 'text'}" sortable="'RepeaterProvisionalEligible '" style="border-top:none;">
+
+                                                <input type="checkbox" ng-model="new.RepeaterProvisionalEligible ">
+                                            </td>
+                                            <td data-title="'Never Appeared'" filter="{'NeverAppearedEligible ': 'text'}" sortable="'NeverAppearedEligible '" style="border-top:none;">
+
+                                                <input type="checkbox" ng-model="new.NeverAppearedEligible ">
+                                            </td>
+
+                                            <td data-title="'Never Appeared'" filter="{'NeverAppearedProvisionalEligible ': 'text'}" sortable="'NeverAppearedProvisionalEligible '" style="border-top:none;">
+
+                                                <input type="checkbox" ng-model="new.NeverAppearedProvisionalEligible ">
+                                            </td>
+                                            <td data-title="'Academic Year'" filter="{'AcademicYearCode': 'text'}" sortable="'AcademicYearCode'" style="border-top:none;">
+                                                <label>{{new.AcademicYearCode}} </label>
+
+                                                <!--<input type="checkbox" ng-model="new.AcademicYearCode">-->
+                                            </td>
+
+                                            <td data-title="'Max-TLM-AM-AT-Count'" filter="{'MaxTLMAMATCount ': 'text'}" sortable="'MaxTLMAMATCount '" style="border-top:none;width:30%;">
+                                                <!--<label>{{new.count}}</label>-->
+                                                <input type="text" class="form-control" name="example-text-input" ng-model="new.MaxTLMAMATCount">
+                                            </td>
+                                            <td data-title="'Is Scheduled Without Exam Form'" filter="{'IsScheduledWithOutExamForm ': 'text'}" sortable="'IsScheduledWithOutExamForm '" style="border-top:none;">
+                                                <input type="checkbox" ng-model="new.IsScheduledWithOutExamForm ">
+                                            </td>
+                                            <td data-title="'Attach'" filter="{'ToBeAttached': 'text'}" sortable="'ToBeAttached'" style="border-top:none;">
+                                                <input type="checkbox" ng-model="new.ToBeAttached">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!--<div class="col-lg-2">
+                                    <div class="float-right" style="padding-top:25px;">
+                                        <button type="button" title="Update" ng-click="MstCouseScheduleMapListAdd(new)" class="tabledit-edit-button btn btn-primary waves-effect waves-light "><i class="ti-save"></i>  </button>
+                                    </div>
+                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

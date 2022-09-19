@@ -1,0 +1,62 @@
+﻿
+<style>
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+<!--<script src="../../../app/admin/controller/alasql.js"></script>-->
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>OES Registration Pending Statistics</h4></div>
+
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="OESRegPending">
+
+                            <div class="form-group row" ng-init="getExamEventMasterList();">
+                                <div class="col-sm-2">Select Exam Event<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="OESRegPending.ExamEventId" ng-options="d.Id as d.DisplayName for d in ExamEventList " class="form-control" id="Instdropdown1" name="Instdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="text-align: center;width:50%">
+                                <button class="btn btn-success" ng-click="getOESPaperRegPending()">Export To OES Paper </button>
+                                <button class="btn btn-success" ng-click="getOESStudentRegPending()">Export To OES Student </button>
+                                <button class="btn btn-success" ng-click="getOESStudentPaperMapRegPending()">Export To OES Student Paper Map </button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-block">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

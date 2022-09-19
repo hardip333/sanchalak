@@ -1,0 +1,238 @@
+﻿
+<style>
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+
+    /*   for table*/
+    .card .card-block table tr {
+        padding-bottom: 20px;
+    }
+
+    .table td {
+        padding: .25rem;
+    }
+
+    .table label {
+        margin-bottom: 0px;
+        margin-top: 8px;
+    }
+
+    /*  for button in table*/
+    .table button {
+        width: 45px;
+        height: 40px;
+        padding: 0px;
+    }
+
+        .table button i {
+            margin-right: 0px;
+        }
+
+    /*  for sort indicator*/
+    .ng-table th.sortable .sort-indicator {
+        padding-right: 18px;
+        position: relative;
+        white-space: normal;
+    }
+
+        .ng-table th.sortable .sort-indicator:after, .ng-table th.sortable .sort-indicator:before {
+            content: "";
+            border-width: 0 4px 4px;
+            border-style: solid;
+            border-color: #000 transparent;
+            visibility: hidden;
+            right: 5px;
+            top: 50%;
+            position: absolute;
+            opacity: .3;
+        }
+
+    .ng-table th.sortable.sort-desc .sort-indicator:after {
+        border-bottom: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid #000;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:before {
+        opacity: 1;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:after {
+        opacity: 1;
+        visibility: hidden;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card" style="margin-bottom:15px;">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4 style="margin-bottom:0px;">Manage Prerequisite Across Semester</h4></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-6">
+                    <div class="card" style="margin-bottom: 0px;">
+                        <div class="card-body" style="padding:10px 20px 0px 20px;">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label class="form-label">Academic Year</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <academic-year-select style="margin-bottom:3px;" ng-model="filter.AcademicYearId" ng-change="getFacultyList()"></academic-year-select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="form-label">Faculty</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <facultydd-select style="margin-bottom:3px;" ng-model="filter.FacultyId" ng-change="getProgInstList(filter)"></facultydd-select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="form-label">Programme</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <prog-inst-select-with-fid-ayid style="margin-bottom:3px;" ng-model="filter.ProgrammeInstanceId" ng-change="getBranchList(filter)"></prog-inst-select-with-fid-ayid>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="form-label">Branch</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <branch-select-with-piid style="margin-bottom:3px;" ng-model="filter.SpecialisationId" ng-change="getPPList(filter)"></branch-select-with-piid>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="form-label">Programme Part</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <prog-part-inst-select-with-piid style="margin-bottom:3px;" ng-model="filter.ProgrammeInstancePartId" ng-change="getPPTList(filter)"></prog-part-inst-select-with-piid>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="form-label">Programme Part Term</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <prog-part-term-inst-select-with-ppid-branchid style="margin-bottom:3px;" ng-model="filter.SourcePartTermId" ng-change="GetPaperList()"></prog-part-term-inst-select-with-ppid-branchid>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="form-label">Source Paper</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <select class="form-control" title="SourcePaper" style="margin-bottom:3px;" ng-model="filter.SourcePaper" ng-change="getPrereqType()" ng-options="p.SourcePaperName for p in PaperList">
+                                                <option value="" disabled selected>--- SELECT ---</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="form-label">Prerequisite Type</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <select class="form-control" title="PrerequisiteType" style="margin-bottom:3px;" ng-model="filter.PrerequisiteType" ng-change="getAcrossPartTermPaperList()" ng-options="p.PreRequisiteTypeName for p in PrerequisiteTypeList">
+                                                <option value="" disabled selected>--- SELECT ---</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12" ng-show="ShowDestPaperListflag">
+                    <div class="card" style="margin-bottom:100px;">
+                        <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                            <h3 class="card-title" style="font-size:18px;"><b>List of Paper for</b></h3><br />
+                            <h4 class="card-title" style="font-size:18px;"><b>Semester :- </b>{{Prereq.SourcePartTermName}}</h4><br />
+                            <h4 class="card-title" style="font-size:18px;"><b>Paper :- </b>{{Prereq.SourcePaperName}}</h4><br />
+                            <h4 class="card-title" style="font-size:18px;"><b>Prerequisite Lable :- </b>Across Semester</h4><br />
+                            <h4 class="card-title" style="font-size:18px;"><b>Prerequisite Type :- </b>{{Prereq.PreRequisiteTypeName}}</h4><br />
+                        </div>
+                        <div class="card-block" style="padding:10px 20px 0px 20px;" ng-show="ShowMinMax">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label class="form-label">Minimum</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <input type="number" ng-model="Minimum" ng-disabled="DisableMinMax" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="form-label">Maximum</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <input type="number" ng-model="Maximum" ng-disabled="DisableMinMax" />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="DisableMinMax">
+                                <div class="col-lg-4">
+                                    <div>
+                                        <lable><b style="color:red">If Any prerequisie is already configure you can not add new kindly delete privious</b> </lable>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="DestPaperSelect" show-filter="true">
+                                    <thead>
+                                        <tr>
+                                            <th> Semester Name </th>
+                                            <th> Paper List </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="PT in PartTermAcrossPaperList | filter : searchtxt">
+                                            <th> {{PT.InstancePartTermName}}</th>
+                                            <td>
+                                                <table class="table table-striped table-bordered" id="DestPaperSelect" show-filter="true">
+                                                    <tr>
+                                                        <th>PaperName</th>
+                                                        <th>Select</th>
+                                                        <th>Current Prerequisite Type</th>
+                                                    </tr>
+                                                    <tr ng-repeat="P in PT.PaperPrereqList | filter : searchtxt">
+                                                        <td><label>{{P.DestinationPaperName}}</label></td>
+                                                        <td><input ng-model="P.DestinationPaperSelected" type='checkbox' ng-change="CheckTypeacross()" ng-disabled="P.PaperSelectedDisabled" /></td>
+                                                        <td><label>{{P.PreRequisiteTypeNameCurrent}}</label></td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-block">
+                            <label style="cursor:pointer;margin-top:2px;" ng-click="SubmitAcrossPrereq()" class="btn btn-success" title="Submit">Submit</label>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>

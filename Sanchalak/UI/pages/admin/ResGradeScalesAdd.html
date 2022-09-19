@@ -1,0 +1,66 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-init="getGradeScaleList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Grade Scale</h4></div>
+                        <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light "><i class="ti-pencil-alt"></i>  Modify  </button></div>
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form name="form">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Grade Scale Name<span style="color:red;"> * </span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="GradeScale.GradeScaleName" placeholder="Grade Scale Name" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Maximum Grade Points<span style="color:red;"> * </span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="GradeScale.MaxGradePoints" placeholder="Maximum Grade Points" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-10">
+                                        <button class="btn btn-success" ng-click="addGradeScale()">Add </button>
+                                        <button class="btn btn-disabled disabled" ng-click="cancelGradeScale()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" id="example-2" ng-table="GradeScaleTableParams" show-filter="true">
+                            <tbody>
+                                <tr ng-repeat="GradeScale in $data">
+                                    <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top: none; text-align: center;"><label>{{ $index + 1 }}</label></td>
+                                    <td data-title="'Grade Scale Name'" filter="{GradeScaleName: 'text'}" sortable="'GradeScaleName'" style="border-top:none;"><label>{{GradeScale.GradeScaleName}}</label></td>
+                                    <td data-title="'Maximum Grade Points'" filter="{MaxGradePoints: 'text'}" sortable="'MaxGradePoints'" style="border-top:none;"><label>{{GradeScale.MaxGradePoints}}</label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

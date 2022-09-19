@@ -1,0 +1,171 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+
+    <div class="page-body" ng-controller="PaperSelectionReportCtrl">
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- Basic Form Inputs card start -->
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Paper Selection Report Student Wise and Paper Wise</h4>
+
+
+                    </div>
+                    <div class="card-block">
+                        <div class="card-block">
+                            <div class="col-md-12 offset-md-2">
+                                <form ng-model="PaperSelectionReport">
+
+                                    <div class="form-group row" ng-init="getFacultyById()">
+                                        <div class="col-sm-2">Faculty Name</div>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <span class="nullable">
+                                                    <label>{{Institute.FacultyName}} - {{Institute.Id}}</label>
+
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-2">Institute Name</div>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <span class="nullable">
+                                                    <label>{{Institute.InstituteName}} - {{Institute.Id}}</label>
+
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-2">Select Academic Year<span style="color:red;"> * </span></div>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <span class="nullable">
+                                                    <select ng-model="PaperSelectionReport.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcadList" ng-change="setReportSelection()" [value]="PaperSelectionReport.AcademicYearId" class="form-control" name="Progdropdown">
+                                                        <option value="">-- select --</option>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Report Selection</label>
+                                        <div class="col-sm-6">
+                                            <label>
+                                                <input type="radio" id="StudentWise" value="StudentWise" ng-click="EnableButton(true)" name="StudentWise" ng-model="PaperSelectionReport.StudentWise" />  Student Wise &nbsp;
+                                                <input type="radio" id="PaperWise" value="PaperWise" ng-click="EnableButton(false)" name="StudentWise" ng-model="PaperSelectionReport.PaperWise" /> Paper Wise
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 offset-md-2" ng-show="ShowFlag1">
+                                        <div class="form-group row">
+                                            <div class="col-sm-6">
+                                                <button type="button" ng-click="getProgrammePartTermGetByInstIdAcaId()" class="btn btn-success">&nbsp; Submit</button>
+                                                <button class="btn btn-disabled disabled" ng-click="resetApplicationStatistics();">Cancel</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 offset-md-2" ng-show="ShowFlag">
+                                        <div class="form-group row">
+                                            <div class="col-sm-6">
+                                                <button type="button" ng-click="getProgPartTermGetByInstIdAcaId()" class="btn btn-success">&nbsp; Submit</button>
+                                                <button class="btn btn-disabled disabled" ng-click="resetApplicationStatistics();">Cancel</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" ng-show="ShowFlag1">
+                                        <div class="col-sm-2"> Programme Part Term For Paper<span style="color:red;"> * </span></div>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <span class="nullable">
+                                                    <select ng-model="PaperSelectionReport.ProgrammePartTermId" ng-options="d.Id as d.PartTermName for d in ProgrammePartTermList" ng-change="getPaperSelectionReportPaper()" [value]="PaperSelectionReport.ProgrammePartTermId" class="form-control" name="Progdropdown">
+                                                        <option value="">-- select --</option>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" ng-show="ShowFlag">
+                                        <div class="col-sm-2"> Programme Part Term Student<span style="color:red;"> * </span></div>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <span class="nullable">
+                                                    <select ng-model="PaperSelectionReport.ProgrammePartTermId" ng-options="d.Id as d.PartTermName for d in ProgrammePartTermList" ng-change="getPaperSelectionReportStudent()" [value]="PaperSelectionReport.ProgrammePartTermId" class="form-control" name="Progdropdown">
+                                                        <option value="">-- select --</option>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" ng-show="ShowFlag1">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="PaperSelectionReportPaperTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="PaperSelectionReport in $data">
+                                            <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;"><label>{{PaperSelectionReport.IndexId}}</label></td>
+                                            <td data-title="'Part Term Name'" filter="{PartTermName: 'text'}" sortable="'PartTermName'" style=" border-top: none;"><label>{{PaperSelectionReport.PartTermName}}</label></td>
+                                            <td data-title="'Paper Name'" filter="{PaperName: 'text'}" sortable="'PaperName'" style=" border-top: none;"><label>{{PaperSelectionReport.PaperName}}</label></td>
+                                            <td data-title="'Paper Code'" filter="{PaperCode: 'text'}" sortable="'PaperCode'" style=" border-top: none;"><label>{{PaperSelectionReport.PaperCode}}</label></td>
+                                            <td data-title="'Actions'">
+                                                <div layout="row">
+                                                    <span flex></span>
+
+                                                    <!--Hide Button-->
+                                                    <button title="Hide" ng-click="getPaperSelectionReportPaperExcel(PaperSelectionReport.PaperId)" class="btn btn-danger ml-2 button-size"><i class="fa fa-toggle-on"></i>Export To Excel</button>
+                                                    <!--Show Button-->
+                                                    
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" ng-show="ShowFlag">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="PaperSelectionReportStudentTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="PaperSelectionReport in $data">
+                                            <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;"><label>{{PaperSelectionReport.IndexId}}</label></td>
+                                            <td data-title="'Part Term Name'" filter="{PartTermName: 'text'}" sortable="'PartTermName'" style=" border-top: none;"><label>{{PaperSelectionReport.PartTermName}}</label></td>
+                                            <td data-title="'BranchName'" filter="{BranchName: 'text'}" sortable="'BranchName'" style=" border-top: none;"><label>{{PaperSelectionReport.BranchName}}</label></td>
+                                            <td data-title="'PRN'" filter="{PRN: 'text'}" sortable="'PRN'" style=" border-top: none;"><label>{{PaperSelectionReport.PRN}}</label></td>
+                                            <td data-title="'Student Name'" filter="{NameAsPerMarksheet: 'text'}" sortable="'NameAsPerMarksheet'" style=" border-top: none;"><label>{{PaperSelectionReport.NameAsPerMarksheet}}</label></td>
+                                            <td data-title="'Paper Name'" filter="{PaperName: 'text'}" sortable="'PaperName'" style=" border-top: none;"><label>{{PaperSelectionReport.PaperName}}</label></td>
+                                            <td data-title="'Paper Code'" filter="{PaperCode: 'text'}" sortable="'PaperCode'" style=" border-top: none;"><label>{{PaperSelectionReport.PaperCode}}</label></td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div style="text-align: right;">
+                                    <!--<button class="btn btn-success" ng-click="exportData()">Export to Excel Short</button>-->
+                                    <button class="btn btn-success" ng-click="exportDataStudent()">Export to Excel Full</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>

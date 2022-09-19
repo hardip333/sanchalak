@@ -1,0 +1,178 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+    a[data-title]:hover:after {
+        content: attr(data-title);
+        width: 50px;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>GPA( Grade Point Average) Template Configuration</h4></div>
+                        <!--<div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>-->
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form name="form">
+
+                            <div class="form-group row" ng-init="getGPATemplateList()">
+                                <div class="col-sm-2">Select Template Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="GTempConfig.GradeTemplateId" ng-options="d.Id as d.GPATemplateName for d in GPATemplateAllList" class="form-control" name="GradeTempdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-10">
+                                        <button class="btn btn-success" ng-click="getGPATemplateByIdList()">Submit </button>
+                                        <button class="btn btn-disabled disabled" ng-click="cancelGPATempConfig()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row" ng-show="ShowTable">
+                                <label class="col-sm-2 col-form-label">Grade Point Scale: </label>
+                                <div class="col-sm-6">
+                                    <label>{{GPATemplateList.GradeScaleName}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group row" ng-show="ShowTable">
+                                <label class="col-sm-2 col-form-label">Evaluation System: </label>
+                                <div class="col-sm-6">
+                                    <label>{{GPATemplateList.EvaluationName}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group row" ng-show="ShowTable">
+                                <label class="col-sm-2 col-form-label">Template Name: </label>
+                                <div class="col-sm-6">
+                                    <label>{{GPATemplateList.GPATemplateName}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group row" ng-show="ShowTable">
+                                <label class="col-sm-2 col-form-label">Description</label>
+                                <div class="col-sm-6">
+                                    <label>{{GPATemplateList.GPATemplateDescription}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group row" ng-show="ShowTable">
+                                <label class="col-sm-2 col-form-label">Enter No. of Intervals</label>
+                                <div class="col-sm-6">
+                                    <label>{{GPATemplateList.NoofIntervals}}</label>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" id="example-2" ng-table="MarksTempTableParams1" ng-show="ShowTable">
+                            <tbody>
+                            <thead style="vertical-align: middle">
+                                <tr>
+                                    <th>Sr.<br />No.</th>
+                                    <th>Grade<br /> Abbreviation</th>
+                                    <th>
+                                        Mark From<br /> (%)
+                                    </th>
+                                    <th>
+                                        Mark To<br /> (%)
+                                    </th>
+                                    <th>GPA From<br /> (%)</th>
+                                    <th>GPA To<br /> (%)</th>
+                                    <th>Grade<br /> Point</th>
+                                    <th>Status</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tr ng-repeat="GTempConfig in List">
+                                <td data-title="'No.'" style="border-top: none; text-align: center;"><label>{{ $index + 1 }}</label></td>
+                                <td data-title="'Grade Abbreviation'">
+                                    <div layout="row" style="margin-top:3px">
+                                        <input type="text" class="form-control" ng-model="GTempConfig.GradeAbbrev" oninput="this.value = this.value.toUpperCase()" required>
+                                    </div>
+                                </td>
+                                <td data-title="'Mark From (%)'">
+                                    <div layout="row" style="margin-top:3px">
+                                        <input type="number" class="form-control" ng-model="GTempConfig.MarkPercentRangeFrom" placeholder="0.00" pattern="^\d+(?:\.\d{1,2})?$" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" required>
+                                    </div>
+                                    <div layout="row" style="margin-top:3px">
+                                        <span id="{{$index}}" style="color:red"></span>
+                                    </div>
+                                </td>
+                                <td data-title="'Mark To (%)'">
+                                    <div layout="row" style="margin-top:3px">
+                                        <input type="number" class="form-control" ng-model="GTempConfig.MarkPercentRangeTo" placeholder="0.00" pattern="^\d+(?:\.\d{1,2})?$" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" required>
+                                    </div>
+                                </td>
+                                <!--<td data-title="'Status'">
+             <div layout="row" style="margin-top:3px">
+                 <select name="GTempStatus" id="TempStatusPassOrFail" ng-model="GTempConfig.Status">
+                     <option value="" disabled selected>-- select --</option>
+                     <option value="Pass">Pass</option>
+                     <option value="Fail">Fail</option>
+                 </select>
+             </div>
+        </td>-->
+
+                                <td data-title="'GPA From (%)'">
+                                    <div layout="row" style="margin-top:3px">
+                                        <input type="number" class="form-control" ng-model="GTempConfig.GPAFrom" placeholder="0.00" pattern="^\d+(?:\.\d{1,2})?$" required>
+                                    </div>
+                                    <div layout="row" style="margin-top:3px">
+                                        <span id="{{$index}}_G" style="color:red"></span>
+                                    </div>
+                                </td>
+                                <td data-title="'GPA To (%)'">
+                                    <div layout="row" style="margin-top:3px">
+                                        <input type="number" class="form-control" ng-model="GTempConfig.GPATo" placeholder="0.00" pattern="^\d+(?:\.\d{1,2})?$" required>
+                                    </div>
+                                </td>
+                                <td data-title="'Grade Point'">
+                                    <div layout="row" style="margin-top:3px">
+                                        <input type="text" class="form-control" ng-model="GTempConfig.GradePoint" required>
+                                    </div>
+                                </td>
+                                <td data-title="'Status'">
+                                    <div layout="row" style="margin-top:3px">
+                                        <input type="radio" name={{$index}} id="TempStatusPass" ng-model="GTempConfig.Status" value="Pass">Pass &nbsp;&nbsp;
+                                        <input type="radio" name={{$index}} id="TempStatusFail" ng-model="GTempConfig.Status" value="Fail">Fail
+                                    </div>
+                                </td>
+                                <td data-title="'Description'">
+                                    <div  layout="row" style="margin-top:3px" ng-init="getGradeLevelList()">
+                                        <select ng-model="GTempConfig.GradeLevelId" ng-options="d.Id as d.GradeLevelName for d in GradeLevelList" class="form-control" name="GradeLeveldropdown" required>
+                                            <option value="" disabled selected>-- select --</option>
+                                        </select>
+                                    </div>
+                                </td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div layout="row" style="margin-top:3px" class="float-right" ng-show="ShowTable">
+                        <button ng-click="addGPATempConfig()" class="btn btn-primary" style="min-width:40px;">Save </button>&nbsp;&nbsp;
+                        <button ng-click="deleteGPATempConfig($event)" class="btn btn-primary" style="min-width:40px;">Delete </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

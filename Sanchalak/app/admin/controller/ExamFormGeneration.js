@@ -1,0 +1,189 @@
+﻿app.controller('ExamFormGenerationCtrl', function ($scope, $http, $rootScope, $filter, $state, $cookies, $mdDialog, NgTableParams, $window) {
+
+    $rootScope.pageTitle = "Manage Exam Form Generation";
+
+    $rootScope.showLoading = false;
+
+
+    $scope.cancelExamForm = function () {
+        $scope.filter = {
+            ExamMasterId: 0,
+        };
+    };
+
+    $scope.cancelExamForm();
+
+    // for list in table 1 for schedule
+    $scope.getExamFormMasterPartTermStatusGet = function () {
+        $rootScope.showLoading = true;
+
+        var xml = new Object();
+        xml.ExamMasterId = $scope.filter.ExamMasterId;
+
+        $scope.ExamFormMasterPartTermStatusGetList = [];
+
+        $http({
+            method: 'POST',
+            url: 'api/ExamFormMaster/ExamFormMasterPartTermStatusGet',
+            data: xml,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+
+                if (response.response_code != "200") {
+                    alert(response.obj);
+                }
+                else {
+                    $scope.ExamFormMasterPartTermStatusGetList = response.obj;
+
+
+                    $scope.formTableParams = new NgTableParams({
+                        page:1,
+                       pageSize:100
+                    }, {
+                        dataset: $scope.ExamFormMasterPartTermStatusGetList
+                    });
+                }
+            })
+            .error(function (res) {
+                $rootScope.showLoading = false;
+                alert(res.obj);
+            });
+    };
+    /*    $scope.getExamFormMasterPartTermStatusGet();*/
+
+
+    // for process/generate exam form for schedule
+
+    //$scope.addExamFormMasterAdd = function (data) {
+
+    //    $rootScope.showLoading = true;
+    //    var xml = new Object();
+    //    xml.ExamMasterId = $scope.filter.ExamMasterId;
+    //    xml.FacultyExamMapId = data.FacultyExamMapId;
+
+    //    $http({
+    //        method: 'POST',
+    //        url: 'api/ExamFormMaster/ExamFormMasterAdd',
+    //        data: xml,
+    //        headers: { "Content-Type": 'application/json' }
+    //    })
+    //        .success(function (response) {
+      
+    //            $rootScope.showLoading = false;
+    //            if (response.response_code !== "200") {
+    //            alert(response.obj);
+              
+    //            }
+    //            else {
+    //                alert(response.obj);
+    //                $scope.getExamFormMasterPartTermStatusGet();
+    //            }
+    //        })
+    //        .error(function (res) {
+            
+    //            $rootScope.showLoading = false;
+    //            alert(res.obj);
+    //        });
+    //};
+
+    // for courses  for table 2
+
+    $scope.showCoursesFlag = false;
+
+    $scope.attachCourse = function (data) {
+
+        $scope.showCoursesFlag = true;
+        $scope.getExamFormMasterPartTermStatusGetByCourseScheduleMap(data);
+        $scope.selectedSchedule = data;
+
+    }
+
+    $scope.cancelCourse = function () {
+        $scope.showCoursesFlag = false;
+
+    };
+
+    $scope.cancelCourse();
+    // for get only active courses table 2
+    $scope.getExamFormMasterPartTermStatusGetByCourseScheduleMap = function (data) {
+
+        $rootScope.showLoading = true;
+
+        var xml = new Object();
+        $scope.selectedSchedule = data;
+        xml.FacultyExamMapId = data.FacultyExamMapId;
+
+
+        $http({
+            method: 'POST',
+            url: 'api/ExamFormMaster/ExamFormMasterPartTermStatusGetByCourseScheduleMap',
+            data: xml,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+
+                if (response.response_code != "200") {
+                    alert(response.obj);
+                }
+                else {
+                    $scope.ExamFormMasterPartTermStatusGetByCourseScheduleMapList = response.obj;
+           /*         $rootScope.Id = $scope.ExamFormMasterPartTermStatusGetByCourseScheduleMapList.Id*/
+
+                    $scope.coursesTableParams = new NgTableParams({
+                        page: 1,
+                        count: 100
+                    }, {
+                        dataset: $scope.ExamFormMasterPartTermStatusGetByCourseScheduleMapList
+                    });
+                }
+
+            })
+            .error(function (res) {
+
+                $rootScope.showLoading = false;
+                alert(res.obj);
+            });
+    };
+
+
+    // for process/generate exam form for courses table 2
+
+    $scope.addExamFormMasterAddByCourseScheduleMapId = function (data) {
+
+        $rootScope.showLoading = true;
+        var xml = new Object();
+      
+ ///*       xml.CourseSchduleMapId = data.CourseSchduleMapId;*/
+        xml.ExamMasterId = $scope.filter.ExamMasterId;
+        xml.ProgrammePartTermId = data.ProgrammePartTermId;
+        xml.BranchId = data.BranchId;
+
+        $http({
+            method: 'POST',
+            url: 'api/ExamFormMaster/ExamFormMasterAdd',
+            data: xml,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+
+                $rootScope.showLoading = false;
+                if (response.response_code !== "200") {
+                    alert(response.obj);
+                }
+                else {
+            
+                    alert(response.obj);
+                    $scope.getExamFormMasterPartTermStatusGetByCourseScheduleMap($scope.selectedSchedule);
+                }
+            })
+            .error(function (res) {
+
+                $rootScope.showLoading = false;
+                alert(res.obj);
+            });
+    };
+
+});

@@ -1,0 +1,2289 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .bg-primary {
+        border: 4px solid #8CDDCD !important;
+        background-color: aliceblue !important;
+    }
+
+    .accordion-msg {
+        border-top: 0px solid #ddd !important;
+    }
+    /*    back button */
+    #top-back-icon {
+        font-size: 3rem;
+        color: #4a6076;
+        transition: all 0.5s;
+    }
+
+        #top-back-icon:active {
+            cursor: pointer;
+            color: black;
+            text-shadow: 0 0 0.5rem black;
+        }
+</style>
+<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+<div class="modal fade" id="test" tabindex="-1" role="dialog" style="z-index: 1050; display: none;" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 70%;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6></h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span style="font-size:20px" aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <iframe id="imageID" src="" style="height: 150vh; width: 100%;">
+                </iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary waves-effect waves-light" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<script>
+
+    function PrintHTMLExamForm() {
+        var doc = new jsPDF();
+        var sTable = document.getElementById('PrintBlockExamForm').innerHTML;
+        datetime = new Date().toLocaleDateString();
+
+        var style = "<style>";
+        style = style + "table {width: 100%;font: 12px Calibri;}";
+        style = style + "table, th, td {border: solid 1px black; border-collapse: collapse;";
+        style = style + "padding: 2px 3px;}";
+        style = style + "</style>";
+
+        // CREATE A WINDOW OBJECT.
+        var win = window.open('', 'height=700,width=700');
+
+        win.document.write('<html><head>');
+        //win.document.write('<title>Profile</title>');   // <title> FOR PDF HEADER.
+        win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+        win.document.write('</head>');
+        win.document.write('<body>');
+        //win.document.write(datetime);
+        win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+        win.document.write('</body></html>');
+
+        win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+
+        win.print();    // PRINT THE CONTENTS.
+    }
+    
+
+</script>-->
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4><b>Search Student By PRN / Application Number To view Admission Details:</b> </h4>
+                </div>
+                <div class="card-block">
+                    <div class="form-group row d-flex" ng-init="GetLocalStorageValue()">
+                        <label class="col-sm-4 col-form-label"><bold>PRN / Applicant UserName / Application No</bold> <span style="color:red">*</span>:</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" ng-model="AdmissionInfo.UserName" placeholder="Type UserName / PRN / Application Id">
+
+                        </div>
+                        <div class="col-sm-1">
+                            <button class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Click The Submit Button For Proceed" ng-click="SubmitRegistrationId()">Next </button>
+                        </div>
+                        <div class="col-sm-1 ml-auto" ng-show="AutoFetchedPRN">
+                            <div data-toggle="tooltip" data-placement="bottom" title="Go To Previous Page" id="top-back-icon" ng-click="goBack()">
+                                <i class="icofont icofont-circled-left"></i>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="border border-primary" ng-show="IsTabVisible">
+                        <ul class="nav nav-tabs md-tabs tab-timeline" role="tablist" id="mytab">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="" data-toggle="tab" ng-click="TabP()" role="tab">
+                                    <i class="icofont icofont-ui-user"></i>&nbsp;Personal Information Details
+
+                                </a>
+
+                                <div class="slide"></div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="" data-toggle="tab" ng-click="TabEdu()" role="tab">
+                                    <i class="ion-briefcase"></i>&nbsp;Education Details
+                                </a>
+                                <div class="slide"></div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="" data-toggle="tab" ng-click="TabAd()" role="tab">
+                                    <i class="ion-university"></i>&nbsp;Admission Details
+                                </a>
+                                <div class="slide"></div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="" data-toggle="tab" ng-click="TabPaper()" role="tab">
+
+                                    <i class="ion-social-buffer"></i>&nbsp;Paper List Details
+                                </a>
+                                <div class="slide"></div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="" data-toggle="tab" ng-click="TabReq()" role="tab">
+
+                                    <i class="ion-clipboard"></i>&nbsp;Request Status Details
+                                </a>
+                                <div class="slide"></div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="" data-toggle="tab" ng-click="TabPre()" role="tab">
+                                    <i class="ion-aperture"></i>&nbsp;Pre Examination List Details
+                                </a>
+                                <div class="slide"></div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="" data-toggle="tab" ng-click="TabCancel()" role="tab">
+                                    <i class="ion-close-circled"></i>&nbsp;Cancel Admission Details
+                                </a>
+                                <div class="slide"></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-12 col-xl-12 border" ng-repeat="info in ApplicantAdmDetail.PersonalList" ng-show="PersonalList">
+                        <div class="card-header">
+
+                            <div class="text-center">
+                                <h4 class="btn btn-info"> Personal Information Details</h4>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>User Name / PRN :</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{info.UserName}}</label><br />
+
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Name As Per Marksheet :</b> </label>
+                            <label for="Activity" class="col-sm-4 col-form-label">{{info.NameAsPerMarksheet}}</label>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Mobile No :</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{info.MobileNo}}</label>
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Email Id :</b> </label>
+                            <label for="Activity" class="col-sm-4 col-form-label">{{info.EmailId}}</label><br />
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="tab-content border" ng-show="Personal">
+                        <div class="tab-pane active" role="tabpanel">
+                            <div class="card-header">
+
+                                <div class="text-center">
+                                    <h4 class="btn btn-info"> Personal Information Details:</h4>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-xl-12" ng-repeat="info in ApplicantAdmDetail.PersonalList" ng-show="ApplicantAdmDetail.PersonalListflag==true">
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>User Name / PRN :</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.UserName}}</label><br />
+
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Name As Per Marksheet :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.NameAsPerMarksheet}}</label>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Mobile No :</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.MobileNo}}</label>
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Email Id :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.EmailId}}</label><br />
+
+
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>First Name :</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.FirstName}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Last Name :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.LastName}}</label>
+
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Middle Name :</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.MiddleName}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Gender :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.Gender}}</label>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Religion:</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.Religion}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Mother Tongue :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.MotherTongue}}</label>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Applicant Photo :</b> </label>
+
+                                <label for="Activity" class="col-sm-2 col-form-label" ng-show="info.ApplicantPhoto  != null">
+
+                                    <a data-toggle="modal" data-target="#test" ng-click="testclickApp_Photo($index, ApplicantAdmDetail.PersonalList)">
+                                        <!--href="{{info.ApplicantPhoto}}" target="_blank"-->
+                                        <button type="button" title="View"
+                                                class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                            <i class="icon-doc" style="color:white"></i>
+
+                                        </button>
+                                    </a>
+                                </label>
+                                <label for="Activity" class="col-sm-2 col-form-label" ng-show="info.ApplicantPhoto == null">
+                                    <span style="color:red;">No Document Found..!</span>
+                                </label>
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Applicant Signature :</b> </label>
+
+                                <label for="Activity" class="col-sm-4 col-form-label" ng-show="info.ApplicantSignature  != null">
+
+                                    <a data-toggle="modal" data-target="#test" ng-click="testclickApp_Sign($index, ApplicantAdmDetail.PersonalList)">
+                                        <!--href="{{info.ApplicantSignature}}" target="_blank"-->
+                                        <button type="button" title="View"
+                                                class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                            <i class="icon-doc" style="color:white"></i>
+
+                                        </button>
+                                    </a>
+                                </label>
+                                <label for="Activity" class="col-sm-4 col-form-label" ng-show="info.ApplicantSignature == null">
+                                    <span style="color:red;">No Document Found..!</span>
+                                </label>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Is ApplicantSignature Verified :</b> </label>
+                                <label ng-show="info.IsApplicantSignatureVerified" for="Activity" class="col-sm-2 col-form-label">Yes</label>
+                                <label ng-hide="info.IsApplicantSignatureVerified" for="Activity" class="col-sm-2 col-form-label">No</label>
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Is ApplicantPhoto Verified :</b> </label>
+                                <label ng-show="info.IsApplicantPhotoVerified" for="Activity" class="col-sm-4 col-form-label">Yes</label>
+                                <label ng-hide="info.IsApplicantPhotoVerified" for="Activity" class="col-sm-4 col-form-label">No</label>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Is PhotoId Doc Verified :</b> </label>
+                                <label ng-show="info.IsPhotoIdDocVerified" for="Activity" class="col-sm-2 col-form-label">Yes</label>
+                                <label ng-hide="info.IsPhotoIdDocVerified" for="Activity" class="col-sm-2 col-form-label">No</label>
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Is Confirm :</b> </label>
+                                <label ng-show="info.IsConfirm" for="Activity" class="col-sm-4 col-form-label">Yes</label>
+                                <label ng-hide="info.IsConfirm" for="Activity" class="col-sm-4 col-form-label">No</label>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Email Id :</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.EmailId}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Mobile No :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.MobileNo}}</label>
+
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Name Of Father:</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.NameOfFather}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Name Of Mother :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.NameOfMother}}</label>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Occupation Of Father:</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.OccupationOfFather}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Occupation Of Mother :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.OccupationOfMother}}</label>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Father Mother ContactNo:</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.FatherMotherContactNo}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Guardian Name :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.GuardianName}}</label>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Is Guardian Ebc:</b> </label>
+                                <label ng-show="info.IsGuardianEbc" for="Activity" class="col-sm-2 col-form-label">Yes</label>
+                                <label ng-hide="info.IsGuardianEbc" for="Activity" class="col-sm-2 col-form-label">No</label>
+
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Occupation Of Guardian :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.OccupationOfGuardian}}</label>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Guardian Annual Income:</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.GuardianAnnualIncome}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Guardian Contact No :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.GuardianContactNo}}</label>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Spouse Name :</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.SpouseName}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Optional Mobile No :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.OptionalMobileNo}}</label>
+
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Other Religion :</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.OtherReligion}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Family Annual Income :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.FamilyAnnualIncome}}</label>
+
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Marital Status :</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.MaritalStatus}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Blood Group :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.BloodGroup}}</label>
+
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Weight In Kgs:</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.WeightInKgs}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Height In Cms:</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.HeightInCms}}</label>
+
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Communication Language:</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.CommunicationLanguage}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Name On Aadhar :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.NameOnAadhar}}</label>
+
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Aadhar Number :</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.AadharNumber}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Aadhar Doc :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label" ng-show="info.AadharDoc  != null">
+
+                                    <a data-toggle="modal" data-target="#test" ng-click="testclickAadhar($index, ApplicantAdmDetail.PersonalList)">
+                                        <!--href="{{info.AadharDoc}}" target="_blank"-->
+                                        <button type="button" title="View"
+                                                class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                            <i class="icon-doc" style="color:white"></i>
+
+                                        </button>
+                                    </a>
+                                </label>
+                                <label for="Activity" class="col-sm-4 col-form-label" ng-show="info.AadharDoc == null">
+                                    <span style="color:red;">No Document Found..!</span>
+                                </label>
+
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Is Aadhar Doc Verified :</b> </label>
+
+                                <label ng-show="info.IsAadharDocVerified" for="Activity" class="col-sm-2 col-form-label">Yes</label>
+                                <label ng-hide="info.IsAadharDocVerified" for="Activity" class="col-sm-2 col-form-label">No</label>
+
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>DOB :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.DOB}}</label>
+
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>DOB Document :</b> </label>
+
+                                <label for="Activity" class="col-sm-2 col-form-label" ng-show="info.DOBDoc  != null">
+
+                                    <a data-toggle="modal" data-target="#test" ng-click="testclickDOB($index, ApplicantAdmDetail.PersonalList)">
+                                        <!--href="{{info.DOBDoc}}" target="_blank"-->
+                                        <button type="button" title="View"
+                                                class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                            <i class="icon-doc" style="color:white"></i>
+
+                                        </button>
+                                    </a>
+                                </label>
+                                <label for="Activity" class="col-sm-2 col-form-label" ng-show="info.DOBDoc == null">
+                                    <span style="color:red;">No Document Found..!</span>
+                                </label>
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Is DOB Doc Verified :</b> </label>
+
+                                <label ng-show="info.IsDOBDocVerified" for="Activity" class="col-sm-4 col-form-label">Yes</label>
+                                <label ng-hide="info.IsDOBDocVerified" for="Activity" class="col-sm-4 col-form-label">No</label>
+
+
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Current Address As Permanent</b> </label>
+                                <label ng-show="info.IsCurrentAsPermanent" for="Activity" class="col-sm-2 col-form-label">Yes</label>
+                                <label ng-hide="info.IsCurrentAsPermanent" for="Activity" class="col-sm-2 col-form-label">No</label>
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>CurrentAddress :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.CurrentAddress}}</label>
+
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Current Country :</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.CurrentCountry}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>CurrentState :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.CurrentState}}</label>
+
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Current District :</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.CurrentDistrict}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Current City/Village :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.CurrentCityVillage}}</label>
+
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Current Pincode :</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.CurrentPincode}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Permanent Address :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.PermanentAddress}}</label>
+
+                            </div>
+                            <div class="form-group row">
+
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Permanent Country :</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.PermanentCountry}}</label>
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Permanent State :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.PermanentState}}</label>
+
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Permanent District :</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.PermanentDistrict}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Permanent City/Village :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.PermanentCityVillage}}</label>
+
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Permanent Pincode :</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.PermanentPincode}}</label><br />
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Is Physically Challenged :</b> </label>
+
+                                <label ng-show="info.IsPhysicallyChallenged" for="Activity" class="col-sm-2 col-form-label">Yes</label>
+                                <label ng-hide="info.IsPhysicallyChallenged" for="Activity" class="col-sm-2 col-form-label">No</label>
+
+                            </div>
+
+                            <div class="form-group row">
+
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Disability Type :</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.DisabilityType}}</label>
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Disability Percentage :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.DisabilityPercentage}}</label><br />
+
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>PC Document:</b></label>
+
+                                <label for="Activity" class="col-sm-2 col-form-label" ng-show="info.PCDoc != null">
+
+                                    <a data-toggle="modal" data-target="#test" ng-click="testclickPC($index, ApplicantAdmDetail.PersonalList)">
+                                        <!--href="{{info.PCDoc}}" target="_blank"-->
+                                        <button type="button" title="View"
+                                                class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                            <i class="icon-doc" style="color:white"></i>
+
+                                        </button>
+                                    </a>
+                                </label>
+                                <label for="Activity" class="col-sm-2 col-form-label" ng-show="info.PCDoc == null">
+                                    <span style="color:red;">No Document Found..!</span>
+                                </label>
+
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>PC Doc Verified :</b> </label>
+                                <label ng-show="info.IsPCDocVerified" for="Activity" class="col-sm-4 col-form-label">Yes</label>
+                                <label ng-hide="info.IsPCDocVerified" for="Activity" class="col-sm-4 col-form-label">No</label>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>PC Doc Submitted :</b> </label>
+                                <label ng-show="info.IsPCDocSubmitted" for="Activity" class="col-sm-2 col-form-label">Yes</label>
+                                <label ng-hide="info.IsPCDocSubmitted" for="Activity" class="col-sm-2 col-form-label">No</label>
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>EWSDoc :</b> </label>
+
+                                <label for="Activity" class="col-sm-4 col-form-label" ng-show="info.EWSDoc  != null">
+
+                                    <a data-toggle="modal" data-target="#test" ng-click="testclickEWS($index, ApplicantAdmDetail.PersonalList)">
+                                        <!--href="{{info.EWSDoc}}" target="_blank"-->
+                                        <button type="button" title="View"
+                                                class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                            <i class="icon-doc" style="color:white"></i>
+
+                                        </button>
+                                    </a>
+                                </label>
+                                <label for="Activity" class="col-sm-4 col-form-label" ng-show="info.EWSDoc == null">
+                                    <span style="color:red;">No Document Found..!</span>
+                                </label>
+
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>EWS Doc Submitted :</b> </label>
+                                <label ng-show="info.IsEWSDocSubmitted" for="Activity" class="col-sm-2 col-form-label">Yes</label>
+                                <label ng-hide="info.IsEWSDocSubmitted" for="Activity" class="col-sm-2 col-form-label">No</label>
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>EWS Doc Verified :</b> </label>
+                                <label ng-show="info.IsEWSDocVerified" for="Activity" class="col-sm-4 col-form-label">Yes</label>
+                                <label ng-hide="info.IsEWSDocVerified" for="Activity" class="col-sm-4 col-form-label">No</label>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Reservation Category Doc :</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label" ng-show="info.ReservationCategoryDoc  != null">
+
+                                    <a data-toggle="modal" data-target="#test" ng-click="testclickRes($index, ApplicantAdmDetail.PersonalList)">
+                                        <!--href="{{info.ReservationCategoryDoc}}" target="_blank"-->
+                                        <button type="button" title="View"
+                                                class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                            <i class="icon-doc" style="color:white"></i>
+
+                                        </button>
+                                    </a>
+                                </label>
+                                <label for="Activity" class="col-sm-2 col-form-label" ng-show="info.ReservationCategoryDoc == null">
+                                    <span style="color:red;">No Document Found..!</span>
+                                </label>
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Reservation Doc Submitted :</b> </label>
+                                <label ng-show="info.IsReservationDocSubmitted" for="Activity" class="col-sm-4 col-form-label">Yes</label>
+                                <label ng-hide="info.IsReservationDocSubmitted" for="Activity" class="col-sm-4 col-form-label">No</label>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Reservation Doc Verified :</b> </label>
+
+                                <label ng-show="info.IsReservationCategoryDocVerified" for="Activity" class="col-sm-2 col-form-label">Yes</label>
+                                <label ng-hide="info.IsReservationCategoryDocVerified" for="Activity" class="col-sm-2 col-form-label">No</label>
+
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Social Category Doc :</b> </label>
+
+                                <label for="Activity" class="col-sm-4 col-form-label" ng-show="info.SocialCategoryDoc  != null">
+
+                                    <a data-toggle="modal" data-target="#test" ng-click="testclickSoc($index, ApplicantAdmDetail.PersonalList)">
+                                        <!--href="{{info.SocialCategoryDoc}}" target="_blank"-->
+                                        <button type="button" title="View"
+                                                class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                            <i class="icon-doc" style="color:white"></i>
+
+                                        </button>
+                                    </a>
+                                </label>
+                                <label for="Activity" class="col-sm-4 col-form-label" ng-show="info.SocialCategoryDoc == null">
+                                    <span style="color:red;">No Document Found..!</span>
+                                </label>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Social Category DocVerified :</b> </label>
+
+                                <label ng-show="info.IsSocialCategoryDocVerified" for="Activity" class="col-sm-2 col-form-label">Yes</label>
+                                <label ng-hide="info.IsSocialCategoryDocVerified" for="Activity" class="col-sm-2 col-form-label">No</label>
+
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Social Doc Submitted :</b> </label>
+                                <label ng-show="info.IsSocialDocSubmitted" for="Activity" class="col-sm-4 col-form-label">Yes</label>
+                                <label ng-hide="info.IsSocialDocSubmitted" for="Activity" class="col-sm-4 col-form-label">No</label>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Is Local To Vadodara :</b> </label>
+                                <label ng-show="info.IsLocalToVadodara" for="Activity" class="col-sm-2 col-form-label">Yes</label>
+                                <label ng-hide="info.IsLocalToVadodara" for="Activity" class="col-sm-2 col-form-label">No</label>
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Is NRI :</b> </label>
+                                <label ng-show="info.IsNRI" for="Activity" class="col-sm-4 col-form-label">Yes</label>
+                                <label ng-hide="info.IsNRI" for="Activity" class="col-sm-4 col-form-label">No</label>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Is Sms Permission Given :</b> </label>
+                                <label ng-show="info.IsSmsPermissionGiven" for="Activity" class="col-sm-2 col-form-label">Yes</label>
+                                <label ng-hide="info.IsSmsPermissionGiven" for="Activity" class="col-sm-2 col-form-label">No</label>
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Is Major Thelesamia Status :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.IsMajorThelesamiaStatus}}</label>
+
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Is Emp :</b> </label>
+                                <label ng-show="info.IsEmp" for="Activity" class="col-sm-2 col-form-label">Yes</label>
+                                <label ng-hide="info.IsEmp" for="Activity" class="col-sm-2 col-form-label">No</label>
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Current Employer Name :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.CurrentEmployerName}}</label>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Passport Number :</b> </label>
+                                <label for="Activity" class="col-sm-2 col-form-label">{{info.PassportNumber }}</label>
+                                <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Passport Date :</b> </label>
+                                <label for="Activity" class="col-sm-4 col-form-label">{{info.PassportDate}}</label>
+
+                            </div>
+
+
+
+
+
+                        </div>
+
+                        <div class="card" ng-show="ApplicantAdmDetail.PersonalListflag==false">
+
+                            <label style="font:bold; text-align:center; font-size:medium; color:red;">No Personal Details Found..!</label>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="tab-content" ng-show="Education">
+                        <div class="tab-pane active" role="tabpanel">
+                            <div class="card-header">
+
+                                <div class="text-center">
+                                    <h4 class="btn btn-info">Education Details:</h4>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-xl-12">
+                            <div class="table-responsive">
+
+                                <table class="table table-hover table-bordered" ng-show="ApplicantAdmDetail.EducationListflag==true">
+                                    <thead class="thead-info">
+                                        <tr>
+                                            <th> </th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">S.No</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Eligible Degree Name</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Examination Body Name</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Specialization Name</th>
+                                            <th style="border-top:none;text-align:center;font-size:medium;">Class Name</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-repeat="info in ApplicantAdmDetail.EducationList">
+                                        <tr>
+
+                                            <td class="expand_data" id="{{'first_col'+$index}}" ng-click="expand_row($index)">+</td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.IndexEduId }}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.EligibleDegreeName}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.ExaminationBodyName}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.SpecializationName}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.ClassName}}</label></td>
+
+
+
+
+
+                                        </tr>
+                                        <tr id="{{'expand'+$index}}" class="collapse text-wrap">
+                                            <td style="text-wrap:inherit" colspan="7">
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Institute Attended :</b></span></div>
+                                                        <div class="col-md-2"><span>{{info.InstituteAttended}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Exam Certificate Number :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.ExamCertificateNumber}}</span></div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Grade :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.Grade}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Mark Obtained :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.MarkObtained}}</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Mark Out Of :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.MarkOutOf}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>CGPA :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.CGPA}}</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Percentage :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.Percentage}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Percentage Equivalence CGPA :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.PercentageEquivalenceCGPA}}</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>SchoolNo : </b></span></div>
+                                                        <div class="col-md-2"><span>{{info.SchoolNo}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Result Status :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.ResultStatus}}</span></div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Attach Document :</b> </span></div>
+
+                                                        <label for="Activity" class="col-md-6" ng-show="info.AttachDocument  != null">
+
+                                                            <a data-toggle="modal" data-target="#test" ng-click="testclickEdu($index,ApplicantAdmDetail.EducationList)">
+                                                                <!--href="{{info.AttachDocument}}" target="_blank"-->
+                                                                <button type="button" title="View"
+                                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                                </button>
+                                                            </a>
+                                                        </label>
+                                                        <label for="Activity" class="col-md-6" ng-show="info.AttachDocument == null">
+                                                            <span style="color:red;">No Document Found..!</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>City Name :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.CityName}}</span></div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>School No :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.SchoolNo}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>ExamSeat Number :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.ExamSeatNumber}}</span></div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>ExamPass City :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.ExamPassCity}}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>ExamPass Month :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.ExamPassMonth}}</span></div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>ExamPass Year :</b> </span></div>
+                                                        <div class="col-md-2"><span>{{info.ExamPassYear}}</span></div>
+                                                    </div>
+
+
+                                                </div>
+
+
+
+                                        </tr>
+
+
+
+                                    </tbody>
+                                </table>
+
+
+                                <div class="card" ng-show="ApplicantAdmDetail.EducationListflag==false">
+                                    <label style="font:bold; text-align:center; font-size:medium; color:red;">No Education Details Found..!</label>
+                                </div>
+
+
+
+
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+                    </div>
+
+                    <br />
+                    <div class="tab-content" ng-show="Admission">
+                        <div class="tab-pane active" role="tabpanel">
+                            <div class="header">
+                                <div class="text-center">
+                                    <h4 class="btn btn-info"> Admission Information Details:</h4>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-lg-12 col-xl-12">
+                            <div class="table-responsive">
+
+                                <table class="table table-hover table-bordered" ng-show="ApplicantAdmDetail.AdmissionListflag==true">
+
+                                    <tr>
+                                        <th></th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">S.No</th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Application Form No</th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Faculty Name</th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Programme Name</th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Branch Name</th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Instance Part Term Name</th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Application Status</th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Actions</th>
+
+                                    </tr>
+
+                                    <tbody ng-repeat="info in ApplicantAdmDetail.AdmissionList">
+                                        <tr>
+
+                                            <td class="expand_data" id="{{'first_col_Admission'+$index}}" ng-click="expand_row_Admission($index)">+</td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.IndexId }}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.ApplicationId}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.FacultyName}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.ProgrammeName}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.BranchName}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.InstancePartTermName}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.ApplicationStatus}}</label></td>
+
+
+                                            <td>
+                                                <div layout="row">
+                                                    <span flex></span>
+
+                                                    <button type="button" ng-show="info.IsAdmissionFeePaid==1" ng-click="AdmissionRecieptList(info)" class="btn btn-primary waves-effect waves-light">Admission Fee Recepit</button>&nbsp;&nbsp;&nbsp;
+                                                    <button style="height:40px !important;" type="submit" class="btn btn-info" ng-show="info.ApplicationStatus=='Complete'" ng-click="HideShow(info.ApplicationId)" id="btPrint" value="Reciept">Form Fee Recepit</button>
+
+                                                </div>
+                                            </td>
+
+
+                                        </tr>
+                                        <tr id="{{'expand_row'+$index}}" class="collapse text-wrap">
+                                            <td style="text-wrap:inherit;white-space: normal !important;" colspan="8">
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Applicant Registration Id :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.ApplicantRegistrationId }}</span></div>
+
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Destination Prog InstPartTerm :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.DestinationIncProgInstPartTerm}}</span></div>
+
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Admission Approved Faculty Status :</b> </span></div>
+
+                                                        <label ng-show="info.IsApprovedByFaculty" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsApprovedByFaculty" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Admission Approved Academic Status:</b>  </span></div>
+
+                                                        <label ng-show="info.IsApprovedByAcademic" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsApprovedByAcademic" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Admission Cancel Student Status :</b> </span></div>
+
+                                                        <label ng-show="info.IsCancelledByStudent" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsCancelledByStudent" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Admission Cancel Faculty Status :</b> </span></div>
+
+                                                        <label ng-show="info.IsCancelledByFaculty" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsCancelledByFaculty" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Admission Cancel Academic Status :</b> </span></div>
+
+                                                        <label ng-show="info.IsCancelledByAcademics" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsCancelledByAcademics" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Centrally Admission : </b> </span></div>
+
+                                                        <label ng-show="info.IsCentrallyAdmission" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsCentrallyAdmission" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Paper Selected :</b> </span></div>
+
+                                                        <label ng-show="info.IsPaperSelected" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsPaperSelected" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>PRN Generated Status:</b> </span></div>
+
+                                                        <label ng-show="info.IsPRNGenerated" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsPRNGenerated" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Admission Fee Paid Status :</b> </span></div>
+
+                                                        <label ng-show="info.IsAdmissionFeePaid" for="Activity" class="col-md-6">Yes</label>
+                                                        <label ng-hide="info.IsAdmissionFeePaid" for="Activity" class="col-md-6">No</label>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Dual Admission :</b> </span></div>
+
+                                                        <label ng-show="info.IsDualAdmission" for="Activity" class="col-md-6">Yes</label>
+                                                        <label ng-hide="info.IsDualAdmission" for="Activity" class="col-md-6">No</label>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Total Admission Fee Paid :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.TotalAdmissionFeePaid }}</span></div>
+
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Total Amount :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.TotalAmount }}</span></div>
+
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Admin Remark-Faculty :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.AdminRemarkByFaculty }}</span></div>
+
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Admin Remark-Academics :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.AdminRemarkByAcademics }}</span></div>
+
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Branch Change Request Status :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.BranchChangeRequest }}</span></div>
+
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Fee Category Change Request Status :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.FeeCategoryChangeRequest }}</span></div>
+
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Transfer/Institute Change Request Status :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.InstituteChangeRequest }}</span></div>
+
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Cancel Change Request Status :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.CancelChangeRequest}}</span></div>
+
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Eligibility Status :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.EligibilityStatus }}</span></div>
+
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Eligibility By Academics :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.EligibilityByAcademics}}</span></div>
+
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Admitted :</b> </span></div>
+
+                                                        <label ng-show="info.IsAdmitted" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsAdmitted" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Blocked : </b> </span></div>
+
+                                                        <label ng-show="info.IsBlocked" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsBlocked" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Blocked Remark: </b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.BlockedRemark }}</span></div>
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Admission Block :</b> </span></div>
+
+                                                        <label ng-show="info.IsAdmissionBlock" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsAdmissionBlock" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Admission Block Remark: </b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.AdmissionBlockRemark }}</span></div>
+
+                                                    </div>
+
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Blocked On :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.BlockedOn }}</span></div>
+
+
+                                                    </div>
+
+                                                </div>
+
+
+
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Fee Category Name :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.FeeCategoryName }}</span></div>
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Verified By Faculty : </b> </span></div>
+
+                                                        <label ng-show="info.IsVerifiedByFaculty" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsVerifiedByFaculty" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Admitted On :</b> </span></div>                                  
+                                                        <div class="col-md-6"><span>{{info.AdmittedOn }}</span></div>
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Verified On Faculty : </b> </span></div>                                                  
+                                                        <div class="col-md-6"><span>{{info.VerifiedOnFaculty }}</span></div>
+                                                   
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Allotment No :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.AllotmentNo }}</span></div>
+
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Merit No :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.MeritNo }}</span></div>
+
+
+                                                    </div>
+
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Date Of Application:</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.DateOfApplication }}</span></div>
+
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Admission Committee :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.AdmissionCommittee }}</span></div>
+
+
+                                                    </div>
+
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Approved On Faculty:</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.ApprovedOnFaculty }}</span></div>
+
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Approved On Academics :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.ApprovedOnAcademics  }}</span></div>
+
+
+                                                    </div>
+
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Sms Sent :</b> </span></div>
+
+                                                        <label ng-show="info.IsSmsSent" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsSmsSent" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Email Sent : </b> </span></div>
+
+                                                        <label ng-show="info.IsEmailSent" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsEmailSent" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Admission Secured Elesewhere :</b> </span></div>
+
+                                                        <label ng-show="info.IsAdmissionSecuredElesewhere" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsAdmissionSecuredElesewhere" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Applied Else Where : </b> </span></div>
+
+                                                        <label ng-show="info.IsAppliedElseWhere" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsAppliedElseWhere" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Verification Sms :</b> </span></div>
+
+                                                        <label ng-show="info.IsVerificationSms" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsVerificationSms" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Verification Email : </b> </span></div>
+
+                                                        <label ng-show="info.IsVerificationEmail" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsVerificationEmail" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Verification Sms On :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.IsVerificationSmsOn }}</span></div>
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Verification Email On : </b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.IsVerificationEmailOn }}</span></div>
+
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        </tr>
+
+
+
+                                    </tbody>
+                                </table>
+
+
+
+                                <div class="card" ng-show="ApplicantAdmDetail.AdmissionListflag==false">
+                                    <label style="font:bold; text-align:center; font-size:medium; color:red;">No Admission Details Found..!</label>
+                                </div>
+
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="tab-content" ng-show="PaperList">
+                        <div class="tab-pane active" role="tabpanel">
+                            <div class="card-header">
+                                <div class="text-center">
+                                    <h4 class="btn btn-info">Paper List Details:</h4>
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+                        <div class="col-lg-12 col-xl-12">
+
+
+                            <div ng-show="ApplicantAdmDetail.ProgrammeListflag==true" class="card-block accordion-block" ng-repeat="info in ApplicantAdmDetail.ProgrammeList">
+                                <div id="accordion" role="tablist" aria-multiselectable="true">
+                                    <div class="accordion-panel">
+                                        <div id="divActive{{$index}}" class="accordion-heading" style="cursor: pointer !important; border-top:2px solid gainsboro !important;" role="tab" ng-click="ClickOnAccord($index)">
+                                            <h6 class="card-title accordion-title d-flex justify-content-between" style="font-size:19px;font-weight:900;">
+                                                <span class="accordion-msg">
+                                                    {{info.InstanceName}} <span>[Click here to View More]</span>
+                                                </span>
+                                                <span class="accordion-msg">
+                                                </span>
+                                            </h6>
+                                        </div>
+                                        <div id="collapse{{$index}}" class="panel-collapse in collapse" role="tabpanel" aria-labelledby="headingOne" style="">
+                                            <div ng-repeat="p1 in info.PTList">
+                                                <h6 class="card-title accordion-title d-flex justify-content-between" style="font-size:17px;font-weight:900;">
+                                                    <span class="alert alert-primary" style="padding-left: 40px;font-size:large">
+                                                        <i class="ion-ios-albums"></i>&nbsp; {{p1.InstancePartTermName}}
+                                                    </span>
+                                                </h6>
+                                                <h6 class="card-title accordion-title d-flex justify-content-between border border-primary" style="font-size:15px;font-weight:900;">
+                                                    <span class="accordion-msg" style="padding-left: 60px">
+                                                        Admission Date: {{p1.CreatedOn}}
+                                                    </span>
+                                                    <span class="accordion-msg">
+                                                        Eligibility By Faculty: {{p1.EligibilityByFaculty}}
+                                                    </span>
+                                                    <span class="accordion-msg">
+                                                        Eligibility By Academics: {{p1.EligibilityByAcademics}}
+                                                    </span>
+                                                </h6>
+                                                <div ng-repeat="p2 in p1.PaperList">
+                                                    <h6 class="card-title accordion-title d-flex justify-content-between" style="font-size:14px;font-weight:900;">
+                                                        <span class="accordion-msg" style="padding-left: 60px">
+                                                            <i class="ion-ios-paper"></i>&nbsp; {{p2.PaperName}}
+                                                        </span>
+                                                    </h6>
+                                                </div>
+
+                                                <div ng-if="p1.PaperList == null">
+                                                    <h6 class="card-title accordion-title d-flex justify-content-between" style="font-size:17px;font-weight:900;">
+                                                        <span class="accordion-msg text-info" style="padding-left: 60px">
+                                                            Papers are not Selected yet
+                                                        </span>
+                                                    </h6>
+                                                </div>
+
+
+
+
+                                            </div>
+
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+
+
+                            </div>
+
+                            <div class="card" ng-show="ApplicantAdmDetail.ProgrammeListflag==false">
+                                <label style="font:bold; text-align:center; font-size:medium; color:red;">No Paper List Found..!</label>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="tab-content" ng-show="RequestStatus">
+                        <div class="tab-pane active" role="tabpanel">
+                            <div class="card-header">
+                                <div>
+                                    <div class="text-center">
+                                        <h4 class="btn btn-info"> Request Status Details:</h4>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-lg-12 col-xl-12">
+                            <div class="table-responsive">
+
+
+                                <table class="table table-hover table-bordered" ng-show="ApplicantAdmDetail.RequestStatusListflag==true">
+
+                                    <tr>
+                                        <th></th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">S.No</th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Application Form No</th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Faculty Name</th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Programme Name </th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Branch Name </th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Request Type</th>
+
+
+                                    </tr>
+
+                                    <tbody ng-repeat="info in ApplicantAdmDetail.RequestStatusList">
+                                        <tr>
+
+                                            <td class="expand_data" id="{{'first_col_RequestStatus'+$index}}" ng-click="expand_row_Request($index)">+</td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.IndexRequestId }}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.ApplicationId}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.FacultyName}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.ProgrammeName}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.BranchName}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.RequestType}}</label></td>
+
+
+
+
+
+                                        </tr>
+                                        <tr id="{{'expand_row_request'+$index}}" class="collapse text-wrap">
+                                            <td style="text-wrap:inherit;white-space: normal !important;" colspan="8">
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Request Completed :</b> </span></div>
+
+                                                        <label ng-show="info.IsRequestCompleted" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsRequestCompleted" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>NameAsPerMarksheet:</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.NameAsPerMarksheet }}</span></div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Request Status :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.RequestStatus }}</span></div>
+
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Faculty Remark :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.FacultyRemark }}</span></div>
+
+
+                                                    </div>
+
+                                                </div>
+
+
+
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Old Fee Category Name :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.OldFeeCategoryName }}</span></div>
+
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>New Fee Category Name :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.NewFeeCategoryName }}</span></div>
+
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Old Prog Inst PartTerm :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.OldInstancePartTermName }}</span></div>
+
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>New Prog Inst PartTerm :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.NewInstancePartTermName }}</span></div>
+
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Old Institute Name:</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.OldInstituteName }}</span></div>
+
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>New Institute Name : </b></span></div>
+                                                        <div class="col-md-6"><span>{{info.NewInstituteName }}</span></div>
+
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Old Group Name:</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.OldGroupName }}</span></div>
+
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>New Group Name : </b></span></div>
+                                                        <div class="col-md-6"><span>{{info.NewGroupName }}</span></div>
+
+
+                                                    </div>
+
+                                                </div>
+
+
+
+
+                                        </tr>
+
+
+
+                                    </tbody>
+                                </table>
+
+                                <div class="card" ng-show="ApplicantAdmDetail.RequestStatusListflag==false">
+                                    <label style="font:bold; text-align:center; font-size:medium; color:red;">No Request Status Found..!</label>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="tab-content" ng-show="PreExamination">
+                        <div class="tab-pane active" role="tabpanel">
+                            <div class="card-header">
+                                <div>
+                                    <div class="text-center">
+                                        <h4 class="btn btn-info"> Pre Examination Details</h4>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-lg-12 col-xl-12">
+
+
+
+                            <div class="table-responsive">
+
+
+                                <table class="table table-hover table-bordered" ng-show="ApplicantAdmDetail.PreExaminationListflag==true">
+
+                                    <tr>
+
+                                        <th style="border-top:none;text-align:center;font-size:medium;">S.No</th>
+                                        <!--<th style="border-top:none;text-align:center;font-size:medium;">Application Form No</th>-->
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Faculty Name</th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Instance Part Term Name</th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Exam Event Name</th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Form No </th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Exam Fees Paid Status</th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Seat Number </th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Part Result Status </th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Part Term Result Status </th>
+
+
+                                    </tr>
+
+                                    <tbody ng-repeat="info in ApplicantAdmDetail.PreExaminationList">
+                                        <tr>
+
+
+                                            <td style="border-top:none;text-align:center"><label>{{info.IndexPreExaminationId }}</label></td>
+                                            <!--<td style="border-top:none;text-align:center"><label>{{info.ApplicationId}}</label></td>-->
+                                            <td style="border-top:none;text-align:center"><label>{{info.FacultyName}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.InstancePartTermName}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.DisplayName}}</label></td>
+                                            <td style="border-top:none;text-align:center" ng-click="DownloadExamForm(info)" id="formnolink">
+                                                <a href="" download>
+                                                    <label>{{info.FormNo}}</label>
+                                                </a>
+                                            </td>
+                                            <td ng-show="info.IsExamFeesPaid" style="border-top:none;text-align:center"><label>Inwarded</label></td>
+                                            <td ng-hide="info.IsExamFeesPaid" style="border-top:none;text-align:center"><label>NotInwarded</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.SeatNumber}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.PartStatus}}</label></td>
+                                            <td style="border-top:none;text-align:center" ng-click="RedirectToResult(info)">
+                                                <a href="" download>
+                                                    <label>{{info.PartTermStatus}}</label>
+                                                </a>
+                                              
+                                            </td>
+
+
+
+                                        </tr>
+
+
+
+
+                                    </tbody>
+                                </table>
+
+                                <div class="card" ng-show="ApplicantAdmDetail.PreExaminationListflag==false">
+                                    <label style="font:bold; text-align:center; font-size:medium; color:red;">No Pre Examination Details Found..!</label>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="tab-content" ng-show="Cancel">
+                        <div class="tab-pane active" role="tabpanel">
+                            <div class="header">
+                                <div class="text-center">
+                                    <h4 class="btn btn-info"> Cancel Admission Details:</h4>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-lg-12 col-xl-12">
+                            <div class="table-responsive">
+
+                                <table class="table table-hover table-bordered">
+
+                                    <tr>
+                                        <th></th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">S.No</th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Application Form No</th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Faculty Name</th>
+                                        <th style="border-top:none;text-align:center;font-size:medium;">Instance Part Term Name</th>
+
+
+
+                                    </tr>
+
+                                    <tbody ng-repeat="info in ApplicantAdmDetail.AdmissionList">
+                                        <tr>
+
+                                            <td class="expand_data" id="{{'first_col_Cancel'+$index}}" ng-click="expand_row_Cancel($index)">+</td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.IndexId }}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.ApplicationId}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.FacultyName}}</label></td>
+                                            <td style="border-top:none;text-align:center"><label>{{info.InstancePartTermName}}</label></td>
+
+
+
+
+                                        </tr>
+                                        <tr id="{{'expand_row_Cancel'+$index}}" class="collapse text-wrap">
+                                            <td style="text-wrap:inherit;white-space: normal !important;" colspan="8">
+
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Cancelled By Student :</b> </span></div>
+
+                                                        <label ng-show="info.IsCancelledByStudent" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsCancelledByStudent" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Student Cancelled Remark:</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.StudentCancelledRemark }}</span></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Student Requested On :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.RequestedOn }}</span></div>
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+
+                                                        <div class="col-md-6"><span><b>Cancel Type :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.CancelType }}</span></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Reason :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.Reason }}</span></div>
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+
+                                                        <div class="col-md-6"><span><b>ApprovedProgInstPartTerm :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.ApprovedProgrammeInstancePartTerm }}</span></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>OtherUniversityName :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.OtherUniversityName }}</span></div>
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+
+                                                        <div class="col-md-6"><span><b>OtherUni.ProgrammeName :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.OtherUniversityProgrammeName }}</span></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is BOB Account :</b> </span></div>
+
+
+                                                        <label ng-show="info.IsBOBAccount" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsBOBAccount" for="Activity" class="col-md-2">No</label>
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Bank Name :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.BankName }}</span></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Account Name :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.AccountName }}</span></div>
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+
+                                                        <div class="col-md-6"><span><b>Account Number :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.AccountNumber }}</span></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>IFSC Code :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.IFSCCode }}</span></div>
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Cancelled Application Status :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.CancelledApplicationStatus }}</span></div>
+
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+
+                                                        <div class="col-md-6"><span><b>Is Cancelled By Faculty :</b> </span></div>
+
+                                                        <label ng-show="info.IsCancelledByFaculty" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsCancelledByFaculty" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Faculty Canceled Remark :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.FacultyCancelledRemark }}</span></div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+
+                                                        <div class="col-md-6"><span><b>Is Admission Fee Paid :</b> </span></div>
+
+                                                        <label ng-show="info.IsAdmissionFeePaid" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsAdmissionFeePaid" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Cancel Approved On Faculty :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.CancelApprovedOnFaculty }}</span></div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+
+                                                        <div class="col-md-6"><span><b>Is Cancelled By Academics :</b> </span></div>
+
+                                                        <label ng-show="info.IsCancelledByAcademics" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsCancelledByAcademics" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Academics Cancel Remark :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.AcademicsCancelledRemark }}</span></div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Cancel Approved On Academic :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.CancelApprovedOnAcademic }}</span></div>
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Refund Amount By Academic :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.RefundAmountByAcademic }}</span></div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Refund Mode By Academic :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.RefundModeByAcademic }}</span></div>
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Approved By Audit :</b> </span></div>
+
+                                                        <label ng-show="info.IsApprovedByAudit" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsApprovedByAudit" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+
+
+                                                </div>
+
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Audit Remark :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.AuditRemark }}</span></div>
+                                                    </div>
+
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Refund Amount By Audit:</b> </span></div>
+
+                                                        <div class="col-md-6"><span>{{info.RefundAmountByAudit }}</span></div>
+                                                    </div>
+
+
+
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Processed On Audit :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.ProcessedOnAudit }}</span></div>
+                                                    </div>
+
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Auto Deduct Amount:</b> </span></div>
+
+                                                        <div class="col-md-6"><span>{{info.AutoDeductAmount }}</span></div>
+                                                    </div>
+
+
+
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Approved By Account :</b> </span></div>
+                                                        <label ng-show="info.IsApprovedByAccount" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsApprovedByAccount" for="Activity" class="col-md-2">No</label>
+
+                                                    </div>
+
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Account Remark:</b> </span></div>
+
+                                                        <div class="col-md-6"><span>{{info.AccountRemark }}</span></div>
+                                                    </div>
+
+
+
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Processed On Account :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.ProcessedOnAccount }}</span></div>
+
+                                                    </div>
+
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Refunded Tansaction Id:</b> </span></div>
+
+                                                        <div class="col-md-6"><span>{{info.RefundedTansactionId }}</span></div>
+                                                    </div>
+
+
+
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>AutoDeductAmount :</b> </span></div>
+                                                        <div class="col-md-6"><span>{{info.AutoDeductAmount }}</span></div>
+
+                                                    </div>
+
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Request Status:</b> </span></div>
+
+                                                        <div class="col-md-6"><span>{{info.RequestStatus }}</span></div>
+                                                    </div>
+
+
+
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Refunded by Account :</b> </span></div>
+                                                        <label ng-show="info.IsRefundedbyAccount" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsRefundedbyAccount" for="Activity" class="col-md-2">No</label>
+
+                                                    </div>
+
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Is Request Completed :</b> </span></div>
+                                                        <label ng-show="info.IsRequestCompleted" for="Activity" class="col-md-2">Yes</label>
+                                                        <label ng-hide="info.IsRequestCompleted" for="Activity" class="col-md-2">No</label>
+                                                    </div>
+
+
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Hand Written Document :</b> </span></div>
+
+                                                        <label for="Activity" class="col-md-6" ng-show="info.ApplicationDoc  != null">
+
+                                                            <a data-toggle="modal" data-target="#test" ng-click="testclickAppDoc($index, ApplicantAdmDetail.AdmissionList)">
+                                                                <!--href="{{info.ApplicationDoc}}" target="_blank"-->
+                                                                <button type="button" title="View"
+                                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                                </button>
+                                                            </a>
+                                                        </label>
+                                                        <label for="Activity" class="col-md-6" ng-show="info.ApplicationDoc == null">
+                                                            <span style="color:red;">No Document Found..!</span>
+                                                        </label>
+
+
+                                                    </div>
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Passbook Document :</b> </span></div>
+                                                        <label for="Activity" class="col-md-6" ng-show="info.PassbookDoc  != null">
+
+                                                            <a data-toggle="modal" data-target="#test" ng-click="testclickPass($index, ApplicantAdmDetail.AdmissionList)">
+                                                                <!--href="{{info.PassbookDoc}}" target="_blank"-->
+                                                                <button type="button" title="View"
+                                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                                </button>
+                                                            </a>
+                                                        </label>
+                                                        <label for="Activity" class="col-md-6" ng-show="info.PassbookDoc == null">
+                                                            <span style="color:red;">No Document Found..!</span>
+                                                        </label>
+
+
+
+
+                                                    </div>
+
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>RTGS Form :</b> </span></div>
+
+                                                        <label for="Activity" class="col-md-6" ng-show="info.RTGSForm  != null">
+
+                                                            <a data-toggle="modal" data-target="#test" ng-click="testclickRTGS($index, ApplicantAdmDetail.AdmissionList)">
+                                                                <!--href="{{info.RTGSForm}}" target="_blank"-->
+                                                                <button type="button" title="View"
+                                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                                </button>
+                                                            </a>
+                                                        </label>
+                                                        <label for="Activity" class="col-md-6" ng-show="info.RTGSForm == null">
+                                                            <span style="color:red;">No Document Found..!</span>
+                                                        </label>
+
+
+                                                    </div>
+
+                                                    <div class="col-md-6 row">
+                                                        <div class="col-md-6"><span><b>Authority Letter :</b> </span></div>
+
+                                                        <label for="Activity" class="col-md-6" ng-show="info.AuthorityLetter  != null">
+
+                                                            <a data-toggle="modal" data-target="#test" ng-click="testclickAuth($index, ApplicantAdmDetail.AdmissionList)">
+                                                                <!--href="{{info.AuthorityLetter}}" target="_blank"-->
+                                                                <button type="button" title="View"
+                                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                                </button>
+                                                            </a>
+                                                        </label>
+                                                        <label for="Activity" class="col-md-6" ng-show="info.AuthorityLetter == null">
+                                                            <span style="color:red;">No Document Found..!</span>
+                                                        </label>
+
+
+                                                    </div>
+
+
+                                                </div>
+
+                                        </tr>
+
+
+
+                                    </tbody>
+                                </table>
+
+
+
+
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="tab-content" ng-show="CancelNoRecord">
+                        <div class="card">
+
+                            <label style="font:bold; text-align:center; font-size:medium; color:red;">No Cancel Details Found..!</label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div id="overlay" class="col-lg-6 offset-md-2">
+                    <div class="w-100 d-flex justify-content-lg-center align-items-center">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="PrintBlockExamForm" hidden>
+
+        <!--Starts Seating Arrangement-->
+        <div class="card" style="break-after:page;" ng-show="false">
+            <div>
+                <table border="1" class="table table-bordered table-responsive" style="border-style:solid;text-align: center;" width="100%" template-pagination="none">
+                    <tr>
+                        <td width="13%" height="76" align="center"> <img style="text-align:center;" src="assets/images/Msu-Images/Msu_baroda_logo.png" height="60px" width="60px" />&nbsp;</td>
+                        <td colspan="4">
+                            The Maharaja Sayajirao University of Baroda<br />
+                            {{ExamFormPrintData.FacultyName}}<br />
+                            Application Form for Examination of {{ExamFormPrintData.DisplayName}} event<br />
+                            {{ExamFormPrintData.InstancePartTermName}}&nbsp;
+                        </td>
+                        <td width="24%"><img style="text-align:center;" src="{{ExamFormPrintData.StudentPhoto}}" height="60px" width="60px" />&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td height="75">
+                            <p>PRN :</p>
+                            <p>{{ExamFormPrintData.PRN}}</p>
+                        </td>
+                        <td width="18%">
+                            <p>Eligibility Status : </p>
+                            <p>{{ExamFormPrintData.EligibilityByAcademics}}</p>
+                        </td>
+                        <td width="17%">
+                            <p>Examination Form No :</p>
+                            <p>{{ExamFormPrintData.FormNo}}</p>
+                            <p><svg id="FormNobarcode"></svg></p>
+                        </td>
+                        <td width="18%">Division/ Section :</td>
+                        <td width="16%">Roll No :</td>
+                        <td><img style="text-align:center;" src="{{ExamFormPrintData.StudentSignature}}" height="50px" width="70px" />&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="text-align:left">Instruction Medium : {{ExamFormPrintData.InstructionMediumName}}</td>
+                        <td colspan="3">&nbsp;</td>
+                    </tr>
+                </table>
+
+                <table border="1" class="table table-bordered table-responsive" style="border-style:solid;text-align: center;" width="100%" template-pagination="none">
+
+                    <tr>
+                        <td height="45" colspan="5" style="font-size:large;"><b>Student's Personal Information</b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align:left;">Student's Name : {{ExamFormPrintData.FullName}}</td>
+                        <td colspan="2" style="text-align:left;">Mother's Name : {{ExamFormPrintData.NameOfMother}}</td>
+                        <td width="29%" style="text-align:left;">Gender : {{ExamFormPrintData.Gender}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="text-align:left;">Address: {{ExamFormPrintData.PermanentAddress}}</td>
+                    </tr>
+                    <tr>
+                        <td width="30%" style="text-align:left;">City : {{ExamFormPrintData.PermanentCityVillage}}</td>
+                        <td colspan="2" style="text-align:left;">District : {{ExamFormPrintData.DistrictName}}</td>
+                        <td width="8%" style="text-align:left;">State : {{ExamFormPrintData.StateName}}</td>
+                        <td style="text-align:left;">PIN : {{ExamFormPrintData.PermanentPincode}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align:left;">Telephone No : {{ExamFormPrintData.OptionalMobileNo}}</td>
+                        <td colspan="2" style="text-align:left;">Mobile No : {{ExamFormPrintData.MobileNo}}</td>
+                        <td style="text-align:left;">Email : {{ExamFormPrintData.EmailId}}</td>
+                    </tr>
+                    <tr>
+                        <td height="28" style="text-align:left;">DOB : {{ExamFormPrintData.DOB}}</td>
+                        <td colspan="2" style="text-align:left;">Category : {{ExamFormPrintData.ApplicationReservationName}}</td>
+                        <td colspan="2" style="text-align:left;">Physically Handicape : {{ExamFormPrintData.IsPhysicallyChallenged}}</td>
+                    </tr>
+                </table>
+
+                <table border="1" class="table table-bordered table-responsive" style="border-style:solid;text-align: center;" width="100%" template-pagination="none">
+
+                    <tr>
+                        <td colspan="4" style="text-align:left;">Exam form appearance type: {{ExamFormPrintData.AppearanceType}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align:left;">Course Details: Please select Course details which you want to appear (UA-University Assessment, IA-Internal Assessment)</td>
+                    </tr>
+                    <!--<tr>
+                        <td width="8%">SN</td>
+                        <td width="18%">Course Code</td>
+                        <td width="50%">Course Name</td>
+                        <td width="24%">AM - AT</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>CSE1801L</td>
+                        <td style="text-align:left;">Project/Internship</td>
+                        <td style="text-align:left;">PR-UA [ ]</td>
+                    </tr>-->
+                </table>
+
+                <table border="1" ng-table="ExamFormPaperDataTableParams" class="table table-bordered table-responsive" style="border-style:solid;text-align: center;" width="100%" template-pagination="none">
+
+                    <tbody>
+                        <tr ng-repeat="ExamFormPaperData in $data">
+                            <td data-title="'SN'" style="border-top:none;width:10px;text-align:center;">
+                                <label>{{ExamFormPaperData.IndexId}}</label>
+                            </td>
+                            <td data-title="'Course Code'" style="border-top:none;width:10px;text-align:left;" width="18%">
+                                <label>{{ExamFormPaperData.PaperCode}}</label>
+                            </td>
+                            <td data-title="'Course Name'" style="border-top:none;text-align:left;">
+                                <label>{{ExamFormPaperData.PaperName}}</label>
+                            </td>
+                            <td data-title="'T.L.M.- A.M.- A.T.'" style="border-top:none;text-align:left;">
+                                <label>{{ExamFormPaperData.TLMAMAT}}</label>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <table border="1" class="table table-bordered table-responsive" style="border-style:solid;text-align: center;" width="100%" template-pagination="none">
+
+                    <tr>
+                        <td style="text-align:left;">Total : </td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;">Payment Details : </td>
+                        <td style="text-align:left;">Amount Received : </td>
+                        <td style="text-align:left;" colspan="2">Faculty/College/Institution Receipt No. and Date : </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;">DD No : </td>
+                        <td style="text-align:left;">MICR No : </td>
+                        <td style="text-align:left;">DD Date : </td>
+                        <td style="text-align:left;">Bank : </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;" colspan="4">Center Preference (Code/Name) : </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;" colspan="4">Venue Preference (Code/Name) : </td>
+                    </tr>
+                </table>
+
+                <table border="1" class="table table-bordered table-responsive" style="border-style:solid;text-align: center;" width="100%" template-pagination="none">
+
+                    <tr>
+                        <td colspan="3" rowspan="2" style="text-align:justify;">
+                            <p><b>To, The Deputy Registrar (EXAMINATION),</b></p>
+                            <p>
+                                I request permission to present myself for the ensuing examination. I have remitted the prescribed fee for the same. I hereby
+                                declare that all statement made in this application are true, complete and correct to the best of my knowledge and belief. I
+                                have gone through the syllabus and the list of books prescribed for the examination for which I am appearing. I shall not
+                                request for any special concession such as change in time or day fixed for university Examination etc. on religious or any
+                                other ground. I understand that in the event of any information being found false or incorrect, my candidature is liable to be
+                                cancelled or rejected.
+                            </p>
+                        </td>
+                        <td width="29%" height="74" style="text-align:left;">
+                            <p>Place : Vadodara</p>
+                            <p>Date : </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="67" style="text-align:center;">
+                            <p>&nbsp;</p>
+                            <p>Student's Signature</p>
+                        </td>
+                    </tr>
+                </table>
+
+                <table border="1" class="table table-bordered table-responsive" style="border-style:solid;text-align: center;" width="100%" template-pagination="none">
+
+                    <tr>
+                        <td height="110" colspan="3" style="text-align:justify;">
+                            <p><b>Declaration by Dean/Principal</b></p>
+                            <p>
+                                This form is carefully scrutinized by the Faculty/College/Institution staff and by me. The information printed in the form is correct to the best of my knowledge. I also
+                                undertake the responsibility of fulfillment/rectification of the information. He/she is regular student of this Faculty/College/Institution and has completed the required
+                                attendance and practical course/term work (if any) according to university rules.
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="35%" height="43" style="text-align:left;">Place : </td>
+                        <td width="35%" rowspan="2">
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>Faculty/College/Institution Staff Signature</p>
+                        </td>
+                        <td width="40%" rowspan="2">
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>Seal and Signature of Dean/Principal</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="43" style="text-align:left;">Date :</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!--Ends Seating Arrangement-->
+        <br />
+
+    </div>
+    <!--<div id="print-btn"></div>-->
+
+    <div id="editor"></div>
+</div>
+
+<script>
+    $(function () {
+        var displaysTime = $('#divTime');
+        displaysTime.text(moment.utc('27/04/2017', 'DD/MM/YYYY', true).toISOString());
+    });
+</script>

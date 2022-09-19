@@ -1,0 +1,443 @@
+﻿app.controller('ProgrammeInstancePartCtrl', function ($scope, $localStorage, $http, $localStorage, $rootScope, $state, $cookies, $mdDialog, NgTableParams) {
+    $rootScope.pageTitle = "Programme Instance Part Detail";
+    $scope.ProgInstList = [];
+    $scope.InstList = [];
+    $scope.ProgInst = {};
+    $scope.showDefineBtn = false;
+
+    $scope.ProgInstPartTableparam = new NgTableParams(
+        {}, {
+        dataset: $scope.ProgInstList
+    });
+
+    if ($localStorage.define1) {
+
+        $scope.ProgInst = {};
+        $scope.ProgInst.FacultyId = $localStorage.define1.FacId;
+        $scope.ProgInst.ProgrammeId = $localStorage.define1.ProgId;
+        $scope.ProgInst.ProgrammeInstanceId = $localStorage.define1.ProgInstId;
+        $scope.ProgInst.AcademicYearId = $localStorage.define1.AcadId;
+    }
+    else {
+        $localStorage.define1 = null;
+    }
+
+    $scope.resetProgInstPart = function () {
+        
+        $scope.ProgInst = {};
+    };   
+
+    $scope.clearlocalstorage = function () {
+        //localStorage.clear();
+        $localStorage.define1 = null;        
+        $scope.ProgInst = {};      
+
+    };
+
+    $scope.getProgrammeInstanceListByAcadId = function () {
+
+        $http({
+            method: 'POST',
+            url: 'api/MstProgramInstance/InstanceListGetbyFacultyIdAndAcadId',
+            data: $scope.ProgInst,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                
+                $scope.InstList = response.obj;
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };   
+     
+    $scope.getFacultyList = function () {
+
+        $http({
+            method: 'POST',
+            url: 'api/MstFaculty/MstFacultyGet',
+            data: $scope.ProgInst,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $scope.FacList = response.obj;
+                
+                if ($localStorage.define1.ProgId != null || $localStorage.define1.ProgId != undefined) {
+                    
+                    $scope.getProgrammePartListByProgrammeId();
+                }
+
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+    
+    $scope.getAcademicList = function () {
+        
+        $http({
+            method: 'POST',
+            url: 'api/MstProgramInstance/AcademicYearGet',
+            data: $scope.ProgInst,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $scope.AcadList = response.obj;
+
+                if ($localStorage.define1.AcadId != null || $localStorage.define1.AcadId != undefined) {
+                    $scope.getProgrammeInstanceListByAcadId();
+                }
+                
+
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+
+    $scope.getProgInstPartList = function () {
+        var data = new Object();
+        $http({
+            method: 'POST',
+            url: 'api/ProgrammeInstancePart/ProgrammeInstancePartGet',
+            data: data,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code == "0") {
+                    $state.go('login');
+
+                } else if (response.response_code != "200") {
+                    
+                }
+                else {
+                    $scope.ProgInstPartTableparam = new NgTableParams(
+                        {}, {
+                        dataset: response.obj
+                    });
+                }
+            })
+            .error(function (res) {
+               // $rootScope.broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };    
+
+    $scope.findProgId = function () {
+        console.log($scope.InstList);
+        var ProgInstIdlocal = "";
+        //alert($scope.ProgInst.ProgrammeInstanceId);
+        
+        if ($scope.ProgInst.ProgrammeId == null || $scope.ProgInst.ProgrammeId == undefined) {
+            for (key of Object.keys($scope.InstList)) {
+
+                if ($scope.InstList[key].Id == $scope.ProgInst.ProgrammeInstanceId) {
+                    ProgInstIdlocal = $scope.InstList[key].ProgrammeId;
+                    console.log(ProgInstIdlocal);
+                }
+            }
+
+            $scope.ProgInst.ProgrammeId = ProgInstIdlocal;
+        }
+        
+    }; 
+
+    $scope.getProgrammePartListByProgrammeId = function () {
+        
+        if ($localStorage.define1 == null || $localStorage.define1 == undefined) {        
+            //if (!$localStorage.define1.ProgId) {               
+            $scope.findProgId();
+        }
+        else {
+            $scope.ProgInst.ProgrammeId = $localStorage.define1.ProgId;           
+        }
+        
+        $http({
+            method: 'POST',
+            url: 'api/ProgrammeInstancePart/ProgrammePartGetByProgrammeId',
+            data: $scope.ProgInst,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $scope.ProgPartList = response.obj;
+
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+
+    $scope.defineProgInstPartTerm = function () {
+        
+        $localStorage.define1 = {};
+        $localStorage.define1.FacId = $scope.ProgInst.FacultyId;
+        $localStorage.define1.ProgId = $scope.ProgInst.ProgrammeId;
+        $localStorage.define1.ProgInstId = $scope.ProgInst.ProgrammeInstanceId;       
+        $localStorage.define1.AcadId = $scope.ProgInst.AcademicYearId;
+        $localStorage.define1.PartId = $scope.ProgInst.ProgrammePartId;
+        $state.go('ProgrammeInstancePartTermAdd');
+    };
+   
+    $scope.progInstPartAdd = function () {
+
+        
+       
+        if ($scope.ProgInst.FacultyId == null || $scope.ProgInst.FacultyId === undefined
+          //  || $scope.ProgInst.ProgrammeId == null || $scope.ProgInst.ProgrammeId === undefined
+           // || $scope.ProgInst.SpecialisationId == null || $scope.ProgInst.SpecialisationId === undefined
+            || $scope.ProgInst.AcademicYearId == null || $scope.ProgInst.AcademicYearId === undefined
+            || $scope.ProgInst.ProgrammePartId == null || $scope.ProgInst.ProgrammePartId === undefined
+            || $scope.ProgInst.MaxMarks == null || $scope.ProgInst.MaxMarks === undefined
+            || $scope.ProgInst.MinMarks == null || $scope.ProgInst.MinMarks === undefined) {
+
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title("Error")
+                    .textContent("Please complete the form before Click...")
+                    .ariaLabel('Alert Dialog Demo')
+                    .ok('Okay!')
+            );
+        }
+		else if (parseInt($scope.ProgInst.MaxMarks) < parseInt($scope.ProgInst.MinMarks)) {
+            alert("Minimum Marks are not greater than Maximum Marks");
+        }
+        else {
+
+            $http({
+                method: 'POST',
+                url: 'api/ProgrammeInstancePart/ProgrammeInstancePartAdd',
+                data: $scope.ProgInst,
+                headers: { "Content-Type": 'application/json' }
+            })
+                .success(function (response) {
+                    $rootScope.showLoading = false;
+
+                    if (response.response_code == "0") {
+                        $state.go('login');
+
+                    } else if (response.response_code != "200") {
+                        $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                        
+                    }
+                    else {
+                        $scope.ProgInst.Id = response.obj.Item2;
+                        //alert(response.obj.Item2);
+                        //$scope.ProgInst = {};
+                        $scope.getProgInstPartList();
+                        alert(response.obj.Item1);  
+                        if (response.obj.Item1 != "Record already exists.") {
+                            $scope.showDefineBtn = true;
+                        }
+                        
+                    }
+                })
+                .error(function (res) {
+                    alert(res.obj);
+                    $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                });
+        }
+    };
+
+    $scope.modifyProgInstPartdata = function (data) {
+        $scope.showFormFlag = true;
+        $scope.ProgInst = data;
+        if (!($scope.getFacultyList == null && $scope.getFacultyList == undefined)) { $scope.getProgrammeInstanceListByAcadId(); }
+        if (!($scope.getProgrammeInstanceListByAcadId == null && $scope.getProgrammeInstanceListByAcadId == undefined))
+        {
+            console.log($scope.ProgInst);
+            $scope.getProgrammePartListByProgrammeId();
+        }
+        $(window).scrollTop(0);
+        //if (!($scope.getAcademicList == null && $scope.getAcademicList == undefined)) { $scope.getProgrammePartListByProgrammeId(); }
+    };
+
+    $scope.modifyProgInstPart = function () {
+
+        
+
+        if ($scope.ProgInst.FacultyId == null || $scope.ProgInst.FacultyId === undefined
+          //  || $scope.ProgInst.ProgrammeId == null || $scope.ProgInst.ProgrammeId === undefined
+           // || $scope.ProgInst.SpecialisationId == null || $scope.ProgInst.SpecialisationId === undefined
+            //|| $scope.ProgInst.AcademicYearId == null || $scope.ProgInst.AcademicYearId === undefined
+        //    || $scope.ProgInst.ProgrammePartId == null || $scope.ProgInst.ProgrammePartId === undefined
+            || $scope.ProgInst.MaxMarks == null || $scope.ProgInst.MaxMarks === undefined
+            || $scope.ProgInst.MinMarks == null || $scope.ProgInst.MinMarks === undefined) {
+
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title("Error")
+                    .textContent("Please complete the form before Click...")
+                    .ariaLabel('Alert Dialog Demo')
+                    .ok('Okay!')
+            );
+        }
+		else if (parseInt($scope.ProgInst.MaxMarks) < parseInt($scope.ProgInst.MinMarks)) {
+            alert("Minimum Marks are not greater than Maximum Marks");
+        }
+        else {
+
+            $http({
+                method: 'POST',
+                url: 'api/ProgrammeInstancePart/ProgrammeInstancePartUpdate',
+                data: $scope.ProgInst,
+                headers: { "Content-Type": 'application/json' }
+            })
+                .success(function (response) {
+                    if (response.response_code == "0") {
+                        $state.go('login');
+
+                    } else if (response.response_code != "200") {
+                        alert(response.obj);
+                        $rootScope.broadcast('dialog', "Error", "alert", response.obj);
+                    } else {
+                        alert(response.obj);
+                        $scope.ProgInst = {};
+                        $scope.showFormFlag = false;
+                        $scope.getProgInstPartList();
+
+                    }
+                })
+                .error(function (res) {
+                    alert(res.obj);
+                    $rootScope.broadcast('dialog', "Error", "alert", res.obj);
+                });
+        }
+    };
+
+    $scope.deleteProgInstPart = function (ev, data) {
+        var confirm = $mdDialog.confirm()
+            .title("Would you like to delete?")
+            .textContent('')
+            .ariaLabel('Lucky Day')
+            .targetEvent(ev)
+            .ok('Yes')
+            .cancel('No');
+        $mdDialog.show(confirm).then(function () {
+            $scope.ProgInst = data;
+            $http({
+                method: 'POST',
+                url: 'api/ProgrammeInstancePart/ProgrammeInstancePartDelete',
+                data: data,
+                headers: { "Content-Type": 'application/json' }
+            })
+                .success(function (response) {
+                    if (response.response_code == "0") {
+                        $state.go('login');
+
+                    } else if (response.response_code != "200") {
+                        alert(response.obj);
+                        $rootScope.broadcast('dialog', "Error", "alert", response.Object);
+                    }
+                    else {
+                        alert(response.obj);                        
+                        $scope.getProgInstPartList();
+                    }
+                })
+                .error(function (res) {
+                    $rootScope.broadcast('dialog', "Error", "alert", res.obj);
+                });
+
+        }, function () {
+            $scope.status = 'You decided not to delete your data.';
+            alert($scope.status);
+        });
+    };
+
+    $scope.showProgInstPart = function (data) {
+        
+        $scope.newProgInstPart = data;
+        
+        $http({
+            method: 'POST',
+            url: 'api/ProgrammeInstancePart/ProgrammeInstancePartIsActiveEnable',
+            data: $scope.newProgInstPart,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code == "0") {
+                    $state.go('login');
+
+                } else if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    alert(response.obj);
+                    $scope.getProgInstPartList();
+                    
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+
+
+    };
+
+    $scope.hideProgInstPart = function (data) {
+        
+        $scope.newProgInstPart = data;
+        
+        $http({
+            method: 'POST',
+            url: 'api/ProgrammeInstancePart/ProgrammeInstancePartIsActiveDisable',
+            data: $scope.newProgInstPart,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code == "0") {
+                    $state.go('login');
+
+                } else if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    alert(response.obj);
+                    $scope.getProgInstPartList();
+                    
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+
+    };
+
+    $scope.newProgInstPartAdd = function () {
+        $state.go('ProgrammeInstancePartAdd');
+    };
+
+    $scope.backToList = function () {
+        //localStorage.clear();
+        $localStorage.define1 = null;
+        $state.go('ProgrammeInstancePartEdit');
+    };
+
+    $scope.displayProgInstPart = function (data) {
+        $scope.ProgInst = data;
+    };    
+
+});
+
+function allowPatternDirective() {
+    return {
+        restrict: "A",
+        compile: function (tElement, tAttrs) {
+            return function (scope, element, attrs) {
+
+                element.bind("keypress", function (event) {
+                    var keyCode = event.which || event.keyCode;
+                    var keyCodeChar = String.fromCharCode(keyCode);
+
+                    if (!keyCodeChar.match(new RegExp(attrs.allowPattern, "i"))) {
+                        event.preventDefault();
+                        return false;
+                    }
+
+                });
+            };
+        }
+    };
+}

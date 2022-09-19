@@ -1,0 +1,71 @@
+﻿<div class="page-body" >
+    <div class="card">
+        <div class="card-header">
+            <h4>Application Institute Preference Report</h4>
+        </div>
+
+       
+        <div class="card-block">
+            <div class="col-md-12 offset-md-2">
+                <form ng-model="AppStats">
+                    <div class="form-group row" ng-init="getFacultyById()">
+                        <div class="col-sm-2">Faculty Name</div>
+                        <div class="col-sm-6">
+                            <div>
+                                <span class="nullable">
+                                    <label>{{Institute.FacultyName}} - {{Institute.InstituteId}}</label>
+
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-2">Programme Instance Part Term Name<span style="color:red;"> * </span></div>
+                        <div class="col-sm-6">
+                            <div>
+                                <span class="nullable">
+                                    <select ng-model="InstitutePreference.ProgrammeInstance" ng-options="d.IncProgramInstancePartTermName for d in InstanceNameList" [value]="ProgInst.ProgrammeInstanceId" ng-change="getApplicationInstitutePreferenceReport()" class="form-control" name="ProgInstanceNamedropdown" ng-disabled="partTermDisable" required>
+                                        <option value="" disabled selected>-- select --</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </form>
+            </div>
+        </div>
+
+   
+    <div class="table-responsive">
+        <table id="example"  class="table table-striped table-bordered" show-filter="true">
+            <thead>
+
+                <tr>
+                    <th>Sr.No</th>
+                    <th>ApplicationNo</th>
+                    <th>InstituteName</th>
+                    <th>ProgrammeName</th>
+                    <th>BranchName</th>
+                    <th>InstancePartTermName</th>
+                    <th>PreferenceNo</th>
+                    <th><label>Preference Given On</label></th>
+                </tr>
+
+              
+
+            </thead>
+            <tbody>
+
+               
+
+            </tbody>
+        </table>
+
+       </div>
+                
+
+    </div>
+  </div>

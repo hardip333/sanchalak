@@ -1,0 +1,196 @@
+﻿
+<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+
+<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>HALL TICKET INSTRUCTION CONFIGURATION</h4></div>
+                    </div>
+
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12">
+                        <form name="vaidateForm" ng-model="HallTicket" novalidate>
+
+                            <div class="form-group row" ng-init="ExamEventGet()">
+                                <div class="col-sm-4"><b>Select Exam Event:</b><span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="HallTicket.Id" ng-change="IsVisibleSubmitBtn()" ng-options="d.Id as d.DisplayName for d in ExamEventList" class="form-control" name="Instdropdown" required>
+                                                <option value="" disabled selected>-- Select Exam Event --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group row">
+                                <div class="col-sm-4"></div>
+                                <div class="col-sm-6">
+                                    <button type="button" ng-show="IsSubmitBtnVisible" ng-click="GetHallTicketInstructionConfiguration()" class="btn btn-success">&nbsp; Submit</button>
+
+                                </div>
+                            </div>
+
+                            <div ng-show="IsHallTicketVisible">
+
+                                <div>
+                                    <h6>ADD / UPDATE HALL TICKET INSTRUCTION CONFIGURATION DETAILS:-</h6>
+                                </div>
+
+
+                                <div class="card">
+                                    &nbsp;&nbsp;
+                                    <div class="form-group row">
+                                        <div class="col-sm-4"><b>Mandatory Instruction For Online Exam:</b></div>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <textarea class="form-control" name="ManOn" id="MOn" ng-maxlength="200" ng-model="HallTicket.MandatoryInstructionForOnlineExam"></textarea>
+
+                                                <span style="color:red" ng-show="vaidateForm.ManOn.$error.maxlength">
+                                                    Sorry You are Exceeding the Limit!Maximum 200 characters!
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4"><b>Optional Instruction For Online Exam:</b></div>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <textarea class="form-control" name="OpOn" id="OOn" ng-maxlength="200" ng-model="HallTicket.OptionalInstructionForOnlineExam"></textarea>
+                                                <span style="color:red" ng-show="vaidateForm.OpOn.$error.maxlength">
+                                                    Sorry You are Exceeding the Limit!Maximum 200 characters!
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4"><b>Mandatory Instruction For Offline Exam:</b></div>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <textarea id="MOff" name="ManOff" ng-maxlength="200" ng-model="HallTicket.MandatoryInstructionForOfflineExam" class="form-control"></textarea>
+                                                <span style="color:red" ng-show="vaidateForm.ManOff.$error.maxlength">
+                                                    Sorry You are Exceeding the Limit!Maximum 200 characters!
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4"><b>Optional Instruction For Offline Exam:</b></div>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <textarea id="OOff" name="OpOff" ng-maxlength="200" ng-model="HallTicket.OptionalInstructionForOfflineExam" class="form-control"></textarea>
+                                                <span style="color:red" ng-show="vaidateForm.OpOff.$error.maxlength">
+                                                    Sorry You are Exceeding the Limit!Maximum 200 characters!
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <label for="userName-2" class="block"><b>Exam / Academic Signature:</b> <span style="color:red">*</span></label>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <input type="file" id="HallTicket_Signature" name="HallTicket_Signature" class="preview clearfix" accept=".jpg,.jpeg,.png,.bmp" ngf-select="UploadHallTicketSignature($files)" required />
+
+
+                                            <br />
+                                            <span style="color:blue;font-weight:bold">
+                                                Note: 1.Signature Should be in 50Kb size and .jpg and .png file format.<br />
+                                                2.Please Click Update / Add button After Sucessfully Uploading Image.
+
+                                            </span><br />
+                                            <span id="ErrorMsgSignature" style="color:red"></span><br />
+                                            <span id="SuccessMsgSignature" style="color:green"></span>
+                                        </div>
+
+
+
+                                        <div class="col-sm-3" ng-show="showImg">
+                                            <img id="imgPreview"  width="203" height="56" src="#" alt="pic" />
+                                            <!--<img class="user-img" width="203" height="56" src="https://localhost:44374/Upload/HallTicketSignature/{{HallTicket.DyrExamSign}}" alt="user-img">-->
+                                            
+                                        </div>
+
+
+                                        <div ng-show="showImgGet" class="col-sm-3">
+                                            <img class="user-img" width="203" height="56" src="https://localhost:44374/Upload/HallTicketSignature/{{ExamEventListById.DyrExamSign}}" alt="user-img">
+                                        </div>
+
+                                       
+                                       
+
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-4"></div>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <button ng-show="HallTicket.EditStatus==false" type="button" ng-click="HallTicketInstructionConfigurationAdd()" class="btn btn-success">&nbsp;Add</button>
+                                                <button ng-show="HallTicket.EditStatus==true" type="button" ng-click="HallTicketInstructionConfigurationAdd()" class="btn btn-success">&nbsp;Update</button>
+                                                <button class="btn btn-disabled disabled" ng-click="cancelHallticketInstConfig()">Cancel</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+
+                            </div>
+
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(() => {
+        $("#HallTicket_Signature").change(function () {
+            const file = this.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function (event) {
+                    $("#imgPreview")
+                        .attr("src", event.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+</script>

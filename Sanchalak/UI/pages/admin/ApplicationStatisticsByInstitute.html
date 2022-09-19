@@ -1,0 +1,395 @@
+﻿<style>
+
+    ::-webkit-scrollbar {
+        height: 20px !important;
+        overflow: visible;
+        width: 0px;
+        background-color: lightgray;
+    }
+</style>
+<script src="../../../app/admin/controller/alasql.js"></script>
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Application/Form Statistics</h4></div>
+
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="AppStats">
+
+                            <div class="form-group row" ng-init="getMstInstitute();">
+                                <div class="col-sm-2">Select Institute<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="AppStats.InstituteId" ng-options="d.Id as d.InstituteName for d in InstituteList  | orderBy:'InstituteName'" class="form-control" ng-change="getMstInstituteInstNameById();" id="Instdropdown1" name="Instdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getAcademicList()">
+                                <div class="col-sm-2">Academic Year:<span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="AppStats.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcadList"  class="form-control" required>
+                                                <option value="" disabled selected>-- select Academic Year --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button" ng-click="getApplicationStatisticsListByInstituteId();" class="btn btn-success">&nbsp; Submit</button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetApplicationStatistics();">Cancel</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-block">
+                        <div class="table-responsive">
+                            <table id="ApplicationStatsId" class="table table-striped table-bordered" ng-table="ApplicationStatisticsByInstIdTableParams" show-filter="true">
+                                <thead style="vertical-align: middle">
+                                    <tr>
+                                        <th style="width:auto;">Sr.<br />No</th>
+                                        <th style="width:auto;">Programme Name</th>
+                                        <th style="width:auto;">Faculty Name</th>
+                                        <th style="width:auto;">Intake<br />Capacity</th>
+                                        <th style="width:auto;">Total Application<br /> (Application Fee Not Paid)</th>
+                                        <th style="width:auto;">Total Application<br /> (Application Fee Paid)</th>
+                                        <th style="width:auto;">PreVerification<br /> By Faculty(Verified)</th>
+                                        <th style="width:auto;">PreVerification<br /> By Faculty(Pending)</th>
+                                        <th style="width:auto;">PreVerification<br /> By Faculty(Not Approved)</th>
+                                        <th style="width:auto;">PreVerification<br /> By Faculty(Pending Verification)</th>
+                                        <th style="width:auto;">Approved<br />By Faculty</th>
+                                        <th style="width:auto;">Not Approved<br />By Faculty</th>
+                                        <th style="width:auto;">Admission<br />Fee Paid</th>
+                                        <th style="width:auto;">Admission Fee<br />Not Paid</th>
+                                        <th style="width:auto;">Approved By<br />Academic</th>
+                                        <th style="width:auto;">Not Approved<br />By Academic</th>
+                                        <th style="width:auto;">Pending Approved<br />By Academic</th>
+                                        <th style="width:auto;">Eligible<br />for Admission</th>
+                                        <th style="width:auto;">PRN<br />Generated</th>
+                                        <th style="width:auto;">PRN<br />Not Generated</th>
+                                        <th style="width:auto;">Paper<br />Selected</th>
+                                        <th style="width:auto;">Cancelled<br />By Academics</th>
+                                        <th style="width:auto;">Cancelled<br />By Faculty</th>
+                                        <th style="width:auto;">Cancelled<br />By Student</th>
+                                        <th style="width:auto;">Refund<br />Request By Student</th>
+                                        <th style="width:auto;">Refund<br />Request By Faculty</th>
+                                        <th style="width:auto;">Refund<br />Request By Academics</th>
+                                        <th style="width:auto;">Refund<br />Request By Audit</th>
+                                        <th style="width:auto;">Refund<br />Request By Accounts</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="text-align:center" ng-repeat="AppStats in $data">
+                                        <!--<td class="expand_data" id="{{'first_col'+$index}}" ng-click="expand_row($index)">+</td>-->
+                                        <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;"><label>{{AppStats.IndexId}}</label></td>
+                                        <td data-title="'Programme Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style="border-top:none;">
+
+                                            <label>{{AppStats.InstancePartTermName}}</label>
+
+                                        </td>
+                                        <td data-title="'Faculty Name'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style="border-top:none;">
+
+                                            <label>{{AppStats.FacultyName}}</label>
+
+                                        </td>
+                                        <td data-title="'Intake Capacity'" filter="{Intake: 'text'}" sortable="'Intake'" style="border-top:none;"><label>{{AppStats.Intake}}</label></td>
+                                        <td data-title="'Total Application (Application Fee Not Paid)'" filter="{ApplicationFeeNotPaid: 'text'}" sortable="'ApplicationFeeNotPaid'" style="border-top:none;">
+                                            <span ng-if="AppStats.ApplicationFeeNotPaid >'0'">
+                                                <a ui-sref="ApplicationListAppFeeNotPaid" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.ApplicationFeeNotPaid}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.ApplicationFeeNotPaid == '0'">  <label>{{AppStats.ApplicationFeeNotPaid}}</label></span>
+                                        </td>
+                                        <td data-title="'Total Application (Application Fee Paid)'" filter="{TotalApplication: 'text'}" sortable="'TotalApplication'" style="border-top:none;">
+
+                                            <span ng-if="AppStats.TotalApplication >'0'">
+                                                <a ui-sref="ApplicationList" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.TotalApplication}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.TotalApplication == '0'">  <label>{{AppStats.TotalApplication}}</label></span>
+                                        </td>
+                                        <td data-title="'PreVerification By Faculty Verifried'" filter="{PreVerificationVerifried: 'text'}" sortable="'PreVerificationVerifried'" style="border-top:none;">
+                                            <span ng-if="AppStats.PreVerificationVerifried >'0'">
+                                                <a ui-sref="PreVerificationVerifried" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.PreVerificationVerifried}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.PreVerificationVerifried == '0'">  <label>{{AppStats.PreVerificationVerifried}}</label></span>
+                                        </td>
+                                        <td data-title="'PreVerification By Faculty Pending'" filter="{PreVerificationPending: 'text'}" sortable="'PreVerificationPending'" style="border-top:none;">
+                                            <span ng-if="AppStats.PreVerificationPending >'0'">
+                                                <a ui-sref="PreVerificationPending" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.PreVerificationPending}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.PreVerificationPending == '0'">  <label>{{AppStats.PreVerificationPending}}</label></span>
+                                        </td>
+                                        <td data-title="'PreVerification By Faculty NotApproved'" filter="{PreVerificationNotApproved: 'text'}" sortable="'PreVerificationNotApproved'" style="border-top:none;">
+                                            <span ng-if="AppStats.PreVerificationNotApproved >'0'">
+                                                <a ui-sref="PreVerificationNotApproved" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.PreVerificationNotApproved}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.PreVerificationNotApproved == '0'">  <label>{{AppStats.PreVerificationNotApproved}}</label></span>
+                                        </td>
+                                        <td data-title="'PreVerification By Pedning Verification'" filter="{PreVerificationPendingVerified: 'text'}" sortable="'PreVerificationPendingVerified'" style="border-top:none;">
+                                            <span ng-if="AppStats.PreVerificationPendingVerified >'0'">
+                                                <a ui-sref="PreVerificationPendingVerified" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.PreVerificationPendingVerified}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.PreVerificationPendingVerified == '0'">  <label>{{AppStats.PreVerificationPendingVerified}}</label></span>
+                                        </td>
+                                        <td data-title="'Approved By Faculty'" filter="{ApprovedByFaculty: 'text'}" sortable="'ApprovedByFaculty'" style="border-top:none;">
+
+                                            <span ng-if="AppStats.ApprovedByFaculty >'0'">
+                                                <a ui-sref="ApprovedByFaculty" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.ApprovedByFaculty}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.ApprovedByFaculty == '0'">  <label>{{AppStats.ApprovedByFaculty}}</label></span>
+
+
+                                        </td>
+                                        <td data-title="'Not Approved By Faculty'" filter="{NotApprovedByFaculty: 'text'}" sortable="'NotApprovedByFaculty'" style="border-top:none;">
+                                            <!--<label>{{AppStats.NotApprovedByFaculty}}</label>-->
+                                            <span ng-if="AppStats.NotApprovedByFaculty >'0'">
+                                                <a ui-sref="NotApprovedByFaculty" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.NotApprovedByFaculty}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.NotApprovedByFaculty == '0'">  <label>{{AppStats.NotApprovedByFaculty}}</label></span>
+
+
+                                        </td>
+                                        <td data-title="'Admission Fee Paid'" filter="{AdmissionFeePaid: 'text'}" sortable="'AdmissionFeePaid'" style="border-top:none;">
+                                            <!--<label>{{AppStats.AdmissionFeePaid}}</label>-->
+                                            <span ng-if="AppStats.AdmissionFeePaid >'0'">
+                                                <a ui-sref="StudentAdmissionFeesPaidReport" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.AdmissionFeePaid}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.AdmissionFeePaid == '0'">  <label>{{AppStats.AdmissionFeePaid}}</label></span>
+                                        </td>
+                                        <td data-title="'Admission Fee Not Paid'" filter="{AdmissionFeeNotPaid: 'text'}" sortable="'AdmissionFeeNotPaid'" style="border-top:none;">
+                                            <span ng-if="AppStats.AdmissionFeeNotPaid >'0'">
+                                                <a ui-sref="StudentAdmissionFeesNotPaidReport" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.AdmissionFeeNotPaid}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.AdmissionFeeNotPaid == '0'">  <label>{{AppStats.AdmissionFeeNotPaid}}</label></span>
+                                        </td>
+                                        <td data-title="'Approved By Academic'" filter="{ApprovedByAcademic: 'text'}" sortable="'ApprovedByAcademic'" style="border-top:none;">
+                                            <!--<label>{{AppStats.ApprovedByAcademic}}</label>-->
+                                            <span ng-if="AppStats.ApprovedByAcademic >'0'">
+                                                <a ui-sref="ApprovedByAcademic" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.ApprovedByAcademic}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.ApprovedByAcademic == '0'">  <label>{{AppStats.ApprovedByAcademic}}</label></span>
+
+                                        </td>
+                                        <td data-title="'Not Approved By Academic'" filter="{NotApprovedByAcademic: 'text'}" sortable="'NotApprovedByAcademic'" style="border-top:none;">
+                                            <!--<label>{{AppStats.NotApprovedByAcademic}}</label>-->
+
+                                            <span ng-if="AppStats.NotApprovedByAcademic >'0'">
+                                                <a ui-sref="NotApprovedByAcademic" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.NotApprovedByAcademic}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.NotApprovedByAcademic == '0'">  <label>{{AppStats.NotApprovedByAcademic}}</label></span>
+
+                                        </td>
+                                        <td data-title="'Pending Approved By Academic'" filter="{PendingApprovedByAcademic: 'text'}" sortable="'PendingApprovedByAcademic'" style="border-top:none;">
+                                            <!--<label>{{AppStats.PendingApprovedByAcademic}}</label>-->
+
+                                            <span ng-if="AppStats.PendingApprovedByAcademic >'0'">
+                                                <a ui-sref="PendingApprovedByAcademic" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.PendingApprovedByAcademic}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.PendingApprovedByAcademic == '0'">  <label>{{AppStats.PendingApprovedByAcademic}}</label></span>
+
+                                        </td>
+
+
+                                        <td data-title="'Admitted Student'" filter="{AdmittedStudent: 'text'}" sortable="'AdmittedStudent'" style="border-top:none;">
+                                            <!--<label>{{AppStats.AdmittedStudent}}</label>-->
+                                            <span ng-if="AppStats.AdmittedStudent >'0'">
+                                                <a ui-sref="AdmittedStudent" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.AdmittedStudent}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.AdmittedStudent == '0'">  <label>{{AppStats.AdmittedStudent}}</label></span>
+                                        </td>
+                                        <td data-title="'Prn Generated'" filter="{PrnGenerated: 'text'}" sortable="'PrnGenerated'" style="border-top:none;">
+                                            <!--<label>{{AppStats.PrnGenerated}}</label>-->
+                                            <span ng-if="AppStats.PrnGenerated >'0'">
+                                                <a ui-sref="PrnGenerated" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.PrnGenerated}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.PrnGenerated == '0'">  <label>{{AppStats.PrnGenerated}}</label></span>
+                                        </td>
+                                        <td data-title="'Prn Not Generated'" filter="{PRNNotGenerated: 'text'}" sortable="'PRNNotGenerated'" style="border-top:none;">
+                                            <!--<label>{{AppStats.PRNNotGenerated}}</label>-->
+                                            <span ng-if="AppStats.PRNNotGenerated >'0'">
+                                                <a ui-sref="PRNNotGenerated" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.PRNNotGenerated}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.PRNNotGenerated == '0'">  <label>{{AppStats.PRNNotGenerated}}</label></span>
+                                        </td>
+                                        <td data-title="'Paper Selected'" filter="{PaperSelected: 'text'}" sortable="'PaperSelected'" style="border-top:none;">
+                                            <!--<label>{{AppStats.PaperSelected}}</label>-->
+                                            <span ng-if="AppStats.PaperSelected >'0'">
+                                                <a ui-sref="PaperSelected" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.PaperSelected}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.PaperSelected == '0'">  <label>{{AppStats.PaperSelected}}</label></span>
+                                        </td>
+                                        <td data-title="'Cancelled By Academics'" filter="{CancelledByAcademics: 'text'}" sortable="'CancelledByAcademics'" style="border-top:none;">
+                                            <!--<label>{{AppStats.CancelledByAcademics}}</label>-->
+                                            <span ng-if="AppStats.CancelledByAcademics >'0'">
+                                                <a ui-sref="CancelledByAcademics" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.CancelledByAcademics}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.CancelledByAcademics == '0'">  <label>{{AppStats.CancelledByAcademics}}</label></span>
+
+                                        </td>
+                                        <td data-title="'Cancelled By Faculty'" filter="{CancelledByFaculty: 'text'}" sortable="'CancelledByFaculty'" style="border-top:none;">
+                                            <!--<label>{{AppStats.CancelledByFaculty}}</label>-->
+
+                                            <span ng-if="AppStats.CancelledByFaculty >'0'">
+                                                <a ui-sref="CancelledByFaculty" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.CancelledByFaculty}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.CancelledByFaculty == '0'">  <label>{{AppStats.CancelledByFaculty}}</label></span>
+
+                                        </td>
+                                        <td data-title="'Cancelled By Student'" filter="{CancelledByStudent: 'text'}" sortable="'CancelledByStudent'" style="border-top:none;">
+
+                                            <!--<label>{{AppStats.CancelledByStudent}}</label>-->
+                                            <span ng-if="AppStats.CancelledByStudent >'0'">
+                                                <a ui-sref="CancelledByStudent" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.CancelledByStudent}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.CancelledByStudent == '0'">  <label>{{AppStats.CancelledByStudent}}</label></span>
+                                        </td>
+                                        <td data-title="'Refund Request By Student'" filter="{RefundRequestByStudent: 'text'}" sortable="'RefundRequestByStudent'" style="border-top:none;">
+
+
+                                            <span ng-if="AppStats.RefundRequestByStudent >'0'">
+                                                <a ui-sref="RefundRequestByStudent" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.RefundRequestByStudent}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.RefundRequestByStudent == '0'">  <label>{{AppStats.RefundRequestByStudent}}</label></span>
+                                        </td>
+                                        <td data-title="'Refund Request By Faculty'" filter="{RefundRequestByFaculty: 'text'}" sortable="'RefundRequestByFaculty'" style="border-top:none;" title="Cancelled By Student">
+
+                                            <span ng-if="AppStats.RefundRequestByFaculty >'0'">
+                                                <a ui-sref="RefundRequestByFaculty" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.RefundRequestByFaculty}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.RefundRequestByFaculty == '0'">  <label>{{AppStats.RefundRequestByFaculty}}</label></span>
+
+                                        </td>
+                                        <td data-title="'Refund Request By Academics'" filter="{RefundRequestByAcademics: 'text'}" sortable="'RefundRequestByAcademics'" style="border-top:none;" title="Cancelled By Student">
+
+                                            <span ng-if="AppStats.RefundRequestByAcademics >'0'">
+                                                <a ui-sref="RefundRequestByAcademics" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.RefundRequestByAcademics}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.RefundRequestByAcademics == '0'">  <label>{{AppStats.RefundRequestByAcademics}}</label></span>
+
+                                        </td>
+                                        <td data-title="'Refund Request By Audit'" filter="{RefundRequestByAudit: 'text'}" sortable="'RefundRequestByAudit'" style="border-top:none;" title="Cancelled By Student">
+
+                                            <span ng-if="AppStats.RefundRequestByAudit >'0'">
+                                                <a ui-sref="RefundRequestByAudit" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.RefundRequestByAudit}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.RefundRequestByAudit == '0'">  <label>{{AppStats.RefundRequestByAudit}}</label></span>
+
+                                        </td>
+                                        <td data-title="'Refund Request By Account'" filter="{RefundRequestByAccount: 'text'}" sortable="'RefundRequestByAccount'" style="border-top:none;" title="Cancelled By Student">
+
+                                            <span ng-if="AppStats.RefundRequestByAccount >'0'">
+                                                <a ui-sref="RefundRequestByAccount" ng-click="moveAcademic(AppStats.ProgrammeInstancePartTermId);">
+                                                    <label>{{AppStats.RefundRequestByAccount}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="AppStats.RefundRequestByAccount == '0'">  <label>{{AppStats.RefundRequestByAccount}}</label></span>
+
+                                        </td>
+                                    </tr>
+                                    <!--<tr id="{{'expand'+$index}}" class="collapse">
+                                        <td colspan="9">
+                                            <div class="row">
+                                                <div class="col-md-5 row">
+                                                    <div class="col-md-5"><span>Application Cancelled By Academics : </span></div>
+                                                    <div class="col-md-4"><span>{{AppStats.CancelledByAcademics}}</span></div>
+                                                </div>
+                                                <div class="col-md-5 row">
+                                                    <div class="col-md-4"><span> Application Cancelled By Faculty : </span></div>
+                                                    <div class="col-md-4"><span>{{AppStats.CancelledByFaculty}}</span></div>
+                                                </div>
+                                                <div class="col-md-5 row">
+                                                    <div class="col-md-4"><span>Application Cancelled By Student : </span></div>
+                                                    <div class="col-md-4"><span>{{AppStats.CancelledByStudent}}</span></div>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    </tr>-->
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                        <div layout="row" style="margin-top:3px" class="float-right">
+
+                            <button ng-click="exportApplicationStatsByInstituteData()" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="min-width:40px;">Export to Excel </button>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,218 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-init="RefCaseAuditApplicantsDetails()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h5><b>Applicant Details for Refund Case - Audit Section</b></h5>
+                    <div class="float-right">
+                        &nbsp;&nbsp;<button type="button" id="btnback" class="btn btn-info" ng-click="backToRefundCaseList()" style="padding: 5px 15px 5px 15px;border-radius:30px;">Back to list</button>
+                    </div>
+                </div>
+                <div class="card-block">
+
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Application Form No </b> </label>
+                        <label for="Activity" class="col-sm-2 col-form-label">{{RefundApplicantList.ApplicationId}}</label><br />
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Name As Per Marksheet </b> </label>
+                        <label for="Activity" class="col-sm-4 col-form-label">{{RefundApplicantList.NameAsPerMarksheet}}</label>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Programme Name </b> </label>
+                        <label for="Activity" class="col-sm-8 col-form-label">{{RefundApplicantList.ProgrammeName}}</label><br />
+
+
+
+                    </div>
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Faculty Name </b></label>
+                        <label for="Activity" class="col-sm-2 col-form-label">{{RefundApplicantList.FacultyName}}</label>
+
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Branch Name </b> </label>
+                        <label for="Activity" class="col-sm-4 col-form-label">
+                            <span ng-if="RefundApplicantList.BranchName == ''">Not Defined</span>
+                            <span ng-if="RefundApplicantList.BranchName != ''">{{RefundApplicantList.BranchName}}</span>
+                        </label><br />
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Old Institute Name </b> </label>
+                        <label for="Activity" class="col-sm-2 col-form-label">{{RefundApplicantList.OldInstituteName}}</label><br />
+
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>New Institute Name </b> </label>
+                        <label for="Activity" class="col-sm-4 col-form-label">{{RefundApplicantList.NewInstituteName}}</label><br />
+
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Old Instance PartTerm Name </b> </label>
+                        <label for="Activity" class="col-sm-8 col-form-label">{{RefundApplicantList.OldInstancePartTermName}}</label><br />
+                    </div>
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>New Instance PartTerm Name </b> </label>
+                        <label for="Activity" class="col-sm-8 col-form-label">{{RefundApplicantList.NewInstancePartTermName}}</label><br />
+
+                    </div>
+
+                    <div class="form-group row">
+
+
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Old Group Name </b> </label>
+                        <label for="Activity" class="col-sm-2 col-form-label">
+                            <span ng-if="RefundApplicantList.OldGroupName == ''">Not Defined</span>
+                            <span ng-if="RefundApplicantList.OldGroupName != ''">{{RefundApplicantList.OldGroupName}}</span>
+                        </label>
+
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>New Group Name </b> </label>
+                        <label for="Activity" class="col-sm-4 col-form-label">
+                            <span ng-if="RefundApplicantList.NewGroupName == ''">Not Defined</span>
+                            <span ng-if="RefundApplicantList.NewGroupName != ''">{{RefundApplicantList.NewGroupName}}</span>
+                        </label><br />
+
+
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Old Fee Name </b> </label>
+                        <label for="Activity" class="col-sm-2 col-form-label">{{RefundApplicantList.OldFeeCategoryName}}</label>
+
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>New Fee Name </b> </label>
+                        <label for="Activity" class="col-sm-4 col-form-label">{{RefundApplicantList.NewFeeCategoryName}}</label>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Verified Status By Faculty </b> </label>
+                        <label for="Activity" class="col-sm-2 col-form-label">
+                            <span ng-if="RefundApplicantList.EligibilityStatus == ''">Not Verify</span>
+                            <span ng-if="RefundApplicantList.EligibilityStatus != ''">{{RefundApplicantList.EligibilityStatus}}</span>
+                        </label>
+
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Verified Status By Academic </b> </label>
+                        <label for="Activity" class="col-sm-4 col-form-label">
+                            <span ng-if="RefundApplicantList.EligibilityByAcademics == ''">Not Verify</span>
+                            <span ng-if="RefundApplicantList.EligibilityByAcademics != ''">{{RefundApplicantList.EligibilityByAcademics}}</span>
+                        </label><br />
+
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Sent SMS Status </b> </label>
+                        <label for="Activity" class="col-sm-2 col-form-label">
+                            <span ng-if="RefundApplicantList.IsVerificationSMSOnView == ''">Not Sent</span>
+                            <span ng-if="RefundApplicantList.IsVerificationSMSOnView != ''">{{RefundApplicantList.IsVerificationSMSOnView}}</span>
+                        </label>
+
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Sent Email Status </b> </label>
+                        <label for="Activity" class="col-sm-4 col-form-label">
+                            <span ng-if="RefundApplicantList.IsVerificationEmailOnView == ''">Not Sent</span>
+                            <span ng-if="RefundApplicantList.IsVerificationEmailOnView != ''">{{RefundApplicantList.IsVerificationEmailOnView}}</span>
+                        </label><br />
+
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Admission Fee Payment Status </b> </label>
+                        <label for="Activity" class="col-sm-2 col-form-label">
+                            <span ng-if="RefundApplicantList.IsAdmissionFeePaid == false">Not Paid</span>
+                            <span ng-if="RefundApplicantList.IsAdmissionFeePaid == true">Paid</span>
+                        </label>
+
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>PRN Generated Status </b> </label>
+                        <label for="Activity" class="col-sm-4 col-form-label">
+                            <span ng-if="RefundApplicantList.IsPRNGenerated == false">Not Generate</span>
+                            <span ng-if="RefundApplicantList.IsPRNGenerated == true">Generated</span>
+                        </label><br />
+
+                    </div>
+
+                    <div class="form-group row">
+                        <!--<label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Admission Approved Date </b> </label>
+        <label for="Activity" class="col-sm-2 col-form-label">
+            <span ng-if="RefundApplicantList.AdmittedOnView == ''">Not Approved</span>
+            <span ng-if="RefundApplicantList.AdmittedOnView != ''">{{RefundApplicantList.AdmittedOnView}}</span>
+        </label>-->
+
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Reason for Refund </b> </label>
+                        <label for="Activity" class="col-sm-2 col-form-label">
+                            <span ng-if="RefundApplicantList.RequestType == 'Fee_Category_Change'"><label>Fee Change</label></span>
+                            <span ng-if="RefundApplicantList.RequestType == 'Branch_Change'"><label>Branch Change</label></span>
+                            <span ng-if="RefundApplicantList.RequestType == 'Institute_Group_Change'"><label>Institute/ Group Change</label></span>
+                            <span ng-if="RefundApplicantList.RequestType == '' || RefundApplicantList.RequestType == null"><label>--</label></span>
+                        </label>
+
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Fee Paid Date </b> </label>
+                        <label for="Activity" class="col-sm-4 col-form-label">
+                            <span ng-if="RefundApplicantList.FeePaidDate == ''">Not Paid</span>
+                            <span ng-if="RefundApplicantList.FeePaidDate != ''">{{RefundApplicantList.FeePaidDate}}</span>
+                        </label><br />
+
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Amount to be Paid </b> </label>
+                        <label for="Activity" class="col-sm-2 col-form-label">
+                            <span ng-if="RefundApplicantList.TotalAmount == null">Not Defined</span>
+                            <span ng-if="RefundApplicantList.TotalAmount != null">{{RefundApplicantList.TotalAmount|currency:"&#8377;"}}</span>
+                        </label><br />
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Amount(Fees) Paid by Applicant </b> </label>
+                        <label for="Activity" class="col-sm-4 col-form-label">
+                            <span ng-if="RefundApplicantList.AmountPaid == null">Not Paid</span>
+                            <span ng-if="RefundApplicantList.AmountPaid != null">{{RefundApplicantList.AmountPaid|currency:"&#8377;"}}</span>
+                        </label>
+
+                    </div>
+
+                    <div class="form-group row">
+
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Academic Approved Amount </b> </label>
+                        <label for="Activity" class="col-sm-2 col-form-label">
+                            <span ng-if="RefundApplicantList.RefundAmountByAcademic == null">Not Defined</span>
+                            <span ng-if="RefundApplicantList.RefundAmountByAcademic != null">{{RefundApplicantList.RefundAmountByAcademic|currency:"&#8377;"}}</span>
+                        </label>
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Academic Approved On </b> </label>
+                        <label for="Activity" class="col-sm-4 col-form-label">
+                            <span ng-if="RefundApplicantList.ProcessedOnAcademic == ''">Not Approved</span>
+                            <span ng-if="RefundApplicantList.ProcessedOnAcademic != ''">{{RefundApplicantList.ProcessedOnAcademic}}</span>
+                        </label>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Academic Remarks </b> </label>
+                        <label for="Activity" class="col-sm-8 col-form-label">
+                            <span ng-if="RefundApplicantList.AcademicRemark == null || RefundApplicantList.AcademicRemark ==''">Approved by Academic</span>
+                            <span ng-if="RefundApplicantList.AcademicRemark != null">{{RefundApplicantList.AcademicRemark}}</span>
+                        </label><br />
+
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Amount to be Refund <span style="color:red">*</span></b> </label>
+                        <!--<label for="Activity" class="col-sm-4 col-form-label">{{RefundApplicantList.AmountRefundByAudit|currency:"&#8377;"}}</label><br />-->
+                        <input type="number" class="col-sm-2 col-form-label" ng-model="RefundApplicantList.AmountRefundByAudit" id="RefundAmount" placeholder="Enter Refund Amount" />
+                        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Refund Remarks <span style="color:red">*</span></b> </label>
+                        <textarea class="col-sm-4 col-form-label" ng-model="RefundAmountAuditObj.AuditRemark" id="AuditRemark" placeholder="Enter Remarks"></textarea>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button class="btn btn-success" ng-click="RefCaseUpdateAuditRefAmount()">Submit</button>
+                        </div>
+                    </div>
+
+                </div>    
+            </div>  
+        </div>
+    </div>
+
+</div>

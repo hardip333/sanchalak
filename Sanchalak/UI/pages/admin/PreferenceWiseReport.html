@@ -1,0 +1,189 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left">
+                            <h4>Preference Wise Report</h4>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <!--<button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Back</button><br /><br />-->
+                    <div class="col-md-12 offset-md-2">
+                        <form name="Studentdata" ng-model="PreferenceWiseReport">
+
+                            <div class="form-group row" ng-init="IncAcademicYearListGet()">
+                                <label for="Activity" class="col-sm-2 col-form-label">Academic Year Code</label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="PreferenceWiseReport.AcademicYearId" ng-options="d.AcademicYearId as d.AcademicYearCode for d in AcademicList" ng-change="getFacultyById()" value="PreferenceWiseReport.AcademicYearId" name="AcademicYear">
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Select Faculty Name</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="PreferenceWiseReport.FacultyId" ng-options="d.FacultyId as d.FacultyName for d in FacultyList  | orderBy:'FacultyName'" ng-change="ProgrammeGetbyFacultyId()" class="form-control" id="Instdropdown1" name="Instdropdown" required>
+                                                <option value="" disabled selected>--SELECT--</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-2 col-form-label">Programme Name</label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="PreferenceWiseReport.ProgrammeId" ng-options="d.ProgrammeId as d.ProgrammeName for d in ProgrammeList" ng-change="GetProgrammePart()" name="Programme">
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-2 col-form-label">Programme Part Name</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="PreferenceWiseReport.ProgrammePartId" ng-options="d.ProgrammePartId as d.PartName for d in ProgPartList" [value]="PreferenceWiseReport.ProgrammePartId" ng-change="BranchGet()" class="form-control" name="ProgPartShortNamedropdown" ng-change="BranchGet()" required>
+                                                <option value="" disabled selected>--SELECT--</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-2 col-form-label">Branch Name</label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="PreferenceWiseReport.SpecialisationId" ng-options="d.SpecialisationId as d.BranchName for d in BList" [value]="PreferenceWiseReport.SpecialisationId" name="Programme" ng-change="GetProgrammePartTerm()">
+                                            <!--ng-change="PTsGet()"-->
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-2 col-form-label">Part Term Name</label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="PreferenceWiseReport.ProgrammePartTermId" ng-options="d.ProgrammePartTermId as d.PartTermName for d in PPTList" [value]="PreferenceWiseReport.ProgrammePartTermId" name="ProgrammeInstancePartTerm" ng-change="GetPreferenceGroup()">
+                                            <!--ng-change="PTsGet()"-->
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+
+                                    </span>
+                                </div>
+                            </div>
+                            <!--<div class="form-group row">
+                                <label for="Activity" class="col-sm-2 col-form-label">Instance Part Term Name</label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="PreferenceWiseReport.ProgInstPartTermId" ng-options="d.ProgInstPartTermId as d.InstancePartTermName for d in InstPPTList" [value]="PreferenceWiseReport.ProgInstPartTermId" name="ProgrammeInstancePartTerm" ng-change="GetPreferenceGroup()">-->
+                            <!--ng-change="PTsGet()"-->
+                            <!--<option value="" disabled selected>--SELECT--</option>
+                                        </select>
+
+                                    </span>
+                                </div>
+                            </div>-->
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-2 col-form-label">Preference Group Name</label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="PreferenceWiseReport.PreferenceGroupId" ng-options="d.PreferenceGroupId as d.GroupName for d in PGList" [value]="PreferenceWiseReport.PreferenceGroupId" name="ProgrammeInstancePartTerm" ng-change="GetPreferenceNo()">
+                                            <!--ng-change="PTsGet()"-->
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-2 col-form-label">Preference Number</label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="PreferenceWiseReport.PreferenceNo" ng-options="d.PreferenceNo as d.PreferenceNo for d in PNList" [value]="PreferenceWiseReport.PreferenceNo" name="ProgrammeInstancePartTerm">
+                                            <!--ng-change="PTsGet()"-->
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="getPreferenceWiseReport(PreferenceWiseReport.PreferenceNo)">Submit</button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetPreferenceWiseReport()">Cancle</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card" ng-show="StudentWiseTable">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <div layout="row" style="margin-top:3px" class="float-left">
+                                    <button ng-click="exportPreferenceWiseReport();" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="min-width:40px;">Export to Excel</button>
+                                </div>
+                                <table id="searchResult" class="table table-striped table-bordered" ng-table="PreferenceWiseReportTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="PreferenceWiseReport in PreferenceReport">
+                                            <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;"><label>{{PreferenceWiseReport.IndexId}}</label></td>
+                                            <td data-title="'ApplicationNo'" filter="{ApplicationNo: 'text'}" sortable="'ApplicationNo'" style=" border-top: none;"><label>{{PreferenceWiseReport.ApplicationNo}}</label></td>
+                                            <td data-title="'User Name'" filter="{ApplicantUserName: 'text'}" sortable="'ApplicantUserName'" style="border-top:none;"><label>{{PreferenceWiseReport.ApplicantUserName}}</label></td>
+                                            <td data-title="'Full Name'" filter="{NameAsPerMarksheet: 'text'}" sortable="'NameAsPerMarksheet'" style=" border-top: none;"><label>{{PreferenceWiseReport.NameAsPerMarksheet}}</label></td>
+                                            <td data-title="'Mobile No'" filter="{MobileNo: 'text'}" sortable="'MobileNo'" style=" border-top: none;"><label>{{PreferenceWiseReport.MobileNo}}</label></td>
+                                            <td data-title="'Email Id'" filter="{EmailId: 'text'}" sortable="'EmailId'" style=" border-top: none;"><label>{{PreferenceWiseReport.EmailId}}</label></td>
+                                            <td data-title="'Marks Obtained'" filter="{MarkObtained: 'text'}" sortable="'MarkObtained'" style=" border-top: none;"><label>{{PreferenceWiseReport.MarkObtained}}</label></td>
+                                            <td data-title="'Mark Out of'" filter="{MarkOutof: 'text'}" sortable="'MarkOutof'" style=" border-top: none;"><label>{{PreferenceWiseReport.MarkOutof}}</label></td>
+
+                                            <td data-title="'Percentage'" filter="{Percentage: 'text'}" sortable="'Percentage'" style=" border-top: none;"><label>{{PreferenceWiseReport.Percentage}}</label></td>
+                                            <td data-title="'Gender'" filter="{Gender: 'text'}" sortable="'Gender'" style=" border-top: none;"><label>{{PreferenceWiseReport.Gender}}</label></td>
+                                            <td data-title="'Physically Chanllenged'" filter="{IsPhysicallyChanllenged: 'text'}" sortable="'IsPhysicallyChanllenged'" style=" border-top: none;"><label>{{PreferenceWiseReport.IsPhysicallyChanllenged}}</label></td>
+                                            <td data-title="'Category'" filter="{Paper8: 'ApplicationReservationName'}" sortable="'ApplicationReservationName'" style=" border-top: none;"><label>{{PreferenceWiseReport.ApplicationReservationName}}</label></td>
+
+                                            <td data-title="'EWS Category'" filter="{EWSCategory: 'text'}" sortable="'EWSCategory'" style=" border-top: none;"><label>{{PreferenceWiseReport.EWSCategory}}</label></td>
+                                            <td data-title="'Location'" filter="{Location: 'text'}" sortable="'Location'" style=" border-top: none;"><label>{{PreferenceWiseReport.Location}}</label></td>
+
+
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div ng-if="contentPresent">
+                                    <h2 style="font-size:medium; text-align:center">There are No Preference Wise Report.</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

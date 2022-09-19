@@ -1,0 +1,54 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-init="getFEECONFIGList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Fee Admin DashBoard</h4>
+                </div>
+                <div class="card-block">
+                    <form ng-model="FEECONFIG">
+                        <div class="card">
+                            <div class="card-block">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="example-2" ng-table="FEECONFIGTableParams" show-filter="true">
+                                        <tbody>
+                                            <tr ng-repeat="FEECONFIG in $data">
+                                                <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                                <td data-title="'Faculty Name'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style="border-top:none;"><label>{{FEECONFIG.FacultyName}}</label></td>
+                                                <td data-title="'Branch Name'" filter="{BranchName: 'text'}" sortable="'BranchName'" style="border-top:none;"><label>{{FEECONFIG.BranchName}}</label></td>
+                                                <td data-title="'Instance Part Term / Semester Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style="border-top:none;"><label>{{FEECONFIG.InstancePartTermName}}</label></td>
+                                                <td data-title="'Fee Type Name'" filter="{FeeTypeName: 'text'}" sortable="'FeeTypeName'" style="border-top:none;"><label>{{FEECONFIG.FeeTypeName}}</label></td>
+                                                <td data-title="'Verify Status'">
+                                                    <!--<button class="btn btn-success" ng-click="VerifyGetData(FEECONFIG)" ng-hide="FEECONFIG.IsVerified">Verify </button>-->
+                                                    <label ng-show="FEECONFIG.IsVerified">Verified</label>
+                                                    <label ng-hide="FEECONFIG.IsVerified">Not Verify</label>
+                                                </td>
+                                                <td data-title="'Publish Status'">
+                                                    <label ng-show="FEECONFIG.IsPublished">Published</label>
+                                                    <label ng-hide="FEECONFIG.IsPublished">Not Publish</label>
+                                                </td>
+                                                
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                       
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page body end -->

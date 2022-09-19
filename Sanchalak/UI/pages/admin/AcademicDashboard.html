@@ -1,0 +1,114 @@
+﻿<div class="main-body">
+    <div class="page-wrapper">
+        <div class="page-header">
+            <div class="page-header-title">
+                <h4>Admin Dashboard</h4>
+            </div>
+            <div class="page-header-breadcrumb">
+                <ul class="breadcrumb-title">
+                    <!--<li class="breadcrumb-item">
+                        <a href="index.html">
+                            <i class="icofont icofont-home"></i>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="#!">Dashboard</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="#!">Project</a>
+                    </li>-->
+                </ul>
+            </div>
+        </div>
+        <div class="page-body">
+            <div class="row" ng-init="getInstituteById()">
+                <!-- Documents card start -->
+                <div class="col-md-6 col-xl-3" ng-init="getMstProgrammeCountAcademicByInstituteId()">
+                    <div class="card client-blocks dark-primary-border">
+                        <div class="card-block p-b-35">
+                            <h5>No. of Programmes</h5>
+                            <ul>
+                                <li>
+                                    <i class="icofont icofont-files text-success"></i>
+                                </li>
+                                <li class="text-right">
+                                    <span class="nullable">
+                                        <label>{{pca.TotalProgramme}}</label>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Documents card end -->
+                <!-- New clients card start -->
+                <div class="col-md-6 col-xl-3" ng-init="getAdmApplicantsCountAcademicGetByInstituteId()">
+                    <div class="card client-blocks warning-border">
+                        <div class="card-block p-b-35">
+                            <h5>No. of Applicants</h5>
+                            <ul>
+                                <li>
+                                    <i class="icofont icofont-ui-user-group text-warning"></i>
+                                </li>
+                                <li class="text-right text-warning">
+                                    <span class="nullable">
+                                        <label>{{Apca.TotalApplicants}}</label>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- New clients card end -->
+                <!-- New files card start -->
+                <div class="col-md-6 col-xl-3" ng-init="getAdmApprovedApplicantsCountAcademicByInstituteId()">
+                    <div class="card client-blocks success-border">
+                        <div class="card-block">
+                            <h5>No. of Applicants Approved</h5>
+                          
+                            <ul>
+                                <li>
+                                    <i class="icofont icofont-files text-success"></i>
+                                </li>
+                                <li class="text-right text-warning">
+                                    <span class="nullable">
+                                        <label>{{AApca.TotalApplicantsApproved}}</label>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- New files card end -->
+                <!-- Open Project card start -->
+                <div class="col-md-6 col-xl-3" ng-init="getAdmApplicationFeesPaidCountAcademicByInstituteId()">
+                    <div class="card client-blocks">
+                        <div class="card-block">
+                            <h5>No. of Fee paid Applicants</h5>
+                            <ul>
+                                <li>
+                                    <i class="icofont icofont-ui-folder text-primary"></i>
+                                </li>
+
+                                <li class="text-right text-warning">
+                                    <span class="nullable">
+                                        <label>{{AFpca.TotalApplicantsFeesPaid}}</label>
+                                      
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <button type="button" ng-click="nextbtn()" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="width:350px;text-align:center">&nbsp; Application Statistics</button><br /><br />
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="styleSelector">
+
+</div>

@@ -1,0 +1,267 @@
+﻿<!--<style>
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+
+    /*   for table*/
+    .card .card-block table tr {
+        padding-bottom: 20px;
+    }
+
+    .table td {
+        padding: .25rem;
+    }
+
+    .table label {
+        margin-bottom: 0px;
+        margin-top: 8px;
+    }
+
+    /*  for button in table*/
+    .table button {
+        width: 45px;
+        height: 40px;
+        padding: 0px;
+    }
+
+        .table button i {
+            margin-right: 0px;
+        }
+
+    /*  for sort indicator*/
+    .ng-table th.sortable .sort-indicator {
+        padding-right: 18px;
+        position: relative;
+        white-space: normal;
+    }
+
+        .ng-table th.sortable .sort-indicator:after, .ng-table th.sortable .sort-indicator:before {
+            content: "";
+            border-width: 0 4px 4px;
+            border-style: solid;
+            border-color: #000 transparent;
+            visibility: hidden;
+            right: 5px;
+            top: 50%;
+            position: absolute;
+            opacity: .3;
+        }
+
+    .ng-table th.sortable.sort-desc .sort-indicator:after {
+        border-bottom: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid #000;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:before {
+        opacity: 1;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:after {
+        opacity: 1;
+        visibility: hidden;
+    }
+</style>-->
+<!--<script>
+    $scope.checkedOptions = function () {
+        debugger;
+        var selectedValue;
+        if (document.getElementById('Part').checked) {
+            var selectedValue = document.getElementById('Part').value;
+            getEligibilityCriteria(selectedValue);
+            //alert("Selected Radio Button is: " + selectedValue);
+        }
+        else if (document.getElementById('PartTerm').checked) {
+            var selectedValue = document.getElementById('PartTerm').value;
+            getEligibilityCriteria(selectedValue);
+        }
+        else {
+            alert('Please select a radio button');
+            $state.go('createtimetable');
+        }
+    }
+</script>-->
+<script>
+    //function display() {
+    //    debugger;
+    //    $scope.visibility = true;
+    //    document.getElementById('vis1').style.display = "none";
+    //   // document.getElementById('vis').style.display = "block";
+    //}
+</script>
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card" style="margin-bottom:15px;">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4 style="margin-bottom:0px;">Fee Category Change</h4></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-6">
+                    <div class="card" style="margin-bottom: 0px;">
+                        <div class="card-body" style="padding:10px 20px 0px 20px;">
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Student PRN : </label>
+                                    <div>
+                                        <span class="nullable">
+                                            <input type="text" placeholder="PRN" ng-model="filter.PRN">
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Academic Year</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <academic-year-select style="margin-bottom:3px;" ng-model="filter.AcademicYearId" ng-change="getProgList()" required></academic-year-select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <!--<div class="col-md-4">
+                                    <label class="form-label">Faculty</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <facultydd-select style="margin-bottom:3px;" ng-model="filter.FacultyId" ng-change="getProgList(filter.FacultyId)" required></facultydd-select>
+                                        </span>
+                                    </div>
+                                </div>-->
+                                <br />
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Programme Name</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="filter.ProgrammeId" ng-options="d.ProgrammeId as d.ProgrammeName for d in ProgList" [value]="{{filter.ProgrammeId}}" ng-change="getProgPartfromProg(filter.ProgrammeId)" class="form-control" required>
+                                                <option value="" disabled selected>-- SELECT --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <br />
+                                <br />
+                                <div class="col-md-4">
+                                    <label class="form-label">Programme Part Name</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <select id="partName" ng-model="filter.ProgPartId" ng-options="d.ProgPartId as d.PartName for d in ProgPartList" [value]="{{filter.ProgPartId}}" ng-change="getProgInstPartTermfromProgPart(filter)" class="form-control" required>
+                                                <option value="" disabled selected>-- SELECT --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!--<div class="col-md-4">
+                                    <div id="admissionlevel">
+                                        At which level you want to configure its Result Status?&nbsp;&nbsp;
+                                        <input type="radio" id="Part" name="level_configuration" ng-model="filter.radioValue" ng-click="checkLevel($event,filter)" value="Part" selected>
+                                        <label for="html">Part</label>&nbsp;&nbsp;
+                                        <input type="radio" id="PartTerm" name="level_configuration" ng-model="filter.radioValue" ng-click="checkLevel($event,filter)" value="PartTerm">
+                                        <label for="css">PartTerm</label><br>
+                                    </div>
+                                </div>-->
+
+                                <br />
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Programme Instance Part Term Name</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <select id="instancePartTermName" ng-model="filter.ProgInstPartTermId" ng-options="d.ProgInstPartTermId as d.InstancePartTermName for d in ProgInstPartTermList" [value]="{{filter.ProgPartId}}" class="form-control" required>
+                                                <option value="" disabled selected>-- SELECT --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                                
+
+                                <!--<div class="row" ng-hide="progpartterm">
+                                    <div class="col-md-4" style="font-size : 15px">
+                                        <label class="form-label">Programme Part Term Name</label>
+                                        <span class="nullable">
+                                            <select id="ptName" ng-model="filter.ProgPartTermId" ng-options="d.ProgPartTermId as d.PartTermName for d in ProgPartTermList" [value]="{{filter.ProgPartTermId}}" class="form-control" ng-change="getSpecFromProgPartTerm(filter.ProgPartTermId)" required>
+                                                <option value="" disabled selected>-- SELECT --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <br />
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Branch Name</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <select id="BranchName" ng-model="filter.SpecId" ng-options="d.SpecId as d.BranchName for d in Branchlist" [value]="{{filter.SpecId}}" class="form-control" required>
+                                                <option value="" disabled selected>-- SELECT --</option>
+                                            </select>
+                                        </span>s
+                                    </div>
+                                </div>
+
+                                <br />-->
+                            </div>
+
+
+                            <br/>
+
+                            <div class="col-sm-12 text-center">
+                                <button type="button" class="btn btn-primary" ng-click="getFeeDetails(filter)">SUBMIT</button>
+                            </div>
+
+                            <br/>
+
+                            <!--<div class="col-sm-12 text-center">
+                                <div class="col-sm-2 offset-md-5">
+                                    <div class="form-group has-sucess">
+                                        <input type="button" value="SUBMIT" ng-click="getEligibilityCriteria(filter)">
+                                    </div>
+                                </div>
+                            </div>-->
+
+                            <div class="col-md-4" ng-hide="visibility">
+                                <label class="form-label"><b>Old Fee Category : {{oldfeecategory}}</b></label>
+                            </div>
+
+                            <br />
+                            <br />
+
+                            <div class="col-md-4" ng-hide="visibility">
+                                <label class="form-label"><b>New Fee Category List</b></label>
+                                <div>
+                                    <span class="nullable">
+                                        <select id="newfeecategoryid" ng-model="data.NewFeeCategoryId" ng-options="d.NewFeeCategoryId as d.NewFeeCategoryName for d in allFeeCategoryData" [value]="{{filter.NewFeeCategoryId}}" class="form-control" required>
+                                            <option value="" disabled selected>-- SELECT --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <br/>
+                            <br/>
+
+                            <div class="col-sm-12 text-center" ng-hide="visibility">
+                                <button type="button" class="btn btn-primary" id="vis" ng-click="sendData(filter,data)">SUBMIT</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

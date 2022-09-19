@@ -1,0 +1,142 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+    
+</style>
+
+<!--Page body start-->
+<div class="page-body" >
+    <div class="row">
+        <div class="col-sm-12">
+            <!--Basic Form Inputs card start-->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Result Exemption Dependency</h4>
+                </div>
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form name="form">
+                            <div class="form-group row" ng-init="AcademicYearGet()">
+                                <div class="col-sm-2">Academic Year<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ResExemtion.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicList" class="form-control" ng-change="FacultyGet()"  required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">Faculty Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ResExemtion.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" class="form-control" ng-change="getProgrammeInstanceListByAcadId()" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">Programme Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ResExemtion.ProgrammeInstanceId" ng-options="d.Id as d.ProgrammeName+'-'+d.AcademicYear for d in InstList" class="form-control" ng-change="getSpecialisationListByProgInstanceId()" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">Specialization Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ResExemtion.SpecialisationId" ng-options="d.SpecialisationId as d.BranchName for d in SpecialisationList" class="form-control" ng-change="getProgrammePartListByProgInstId()" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">Programme Part Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ResExemtion.ProgrammeInstancePartId" ng-options="d.Id as d.PartShortName for d in ProgPartList" class="form-control" ng-change="getProgPartTermListByProgInstPartId()" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Programme Part Term Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ResExemtion.ProgrammePartTermId" ng-options="d.ProgrammePartTermId as d.PartTermShortName for d in ProgPartTermList" class="form-control" ng-change="getFailPaperListbyPTId()" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">Select Paper<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ResExemtion.FailPaperId" ng-options="d.FailPaperId as d.PaperName for d in PaperList" class="form-control" ng-change="getTLMAMATByPaperId()" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Available TLM-AM-AT Components<span style="color:red">*</span>:</label><!--FHList-->
+                                <div class="col-sm-10">
+                                    <div ng-repeat="TLMAMAT in TLMAMATList">
+                                        <input ng-model="TLMAMAT.TLMAMATChecked" ng-click="CheckChangeTLMAMAT(TLMAMAT, TLMAMAT.TLMAMATChecked)" ng-checked="TLMAMAT.TLMAMATChecked" type='checkbox' />
+                                        <label for="TLMAMAT.TLMAMATChecked">{{TLMAMAT.TLMAMATName}}</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div layout="row" style="margin-top:3px" class=center>
+                                <button ng-click="AtLeastOneCheckforResExemdepen(ResExemtion.FailPaperId)" class="btn btn-primary" style="min-width:40px;">Submit </button>&nbsp;&nbsp;
+                                <button ng-click="ClearSelection()" class="btn btn-primary" style="min-width:40px;">ClearSelection</button>&nbsp;&nbsp;
+                            </div>
+                            <!--<div class="form-group row">
+        <label class="col-sm-2 col-form-label">Do Not Exmept Paper List<span style="color:red">*</span>:</label>-->
+                            <!--FHList-->
+                            <!--<div class="col-sm-10">
+            <div ng-repeat="DoNotExemptPaper in DoNotExemptPaperList">
+                <input ng-model="DoNotExemptPaper.DoNotExemptPaperChecked" ng-checked="DoNotExemptPaper.DoNotExemptPaperChecked" ng-click="CheckChangeDoNotExemptPaper(DoNotExemptPaper, DoNotExemptPaper.DoNotExemptPaperChecked)" type='checkbox' />
+                <label for="DoNotExemptPaper.DoNotExemptPaperChecked">{{DoNotExemptPaper.PaperandAT}}</label>
+            </div>
+        </div>
+
+    </div>-->
+
+                        </form>
+                    </div>
+                </div>
+                <!--<div layout="row" style="margin-top:3px" class="float-left">
+                    <button ng-click="addResExemptionDependency()" class="btn btn-primary" style="min-width:40px;">Save </button>&nbsp;&nbsp;
+                    <button ng-click="deleteResExemptionDependency($event)" class="btn btn-primary" style="min-width:40px;">Delete </button>
+                </div>-->
+
+            </div>
+        </div>
+    </div>
+</div> 

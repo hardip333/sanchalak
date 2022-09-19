@@ -1,0 +1,148 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .button-size {
+        width: 11rem !important;
+    }
+
+    .columns {
+        -webkit-column-count: 3;
+        -webkit-column-gap: 26px;
+        -moz-column-count: 3;
+        -moz-column-gap: 26px;
+        column-count: 3;
+        column-gap: 26px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="IncProgInstPartTermGroupCtrl"  ng-init="GroupOrPaperGet()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div class="float-left"><h4>Add Programme Instance Part Term Group Definition</h4></div>
+                    <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+
+                </div>
+
+                <div class="card-block">
+                    <form ng-model="ProgInstPartTermGroupMap">
+
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label"><b>Programme Instance Part Term Name:</b></label>
+                            <div class="col-sm-6">
+                                {{ProgInstPartTermGroupMap.InstancePartTermName}}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label"><b>Group Name:</b></label>
+                            <div class="col-sm-6">
+                                {{ProgInstPartTermGroupMap.GroupName}}
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-show="GroupListFormFlag">
+
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label"><b>Max SubGroups(To be Selected By Students):</b></label>
+                                <div class="col-sm-6">
+                                    {{ProgInstPartTermGroupMap.MaxSubGroups}}
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label"><b>Min SubGroups(To be Selected By Students):</b></label>
+                                <div class="col-sm-6">
+                                    {{ProgInstPartTermGroupMap.MinSubGroups}}
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-12 col-form-label"><b>List of Groups :</b></label>
+                            </div>
+
+                            <div class="col-12 columns">
+
+                                <div ng-repeat="Group in GroupList">
+
+                                    <input ng-model="Group.selected" type="checkbox" ng-checked="Group.GroupCheckedSts" ng-click="CheckChangeGroup(Group, Group.selected)" />
+                                    <label>
+                                        {{Group.GroupName}}
+                                    </label>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-18" ng-show="GroupListFormFlag">
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <button class="btn btn-success" ng-click="AddParentGroupDetail()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-show="PaperListFormFlag">
+
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label"><b>Max Papers(To be Selected By Students):</b></label>
+                                <div class="col-sm-6">
+                                    {{ProgInstPartTermGroupMap.MaxPapers}}
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label"><b>Min Papers(To be Selected By Students):</b></label>
+                                <div class="col-sm-6">
+                                    {{ProgInstPartTermGroupMap.MinPapers}}
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-12 col-form-label"><b>List of Papers :</b></label>
+                            </div>
+                            <div class="col-12 columns">
+                                <div ng-repeat="Paper in PaperList">
+                                    <input ng-model="Paper.selected" type="checkbox" ng-checked="Paper.PaperCheckedSts" ng-click="CheckChangePaper(Paper, Paper.selected)" />
+                                    <label>
+                                        {{Paper.PaperName}}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!--<table>
+                                <tr>
+                                    <td ng-repeat="Paper in PaperList">
+                                        <input ng-model="Paper.selected" type="checkbox" ng-checked="Paper.PaperCheckedSts" ng-click="CheckChangePaper(Paper, Paper.selected)" />
+                                        <label>
+                                            {{Paper.PaperName}}
+                                        </label>-->
+                                       <!-- <label> {{$index/2 == 0?\n:''}}</label>-->
+                                    <!--</td>
+                                </tr>
+                            </table>-->
+
+                        </div>
+                        <div class="col-md-18" ng-show="PaperListFormFlag">
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <button class="btn btn-success" ng-click="AddPaperGroupDetail()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>       
+    </div>
+</div>

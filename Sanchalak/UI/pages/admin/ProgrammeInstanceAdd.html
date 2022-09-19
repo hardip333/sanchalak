@@ -1,0 +1,123 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+        
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="ProgrammeInstanceCtrl" ng-init="getProgInstList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Add Programme Instance Master</h4></div>
+                        <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="ProgInst">
+
+                            <div class="form-group row" ng-init="getFacultyList()">
+                                <div class="col-sm-2">Faculty Name</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgInst.FacultyId" ng-options="d.Id as d.FacultyName for d in FacList" [value]="ProgInst.FacultyId" class="form-control" ng-change="getProgrammeList()" name="Facdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Select Programme</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgInst.ProgrammeId" ng-options="d.Id as d.ProgrammeName for d in ProgList" [value]="ProgInst.ProgrammeId" class="form-control" name="Progdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>                           
+
+                            <div class="form-group row" ng-init="getAcademicList()">
+                                <div class="col-sm-2">Academic Year</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgInst.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcadList" [value]="ProgInst.AcademicYearId" class="form-control" name="ProgInstdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Intake</label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="intake" class="form-control" ng-model="ProgInst.Intake" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" placeholder="Intake" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row"">
+                                <label class="col-sm-2 col-form-label">Admission Right Contact</label>
+                                <div class="col-sm-6">
+                                    <label>
+                                        <input type="radio" id="admissionRight1" value="University" name="admissionRight" ng-model="ProgInst.AdmissionRight" />  University &nbsp;
+                                        <input type="radio" id="admissionRight2" value="Faculty" name="admissionRight" ng-model="ProgInst.AdmissionRight" /> Faculty
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="progInstAdd()">Add</button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetProgInst()">Cancel</button>
+                                        <button class="btn btn-disabled" ng-click="defineProgInstPart()" ng-show="showDefineBtn">Define Programme Instance Part</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="ProgInstTableparam" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="ProgInst in $data">
+                                            <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                            <td data-title="'Faculty Name'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style="border-top:none;"><label>{{ProgInst.FacultyName}}</label></td>
+                                            <!--<td data-title="'Programme Name'" filter="{ProgrammeName: 'text'}" sortable="'ProgrammeName'" style="border-top:none;"><label>{{ProgInst.ProgrammeName}}</label></td>
+                                            <td data-title="'Academic Year'" filter="{AcademicYear: 'text'}" sortable="'AcademicYear'" style="border-top:none;"><label>{{ProgInst.AcademicYear}}</label></td>-->
+                                            <td data-title="'Instance/Object Name'" filter="{InstanceName: 'text'}" sortable="'InstanceName'" style="border-top:none;"><label>{{ProgInst.InstanceName}}</label></td>
+                                            <td data-title="'Intake'" filter="{InstanceName: 'text'}" sortable="'Intake'" style="border-top:none;"><label>{{ProgInst.Intake}}</label></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

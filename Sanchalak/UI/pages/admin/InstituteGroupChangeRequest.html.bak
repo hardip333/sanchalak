@@ -1,0 +1,328 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .button-size {
+        width: 11rem !important;
+    }
+
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Institute-Group Change Request</h4></div>
+
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="InstGroupChange">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"><b>Application Form No.</b></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="InstGroupChange.ApplicationId" placeholder="Type Application Form No." required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button" ng-click="submit();" class="btn btn-success">Search</button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card" ng-show="tableFlag">
+                    <div class="card-block">
+
+                        <table template-pagination="none" id="res-config" style="border-color:red" class="table table-striped table-bordered nowrap" ng-table="InstGroupChangeTableParams">
+                            <tbody ng-repeat="InstGroupChange in $data">
+                                <tr>
+                                    <td class="expand_data" id="{{'first_col'+$index}}" ng-click="expand_row($index)">+</td>
+
+                                    <td data-title="'Applicant Name'" filter="{ApplicantName: 'text'}" sortable="'ApplicantName'" style="border-top:none;">
+                                        <label>{{InstGroupChange.ApplicantName}}</label>
+                                    </td>
+                                    <td data-title="'Programme Name'" filter="{ProgrammeName: 'text'}" sortable="'ProgrammeName'" style="border-top:none;">
+                                        <label>{{InstGroupChange.ProgrammeName}}</label>
+                                    </td>
+                                    <td data-title="'Branch Name'" filter="{BranchName: 'text'}" sortable="'BranchName'" style="border-top:none;">
+                                        <label>{{InstGroupChange.BranchName}}</label>
+                                    </td>
+                                    <td data-title="'Institute Name'" filter="{InstituteName: 'text'}" sortable="'InstituteName'" style="border-top:none;">
+                                        <label>{{InstGroupChange.InstituteName}}</label>
+                                    </td>
+                                    <td data-title="'Group Name'" filter="{GroupName: 'text'}" sortable="'GroupName'" style="border-top:none;">
+                                        <label>{{InstGroupChange.GroupName}}</label>
+                                    </td>
+
+                                </tr>
+
+                                <tr id="{{'expand'+$index}}" class="collapse">
+                                    <td colspan="7">
+                                        <div class="row">
+                                            <div class="col-md-6 row">
+                                                <div class="col-md-6"><span>Fee Category Name: </span></div>
+                                                <div class="col-md-6"><span>{{InstGroupChange.FeeCategoryName}}</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 row">
+                                                <div class="col-md-6"><span>Is Approved By Faculty ?: </span></div>
+                                                <div class="col-md-6"><span>{{InstGroupChange.IsApprovedByFacultySts}}</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 row">
+                                                <div class="col-md-6"><span>Is Approved By Academics ?: </span></div>
+                                                <div class="col-md-6"><span>{{InstGroupChange.IsApprovedByAcademicSts}}</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 row">
+                                                <div class="col-md-6"><span>Is Admission Fee Paid ?: </span></div>
+                                                <div class="col-md-6"><span>{{InstGroupChange.IsAdmissionFeePaidSts}}</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 row">
+                                                <div class="col-md-6"><span>PRN Generated Status: </span></div>
+                                                <div class="col-md-6"><span>{{InstGroupChange.IsPRNGenerated == false ? "--" : InstGroupChange.IsPRNGenerated}}</span></div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div ng-hide="flag">
+
+                    <div class="col-md-12 offset-md-2">
+
+                        <div class="form-group row" ng-show="showInstLabel">
+                            <label class="col-sm-2 col-form-label">No Institute Found.</label>
+                        </div>
+
+                        <div class="form-group row" ng-show="showInstRadio">
+                            <label class="col-sm-2"><b>Do You Want To Change Institute?:</b></label>
+                            <div class="col-sm-6">
+                                <label>
+                                    <input ng-model="InstRadio" type="radio" name="ChangeInstRb" id="chkYes" value="true" ng-click="EnableDisableInstitute(true)">YES &nbsp;&nbsp;
+                                    <input ng-model="InstRadio" type="radio" name="ChangeInstRb" id="chkNo" value="false" ng-click="EnableDisableInstitute(false)">NO
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" ng-show="showInst">
+                            <div class="col-sm-2"><b>Select Institute Name:</b> </div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <span class="nullable">
+                                        <select ng-model="InstGroupChange.NewInstituteId" ng-options="d.AdmittedInstituteId as d.InstituteName for d in InstituteList" class="form-control">
+                                            <option value="" disabled selected>-- select --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" ng-show="showGroupLabel">
+                            <label class="col-sm-2 col-form-label">No Group Found.</label>
+                        </div>
+
+                        <div class="form-group row" ng-show="showGrpRadio">
+                            <label class="col-sm-2"><b>Do You Want To Change Group?:</b></label>
+                            <div class="col-sm-6">
+                                <label>
+                                    <input ng-model="GrpRadio" type="radio" name="ChangeGrpRb" id="chkYes" value="true" ng-click="EnableDisableGroup(true)">YES &nbsp;&nbsp;
+                                    <input ng-model="GrpRadio" type="radio" name="ChangeGrpRb" id="chkNo" value="false" ng-click="EnableDisableGroup(false)">NO
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" ng-show="showGroup">
+                            <div class="col-sm-2"><b>Select Group Name:</b> </div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <span class="nullable">
+                                        <select ng-model="InstGroupChange.NewPreferenceGroupId" ng-options="d.PreferenceGroupId as d.GroupName for d in GroupList" class="form-control">
+                                            <option value="" disabled selected>-- select --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2"><b>Is Fee Category Same?:</b></label>
+                            <div class="col-sm-6">
+                                <label>
+                                    <input type="radio" name="FeeRb" id="chkYes" ng-model="InstGroupChange.IsFeeCategorySame" value="true" ng-click="changeFeeCategory(InstGroupChange.IsFeeCategorySame)">YES &nbsp;&nbsp; <!--ng-required="!paper.IsCredit"-->
+                                    <input type="radio" name="FeeRb" id="chkNo" ng-model="InstGroupChange.IsFeeCategorySame" value="false" ng-click="changeFeeCategory(InstGroupChange.IsFeeCategorySame)">NO
+
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" ng-show="ShowFee">
+                            <div class="col-sm-2"><b>Select Fee Category Name:</b> </div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <span class="nullable">
+                                        <select ng-model="InstGroupChange.NewFeeCategoryId" ng-options="d.FeeCategoryId as d.FeeCategoryName for d in FeeCategoryList" class="form-control">
+                                            <option value="" disabled selected>-- select --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-show="BankDetails">
+
+                            <span style="color:red;">Fill Below Details As Per Your Passbook *</span><br /><br />
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Account Number:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" allow-Pattern="\d" name="Academic" class="form-control" ng-model="InstGroupChange.AccountNumber" placeholder="Enter Account Number" onkeypress="if (this.value.length == 18) return false;" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Account Name:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" allow-pattern="[a-zA-Z ]" name="Academic" class="form-control" ng-model="InstGroupChange.AccountName" placeholder="Enter Account Holder Name" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getBankList()">
+                                <div class="col-sm-2">Bank Name</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">                                            
+                                            <select ng-model="InstGroupChange.BankId" ng-options="d.Id as d.BankName for d in BankList" [value]="InstGroupChange.BankId" class="form-control" name="Bankdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">IFSC Code:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="ifscCode" id="ifsc" ng-change="getRequest()" ng-model="InstGroupChange.IFSCCODE" class="form-control" placeholder="Enter IFSCCODE" onkeypress="if (this.value.length == 11) return false;" required>
+                                    <span style="color:red;" ng-show="IsError">Invalid IFSC Code</span><br />
+                                    <span style="color:red;" ng-show="InstGroupChange.ifscCode.$touched && InstGroupChange.ifscCode.$invalid"> IFSCCODE is Required! </span>
+                                    <span id="ifscCheck" style="color:red;"></span>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive" ng-show="IsVisible">
+                                <div class="card-header">
+                                    <h5 class="card-header-text">Check Your Bank Details</h5>
+
+                                </div>
+                                <table class="table table-bordered table-striped">
+                                    <tbody>
+
+                                        <tr>
+                                            <th>ADDRESS:</th>
+                                            <td>{{list.ADDRESS}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>BANK:</th>
+                                            <td>{{list.BANK}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>BANKCODE:</th>
+                                            <td>{{list.BANKCODE}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>BRANCH:</th>
+                                            <td>{{list.BRANCH}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>CITY:</th>
+                                            <td>{{list.CITY}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>CONTACT:</th>
+                                            <td>{{list.CONTACT}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th> DISTRICT:</th>
+                                            <td>{{list.DISTRICT}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th> STATE:</th>
+                                            <td>{{list.STATE}}</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Upload PassBook:</label>
+                                <div class="col-sm-10">
+                                    <input type="file" name="file1" ng-model="InstGroupChange.PassbookPhoto" id="file1" class="preview clearfix" ngf-select="UploadStudentPassBookImage($files)" required />
+                                    <span style="color:blue;text-align:left;font-weight:bold">Note:image Should below 512KB size and .jpg .jpeg file format</span><br />
+                                    <span id="ErrorMsgPassbookImg" style="color:red"></span>
+                                    <span id="SuccessMsgPassbookImg" style="color:green"></span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"><b>Remarks</b></label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" ng-model="InstGroupChange.Remarks" placeholder="Enter Remarks." required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 offset-md-2">
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <button type="button" ng-click="Add(InstGroupChange.IsFeeCategorySame);" class="btn btn-success">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

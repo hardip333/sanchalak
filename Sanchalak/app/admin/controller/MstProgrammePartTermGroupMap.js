@@ -1,0 +1,416 @@
+﻿app.controller('MstProgrammePartTermGroupMapCtrl', function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams) {
+    var tokenCookie = $cookies.get('token');
+    if (!tokenCookie) {
+        localStorage.clear();
+        $state.go('login');
+    }
+    $rootScope.pageTitle = "Manage MstProgrammePartTermGroupMap";
+
+    $scope.MstProgrammePartTermGroupMapTableParams = new NgTableParams({
+    }, {
+        dataset: $scope.MPPTGMList
+    });
+
+    $scope.resetMPPTGM = function () {
+        $scope.MPPTGM = {};
+    };
+    $scope.getFacultyList = function () {
+
+        var data = new Object();
+
+        $http({
+            method: 'POST',
+            url: 'api/MstFaculty/MstFacultyGetForDropDown',
+            data: data,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code == "0") {
+                    $state.go('login');
+                }
+                $rootScope.showLoading = false;
+
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+
+                    $scope.getFacultyList = response.obj;
+                   
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+    $scope.getGroupTypeNameList = function () {
+
+        var data = new Object();
+
+        $http({
+            method: 'POST',
+            url: 'api/MstProgrammePartTermGroupMap/MstGroupTypeGet',
+            data: data,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code == "0") {
+                    $state.go('login');
+                }
+                $rootScope.showLoading = false;
+
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+
+                    $scope.getGroupTypeNameList = response.obj;
+
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+
+    $scope.getProgrammeByFacIdList = function () {
+        
+
+        $http({
+            method: 'POST',
+            url: 'api/MstProgrammePartTermGroupMap/MstProgrammeGetByFacId',
+            data: $scope.MPPTGM,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code == "0") {
+                    $state.go('login');
+                }
+                $rootScope.showLoading = false;
+
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+
+                    $scope.ProgrammeByFacIdList = response.obj;
+                    console.log($scope.getProgrammeByFacIdList);
+
+                    
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+
+    $scope.getProgrammePartByProgrammeId = function () {
+
+
+        $http({
+            method: 'POST',
+            url: 'api/MstProgrammePartTermGroupMap/MstProgrammePartGetByProgrammeId',
+            data: $scope.MPPTGM,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code == "0") {
+                    $state.go('login');
+                }
+                $rootScope.showLoading = false;
+
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+
+                    $scope.ProgrammePartList = response.obj;
+
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+
+    
+    $scope.getPPTList = function () {
+
+        var data = new Object();
+
+        $http({
+            method: 'POST',
+            url: 'api/MstProgrammePartTermGroupMap/MstProgrammePartTermGetByPartId',
+            data: $scope.MPPTGM,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code == "0") {
+                    $state.go('login');
+                }
+                $rootScope.showLoading = false;
+
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    
+                    $scope.PPTList = response.obj;
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+
+
+    $scope.getMPPTGMList = function () {
+
+        var data = new Object();
+
+        $http({
+            method: 'POST',
+            url: 'api/MstProgrammePartTermGroupMap/MstProgrammePartTermGroupMapGet',
+            data: data,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code == "0") {
+                    $state.go('login');
+                }
+                $rootScope.showLoading = false;
+
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    $scope.MstProgrammePartTermGroupMapTableParams = new NgTableParams({
+                    },
+                    {
+                        dataset: response.obj
+                    });
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+
+    $scope.getMPPTGMBYPPTIDList = function () {
+
+        var data = new Object();
+
+        $http({
+            method: 'POST',
+            url: 'api/MstProgrammePartTermGroupMap/MstProgrammePartTermGroupMapGetByPPTId',
+            data: data,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code == "0") {
+                    $state.go('login');
+                }
+                $rootScope.showLoading = false;
+
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    $scope.MstProgrammePartTermGroupMapTableParams = new NgTableParams({
+                    }, {
+                        dataset: response.obj
+                    });
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+
+
+    $scope.addMPPTGM = function () {
+       
+
+        if ($scope.MPPTGM.GroupName === null || $scope.MPPTGM.GroupName === undefined
+
+        ) {
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title("Error")
+                    .textContent("Please complete the form before Click...")
+                    .ariaLabel('Alert Dialog Demo')
+                    .ok('Okay!')
+            );
+        }
+        else {
+            $http({
+                method: 'POST',
+                url: 'api/MstProgrammePartTermGroupMap/MstProgrammePartTermGroupMapAdd',
+                data: $scope.MPPTGM,
+                headers: { "Content-Type": 'application/json' }
+            })
+                .success(function (response) {
+                    if (response.response_code == "0") {
+                        $state.go('login');
+                    }
+                    $rootScope.showLoading = false;
+
+                    if (response.response_code != "200") {
+                        $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    }
+                    else {
+
+                        //$scope.MPPTGM = {};
+                        $scope.MPPTGM.GroupName = null;
+                        $scope.MPPTGM.GroupTypeNameId = {};
+
+                        $scope.getMPPTGMList();
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                                .parent(angular.element(document.querySelector('#popupContainer')))
+                                .clickOutsideToClose(true)
+                                .title("Message")
+                                .textContent(response.obj)
+                                .ariaLabel('Alert Dialog Demo')
+                                .ok('Okay!')
+                        );
+                    }
+                })
+                .error(function (res) {
+                    $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                });
+        }
+    };
+
+    $scope.cancelMPPTGM = function () {
+        $scope.MPPTGM = {};
+        $scope.MPPTGMEdit = {};
+        $scope.modifyMPPTGMFlag = false;
+    };
+
+    $scope.modifyMPPTGMData = function (data) {
+        
+        $scope.MPPTGM= data;
+        $scope.modifyMPPTGMFlag = true;
+        $scope.showFormFlag = true;
+    };
+
+    $scope.modifyMPPTGM = function () {
+        
+        if ($scope.MPPTGM.GroupName === null || $scope.MPPTGM.GroupName === undefined
+
+        ) {
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title("Error")
+                    .textContent("Please complete the form before Click...")
+                    .ariaLabel('Alert Dialog Demo')
+                    .ok('Okay!')
+            );
+        }
+        else {
+            $http({
+                method: 'POST',
+                url: 'api/MstProgrammePartTermGroupMap/MstProgrammePartTermGroupMapEdit',
+                data: $scope.MPPTGM,
+                headers: { "Content-Type": 'application/json' }
+            })
+                .success(function (response) {
+                    if (response.response_code == "0") {
+                        $state.go('login');
+                    }
+                    if (response.response_code != "200") {
+                        $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    }
+                    else {
+                        $scope.MPPTGM = {};
+                        $scope.getMPPTGMList();
+                        $scope.modifyMPPTGMFlag = false;
+                        $scope.showFormFlag = false;
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                                .parent(angular.element(document.querySelector('#popupContainer')))
+                                .clickOutsideToClose(true)
+                                .title("Message")
+                                .textContent(response.obj)
+                                .ariaLabel('Alert Dialog Demo')
+                                .ok('Okay!')
+                        );
+                    }
+                })
+                .error(function (res) {
+                    $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                });
+        }
+    };
+
+    $scope.deleteMPPTGM = function (ev, data) {
+
+        var confirm = $mdDialog.confirm()
+            .title('Would you like to delete?')
+            .textContent('')
+            .ariaLabel('Lucky day')
+            .targetEvent(ev)
+            .ok('Yes')
+            .cancel('No');
+
+        $mdDialog.show(confirm).then(function () {
+            $scope.MPPTGM = data;
+            $http({
+                method: 'POST',
+                url: 'api/MstProgrammePartTermGroupMap/MstProgrammePartTermGroupMapDelete',
+                data: $scope.MPPTGM,
+                headers: { "Content-Type": 'application/json' }
+            })
+                .success(function (response) {
+                    if (response.response_code == "0") {
+                        $state.go('login');
+                    }
+
+                    $rootScope.showLoading = false;
+
+                    if (response.response_code != "200") {
+                        $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    }
+                    else {
+                        $scope.getMPPTGMList();
+                        $scope.showFormFlag = false;
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                                .parent(angular.element(document.querySelector('#popupContainer')))
+                                .clickOutsideToClose(true)
+                                .title("Message")
+                                .textContent(response.obj)
+                                .ariaLabel('Alert Dialog Demo')
+                                .ok('Okay!')
+                        );
+                    }
+                })
+                .error(function (res) {
+                    $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                });
+
+        }, function () {
+            $scope.status = 'You decided to keep your debt.';
+        });
+    };
+
+
+
+    $scope.newMPPTGMAdd = function () {
+        $state.go('MstProgrammePartTermGroupMapAdd');
+    };
+
+    $scope.backToList = function () {
+        $state.go('MstProgrammePartTermGroupMapEdit');
+    };
+
+    $scope.displayMPPTGM = function (data) {
+        $scope.MPPTGM = data;
+    };
+
+});

@@ -1,0 +1,221 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" >
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Branch Change</h4>
+                </div>
+                <div class="card-block">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Application ID <span style="color:red">*</span>:</label>
+                        <div class="col-sm-10 col-lg-4">
+                            <input type="text" class="form-control" ng-model="branchChange.ApplicationId" placeholder="Type Application ID">
+
+                        </div>
+                        <div class="col-sm-10 col-lg-4">
+                            <button class="btn btn-success" ng-click="SubmitApplicationId()">Next </button>
+                        </div>                        
+                    </div>
+                    
+                    <div class="card" ng-show="showDetailflag">
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Application Form No :</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{applicantDetail.ApplicationId}}</label><br />
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Name As Per Marksheet:</b> </label>
+                            <label for="Activity" class="col-sm-4 col-form-label">{{applicantDetail.NameAsPerMarksheet}}</label>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>FacultyName :</b></label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{applicantDetail.FacultyName}}</label>
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>ProgrammeName:</b> </label>
+                            <label for="Activity" class="col-sm-4 col-form-label">{{applicantDetail.ProgrammeName}}</label><br />
+                        </div>
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Branch Name:</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{applicantDetail.BranchName}}</label>
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>InstancePartTermName:</b> </label>
+                            <label for="Activity" class="col-sm-4 col-form-label">{{applicantDetail.InstancePartTermName}}</label><br />
+                        </div>
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Group Name:</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{applicantDetail.GroupName}}</label>
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Admitted Institute:</b> </label>
+                            <label for="Activity" class="col-sm-4 col-form-label">{{applicantDetail.InstituteName}}</label><br />
+                        </div>
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Sent SMS Status:</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{applicantDetail.IsVerificationSmsOnView}}</label>
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Sent Email Status:</b> </label>
+                            <label for="Activity" class="col-sm-4 col-form-label">{{applicantDetail.IsVerificationEmailOnView}}</label><br />
+                        </div>
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Fee Category Name:</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{applicantDetail.FeeCategoryName}}</label>
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Amount:</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{applicantDetail.TotalAmount|currency:"&#8377;"}}</label><br />
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Admission Fee Payment Status:</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">
+                                <span ng-hide="applicantDetail.IsAdmissionFeePaid">Not Paid</span>
+                                <span ng-show="applicantDetail.IsAdmissionFeePaid">Paid</span>
+                            </label>
+                            <label for="Activity" class="col-sm-3 col-form-label" ng-show="applicantDetail.IsAdmissionFeePaid">&nbsp;&nbsp;&nbsp;&nbsp;<b>Amount Paid:</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label" ng-show="applicantDetail.IsAdmissionFeePaid">{{applicantDetail.AmountPaid|currency:"&#8377;"}}</label><br />
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button class="btn btn-success" ng-click="ChangeBranch($event)">Submit </button>
+                            </div>
+                        </div>
+                        <div class="card" ng-show="ShowChangeFlag">
+                            <br />   
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"><b>Select Branch</b><span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <span>
+                                        <select class="form-control" ng-model="applicantDetail.DestinationIncProgInstPartTermId" ng-options="d.DestinationIncProgInstPartTermId as d.BranchName for d in BranchList" ng-change="GetFee()">
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"><b>Is Fee Category Same?:</b></label>
+                                <div class="col-sm-6">
+                                    <input type="radio" name="SameFeeCategory" id="chkYes" ng-model="applicantDetail.SameFeeCategory" value=1 ng-click="checkSameFeeCategory()">YES &nbsp;&nbsp; <!--ng-required="!paper.IsCredit"-->
+                                    <input type="radio" name="SameFeeCategory" id="chkNo" ng-model="applicantDetail.SameFeeCategory" value=0 ng-click="checkSameFeeCategory()">NO
+                                    <!--<input ng-model="applicantDetail.SameFeeCategory" type='checkbox' ng-change="checkSameFeeCategory()" />-->
+                                </div>
+                            </div>
+                            <div class="form-group row" ng-hide="checkflag" ng-show="applicantDetail.IsAdmissionFeePaid == true">
+                                <label class="col-sm-2 col-form-label"><b>Select Fee Category</b><span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <span>
+                                        <select class="form-control" ng-model="applicantDetail.FeeCategoryPartTermMapId" ng-options="d.FeeCategoryPartTermMapId as d.FeeCategoryName for d in FeeList">
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div><br />
+                            <span style="color:red;" ng-hide="checkflag" ng-show="applicantDetail.IsAdmissionFeePaid == true"><b>Fill Applicant Account Details As Passbook.</b></span><br />
+                            <div class="form-group row" ng-hide="checkflag" ng-show="applicantDetail.IsAdmissionFeePaid == true">
+                                <label class="col-sm-2 col-form-label"><b>Account Number </b><span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="AccountNumber" allow-Pattern="\d" name="Academic" class="form-control" ng-model="applicantDetail.AccountNumber" placeholder="Enter Account Number" onkeypress="if (this.value.length == 18) return false;" required>
+                                </div>
+                            </div>
+                            <div class="form-group row" ng-hide="checkflag" ng-show="applicantDetail.IsAdmissionFeePaid == true">
+                                <label class="col-sm-2 col-form-label"><b>Account Name </b><span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" allow-pattern="[a-zA-Z ]" name="Academic" class="form-control" ng-model="applicantDetail.AccountName" placeholder="Enter Account Holder Name" required>
+                                </div>
+                            </div>
+                            <div class="form-group row" ng-hide="checkflag" ng-show="applicantDetail.IsAdmissionFeePaid == true" ng-init="getBankList()">
+                                <div class="col-sm-2 col-form-label"><b>Bank Name </b><span style="color:red">*</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="applicantDetail.BankId" ng-options="d.Id as d.BankName for d in BankList" [value]="applicantDetail.BankId" class="form-control" name="Bankdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row" ng-hide="checkflag" ng-show="applicantDetail.IsAdmissionFeePaid == true">
+                                <label class="col-sm-2 col-form-label"><b>IFSC Code </b><span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="IFSCCode" id="ifsc" ng-change="getRequest()" ng-model="applicantDetail.IFSCCode" class="form-control" placeholder="Enter IFSCCode" onkeypress="if (this.value.length == 11) return false;" required>
+                                    <span style="color:red;" ng-show="IsError">Invalid IFSC Code</span><br />
+                                    <span style="color:red;" ng-show="applicantDetail.IFSCCode.$touched && applicantDetail.IFSCCode.$invalid"> IFSCCode is Required! </span>
+                                    <span id="ifscCheck" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="table-responsive" ng-show="IsVisible && applicantDetail.IsAdmissionFeePaid == true && applicantDetail.IFSCCode != null">
+                                <div class="card-header">
+                                    <h5 class="card-header-text">Check Your Bank Details</h5>
+                                </div>
+                                <table class="table table-bordered table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <th>ADDRESS:</th>
+                                            <td>{{list.ADDRESS}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>BANK:</th>
+                                            <td>{{list.BANK}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>BANKCODE:</th>
+                                            <td>{{list.BANKCODE}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>BRANCH:</th>
+                                            <td>{{list.BRANCH}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>CITY:</th>
+                                            <td>{{list.CITY}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>CONTACT:</th>
+                                            <td>{{list.CONTACT}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th> DISTRICT:</th>
+                                            <td>{{list.DISTRICT}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th> STATE:</th>
+                                            <td>{{list.STATE}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="form-group row" ng-hide="checkflag" ng-show="applicantDetail.IsAdmissionFeePaid == true">
+                                <label class="col-sm-2 col-form-label"><b>Upload PassBook </b><span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="file" name="file1" ng-model="applicantDetail.PassbookDoc" id="file1" class="form-control" ngf-select="UploadStudentPassBookImage($files)" required />
+                                    <span style="color:blue;text-align:left;font-weight:bold">Note:image Should below 512KB size and .jpg .jpeg file format</span><br />
+                                    <span id="ErrorMsgPassbookImg" style="color:red" ng-show="applicantDetail.PassbookDoc != null"></span>
+                                    <span id="SuccessMsgPassbookImg" style="color:green" ng-show="applicantDetail.PassbookDoc != null"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row" ng-hide="checkflag" ng-show="applicantDetail.IsAdmissionFeePaid == true">
+                                <label class="col-sm-2 col-form-label"><b>RTGS Form </b></label>
+                                <div class="col-sm-6">
+                                    <input type="file" name="RTGSForm1" ng-model="applicantDetail.RTGSForm" id="RTGSForm1" class="form-control" ngf-select="UploadStudentRTGSForm($files)" required />
+                                    <span style="color:blue;text-align:left;font-weight:bold">Note:image Should below 512KB size and .pdf file format</span><br /><span style="color:red">Mandatory If non BOB Account.</span><br />
+                                    <span id="ErrorMsgRTGSForm" style="color:red" ng-show="applicantDetail.RTGSForm != null"></span>
+                                    <span id="SuccessMsgRTGSForm" style="color:green" ng-show="applicantDetail.RTGSForm != null"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"><b>Branch Change Remarks </b><span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <textarea class="form-control" ng-model="applicantDetail.BranchChangeRemark" id="BranchChangeRemark" placeholder="Enter Remarks"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-10">
+                                    <button class="btn btn-success" ng-click="CheckData()">Update </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card" ng-show="ShowLableFlag">
+                            <label for="Activity" class="col-form-label"><span style="color:red">You Have Selected Not to Proceed.</span>:</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

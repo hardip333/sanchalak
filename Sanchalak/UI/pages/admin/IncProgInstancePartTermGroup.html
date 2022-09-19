@@ -1,0 +1,356 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="IncProgInstPartTermGroupCtrl" >
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Add Group at Programme Instance Part-Term Level</h4>
+                </div>
+
+                <div class="card-block" ng-init="backToList()">
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="ProgrammeInstancePartTerm" ng-show="showFormFlag">
+
+                            <div class="form-group row" ng-init="IncAcademicYearListGet()">
+                                <div class="col-sm-2">Academic Year Code:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgrammeInstancePartTerm.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicList" [value]="ProgrammeInstancePartTerm.AcademicYearId" ng-change="FacultyGet()" class="form-control" name="AcadYearName" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Faculty Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgrammeInstancePartTerm.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" [value]="ProgrammeInstancePartTerm.FacultyId" ng-change="getProgrammeInstanceListByAcadId()" class="form-control" name="FacultyName" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Instance/Object Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgrammeInstancePartTerm.ProgrammeInstanceId" ng-options="d.Id as d.InstanceName for d in InstList" [value]="ProgrammeInstancePartTerm.ProgrammeInstanceId" ng-change="getProgrammePartListByProgInstId()" class="form-control" name="Progdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Programme Part Short Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgrammeInstancePartTerm.ProgrammeInstancePartId" ng-options="d.Id as d.PartShortName for d in ProgPartList" [value]="ProgrammeInstancePartTerm.ProgrammePartId" ng-change="getBranchListByProgInstId()" class="form-control" name="ProgPartShortNamedropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Branch Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgrammeInstancePartTerm.SpecialisationId" ng-options="d.Id as d.BranchName for d in BranchList" [value]="ProgrammeInstancePartTerm.SpecialisationId" ng-change="getProgPartTermListByProgInstPartId()" class="form-control" name="spedropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">
+                                        Programme Part Term Short Name:
+                                </div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgrammeInstancePartTerm.ProgrammeInstancePartTermId" ng-options="d.Id as d.PartTermShortName for d in ProgPartTermList" [value]="ProgrammeInstancePartTerm.ProgrammePartTermId" class="form-control" name="ProgPartTermShortNamedropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="ShowList()">Submit </button>
+                                        <button class="btn btn-success" ng-click="ClearSelection()">Clear Selection</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div ng-show="GroupFormFlag1">
+                        <button type="button" ng-click="AddNewGroup()" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><span class="ion-plus-round"></span>&nbsp; Add New Group</button><br /><br />
+                    </div>
+
+                    <div class="card">
+                        <div class="card-block">
+                            <div >
+                                <div class="card-header">
+                                    <h4>Add Group</h4>
+                                </div>
+                                <div class="col-md-12 offset-md-2">
+                                    <form  ng-model="ProgInstPartTermGroup" ng-show="GroupFormFlag">
+                                        <br />
+                                        <!--<div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Group Name</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" name="Group" class="form-control" ng-model="ProgInstPartTermGroup.GroupName" placeholder="Group Name" required>
+                                            </div>
+                                        </div>-->
+                                        <div class="form-group row" >
+                                            <div class="col-sm-2">Select Group Name:</div>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <span class="nullable">
+                                                        <select id="GrpDrpDwn" ng-model="ProgInstPartTermGroup.MPTGroupId" ng-options="d.Id as d.GroupName for d in GroupDataList" [value]="ProgInstPartTermGroup.MPTGroupId"  class="form-control" name="Groupdrpdwn" >
+                                                            <option value="" disabled selected>-- select --</option>
+                                                        </select>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Has Sub-groups?: <span style="color:red;">*</span></label>
+                                            <div class="col-sm-6">
+                                                <label>
+                                                    <input type="radio" id="chkYes" ng-value="true" name="HaveGrpRb" ng-model="ProgInstPartTermGroup.ContainsGroup" ng-required="!ProgInstPartTermGroup.ContainsGroup" ng-change="EnablePaperorGroup(true)" />  Yes &nbsp;
+                                                    <input type="radio" id="chkNo" ng-value="false" name="HaveGrpRb" ng-model="ProgInstPartTermGroup.ContainsGroup" ng-required="!ProgInstPartTermGroup.ContainsGroup" ng-change="EnablePaperorGroup(false)" /> No
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Is it a Sub-group of Another Group?: <span style="color:red;">*</span></label>
+                                            <div class="col-sm-6">
+                                                <label>
+                                                    <input type="radio" id="chkYes1" ng-value="true" name="IsSubGrpRb" ng-model="ProgInstPartTermGroup.IsSubGroup" ng-required="!ProgInstPartTermGroup.IsSubGroup" />  Yes &nbsp;
+                                                    <input type="radio" id="chkNo1" ng-value="false" name="IsSubGrpRb" ng-model="ProgInstPartTermGroup.IsSubGroup" ng-required="!ProgInstPartTermGroup.IsSubGroup" /> No
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row" ng-show="GrpFromFlag1">
+                                            <label class="col-sm-2 col-form-label">Max. Papers:</label>
+                                            <div class="col-sm-6">
+                                                <input name="maxPaper" type="text" id="MaxPaperTb" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" class="form-control" ng-model="ProgInstPartTermGroup.MaxPapers" placeholder="Maximum No. of Papers">
+                                                <!-- <div style="color: red" ng-show="form.maxPaper.$error.min">Minimum Papers are not greater than Maximum Papers</div> min="{{ProgInstPartTermGroup.MinPapers}}"-->
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row" ng-show="GrpFromFlag1">
+                                            <label class="col-sm-2 col-form-label">Min. Papers:</label>
+                                            <div class="col-sm-6">
+                                                <input name="minPaper" type="text" id="MinPaperTb" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" class="form-control" ng-model="ProgInstPartTermGroup.MinPapers" placeholder="Minimum No. of Papers">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row" ng-show="GrpFromFlag">
+                                            <label class="col-sm-2 col-form-label">Max. SubGroups:</label>
+                                            <div class="col-sm-6">
+                                                
+                                                <input name="maxGroup" type="text" id="MaxSubGrpTb" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" class="form-control" ng-model="ProgInstPartTermGroup.MaxSubGroups" allow-Pattern="\d" placeholder="Maximum SubGroups">
+                                                <!--<div style="color: red" ng-show="form.maxGroup.$error.min">Minimum SubGroups are not greater than Maximum SubGroups</div> min="{{ProgInstPartTermGroup.MinSubGroups}}"-->
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row" ng-show="GrpFromFlag">
+                                            <label class="col-sm-2 col-form-label">Min. SubGroups:</label>
+                                            <div class="col-sm-6">
+                                                <input name="minGroup" type="text" id="MinSubGrpTb" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" class="form-control" ng-model="ProgInstPartTermGroup.MinSubGroups" allow-Pattern="\d" placeholder="Minimum SubGroups">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Separate Passing Head:</label>
+                                            
+                                            <div class="col-sm-6">
+                                                <label>
+                                                    <input type="radio" id="chkYes2" ng-value="true" name="PassHeadRb" ng-model="ProgInstPartTermGroup.SeparatePassingHead" ng-required="!ProgInstPartTermGroup.SeparatePassingHead" />  Yes &nbsp;
+                                                    <input type="radio" id="chkNo2" ng-value="false" name="PassHeadRb" ng-model="ProgInstPartTermGroup.SeparatePassingHead" ng-required="!ProgInstPartTermGroup.SeparatePassingHead" /> No
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Max Marks</label>
+                                            <div class="col-sm-6">
+                                                <input name="max" class="form-control" type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" ng-model="ProgInstPartTermGroup.MaxMarks" min="{{ProgInstPartTermGroup.MinMarks}}" allow-Pattern="\d" placeholder="Type Max Marks ">
+                                                <div style="color: red" ng-show="form.max.$error.min">Minimum Marks are not greater than Maximum Marks</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Min Marks</label>
+                                            <div class="col-sm-6">
+                                                <input name="min" class="form-control" type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" ng-model="ProgInstPartTermGroup.MinMarks" allow-Pattern="\d" placeholder="Type Min Marks ">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Max Credits</label>
+                                            <div class="col-sm-6">
+                                                <input name="maxCredit" id="credit" type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" class="form-control" ng-model="ProgInstPartTermGroup.MaxCredits" min="{{ProgInstPartTermGroup.MinCredits}}" allow-Pattern="\d" placeholder="Type Max Credits ">
+                                                <div style="color: red" ng-show="form.maxCredit.$error.min">Minimum Credits are not greater than Maximum Credits</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Min Credits</label>
+                                            <div class="col-sm-6">
+                                                <input name="minCredit" id="credit" type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" class="form-control" ng-model="ProgInstPartTermGroup.MinCredits" allow-Pattern="\d" placeholder="Type Min Credits ">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 offset-md-2">
+                                            <div class="form-group row">
+                                                <div class="col-sm-6">
+                                                    <button class="btn btn-success" ng-click="AddGroup()" ng-hide="modifyGroupFlag">Add</button>
+                                                    <button class="btn btn-success" ng-click="ModifyGroup()" ng-show="modifyGroupFlag">Update</button>
+                                                    <button class="btn btn-success" ng-click="CancelGroup()">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+
+
+                            <div class="card-block" ng-show="GroupFormFlag1">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="examgrp" ng-table="ProgInstGroupTableParams" show-filter="true">
+                                        <tbody>
+                                            <tr ng-repeat="Group in $data">
+                                                <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                                <td data-title="'Group Name'" filter="{GroupName: 'text'}" sortable="'GroupName'" style="border-top:none;"><label>{{Group.GroupName}}</label></td>
+
+                                                <td data-title="'Actions'">
+                                                    <div layout="row">
+                                                        <span flex></span>
+
+                                                        <button type="button" ng-click="displayGroupData(Group)" class="btn btn-info btn-icon mr-2" data-target="#large-Modal" data-toggle="modal"><span class="icofont ion-eye"></span></button>
+                                                        <button type="button" ng-click="modifyGroupData($data[$index])" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><span class="icofont icofont-ui-edit"></span></button>
+                                                        <button type="button" ng-click="deleteGroup($event,Group)" class="tabledit-delete-button btn btn-danger waves-effect waves-light ml-2"><span class="icofont icofont-ui-delete"></span></button>
+                                                        <button type="button" ng-click="AttachGroupPaper(Group)" class="tabledit-edit-button btn btn-primary waves-effect waves-light ml-2">Attach Paper/Group</button>
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="large-Modal" tabindex="-1" role="dialog">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Group Detail</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5></h5>
+                                            <table class="table table-striped table-bordered">
+                                                <tr>
+                                                    <td>Group-Name:</td>
+                                                    <td>{{Group.GroupName}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Sub-Group:</td>
+                                                    <td>{{Group.HasSubGroupSts}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Is it a Sub-group of Another Group:</td>
+                                                    <td>{{Group.IsSubGroupSts}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Min. Papers:</td>
+                                                    <td>{{Group.MinPapers}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Maxn. Papers:</td>
+                                                    <td>{{Group.MaxPapers}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Min. SubGroups:</td>
+                                                    <td>{{Group.MinSubGroups}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Max. SubGroups:</td>
+                                                    <td>{{Group.MaxSubGroups}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>IsSepartePassingHead:</td>
+                                                    <td>{{Group.IsSeparatePassingHeadSts}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Max. Marks:</td>
+                                                    <td>{{Group.MaxMarks}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Min. Marks:</td>
+                                                    <td>{{Group.MinMarks}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Max. Credits:</td>
+                                                    <td>{{Group.MaxCredits}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Min. Credits:</td>
+                                                    <td>{{Group.MinCredits}}</td>
+                                                </tr>
+
+
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <!--<button type="button" class="btn btn-default waves-effect " data-dismiss="modal" disabled>Close</button>-->
+                                            <button type="button" class="btn btn-primary waves-effect waves-light " data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+</div>
+        </div>
+    </div>
+    </div>

@@ -1,0 +1,337 @@
+﻿
+<style>
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+
+
+    /*   for table*/
+    .card .card-block table tr {
+        padding-bottom: 20px;
+    }
+
+    .table td {
+        padding: .25rem;
+    }
+
+    .table label {
+        margin-bottom: 0px;
+        margin-top: 8px;
+    }
+
+
+    /*  for button in table*/
+    .table button {
+        width: 45px;
+        height: 40px;
+        padding: 0px;
+    }
+
+        .table button i {
+            margin-right: 0px;
+        }
+
+
+
+    .ng-table th.sortable .sort-indicator {
+        padding-right: 18px;
+        position: relative;
+        white-space: normal;
+    }
+
+    .ng-table th.sortable .sort-indicator:after, .ng-table th.sortable .sort-indicator:before {
+            content: "";
+            border-width: 0 4px 4px;
+            border-style: solid;
+            border-color: #000 transparent;
+            visibility: hidden;
+            right: 5px;
+            top: 50%;
+            position: absolute;
+            opacity: .3;
+        }
+
+    .ng-table th.sortable.sort-desc .sort-indicator:after {
+        border-bottom: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid #000;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:before {
+        opacity: 1;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:after {
+        opacity: 1;
+        visibility: hidden;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-init="setValue();">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card" style="margin-bottom:15px;">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4 style="margin-bottom:0px;">Assign Blocks</h4></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-6">
+                    <div class="card" style="margin-bottom: 0px;">
+
+                        <div class="card-body" style="padding:10px 20px 0px 20px;">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-6">
+                                    <div class="row">
+
+
+                                        <div class="col-lg-12">
+                                            <div class="row">
+                                                <div class="col-lg-2">
+                                                    <label class="form-label">Exam Event</label>
+                                                    <div>
+                                                        <span class="nullable">
+                                                            <examevent-select style="margin-bottom:3px;" ng-model="filter.ExamMasterId" ng-change="getFacultyExamMapListGetActive(filter.ExamMasterId)"></examevent-select>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-2">
+                                                    <label class="form-label">Schedule</label>
+                                                    <div>
+                                                        <span class="nullable">
+                                                            <schedulewithexamevent-select style="margin-bottom:3px;" ng-model="filter.FacultyExamMapId" ng-change="MstProgrammeMasterGet(filter.FacultyExamMapId) "></schedulewithexamevent-select>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <label class="form-label">Programme</label>
+                                                    <div>
+                                                        <span class="nullable">
+                                                            <programmewithschedule-select style="margin-bottom:3px;" ng-model="filter.ProgrammeId" ng-change="MstProgrammePartTermGetByProgrammeId(filter.ProgrammeId)"></programmewithschedule-select>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-2">
+                                                    <label class="form-label">Programme Part Term</label>
+                                                    <div>
+                                                        <span class="nullable">
+                                                            <partterm-select style="margin-bottom:3px;" ng-model="filter.ProgrammePartTermId" ng-change=" getActiveAttachedCourseVenueMapList(filter)" ></partterm-select>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <label class="form-label">Exam Venue</label>
+                                                    <div>
+                                                        <span class="nullable">
+                                                            <examvenuewithschedule-select style="margin-bottom:3px;" ng-model="filter.ExamVenueId" ng-change="pendingMstSpecialisationGetByPId();ExamVenueGetforAssignBlocks();"></examvenuewithschedule-select>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="" ng-class="{'col-lg-6 col-md-6' : isPaperWiseAllocationChecked === true, 'col-lg-12 col-md-12': isPaperWiseAllocationChecked === false}" ng-show="FlagAssignSection == true">
+                    <div class="card" style="margin-bottom:30px;">
+                        <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                            <h3 class="card-title" style="font-size:18px;">List of Center & Specialization</h3>
+                        </div>
+                        <div class="card-block">
+
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Select Exam Center <span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select id="ddlExamCenter" name="ExamVenue" class="form-control required" ng-model="filter.ExamCenter"
+                                                ng-options="d.CenterName for d in ExamCenterList" [value]="d.CenterName" required>
+                                            <option value="" disabled selected hidden>-- Select --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Select Branch Name <span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select id="ddlBranchName" name="BranchName" class="form-control required" ng-model="filter.Specialisation"
+                                                ng-options="d.BranchName for d in MstSpecialisationGetByPIdList" [value]="d.BranchName" required>
+                                            <option value="" disabled selected hidden>-- Select --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!--<div class="table-responsive">
+                                <table id="ApplicationStatsId" class="table table-striped table-bordered">
+                                    <tbody>
+                                        <tr style="text-align:center" ng-repeat="specialisation in MstSpecialisationGetByPIdList">
+                                            <td data-title="'Select'" style="border-top: none; width: 15%;">
+                                                <input type="checkbox" class="form-control" name="example-text-input" ng-model="specialisation.IsSelected" style="margin-top:10px;">
+                                            </td>
+                                            <td data-title="'Specialization Name'" style="border-top: none; text-align: left; word-wrap: break-word; word-break: break-all;">
+                                                <label style="text-align:left;align-content:flex-start;font-size:13px; ">{{specialisation.BranchName}}</label>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>-->
+
+
+                        </div>
+                        <div class="card-footer" ng-show="showButtonFlag">
+                            <div class="row" style="text-align:center;">
+                                <div class="col-lg-12" style="padding-left:15px;">
+                                    <div class="row">
+                                        <div class="col-lg-8" style="visibility:hidden;">
+
+                                        </div>
+
+                                        <div class="col-lg-4" style="text-align:right;">
+                                            <div class="float-right" style="padding-top:0px;">
+                                                <button type="button" title="Auto" class="tabledit-edit-button btn btn-primary waves-effect waves-light " ng-click="getPaperList()">Paper Selection</button>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6" ng-show="isPaperWiseAllocationChecked" >
+                    <div class="card" style="margin-bottom:30px;">
+                        <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                            <h3 class="card-title" style="font-size:18px;">List of Papers</h3>
+                        </div>
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table id="ApplicationStatsId" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" ng-model="paper.PaperChecked" ng-change="selectAllPaper()">&nbsp;</th>
+                                            <th>Select All</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="text-align:center" ng-repeat="paper in paperList">
+
+                                            <td data-title="'Select'" style="border-top: none;text-align: center;">
+                                                <!--<label ng-hide="assign.timetableFlag">{{paper.ischecked}}</label>-->
+                                                <input type="checkbox" class="form-control" name="example-text-input" ng-model="paper.PaperChecked" style="margin-top:10px; width:20px;" ng-init="paper.PaperChecked=true">
+
+
+                                            </td>
+                                            <td data-title="'Paper Name'" style="border-top: none; text-align: left; word-wrap: break-word; word-break: break-all;">
+                                                <label style="text-align:left;align-content:flex-start;font-size:13px; ">{{paper.PaperName}}</label>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+                        <div class="card-footer" >
+                            <div class="row" style="text-align:center;">
+                                <div class="col-lg-12" style="padding-left:15px;">
+                                    <div class="row">
+                                        <div class="col-lg-4" style="text-align:left;">
+                                            <div class="float-left" style="padding-top:0px;">
+                                                <button type="button" title="Manual" ng-click="showManualList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Manual Allocation </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4" style="visibility:hidden;">
+
+                                        </div>
+                                
+                                        <div class="col-lg-4" style="text-align:left;">
+                                            <div class="float-right" style="padding-top:0px;">
+                                                <button type="button" title="Auto" class="tabledit-edit-button btn btn-primary waves-effect waves-light " ng-click="showAutoAllocationBlockList()">Auto Allocation</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-sm-12" ng-show="showManualAllocationFlag">
+                    <div class="card" style="margin-bottom:100px;">
+
+                        <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                            <h3 class="card-title float-left" style="font-size:18px;padding-top:10px;">List of Manual Allocation</h3>
+                            <div class="float-right">
+                                <button type="button" ng-click="backToButtonFlag()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">
+                                    <i class="ti-back-left"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table id="ApplicationStatsId" class="table table-striped table-bordered"   ng-table="manualTableParams" show-filter="true" style="font-size:13px;">
+                                    <tbody>
+                                        <tr style="text-align:center" ng-repeat="manual in $data">
+
+                                            <td data-title="'Select'" filter="{'IsSelected':'text'}" sortable="'IsSelected'" style="border-top: none; width:5%;">
+      
+                                                <input type="checkbox" class="form-control" name="example-text-input" ng-model="manual.IsSelected" style="margin-top:10px;">
+                                            </td>
+                                            <td data-title="'Venue Name'" filter="{'ExamVenue':'text'}" sortable="'ExamVenue'"  style="border-top: none; text-align: left; word-wrap: break-word; word-break: break-all;width:250px;">
+                                                <label style="text-align:left;align-content:flex-start;font-size:13px; ">{{manual.ExamVenue}}</label>
+                                            </td>
+                                            <td data-title="'Block Name'" filter="{'Name':'text'}" sortable="'Name'"  style="border-top: none; text-align: left; word-wrap: break-word; word-break: break-all;width:250px;">
+                                                <label style="text-align:left;align-content:flex-start;font-size:13px; ">{{manual.Name}}</label>
+                                            </td>
+                                            <td data-title="'Room Name'" filter="{'RoomNo':'text'}" sortable="'RoomNo'"  style="border-top: none; text-align: left; word-wrap: break-word; word-break: break-all;width:250px;">
+                                                <label style="text-align:center;font-size:13px; ">{{manual.RoomNo}}</label>
+                                            </td>
+                                            <td data-title="'Capacity'" filter="{'Capacity':'text'}" sortable="'Capacity'" style="border-top: none; text-align: left; word-wrap: break-word; word-break: break-all;width:100px;">
+                                                <label style="text-align:left;align-content:flex-start;font-size:13px; ">{{manual.Capacity}}</label>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+
+                            <div class="float-right" style="padding-top:0px;">
+                                <button type="button" title="Process" ng-click="processManualAssignBlocks()" class="tabledit-edit-button btn btn-primary waves-effect waves-light "> Process </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

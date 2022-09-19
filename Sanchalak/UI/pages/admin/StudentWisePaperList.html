@@ -1,0 +1,159 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left">
+                            <h4>Student Wise Paper List</h4>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <!--<button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Back</button><br /><br />-->
+                    <div class="col-md-12 offset-md-2">
+                        <form name="Studentdata" ng-model="StudentWisePaperList">
+
+                            <div class="form-group row" ng-init="IncAcademicYearListGet()">
+                                <label for="Activity" class="col-sm-2 col-form-label">Academic Year Code</label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="StudentWisePaperList.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicList" ng-change="getMstInstitute()" [value]="StudentWisePaperList.AcademicYearId" name="AcademicYear">
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Select Institute</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="StudentWisePaperList.InstituteId" ng-options="d.Id as d.InstituteName for d in InstituteList  | orderBy:'InstituteName'" ng-change="ProgrammeGetbyInstId()" class="form-control" id="Instdropdown1" name="Instdropdown" required>
+                                                <option value="" disabled selected>--SELECT--</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-2 col-form-label">Programme Name</label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="StudentWisePaperList.ProgrammeId" ng-options="d.Id as d.ProgrammeName for d in ProgrammeList" ng-change="ProgPartInstListGet()" [value]="StudentWisePaperList.ProgrammeId" name="Programme">
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-2 col-form-label">Programme Part Name</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="StudentWisePaperList.ProgrammePartId" ng-options="d.Id as d.PartShortName for d in ProgPartList" [value]="SWLP.ProgrammePartId" class="form-control" name="ProgPartShortNamedropdown" ng-change="BranchGet()" required>
+                                                <option value="" disabled selected>--SELECT--</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-2 col-form-label">Branch Name</label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="StudentWisePaperList.SpecialisationId" ng-options="d.Id as d.BranchName for d in BList" [value]="SWLP.ProgrammeId" name="Programme" ng-change="PTsGet()">
+                                            <!--ng-change="PTsGet()"-->
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-2 col-form-label">Semester Name</label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="StudentWisePaperList.ProgrammeInstancePartTermId" ng-options="d.Id as d.InstancePartTermName for d in PTList" [value]="StudentWisePaperList.ProgrammeInstancePartTermId" name="ProgrammeInstancePartTerm">
+                                            <!--ng-change="PTsGet()"-->
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="getStudentWisePaperList()">Submit</button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetStudentWisePaperList()">Cancle</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card" ng-show="StudentWiseTable">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <div layout="row" style="margin-top:3px" class="float-left">
+                                    <button ng-click="exportStudentWisePaperList();" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="min-width:40px;">Export to Excel</button>
+                                </div>
+                                <table id="searchResult" class="table table-striped table-bordered" ng-table="StudentWisePaperListTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="StudentWisePaperList in $data">
+                                            <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;"><label>{{StudentWisePaperList.IndexId}}</label></td>
+                                            <td data-title="'PRN'" filter="{PRN: 'text'}" sortable="'PRN'" style=" border-top: none;"><label>{{StudentWisePaperList.PRN}}</label></td>
+                                            <td data-title="'Name'" filter="{FullName: 'text'}" sortable="'FullName'" style="border-top:none;"><label>{{StudentWisePaperList.FullName}}</label></td>
+                                            <td data-title="'Email Id'" filter="{EmailId: 'text'}" sortable="'EmailId'" style=" border-top: none;"><label>{{StudentWisePaperList.EmailId}}</label></td>
+                                            <td data-title="'Mobile No'" filter="{MobileNo: 'text'}" sortable="'MobileNo'" style=" border-top: none;"><label>{{StudentWisePaperList.MobileNo}}</label></td>
+                                            <td data-title="'Paper-1'" filter="{Paper1: 'text'}" sortable="'Paper1'" style=" border-top: none;"><label>{{StudentWisePaperList.Paper1}}</label></td>
+                                            <td data-title="'Paper-2'" filter="{Paper2: 'text'}" sortable="'Paper2'" style=" border-top: none;"><label>{{StudentWisePaperList.Paper2}}</label></td>
+                                            <td data-title="'Paper-3'" filter="{Paper3: 'text'}" sortable="'Paper3'" style=" border-top: none;"><label>{{StudentWisePaperList.Paper3}}</label></td>
+                                            <td data-title="'Paper-4'" filter="{Paper4: 'text'}" sortable="'Paper4'" style=" border-top: none;"><label>{{StudentWisePaperList.Paper4}}</label></td>
+
+
+                                            <td data-title="'Paper-5'" filter="{Paper5: 'text'}" sortable="'Paper5'" style=" border-top: none;"><label>{{StudentWisePaperList.Paper5}}</label></td>
+                                            <td data-title="'Paper-6'" filter="{Paper6: 'text'}" sortable="'Paper6'" style=" border-top: none;"><label>{{StudentWisePaperList.Paper6}}</label></td>
+                                            <td data-title="'Paper-7'" filter="{Paper7: 'text'}" sortable="'Paper7'" style=" border-top: none;"><label>{{StudentWisePaperList.Paper7}}</label></td>
+                                            <td data-title="'Paper-8'" filter="{Paper8: 'text'}" sortable="'Paper8'" style=" border-top: none;"><label>{{StudentWisePaperList.Paper8}}</label></td>
+
+                                            <td data-title="'Paper-9'" filter="{Paper9: 'text'}" sortable="'Paper9'" style=" border-top: none;"><label>{{StudentWisePaperList.Paper9}}</label></td>
+                                            <td data-title="'Paper-10'" filter="{Paper10: 'text'}" sortable="'Paper10'" style=" border-top: none;"><label>{{StudentWisePaperList.Paper10}}</label></td>
+                                            <td data-title="'Paper-11 '" filter="{Paper11: 'text'}" sortable="'Paper11'" style=" border-top: none;"><label>{{StudentWisePaperList.Paper11}}</label></td>
+
+                                            <td data-title="'Paper-12'" filter="{Paper12: 'text'}" sortable="'Paper12'" style=" border-top: none;"><label>{{StudentWisePaperList.Paper12}}</label></td>
+
+                                            <td data-title="'Paper-13 '" filter="{Paper13: 'text'}" sortable="'Paper13'" style=" border-top: none;"><label>{{StudentWisePaperList.Paper13}}</label></td>
+                                            <td data-title="'Paper-14 '" filter="{Paper14: 'text'}" sortable="'Paper14'" style=" border-top: none;"><label>{{StudentWisePaperList.Paper14}}</label></td>
+                                            <td data-title="'Paper-15'" filter="{Paper15: 'text'}" sortable="'Paper15'" style=" border-top: none;"><label>{{StudentWisePaperList.Paper15}}</label></td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div ng-if="contentPresent">
+                                    <h2 style="font-size:medium; text-align:center">There are No Student Wise Paper List Report.</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

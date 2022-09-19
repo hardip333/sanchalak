@@ -1,0 +1,110 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="FTFHMCtrl" ng-init="getFTFHMList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Fee Type and Head Mapping</h4>
+                </div>
+                <div class="card-block">
+                    <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Back</button><br /><br />
+                    <form ng-model="FTFHM">     
+                        <div class="form-group row" ng-init="IncAcademicYearListGet()">
+                            <label for="Activity" class="col-sm-2 col-form-label">Academic Year Code <span style="color:red">*</span>:</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <select class="form-control" ng-model="FTFHM.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicList" [value]="FTFHM.AcademicYearId" name="AcademicYear" required>
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="myForm.AcademicYear.$touched && myForm.AcademicYear.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div> 
+                        <div class="form-group row" ng-init="getFTList()">
+                            <label for="Activity" class="col-sm-2 col-form-label">Fee Type Name <span style="color:red">*</span>:</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <select name="FeeType" ng-model="FTFHM.FeeTypeId" ng-options="d.Id as d.FeeTypeName for d in FTList" [value]="FTFHM.FeeTypeName" class="form-control" ng-change="getFHList()" required>
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="myForm.FeeType.$touched && myForm.FeeType.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div>
+                                                
+                        <div class="form-group row"  ng-show="FHflag">
+                            <label for="Activity" class="col-sm-2 col-form-label">Fee Head Name <span style="color:red">*</span>:</label>
+                            <div class="col-sm-10">
+                                <div ng-repeat="FH in FHList">
+                                    <input ng-model="FTFHM.FeeHeadList[FH.FeeHeadId]" type='checkbox'  />
+                                    <label>{{FH.FeeHeadName}}</label>
+                                </div>
+                            </div>
+                            <button class="btn btn-success" ng-click="getFSHList()">Get Sub Head </button>
+                        </div>
+                        <div ng-show="FSHflag">
+                        <div class="form-group row"  >
+                            <label for="Activity" class="col-sm-2 col-form-label">Fee Sub Head Name <span style="color:red">*</span>:</label>
+                            <div class="col-sm-10 table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" show-filter="true">
+                                    <tr>
+                                        <th>
+                                            Attach Fee Sub Head <br />
+                                            Select All <input ng-model="FTFHM.AllCheck" type='checkbox' ng-disabled="allcheckflag" ng-checked="allcheckflag" ng-change="allSHcheck()"/>
+
+                                        </th>
+                                        <th>Fee Sub Head Name</th>
+                                        <!--<th>Is Editable</th>-->
+
+                                    </tr>
+                                    <tr ng-repeat="FSH in FTFHM.FeeSHList">
+                                        <td><input ng-model="FSH.AddCheck" type='checkbox' ng-disabled="FSH.SubHeadChecked" ng-checked="FSH.SubHeadChecked"/></td>
+                                        <td><label>{{FSH.FeeSubHeadName}}</label></td>
+                                        <!--<td><input ng-model="FSH.IsEditable" type='checkbox'  ng-disabled="FSH.SubHeadChecked"/></td>-->
+
+                                    </tr>
+                                </table>
+                            </div>
+                                <!--<div class="col-sm-10">
+                                    <div ng-repeat="FH in FHList">
+                                        <input ng-model="FTFHM.FeeHeadList[FH.FeeHeadId]" type='checkbox' ng-checked="FH.HeadChecked" ng-disabled="FH.HeadChecked"/>
+                                        <label>{{FH.FeeHeadName}}</label>
+                                    </div>
+                                </div>-->
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button class="btn btn-success" ng-click="addFTFHM()">Add </button>
+                                <button class="btn btn-disabled disabled" ng-click="cancelFTFHM()">Cancel</button>
+                            </div>
+                        </div>
+                        </div>
+                    </form>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered"  id="example-2" ng-table="FTFHMTableParams" show-filter="true">
+                                    <tbody ng-repeat="FTFHM in $data">                                        
+                                        <tr>
+                                            <td data-title="'Academic Year'" filter="{AcademicYearCode: 'text'}" sortable="'AcademicYearCode'" style="text-align:center;"><label>{{FTFHM.AcademicYearCode}}</label></td>
+                                            <td data-title="'Fee Type Name'" filter="{FeeTypeName: 'text'}" sortable="'FeeTypeName'" style="text-align:center;"><label>{{FTFHM.FeeTypeName}}</label></td>
+                                            <td data-title="'Fee Head Name'" filter="{FeeHeadName: 'text'}" sortable="'FeeHeadName'" style="text-align:center;"><label>{{FTFHM.FeeHeadName}}</label></td>
+                                            <td data-title="'Fee Sub Head Name'" filter="{FeeSubHeadName: 'text'}" sortable="'FeeSubHeadName'" style="text-align:center;"><label>{{FTFHM.FeeSubHeadName}}</label></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>                  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

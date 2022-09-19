@@ -1,0 +1,117 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="MobileEmailDataCtrl" >
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Student Mobile and Email Request Change</h4>
+                </div>
+                <div class="card-block">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Application ID <span style="color:red">*</span>:</label>
+                        <div class="col-sm-10 col-lg-9 col-md-9">
+                            <input type="text" class="form-control" ng-model="MobileEmailData.ApplicationId" placeholder="Type Application ID">
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button class="btn btn-success" ng-click="SubmitApplicationId()">Next </button>
+
+                        </div>
+                    </div>
+                    <div class="card" ng-show="showData">
+                        <div class="form-group row">
+
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Name:</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{MEDList.NameAsPerMarksheet}}</label>
+
+                        </div>
+                        <!--<div class="form-group row">
+        <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>ApplicationStatus:</b></label>
+        <label for="Activity" class="col-sm-2 col-form-label">{{MEDList.ApplicationStatus}}</label>
+
+    </div>-->
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>FacultyName :</b></label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{MEDList.FacultyName}}</label>
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>ProgrammeName:</b> </label>
+                            <label for="Activity" class="col-form-label">{{MEDList.ProgrammeName}}</label><br />
+                        </div>
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Branch Name:</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{MEDList.BranchName}}</label>
+
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>InstancePartTermName:</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{MEDList.InstancePartTermName}}</label><br />
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Mobile No:</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{MEDList.MobileNo}}</label>
+
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Email Id:</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{MEDList.EmailId}}</label><br />
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Group Name:</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{MEDList.GroupName}}</label>
+                            <label for="Activity" class="col-sm-3 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Institute Name:</b> </label>
+                            <label for="Activity" class="col-sm-2 col-form-label">{{MEDList.InstituteName}}</label><br />
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-6 col-form-label">Mobile No. <span style="color:red">*</span>:</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <div>
+                                    <span class="nullable">
+                                        <input type="text" name="MobileNo" class="form-control" ng-model="MEDList.SMobileNo" placeholder="Type Mobile Number" required />
+                                    </span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-6 col-form-label">Email Id <span style="color:red">*</span>:</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <div>
+                                    <span class="nullable">
+                                        <input type="text" name="EmailId" class="form-control" ng-model="MEDList.SEmailId" placeholder="Type Email Id" required />
+                                    </span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button class="btn btn-success" ng-click="updateMobileEmailData()">Submit </button>
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    
+                </div>    
+            </div>  
+        </div>
+    </div>
+
+</div>

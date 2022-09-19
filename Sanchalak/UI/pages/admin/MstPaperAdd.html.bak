@@ -1,0 +1,158 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="mstPaperCtrl" ng-init="mstPaperGet()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Add Paper Master</h4></div>
+                        <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form name="form">
+
+                            <div class="form-group row" ng-init="getFaculty()">
+                                <div class="col-sm-2">Faculty Name<span style="color:red;">*</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="paper.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" ng-change="getSubjectByFacultyId()" [value]="paper.FacultyId" class="form-control" name="Facdropdown" required>
+                                                <option value="" disabled selected>-- select faculty --</option>
+                                            </select>
+                                            <!--<span ng-show="form.Facdropdown.$invalid && form.Facdropdown.$touched " style="color:red;">Required*</span>-->
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Subject Name<span style="color:red;">*</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="paper.SubjectId" ng-options="d.Id as d.SubjectName for d in SubjectList" [value]="paper.SubjectId" class="form-control" name="Subdropdown" required>
+                                                <option value="" disabled selected>-- select subject --</option>
+                                            </select>
+                                            <!--<span ng-show="form.Subdropdown.$invalid && form.Subdropdown.$touched " style="color:red;">Required*</span>-->
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Paper Name<span style="color:red;">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="paperName" class="form-control" ng-model="paper.PaperName" placeholder="Type Paper Name " required>
+                                    <!--<span ng-show="form.paperName.$invalid && form.paperName.$touched " style="color:red;">Required*</span>-->
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Paper Code<span style="color:red;">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="paperCode" class="form-control" ng-model="paper.PaperCode" placeholder="Type Paper Code " required>
+                                    <!--<span ng-show="form.paperCode.$invalid && form.paperCode.$touched " style="color:red;">Required*</span>-->
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Is Credit<span style="color:red;">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="radio" name="CreditRb" id="chkYes" ng-model="paper.IsCredit" value="true" ng-click="EnableDisableCredits()">YES &nbsp;&nbsp; <!--ng-required="!paper.IsCredit"-->
+                                    <input type="radio" name="CreditRb" id="chkNo" ng-model="paper.IsCredit" value="false" ng-click="EnableDisableCredits()">NO
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Credits</label>
+                                <div class="col-sm-6">
+                                    <input type="number" id="credit" name="credits" class="form-control" ng-model="paper.Credits" allow-Pattern="\d" placeholder="Type Credits " disabled="disabled">
+                                    <!--<span ng-show="form.credits.$invalid && form.credits.$touched " style="color:red;">Required*</span>-->
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Is Separate Passing Head<span style="color:red;">*</span></label>
+                                <div class="col-sm-6">
+                                    <input type="radio" name="HeadRb" ng-model="paper.IsSeparatePassingHead" value="True" >YES &nbsp;&nbsp;
+                                    <input type="radio" name="HeadRB" ng-model="paper.IsSeparatePassingHead" value="False" >NO
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Max Marks</label>
+                                <div class="col-sm-6">
+                                    <input type="number" name="max" class="form-control" ng-model="paper.MaxMarks" allow-Pattern="\d" placeholder="Type Max Marks ">
+                                    <!--<div style="color: red" ng-show="form.max.$error.min">Minimum Marks are not greater than Maximum Marks</div>  min="{{paper.MinMarks}}" -->
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Min Marks</label>
+                                <div class="col-sm-6">
+                                    <input type="number" name="min" class="form-control" ng-model="paper.MinMarks" allow-Pattern="\d" placeholder="Type Min Marks ">
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getEvaluation()">
+                                <div class="col-sm-2">Evaluation Name<span style="color:red;">*</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="paper.EvaluationId" ng-options="d.Id as d.EvaluationName for d in EvaluationList" [value]="paper.EvaluationId" class="form-control" name="evadropdown" required>
+                                                <option value="" disabled selected>select Evaluation</option>
+                                            </select>
+                                            <!--<span ng-show="form.evadropdown.$invalid && form.evadropdown.$touched " style="color:red;">Required*</span>-->
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="addMstPaper()">Add </button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetMstPaper()">Cancel</button>
+                                        <button class="btn btn-success" ng-click="GotoPaperTLMMap()" ng-show="showDefineBtn">Define Teaching Learning Method</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" id="example-2" ng-table="mstPaperTableParams" show-filter="true">
+                            <tbody>
+                                <tr ng-repeat="paper in $data">
+                                    <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;text-align:center;"><label>{{paper.IndexId}}</label></td>
+                                    <!--<td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>-->
+                                    <td data-title="'SubjectName'" filter="{SubjectName: 'text'}" sortable="'SubjectName'" style="border-top:none;"><label>{{paper.SubjectName}}</label></td>
+                                    <td data-title="'PaperName'" filter="{PaperName: 'text'}" sortable="'PaperName'" style="border-top:none;"><label>{{paper.PaperName}}</label></td>
+                                    <td data-title="'PaperCode'" filter="{PaperCode: 'text'}" sortable="'PaperCode'" style="border-top:none;"><label>{{paper.PaperCode}}</label></td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+﻿app.directive("slotSelect", function () {
+    return {
+        templateUrl: "UI/components/slotSelect.html",
+        restrict: "E",
+        replace: !0,
+        //scope: { getList: '=' },
+        controller: ["$scope", "$http", "$rootScope", function ($scope, $http, $rootScope) {
+
+            $scope.ExamSlotMasterListGetActiveList = [];
+            $scope.defaultSlotList = [];
+            var slotObj = {
+                Id: 0,
+                SlotName: "Select Slot"
+            }
+            $scope.defaultSlotList.push(slotObj);
+
+            $scope.getExamSlotMasterListGetActive = function () {
+             
+                $http({
+                    method: 'POST',
+                    url: 'api/ExamSlotMaster/ExamSlotMasterListGetActive',
+                    data: {},
+                    headers: { "Content-Type": 'application/json' }
+                })
+                    .success(function (response) {
+                        $rootScope.showLoading = false;
+
+                        if (response.response_code != "200") {
+                            alert(response.obj);
+                        }
+                        else {
+
+                            $scope.tempList = response.obj;
+                            $scope.ExamSlotMasterListGetActiveList = $scope.defaultSlotList.concat($scope.tempList);
+
+                        }
+                    })
+                    .error(function (res) {
+                        alert(res.obj);
+                    });
+            }
+            $scope.getExamSlotMasterListGetActive();
+
+
+        }],
+        link: function (e, t, a) {
+        }
+    }
+})

@@ -1,0 +1,159 @@
+﻿
+<script src="../../../assets/js/qrious.min.js"></script>
+<script type="text/javascript">
+
+    function generateQRCode(prn,ProgId) {
+        (function () {
+            debugger;
+            r1 = "http://localhost:50968/index.html#/dashboard/TransferCertificateVerification"
+            qr = new QRious({
+                element: document.getElementById('qrcode'),
+                size: 200,
+                value: r1,
+            });
+        })();
+
+        qr.set({
+            foreground: 'black',
+            size: 185,
+            value: r1 + '?prn=' + prn + '&ProgId=' + ProgId
+        });
+
+        var canvas = document.getElementById("qrcode");
+        document.getElementById('imgqrcode').src = canvas.toDataURL();
+    }
+
+    //function getProgId() {
+    //    let urlstring = window.location.href;
+    //    let paramString = urlstring.split('?')[1];
+    //    let param_arr = paramString.split('&');
+    //    let pair1 = []; let pair2 = []; let pair3 = [];
+    //    pair1 = param_arr[0].split('=');
+    //    pair2 = param_arr[1].split('=');
+    //    pair3 = param_arr[2].split('=');
+    //    let progId = [];
+    //    progId[0] = pair1[1];
+    //    progId[1] = pair2[1];
+    //    progId[2] = pair3[1];
+    //    return [progId];
+    //}
+</script>
+
+<style>
+    p{
+        padding:0px;
+        margin:0px;
+    }
+</style>
+
+<div class="page-body" ng-controller="TransferCertiController" ng-init="GenerateTransferCertificate()">
+    <div class="card">
+        <div class="card-block" id="disp1">
+            <div class="col-sm-12 mt-3 ml-3 m-r-5">
+                <div class="row">
+                    <div class="col-sm-3 text-center">
+                        <img src="/assets/images/Msu-Images/Msu_baroda_logo.png" class="logoImg mt-2" style="height:50%" />
+                    </div>
+                    <div class="col-sm-6 mt-2 text-center">
+                        <h6 style="font-size:18px">{{firstRecord.InstituteName}}</h6>
+                        <h6 style="font-size:13px">{{firstRecord.InstituteAddress}}</h6>
+                        <h6 style="font-size:14px">THE MAHARAJA SAYAJIRAO UNIVERSITY OF BARODA</h6>
+                        <h6 style="font-size:20px"><u>{{firstRecord.CertificateName}}</u></h6>
+                    </div>
+                    <div class="col-sm-3 mt-2">
+                        <img data-ng-src="data:8021000046_photo/png;base64,{{firstRecord.StudentPhoto}}" class="avatar ml-5" style="border-color:deepskyblue ; border-style:solid ; border-width:3px;" width="80" height="80" />
+                    </div>
+
+                    <div class="col-sm-3 mt-2 text-center">
+                        <p style="font-size:13px"><b>PRN : {{firstRecord.PRN}}</b></p>
+                    </div>
+
+                    <div class="col-sm-5 mt-2 text-center">
+                        <p style="font-size:13px;margin-left:50px"><b>Code : {{firstRecord.TCCode}}</b></p>
+                    </div>
+
+                    <div class="col-sm-4 mt-2">
+                        <div class="row">
+                            <div class="col-sm-4 text-right">
+                                <p style="font-size:13px"><b>Sign :</b></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <img data-ng-src="data:8021000046_signature/png;base64,{{firstRecord.StudentSignature}}" class="avatar" style="border-color:deepskyblue ; border-style:solid ; border-width:3px;" width="120" height="30" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr style="width:100%" ; size="2" color=black>
+            <div class="col-sm-12">
+                <p style="font-size:13px;text-align:justify;padding-right:15px">{{firstRecord.Part1}} <u><b>{{firstRecord.NameAsPerMarksheet}}</b></u> {{firstRecord.Part2}}  <u><b>{{firstRecord.InstituteName}}</b></u></p>
+                <p style="font-size: 13px; text-align: justify;padding-right:15px" ng-repeat="Student in ListOfRecords">
+                    {{firstRecord.Gender}} {{Status}} {{Student.Part4}} <b>{{Student.PartName}}</b>-<b>{{Student.BranchName}}</b>-<b>{{Student.ProgrammeModeName}}</b> {{Student.Part5}} <b>{{Student.DisplayName}}</b>
+                </p>
+                <p style="font-size: 13px; text-align: justify;padding-right:15px">{{firstRecord.Gender}} {{firstRecord.Part6}} <b>{{firstRecord.AcademicYearCode}}</b> {{firstRecord.Part7}} <b>{{firstRecord.PartTermShortName}}</b> {{firstRecord.Part8}} <b>{{firstRecord.PartStatus}}</b> {{firstRecord.Part9}} <b>{{lastRecord.DisplayName}}</b> </p>
+                <p style="font-size: 13px; text-align: justify; padding-right: 15px">{{firstRecord.Part10}}</p>
+                <p style="font-size: 13px; text-align: justify; padding-right: 15px">{{firstRecord.Part11}}</p>
+                <p style="font-size: 13px; text-align: justify; padding-right: 15px">{{firstRecord.Gender}} {{firstRecord.Part12}} {{firstRecord.InstituteName}}</p>
+                <p style="font-size: 13px; text-align: justify; padding-right: 15px"><b>DATE OF BIRTH : {{firstRecord.DOB}}</b></p>
+                <p style="font-size: 13px; text-align: justify; padding-right: 15px">{{firstRecord.Part13}} {{gpronoun}} {{firstRecord.Part3}}</p>
+                <p style="font-size: 13px; text-align: justify; padding-right: 15px">{{firstRecord.Part14}}</p>
+            </div>
+
+            <br />
+
+
+            <br />
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-7 mt-5">
+                        <!--<div class="col-sm-4">
+                            <img data-ng-src="data:1000000010_DeanSign.png/png;base64,{{firstRecord.Sign}}" class="avatar" width="170" height="50" />
+                        </div>-->
+                        <div class="col-sm-6">
+                            <p style="font-size:15px"><b>{{firstRecord.NameOfAuthority}}</b></p>
+                        </div>
+                        <div class="col-sm-2">
+                            <p style="font-size:15px"><b>{{firstRecord.AuthorityType}}</b></p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-5 mt-5">
+                        <div id="imp" style="display:none">
+                            <canvas id="qrcode" class="code1"></canvas>
+                        </div>
+                        <div id="imp">
+                            <img id="imgqrcode" class="float-right" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-8">
+            <input type="checkbox" id="ConfirmTransfer" name="ConfirmTransfer" value=true ng-model="firstRecord.IsTransfered" ng-disabled="disable" ng-change="ConfirmTransfer(firstRecord.PRN,firstRecord.IsTransfered)">
+            <label for="ConfirmTransfer" style="font-size:16px;color:red">
+                <b>
+                    Confirm Transfer?Please note that once the certificate is issued,the particular
+                    student will be transfered from this programme.
+                </b>
+            </label><br>
+        </div>
+
+        <div class="col-md-12 offset-md-2">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <button class="btn btn-success" ng-click="printDiv('disp1',firstRecord.IsTransfered)">SUBMIT</button>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="row m-b-30">
+            <div class="col-sm-2 offset-md-5">
+                <div class="form-group has-sucess">
+                    <input type="button" id="vis" value="PRINT/SAVE PDF" ng-click="printDiv('disp1',isConfirmTransfer)">
+                </div>
+            </div>
+        </div>-->
+    </div>
+</div>

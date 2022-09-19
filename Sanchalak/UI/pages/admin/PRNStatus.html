@@ -1,0 +1,218 @@
+﻿<style>
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+
+    /*   for table*/
+    .card .card-block table tr {
+        padding-bottom: 20px;
+    }
+
+    .table td {
+        padding: .25rem;
+    }
+
+    .table label {
+        margin-bottom: 0px;
+        margin-top: 8px;
+    }
+
+
+    /*  for button in table*/
+    .table button {
+        width: 45px;
+        height: 40px;
+        padding: 0px;
+    }
+
+        .table button i {
+            margin-right: 0px;
+        }
+
+
+    .ng-table th.sortable .sort-indicator {
+        padding-right: 18px;
+        position: relative;
+        white-space: normal;
+    }
+
+        .ng-table th.sortable .sort-indicator:after, .ng-table th.sortable .sort-indicator:before {
+            content: "";
+            border-width: 0 4px 4px;
+            border-style: solid;
+            border-color: #000 transparent;
+            visibility: hidden;
+            right: 5px;
+            top: 50%;
+            position: absolute;
+            opacity: .3;
+        }
+
+    .ng-table th.sortable.sort-desc .sort-indicator:after {
+        border-bottom: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid #000;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:before {
+        opacity: 1;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:after {
+        opacity: 1;
+        visibility: hidden;
+    }
+
+
+
+
+
+
+
+
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-init="setValue();">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card" style="margin-bottom: 15px;">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4 style="margin-bottom:0px;">PRN Status</h4></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-6">
+                    <div class="card" style="margin-bottom: 0px;">
+                        <div class="card-body" style="padding:10px 20px 0px 20px;">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label class="form-label">Exam Event</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <examevent-select style="margin-bottom:3px;" ng-model="filter.ExamMasterId"></examevent-select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="form-label">PRN</label>
+                                        <input type="text" class="form-control" name="example-text-input" placeholder="Enter PRN" ng-model="filter.PRN">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3" style="visibility:hidden;">
+
+                                </div>
+                                <div class="col-lg-1" style="margin-left:0px;">
+                                    <button title="Inward" type="button" ng-click="getpendingGetPendingExamInwardList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light " style="margin-left:0px;margin-top:24px;"><i class="fa fa-search"></i></button>
+                                </div>
+                                <!--<div class="col-lg-2" style="margin-left:0px;">
+                                    <button title="Update" type="button" ng-click="saveupdateExamInward()" class="tabledit-edit-button btn btn-primary waves-effect waves-light " style="margin-left:0px;margin-top:24px;"><i class="fa fa-copy"></i> Inward</button>
+                                </div>-->
+
+                            </div>
+            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12" >
+                    <div class="card">
+                        <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                            <h3 class="card-title float-left" style="font-size:18px;">List of PRN Status</h3>
+                        </div>
+
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" ng-table="inwardTableParams" show-filter="true" style="font-size:13px;">
+                                    <thead style="vertical-align: middle">
+                                        <tr>
+                                            <th style="width: auto; padding: unset !important; font-size: 12px;">Exam <br />Form <br /> Generation <br />Status</th>
+                                            <th style="width: auto; padding: unset !important; font-size: 12px;">Exam <br /> Form <br /> Number</th>
+                                            <th style="width: auto; padding: unset !important; font-size: 12px;">Inward <br /> Status</th>
+                                            <th style="width: auto; padding: unset !important; font-size: 12px;">Seat <br />No. <br />Status</th>
+                                            <th style="width: auto; padding: unset !important; font-size: 12px;">Seat <br /> No.</th>
+                                            <th style="width: auto; padding: unset !important; font-size: 12px;">Schedule</th>
+                                            <th style="width: auto; padding: unset !important; font-size: 12px;">Course</th>
+                                            <th style="width: auto; padding: unset !important; font-size: 12px;">Programme <br /> Part</th>
+                                            <th style="width: auto; padding: unset !important; font-size: 12px;">Programme  <br />Part <br /> Term</th>
+                                            <th style="width: auto; padding: unset !important; font-size: 12px;">Programme  <br />Part <br /> Term <br /> Instance</th>
+                                            <th style="width: auto; padding: unset !important; font-size: 12px;">Exam <br /> Form <br /> Download </th>
+                                            <th style="width: auto; padding: unset !important; font-size: 12px;">Hall <br /> Ticket <br />Download</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody style="font-size:12px;">
+                                        <tr style="text-align:center;font-size:12px;">
+
+                                            <td data-title="'ExamForm Generation Status'" filter="{'IsConfirmed': 'text'}" sortable="'IsConfirmed'" style="border-top:none;">
+                                                <label ng-show="courses.IsConfirmed" ng-click="unconfirmCourseScheduleMapIsUnconfirmed(courses)" style="cursor:pointer;margin-top:2px;" class="btn btn-success" title="Generated">Generate</label>
+                                                <label ng-hide="courses.IsConfirmed" ng-click="confirmCourseScheduleMapIsConfirmed(courses)" style="cursor: pointer;margin-top:0px;" class="btn btn-secondary" title="Pending">Pending</label>
+                                            </td>
+
+                                            <td data-title="'Exam Form Number'" filter="{'ExamFormNo ': 'text'}" sortable="'ExamFormNo '" style="border-top: none; text-align: left; padding: .10rem;white-space: unset !important; ">
+                                                <label style="text-align: left; align-content: flex-start; white-space: unset !important;">{{inward.ExamFormNo}}</label>
+                                            </td>
+                                            <td data-title="'Inward Status'" filter="{'IsConfirmed': 'text'}" sortable="'IsConfirmed'" style="border-top:none;">
+                                                <label ng-show="courses.IsConfirmed" ng-click="unconfirmCourseScheduleMapIsUnconfirmed(courses)" style="cursor:pointer;margin-top:2px;" class="btn btn-success" title="Generated">Generate</label>
+                                                <label ng-hide="courses.IsConfirmed" ng-click="confirmCourseScheduleMapIsConfirmed(courses)" style="cursor: pointer;margin-top:0px;" class="btn btn-secondary" title="Pending">Pending</label>
+                                            </td>
+
+                                            <td data-title="'Seat No.Status'" filter="{'IsConfirmed': 'text'}" sortable="'IsConfirmed'" style="border-top:none;">
+                                                <label ng-show="courses.IsConfirmed" ng-click="unconfirmCourseScheduleMapIsUnconfirmed(courses)" style="cursor:pointer;margin-top:2px;" class="btn btn-success" title="Generated">Generate</label>
+                                                <label ng-hide="courses.IsConfirmed" ng-click="confirmCourseScheduleMapIsConfirmed(courses)" style="cursor: pointer;margin-top:0px;" class="btn btn-secondary" title="Pending">Pending</label>
+                                            </td>
+
+                                            <td data-title="'Seat No.'" filter="{'ExamFormNo ': 'text'}" sortable="'ExamFormNo '" style="border-top: none; text-align: left; padding: .10rem;white-space: unset !important; width:10%;">
+                                                <label style="text-align: left; align-content: flex-start; white-space: unset !important;">{{inward.ExamFormNo}}</label>
+                                            </td>
+                                            <td data-title="'Schedule'" filter="{'FacultyExamMap ': 'text'}" sortable="'FacultyExamMap '" style="border-top: none; text-align: left; padding: .10rem;white-space: unset !important; ">
+
+                                                <label style="text-align: left; align-content: flex-start; white-space: unset !important;">{{inward.FacultyExamMap }}</label>
+                                            </td>
+                                            <td data-title="'Course'" filter="{'ProgrammeName': 'text'}" sortable="'ProgrammeName'" style="border-top: none; text-align: left; padding: .10rem;white-space: unset !important; ">
+
+                                                <label style="text-align: left; align-content: flex-start; white-space: unset !important;">{{inward.ProgrammeName}}</label>
+                                            </td>
+
+                                            <td data-title="'Programme Part'" filter="{'ProgrammePartName': 'text'}" sortable="'ProgrammePartName'" style="border-top: none; text-align: left; padding: .10rem;white-space: unset !important; ">
+
+                                                <label style="text-align: left; align-content: flex-start; white-space: unset !important;">{{inward.ProgrammePartName}}</label>
+                                            </td>
+
+
+                                            <td data-title="'Programme Part Term'" filter="{'ProgrammePartTermName ': 'text'}" sortable="'ProgrammePartTermName '" style="border-top: none; text-align: left; padding: .10rem; white-space: unset !important; ">
+                                                <label style="text-align: left; align-content: flex-start; white-space: unset !important;">{{inward.ProgrammePartTermName}} </label>
+                                            </td>
+                                            <td data-title="'Programme Part Term Instance'" filter="{'ProgrammeInstancePartTermName': 'text'}" sortable="'ProgrammeInstancePartTermName'" style="border-top: none; text-align: left; padding: .10rem; white-space: unset !important; ">
+                                                <label style="text-align: left; align-content: flex-start; white-space: unset !important;">{{inward.ProgrammeInstancePartTermName}}  </label>
+                                            </td>
+                                        
+
+                                            <td data-title="'Exam Form Download'" style="border-top: none; width:50px !important; white-space:unset !important;">
+                                                <button type="button"  class="tabledit-edit-button btn btn-info waves-effect waves-light" style="width: 45px !important;"><i class="fa fa-file-download"></i></button>
+                                            </td>
+
+                                            <td data-title="'Hall Ticket Download'" style="border-top: none; width:50px !important; white-space:unset !important;">
+                                                <button type="button" class="tabledit-edit-button btn btn-secondary waves-effect waves-light" style="width: 45px !important;"><i class="fa fa-download"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

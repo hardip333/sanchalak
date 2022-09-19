@@ -1,0 +1,172 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+    .button-size {
+        width: 11rem !important;
+    }
+
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+
+    td {
+        white-space: normal !important;
+    }
+
+    table {
+        table-layout: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="LaunchProgPartTermCtrl" ng-init="getProgrammeStatsListByInstIdAndAcdId()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Launch The Programme Part Term/Semester</h4>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="LaunchProgInstPartTerm">
+
+                            <div class="form-group row" ng-init="getAcademicList()">
+                                <div class="col-sm-2">Select Academic Year</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="LaunchProgInstPartTerm.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcadList" [value]="LaunchProgInstPartTerm.AcademicYearId" class="form-control" name="Acaddropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getFacultyList()">
+                                <div class="col-sm-2">Select Faculty: </div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="LaunchProgInstPartTerm.FacultyId" ng-options="d.Id as d.FacultyName for d in FacList" [value]="LaunchProgInstPartTerm.FacultyId" class="form-control" name="Facdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button" ng-click="getLaunchPartTermByFacIdAndAcadId();" class="btn btn-success">&nbsp; Submit</button>
+                                        <!--<button class="btn btn-disabled disabled" ng-click="resetSelection()">Cancel</button>-->
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="ProgInstPartTermTableParams1" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="LaunchProgInstPartTerm in $data">
+                                            <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;text-align:center;"><label>{{LaunchProgInstPartTerm.IndexId}}</label></td>
+                                            <td data-title="'Faculty Code'" filter="{FacultyCode: 'text'}" sortable="'FacultyCode'" style="border-top:none;"><label>{{LaunchProgInstPartTerm.FacultyCode}}</label></td>
+                                            <td data-title="'Instance Part Term Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style="border-top:none;"><label>{{LaunchProgInstPartTerm.InstancePartTermName}}</label></td>                                            
+
+                                            <td data-title="'Actions'">
+                                                <div layout="row">
+                                                    <span flex></span>
+
+                                                    <!--<button title="Launch" ng-click="LaunchProgPartTerm(LaunchProgInstPartTerm)" ng-hide="LaunchProgInstPartTerm.Islaunch" class="btn btn-info ml-2"><i class="fa fa-toggle-off"></i>Launch</button>
+                                                    <button title="Launched" ng-show="LaunchProgInstPartTerm.Islaunch" class="btn btn-info ml-2" disabled><i class="fa fa-toggle-off"></i>Launched</button>
+                                                    <button title="UnLaunch" ng-click="UnLaunchProgPartTerm(LaunchProgInstPartTerm)" class="btn btn-info ml-2"><i class="fa fa-toggle-off"></i>UnLaunch</button>-->
+                                                    <button type="button" ng-click="displayFullData(LaunchProgInstPartTerm)" class="btn btn-info btn-icon mr-2" data-target="#large-Modal" data-toggle="modal"><span class="icofont ion-eye"></span></button>
+                                                    <button title="Hide" ng-click="LaunchProgPartTerm(LaunchProgInstPartTerm)" class="btn btn-info ml-2 button-size" ng-hide="LaunchProgInstPartTerm.Islaunch" ng-if="LaunchProgInstPartTerm.IsApprovedStructureReportSts == 'APPROVED' && LaunchProgInstPartTerm.IsApprovedAssessmentReportSts == 'APPROVED'"><i class="fa fa-toggle-on"></i>Click to Launch</button>
+                                                    <button class="btn btn-info ml-2 button-size" disabled ng-if="LaunchProgInstPartTerm.IsApprovedStructureReportSts == 'NOT-APPROVED' || LaunchProgInstPartTerm.IsApprovedStructureReportSts == 'PENDING' || LaunchProgInstPartTerm.IsApprovedAssessmentReportSts == 'NOT-APPROVED' || LaunchProgInstPartTerm.IsApprovedAssessmentReportSts == 'PENDING'"><i class="fa fa-toggle-on"></i>Click to Launch</button>
+                                                    <button title="Show" ng-click="UnLaunchProgPartTerm(LaunchProgInstPartTerm)" class="btn btn-danger ml-2 button-size" ng-show="LaunchProgInstPartTerm.Islaunch"><i class="fa fa-toggle-off"></i>Click to UnLaunch</button>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="large-Modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Instance Part-Term/Semester Detail</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5></h5>
+                                    <table class="table table-striped table-bordered">
+                                        <tr>
+                                            <td>Faculty-Name:</td>
+                                            <td>{{newLaunchProgInstPartTerm.FacultyName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Faculty-Code:</td>
+                                            <td>{{newLaunchProgInstPartTerm.FacultyCode}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Instance Part-Term/Semester Name:</td>
+                                            <td>{{newLaunchProgInstPartTerm.InstancePartTermName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Structure Report Remark:</td>
+                                            <td>{{newLaunchProgInstPartTerm.StructureReportRemark}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Structure Report Approval Status:</td>
+                                            <td>{{newLaunchProgInstPartTerm.IsApprovedStructureReportSts}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Structure Report Remark Given Date:</td>
+                                            <td>{{newLaunchProgInstPartTerm.ViewApprovedStructureReportOn}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Assessment Report Remark:</td>
+                                            <td>{{newLaunchProgInstPartTerm.AssessmentReportRemark}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Assessment Report Approval Status:</td>
+                                            <td>{{newLaunchProgInstPartTerm.IsApprovedAssessmentReportSts}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Assessment Report Remark Given Date:</td>
+                                            <td>{{newLaunchProgInstPartTerm.ViewApprovedAssessmentReportOn}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <!--<button type="button" class="btn btn-default waves-effect " data-dismiss="modal" disabled>Close</button>-->
+                                    <button type="button" class="btn btn-primary waves-effect waves-light " data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                </div>
+    </div>
+</div>

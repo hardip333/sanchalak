@@ -1,0 +1,152 @@
+﻿
+<style>
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-init="setValue();">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Admission Fee Report</h4></div>
+
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="PayTrans">
+
+                            <div class="form-group row" ng-init="getMstInstitute();">
+                                <div class="col-sm-2">Institute Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select ng-model="PayTrans.InstituteId" ng-options="d.Id as d.InstituteName for d in InstituteList" ng-change="getProgInsPartTermByInstituteId();" class="form-control" id="Institutedropdown">
+                                            <option value="" disabled selected>-- select --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Programme Instance Part Term Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select ng-model="PayTrans.ProgrammeInstancePartTermId" ng-options="d.Id as d.InstancePartTermName for d in ProgrammeInstancePartTermList" class="form-control" id="PartTermdropdown">
+                                            <option value="" disabled selected>-- select --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Status<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select ng-model="PayTrans.Status" class="form-control" id="Statusdropdown">
+                                            <option value="" disabled selected>-- select --</option>
+                                            <option value="Success">Success</option>
+                                            <option value="Pending">Pending</option>
+                                            <option value="Refund">Refund</option>
+                                            <option value="Aborted">Aborted</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">From Date<span style="color:red;"> * </span></div>
+                                <div class="col-sm-3">
+                                    <input id="fromDate" name="fromDate" type="date" class="form-control" ng-model="PayTrans.FromDate" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">To Date<span style="color:red;"> * </span></div>
+                                <div class="col-sm-3">
+                                    <input id="toDate" name="toDate" type="date" class="form-control" ng-model="PayTrans.ToDate" />
+                                </div>
+                            </div>
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button" ng-click="getAdmPaymentTransByPartTermId()" class="btn btn-success">Submit</button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetPaymentTransaction()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-block">
+                        <div class="table-responsive">
+                            <table id="ApplicationStatsId" class="table table-striped table-bordered" ng-table="PaymentTransTableParams" show-filter="true">
+                                <thead style="vertical-align: middle">
+                                    <tr>
+                                        <th style="width:auto;">Sr.No</th>
+                                        <th style="width:auto;"></th>
+                                        <th style="width:auto;">Transaction No.</th>
+                                        <th style="width:auto;">Name</th>
+                                        <th style="width:auto;">Email Id</th>
+                                        <th style="width:auto;">Status</th>
+                                        <th style="width:auto;">Mobile No.</th>
+                                        <th style="width:auto;">Transaction Date</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr style="text-align:center" ng-repeat="PayTrans in $data">
+
+                                        <td data-title="'Sr.No'" filter="{$index: 'IndexId'}" sortable="'IndexId'" style="border-top:none;width:20%;"><label>{{ PayTrans.IndexId }}</label></td>
+                                        <td data-title="'Order Id'" filter="{OrderId: 'text'}" sortable="'OrderId'" style="border-top:none;">
+                                            <button type="button" ng-click="ViewPaymentInfoByOrderId(PayTrans.OrderId)" class="btn btn-success">View</button>
+                                        </td>
+                                        <td data-title="'Order Id'" filter="{OrderId: 'text'}" sortable="'OrderId'" style="border-top:none;">
+                                            <label>{{PayTrans.OrderId}}</label>
+                                        </td>
+                                        <td data-title="'Name'" filter="{OrderId: 'Name'}" sortable="'Name'" style="border-top:none;">
+                                            <label>{{PayTrans.Name}}</label>
+                                        </td>
+                                        <td data-title="'Email Id'" filter="{OrderId: 'EmailId'}" sortable="'EmailId'" style="border-top:none;">
+                                            <label>{{PayTrans.EmailId}}</label>
+                                        </td>
+                                        <td data-title="'Status'" filter="{OrderId: 'TransactionStatus'}" sortable="'TransactionStatus'" style="border-top:none;">
+                                            <label>{{PayTrans.TransactionStatus}}</label>
+                                        </td>
+                                        <td data-title="'Mobile No'" filter="{OrderId: 'MobileNo'}" sortable="'MobileNo'" style="border-top:none;">
+                                            <label>{{PayTrans.MobileNo}}</label>
+                                        </td>
+                                        <td data-title="'Transaction Date'" filter="{OrderId: 'TransactionDate'}" sortable="'Name'" style="border-top:none;">
+                                            <label>{{PayTrans.TransactionDate}}</label>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div layout="row" style="margin-top:3px" class="float-right">
+
+                            <button ng-click="exportAdmissionFeeReport()" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="min-width:40px;">Export to Excel </button>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

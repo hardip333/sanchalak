@@ -1,0 +1,135 @@
+﻿<div class="main-body" ng-init="getPreProgInsName()">
+    <div class="page-wrapper">
+        <div class="page-header">
+            <div class="page-header-title">
+                <h4>Pre-Programme Configuration...</h4>
+            </div>
+            <div class="card-block">
+                <nav class="navbar navbar-expand-lg navbar-light light-nav-border">
+                    <span style="font-size:medium;color:navy"><b>{{ProgrammeInstanceName}} / {{PartName}} / {{ProgrammePartTermName}} </b></span>
+                </nav>
+            </div>
+        </div>
+        <div class="page-body">
+            <div class="row">
+
+                    <!-- Live-chart start -->
+                    <div class="col-xl-4 dashbored-live-left col-lg-6">
+                        <div class="card widget">
+                            <div class="section section-graph" style="height:80px;background-image:linear-gradient(#4f7aa5, rgb(228 210 216) 100%, #f1f3ee 100%);">
+                                <div class="graph-info" style="width:200px;">
+                                    <!--<i class="graph-arrow"></i>-->
+                                    <span class="graph-info-big" style="font-size:large">1.Create Eligibility</span>
+                                </div>
+                                <div id="graph"></div>
+                            </div>
+                            <div class="section section-info">
+                                <h6 class="info-title">Add Group of Eligibility</h6>
+                                <div class="info-aapl">
+
+                                    <button type="button" ng-click="nextbtnEligibilityGroup()" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="text-align:center;background-color:#5da1bb;">&nbsp;Configure</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section"></div>
+                    </div>
+                    <!-- Live-chart end -->
+
+                    <!-- Live-chart start -->
+                    <div class="col-xl-4 dashbored-live-left col-lg-6">
+                        <div class="card widget">
+                            <div class="section section-graph" style="height:80px;background-image:linear-gradient(#4f7aa5, rgb(228 210 216) 100%, #f1f3ee 100%);">
+                                <div class="graph-info" style="width:200px;">
+                                    <!--<i class="graph-arrow"></i>-->
+                                    <span class="graph-info-big" style="font-size:large">2.Configure Eligibility</span>
+                                </div>
+                                <div id="graph"></div>
+                            </div>
+                            <div class="section section-info">
+                                <h6 class="info-title">Configure Group of Eligibility</h6>
+                                <div class="info-aapl">
+
+                                    <button type="button" ng-click="nextbtnEligibilityGroupComponent()" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="text-align:center;background-color:#5da1bb;">&nbsp;Configure</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section"></div>
+                    </div>
+                    <!-- Live-chart end -->
+
+                    <!-- Live-chart start -->
+                    <div class="col-xl-4 dashbored-live-left col-lg-6">
+                        <div class="card widget">
+                            <div class="section section-graph" style="height:80px;background-image:linear-gradient(#4f7aa5, rgb(228 210 216) 100%, #f1f3ee 100%);">
+                                <div class="graph-info" style="width:200px;">
+                                    <!--<i class="graph-arrow"></i>-->
+                                    <span class="graph-info-big" style="font-size:large">3.Add-On</span>
+                                    <span class="graph-info-big" style="font-size:large">Information</span>
+                                </div>
+                                <div id="graph"></div>
+                            </div>
+                            <div class="section section-info">
+                                <h6 class="info-title">Add Extra Information for Program</h6>
+                                <div class="info-aapl">
+
+                                    <button type="button" ng-click="nextbtnProgrammeAddOn()" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="text-align:center;background-color:#5da1bb;">&nbsp;Configure</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section"></div>
+                    </div>
+                    <!-- Live-chart end -->
+
+                    <!-- Live-chart start -->
+                    <div class="col-xl-4 dashbored-live-left col-lg-6">
+                        <div class="card widget">
+                            <div class="section section-graph" style="height:80px;background-image:linear-gradient(#4f7aa5, rgb(228 210 216) 100%, #f1f3ee 100%);">
+                                <div class="graph-info" style="width:200px;">
+                                    <!--<i class="graph-arrow"></i>-->
+                                    <span class="graph-info-big" style="font-size:medium">4.Required Documents</span>
+                                    <span class="graph-info-big" style="font-size:medium">for Programs</span>
+                                </div>
+                                <div id="graph"></div>
+                            </div>
+                            <div class="section section-info">
+                                <h6 class="info-title">Select Required Documents for Programs</h6>
+                                <div class="info-aapl">
+
+                                    <button type="button" ng-click="nextbtnRequiredDocument()" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="text-align:center;background-color:#5da1bb;">&nbsp;Configure</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section"></div>
+                    </div>
+                    <!-- Live-chart end -->
+
+                    <!-- Live-chart start -->
+                    <div class="col-xl-4 dashbored-live-left col-lg-6">
+                        <div class="card widget">
+                            <div class="section section-graph" style="height:80px;background-image:linear-gradient(#4f7aa5, rgb(228 210 216) 100%, #f1f3ee 100%);">
+                                <div class="graph-info" style="width:200px;">
+                                    <!--<i class="graph-arrow"></i>-->
+                                    <span class="graph-info-big" style="font-size:large">5.Schedule</span>
+                                    <span class="graph-info-big" style="font-size:large">Program Dates</span>
+                                </div>
+                                <div id="graph"></div>
+                            </div>
+                            <div class="section section-info">
+                                <h6 class="info-title">Configure Selected Program Start and End Date.</h6>
+                                <div class="info-aapl">
+
+                                    <button type="button" ng-click="nextbtnApplicationConfiguration()" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="text-align:center;background-color:#5da1bb;">&nbsp;Configure</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section"></div>
+                    </div>
+                    <!-- Live-chart end -->
+
+             </div>
+        </div>
+    </div>
+</div>
+<div id="styleSelector">
+
+</div>

@@ -1,0 +1,105 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<div ng-controller="studentformCtrl" ng-init="send()" >
+    <!-- Verticle Wizard card start -->
+    <div class="card">
+        <div class="card-header">
+
+            <div class="card-header-right">
+                <i class="icofont icofont-rounded-down"></i>
+                <i class="icofont icofont-refresh"></i>
+                <i class="icofont icofont-close-circled"></i>
+            </div>
+        </div>
+        <div class="card-block">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="wizard">
+                        <section>
+                            <form class="wizard-form" id="verticle-wizard" action="#" role="application" name="form" novalidate>
+                                <h3 layout="row" layout-align="center center" style="color:crimson;"> Occupation </h3><br />
+                                <input type="checkbox" id="checkboxSelfemp" name="checkbox" ng-model="temp.IsSelfEmp" value="Are you Employed or Self-Employed?" ng-checked="check">
+                                <span>Are you Employed or Self-Employed?</span><br /><br />
+
+                                <div class="form-group row">
+                                    <div class="col-sm-2 col-lg-4">Occupation of Guardian</div><br />
+                                    <div class="col-sm-8 col-lg-10">
+                                        <div >
+
+                                            <span class="nullable">
+                                                <select ng-model="temp.Id" ng-options="d.Id as d.Occupation for d in List" [value]="temp.Id" class="form-control" required>
+                                                    <!--{{temp.Id}}>>-->
+                                                    <option value="" disabled selected>-- chooseOccupation --</option>
+                                                </select>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-2 col-lg-4">
+                                        <label for="Position-2" class="block">Annual Income Of Guardian</label>
+                                    </div>
+                                    <div class="col-sm-8 col-lg-10">
+                                        <input id="Position-2" ng-model="temp.Income" name="income" type="text" class="form-control" ng-required="true">
+                                    </div>
+
+                                </div>
+                                <input type="checkbox" id="checkbox2" name="checkbox2" ng-model="temp.IsEbc" value="Is Guardian From EBC" ng-click="EnableDisableFile()" ng-checked="check">
+                                <span>Is Guardian From EBC(Economic Backward Class)</span><br /><br />
+
+                                <!--
+
+        <input type="radio" id="chkYes" name="chkPassPort" ng-click="EnableDisableTextBox()" />
+        Yes
+    </label>
+    <label for="chkNo">
+        <input type="radio" id="chkNo" name="chkPassPort" ng-click="EnableDisableTextBox()" />
+        No
+    </label>
+    <hr />
+    Passport Number:
+
+    <input type="file" id="txtPassportNumber" disabled="disabled" /><br /><br />-->
+
+                                <input type="file" id="file1" name="file" ng-model="temp.FilePath" accept=".jpg,.jpeg,.png,.bmp" ng-files="getPhoto($files);" disabled="disabled" /><br /><br />
+                                <input type="button" ng-click="Add()" class="tabledit-edit-button btn btn-primary waves-effect waves-light" value="Add">   <!--ng-disabled="!form.$valid"-->
+                                <input type="button" ng-click="Update()" class="tabledit-edit-button btn btn-primary waves-effect waves-light" value="Update">
+
+                            </form><br /><br /><br />
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:6px">
+                                <div style="border: solid 2px gray; border-radius:4px;padding-bottom:40px;">
+                                    <table ng-table="tempTableParams" class="table" show-filter="true">
+                                        <tbody>
+                                            <tr ng-repeat="tempData in $data">
+
+                                                <td data-title="'Temp_Id'" filter="{Temp_Id: 'text'}" sortable="'Temp_Id'" style="border-top:none;" hidden="hidden"><label>{{tempData.Temp_Id}}</label></td>
+                                                <td data-title="'IsSelfEmp'" filter="{IsSelfEmp: 'text'}" sortable="'IsSelfEmp'" style="border-top:none;"><label>{{tempData.IsSelfEmp}}</label></td>
+                                                <td data-title="'Id'" filter="{Id: 'text'}" sortable="'Id'" style="border-top:none;"><label>{{tempData.Id}}</label></td>
+                                                <td data-title="'Income'" filter="{Income: 'text'}" sortable="'Income'" style="border-top:none;"><label>{{tempData.Income}}</label></td>
+                                                <td data-title="'IsEbc'" filter="{IsEbc: 'text'}" sortable="'IsEbc'" style="border-top:none;"><label>{{tempData.IsEbc}}</label></td>
+                                                <td data-title="'Actions'">
+                                                    <div layout="row" style="margin-top:-12px">
+                                                        <span flex></span>
+                                                        <md-button title="Edit" ng-click="modifyTempData(tempData)" class="md-raised md-primary" style="min-width:40px;"><i class="fa fa-pencil-square-o"></i>Edit</md-button>
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

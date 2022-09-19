@@ -1,0 +1,47 @@
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Exam Form Disrepancy</h4></div>
+
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="EFDModel" novalidate>
+
+                            <div class="form-group row" ng-init="getFacultyById()">
+                                <div class="col-sm-3">Select Faculty<span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select id="ddlfaculty" ng-model="EFDModel.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList  | orderBy:'FacultyList'" class="form-control" ng-change="getPostInstitutebyFaculty();" name="Instdropdown" required>
+                                                <option value="" disabled selected>-- Select Faculty --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button" ng-click="getApplicantListByProgPartTerm(PostProgInst.ProgrammeInstancePartTermId)" class="btn btn-success">&nbsp; Submit</button>
+                                        <!--<button class="btn btn-success" ng-click="addEligibilityGroup()">Add</button>-->
+                                        <button class="btn btn-disabled disabled" ng-click="cancelPostProgInsPartTermList()">Cancel</button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

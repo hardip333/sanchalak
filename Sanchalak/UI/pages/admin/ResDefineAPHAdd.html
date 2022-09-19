@@ -1,0 +1,108 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-init="getResAPHList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Additional Passing Head</h4></div>
+                        <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light "><i class="ti-pencil-alt"></i>  Modify  </button></div>
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form name="form">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">APH Name<span style="color:red;"> * </span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="ResAPH.APHName" placeholder="APH Name" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">APH Abbreviation<span style="color:red;"> * </span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="ResAPH.APHAbbrev" placeholder="APH Abbreviation" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">APH Code<span style="color:red;"> * </span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="ResAPH.APHCode" placeholder="APH Code" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">APH Description<span style="color:red;"> * </span></label>
+                                <div class="col-sm-6">
+                                    <textarea type="text" class="form-control" ng-model="ResAPH.APHDescription" placeholder="APH Description" required>
+                                    </textarea>
+                                </div>
+                            </div>
+                            <!--<div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Enter APH Minimum Marks<span style="color:red;"> * </span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="ResAPH.APHMinMarks" placeholder="APH Minimum Marks" required>
+                                </div>
+                            </div>
+                            <div class="form-group row" ng-init="getResAPHMstEvaluation()">
+                                <div class="col-sm-2">Select Evaluation System<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ResAPH.MstEvaluationId" ng-options="d.Id as d.EvaluationName for d in EvaluationList" class="form-control" id="Evaluationdropdown" >
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-10">
+                                        <button class="btn btn-success" ng-click="addResAPH()">Add </button>
+                                        <button class="btn btn-disabled disabled" ng-click="cancelResAPH()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" id="example-2" ng-table="ResAPHTableParams" show-filter="true">
+                            <tbody>
+                                <tr ng-repeat="ResAPH in $data">
+                                    <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                    <td data-title="'APH Code'" filter="{APHCode: 'text'}" sortable="'APHCode'" style="border-top:none;"><label>{{ResAPH.APHCode}}</label></td>
+                                    <td data-title="'APH Name'" filter="{APHName: 'text'}" sortable="'APHName'" style="border-top:none;"><label>{{ResAPH.APHName}}</label></td>
+                                    <td data-title="'APH Abbreviation'" filter="{APHAbbrev: 'text'}" sortable="'APHAbbrev'" style="border-top:none;"><label>{{ResAPH.APHAbbrev}}</label></td>
+                                    <td data-title="'APH Description'" filter="{APHDescription: 'text'}" sortable="'APHDescription'" style="border-top:none;"><label>{{ResAPH.APHDescription}}</label></td>
+                                    <td data-title="'Min Marks'" filter="{APHMinMarks: 'text'}" sortable="'APHMinMarks'" style="border-top:none;">
+                                        <span ng-if="ResAPH.APHMinMarks==0"></span>
+                                        <span ng-if="ResAPH.APHMinMarks>0"><label>{{ResAPH.APHMinMarks}}</label></span>
+
+                                    </td>
+                                    <td data-title="'Max Marks'" filter="{APHMaxMarks: 'text'}" sortable="'APHMaxMarks'" style="border-top:none;">
+                                        <span ng-if="ResAPH.APHMaxMarks==0"></span>
+                                        <span ng-if="ResAPH.APHMaxMarks>0"> <label>{{ResAPH.APHMaxMarks}}</label></span>
+
+                                    </td>
+                                    <td data-title="'Evaluation Name'" filter="{EvaluationName: 'text'}" sortable="'EvaluationName'" style="border-top:none;"><label>{{ResAPH.EvaluationName}}</label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

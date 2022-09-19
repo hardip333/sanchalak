@@ -1,0 +1,69 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="StateMasterCtrl" ng-init="getSMList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>State Name</h4>
+                </div>
+                <div class="card-block">
+                    <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Back</button><br /><br />
+                    <form ng-model="SM" name="SMAdd">
+
+                        <div class="form-group row" ng-init="getCMList()">
+                            <div class="col-sm-2">Country Name</div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <span class="nullable">
+                                        <select ng-model="SM.CountryId" ng-options="d.Id as d.CountryName for d in CMList" [value]="SM.CountryMasterId" class="form-control" name="CMdropdown" required>
+                                            <option value="" disabled selected>-- select --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">State Name <span style="color:red">*</span>:</label>
+                            <div class="col-sm-10 col-lg-9 col-md-9">
+                                <input type="text" class="form-control" ng-model="SM.StateName" placeholder="Type your State Name" name="StateName" required>
+                                <span ng-show="SMAdd.StateName.$touched && SMAdd.StateName.$invalid" style="color:red">The Field is required.</span>
+                            </div>
+
+                            
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button class="btn btn-success" ng-click="addSM()">Add </button>
+                                <button class="btn btn-disabled disabled" ng-click="cancelSM()">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="StateMasterTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="SM in $data">
+                                            <td data-title="'Country Name'" filter="{CountryName: 'text'}" sortable="'CountryName'" style="text-align:center;"><label>{{SM.CountryName}}</label></td>
+                                            <td data-title="'State Name'" filter="{StateName: 'text'}" sortable="'StateName'" style="text-align:center;"><label>{{SM .StateName}}</label></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

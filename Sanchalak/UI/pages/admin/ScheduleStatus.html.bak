@@ -1,0 +1,512 @@
+﻿
+<style>
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+
+  
+
+    /*   for table*/
+    .card .card-block table tr {
+        padding-bottom: 20px;
+    }
+
+    .table td {
+        padding: .25rem;
+    }
+
+    .table label {
+        margin-bottom: 0px;
+        margin-top: 8px;
+    }
+
+
+    /*  for button in table*/
+    .table button {
+        width: 45px;
+        height: 40px;
+        padding: 0px;
+    }
+
+        .table button i {
+            margin-right: 0px;
+        }
+
+    /*  for sort indicator*/
+    .ng-table th.sortable .sort-indicator {
+        padding-right: 18px;
+        position: relative;
+        white-space: normal;
+    }
+
+        .ng-table th.sortable .sort-indicator:after, .ng-table th.sortable .sort-indicator:before {
+            content: "";
+            border-width: 0 4px 4px;
+            border-style: solid;
+            border-color: #000 transparent;
+            visibility: hidden;
+            right: 5px;
+            top: 50%;
+            position: absolute;
+            opacity: .3;
+        }
+
+    .ng-table th.sortable.sort-desc .sort-indicator:after {
+        border-bottom: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid #000;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:before {
+        opacity: 1;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:after {
+        opacity: 1;
+        visibility: hidden;
+    }
+
+
+
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-init="setValue();">
+    <div class="row">
+        <div class="col-sm-12" >
+            <!-- Basic Form Inputs card start -->
+            <div class="card" style="margin-bottom:15px;">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4 style="margin-bottom:0px;">Schedule Status</h4></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-6" >
+                    <div class="card" style="margin-bottom: 0px;">
+
+                        <div class="card-body" style="padding:10px 20px 0px 20px;">
+                            <div class="row">
+
+                                <!--<div class="col-lg-3">
+                                    <label class="form-label">Academic Year</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <academic-select style="margin-bottom:3px;" ng-model="filter.AcademicYearId" ng-change="getExamMasterListGetActive(filter.AcademicYearId)"></academic-select>
+                                        </span>
+                                    </div>
+
+                                </div>-->
+                                <div class="col-lg-4">
+                                    <label class="form-label">Exam Event</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <examevent-select style="margin-bottom:3px;" ng-model="filter.ExamMasterId" ng-change="getFacultyExamMapListGetActive(filter.ExamMasterId) ; getFacultyExamMapStatusGet(filter)"></examevent-select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="form-label">Schedule</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <schedulewithexamevent-select style="margin-bottom:3px;" ng-model="filter.FacultyExamMapId" ng-change="attachDetailBasedonSchedule(filter)"></schedulewithexamevent-select>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!--<div class="col-lg-4">
+                                    <label class="form-label">Programme</label>
+                                    <div>
+                                        <span class="nullable">
+                                            <programmewithschedule-select style="margin-bottom:3px;" ng-model="filter.ProgrammeId" ></programmewithschedule-select>
+                                        </span>
+                                    </div>
+                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12" ng-hide="showStatusDetailFlag">
+                    <div class="card" style="margin-bottom:100px;">
+                        <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                            <h3 class="card-title" style="font-size:18px;">List of Schedule Status</h3>
+                            <!--<button type="button" ng-click="attachDetail(schedule)" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><i class="fa fa-info"></i></button>-->
+                        </div>
+                        <div class="card-block">
+                            <div class="table-responsive" >
+                                <table id="ApplicationStatsId" class="table table-striped table-bordered" ng-table="scheduleTableParams" show-filter="true" style="font-size:13px;"> 
+                                    <tbody>
+                                        <tr style="text-align:center;font-size:12px;" ng-repeat="schedule in $data" >
+
+                                            <td data-title="'Schedule Code'" filter="{'ScheduleCode':'text'}" sortable="'ScheduleCode'" style="border-top: none; text-align: left; padding: .10rem; white-space: unset !important; font-size: 12px; ">
+                                                <label style="text-align: left; align-content: flex-start; white-space: unset !important;">{{schedule.ScheduleCode}}   </label>
+                                            </td>
+                                            <td data-title="'Start Date'" filter="{'StartDateOfExam':'text'}" sortable="'StartDateOfExam'" style="border-top: none; font-size: 12px;">
+                                                <label>{{schedule.StartDateOfExam}}</label>
+                                            </td>
+                                            <td data-title="'End Date'" filter="{'EndDateOfExam':'text'}" sortable="'EndDateOfExam'" style="border-top: none; font-size: 12px;">
+                                                <label>{{schedule.EndDateOfExam}}</label>
+                                            </td>
+                                            <td data-title="'Attach Course Count'" filter="{'AttachCourseCount':'text'}" sortable="'AttachCourseCount'" style="border-top: none; font-size: 12px; ">
+                                                <label>{{schedule.AttachCourseCount}}</label>
+                                            </td>
+
+                                            <td data-title="'Attach Venue Count'" filter="{'AttchedVenueCount':'text'}" sortable="'AttchedVenueCount'" style="border-top: none; white-space: nowrap; font-size: 12px;">
+                                                <label>{{schedule.AttchedVenueCount}}</label>
+                                            </td>
+                                            <td data-title="'Venue Status'" filter="{'VenueStatus':'text'}" sortable="'VenueStatus'" style="border-top: none; font-size: 12px;">
+                                                <label>{{schedule.VenueStatus}}</label>
+                                            </td>
+                                            <td data-title="'Status'" filter="{'IsConfirmed':'text'}" sortable="'IsConfirmed'" style="border-top: none; font-size: 12px;">
+                                                <!--<label ng-show="schedule.IsConfirmed">Confirmed</label>
+                                              <label ng-hide="schedule.IsConfirmed">UnConfirmed</label>-->
+                                              
+                                                <label class="btn btn-success" title="Confirm" ng-show="schedule.IsConfirmed === true" ng-click="unconfirmFacultyExamMapIsUnconfirmed(schedule)" style="cursor:pointer;margin-top:2px;">Confirmed</label>
+                                                <label class="btn btn-secondary" title="UnConfirm" ng-show="schedule.IsConfirmed === false" ng-click="confirmFacultyExamMapIsConfirmed(schedule)" style="cursor: pointer; margin-top: 2px;">UnConfirmed</label>
+                                            </td>
+
+                                            <td data-title="'Actions'" style="border-top:none;">
+                                                <div layout="row" style="padding:0px;">
+                                                    <span flex></span>
+                                                    <button type="button" ng-click="attachDetail(schedule)" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><i class="fa fa-info"></i></button>
+                                                    <!--<button title="UnConfirm" ng-show="schedule.IsConfirmed === false" ng-click="confirmFacultyExamMapIsConfirmed(schedule)" class="btn btn-secondary ml-2 button-size"><i class="fa fa-window-close"></i></button>
+                                                    <button title="Confirm" ng-show="schedule.IsConfirmed === true" ng-click="unconfirmFacultyExamMapIsUnconfirmed(schedule)" class="btn btn-secondary ml-2 button-size"><i class="fa fa-check-square"></i></button>-->
+                                                    <button title="Publish" ng-click="publishFacultyExamMapIsPublished(schedule)" class="btn btn-info ml-2 button-size"><i class="fa fa-spinner"></i></button>
+                                                    <span flex></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12"  ng-show="showStatusDetailFlag">
+            <div class="card" style="margin-bottom:0px;">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left">
+                            <h4>Schedule Details</h4>
+                        </div>
+                        <div class="float-left">
+                            <button type="button" ng-show="selectedScheduleStatus.IsConfirmed === true" ng-click="unconfirmFacultyExamMapIsUnconfirmed(selectedScheduleStatus)" class="tabledit-edit-button btn btn-primary waves-effect waves-light " style="margin-left:15px;">Confirm</button>
+                            <button type="button" ng-show="selectedScheduleStatus.IsConfirmed === false" ng-click="confirmFacultyExamMapIsConfirmed(selectedScheduleStatus)" class="tabledit-edit-button btn btn-primary waves-effect waves-light " style="margin-left:15px;">Unconfirm</button>
+
+                        </div>
+                        <div class="float-right"> 
+                            <button type="button" ng-click="cancel(selectedScheduleStatus)" class="tabledit-edit-button btn btn-primary waves-effect waves-light "><i class="ti-close"></i>  </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" style="padding:10px 20px 20px 20px;">
+                    <div class="row" style="text-align:center;">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6" style="text-align:right;">
+
+                                    <label class="form-label"><b>Schedule Code</b></label>
+                                </div>
+                                <div class="col-lg-6" style="text-align:left;">
+                                    <label> {{details.ScheduleCode}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6" style="text-align:right;">
+                                    <label class="form-label"><b>Last Date For Accepting the Examination forms for Students</b></label>
+                                </div>
+                                <div class="col-lg-6" style="text-align:left;">
+                                    <label>{{details.LastDateOfFeesPaymentForStudent}} <span style="color:red;"><b style="color:red;">[Without Late Fee]</b></span></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6" style="text-align:right;">
+
+                                    <label class="form-label"><b>Last Date For Accepting the Examination forms for College</b></label>
+                                </div>
+                                <div class="col-lg-6" style="text-align:left;">
+                                    <label>{{details.LastDateOfFeesPaymentForCollege}} <span style="color:red;"><b style="color:red;">[Without Late Fee]</b></span> </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--<div class="card-block" style="padding-top:unset !important">
+                        <div class="table-responsive">
+                            <table id="ApplicationStatsId" class="table table-bordered" show-filter="true">
+                                <thead style="vertical-align: middle">
+                                    <tr>
+                                        <th style="width: auto; text-align: center;">Fee Head</th>
+                                        <th style="width:auto;text-align:center;">Date For Students</th>
+                                        <th style="width:auto;text-align:center;">Date For College</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="text-align:center">
+                                        <td data-title="''" style="border-top:none;width:20%;">
+                                            <label class="form-label"> 
+                                                <b>   Examination Late Fee (03 days Prior)</b>
+                                            </label>
+                                        </td>
+                                        <td data-title="''" style="border-top:none;">
+                                            <label> {{details.LateFees03DaysForStudent}}</label>
+                                   
+                                        </td>
+                                        <td data-title="''" style="border-top:none;">
+                                            <label>{{details.LateFees03DaysForCollege}}</label>
+                                        
+                                        </td>
+                                    </tr>
+
+                                    <tr style="text-align:center">
+                                        <td data-title="''" style="border-top:none;width:20%;">
+                                            <label class="form-label">
+                                                <b>Examination Late Fee (07 days Prior)</b>  
+                                            </label>
+                                        </td>
+                                        <td data-title="''" style="border-top:none;">
+                                            <label>{{details.LateFees07DaysForStudent}}</label>
+                                          
+                                        </td>
+                                        <td data-title="''" style="border-top:none;">
+                                            <label>{{details.LateFees07DaysForCollege}}</label>
+                                  
+                                        </td>
+                                    </tr>
+
+                                    <tr style="text-align:center">
+                                        <td data-title="''" style="border-top:none;width:20%;">
+                                            <label class="form-label">
+                                                <b>  Examination Late Fee (10 days Prior)</b> 
+                                            </label>
+                                        </td>
+                                        <td data-title="''" style="border-top:none;">
+                                            <label> {{details.LateFees10DaysForStudent}}</label>
+                                       
+                                        </td>
+                                        <td data-title="''" style="border-top:none;">
+                                            <label>{{details.LateFees10DaysForCollege}}</label>
+                                     
+                                        </td>
+                                    </tr>
+
+                                    <tr style="text-align:center">
+
+                                        <td data-title="''" style="border-top:none;width:20%;">
+                                            <label class="form-label">
+                                                <b> Examination Late Fee (2 - 5 days Prior)</b>  
+                                            </label>
+                                        </td>
+
+                                        <td data-title="''" style="border-top:none;">
+                                            <label> {{details.LateFees25DaysForStudent}}</label>
+                                       
+                                        </td>
+                                        <td data-title="''" style="border-top:none;">
+                                            <label>{{details.LateFees25DaysForStudent}}</label>
+                                       
+                                        </td>
+
+
+                                    </tr>
+
+                                    <tr style="text-align:center">
+
+                                        <td data-title="''" style="border-top:none;width:20%;">
+                                            <label class="form-label">
+                                                <b>Examination Late Fee (6 - 10 days Prior)</b>
+                                            </label>
+                                        </td>
+
+                                        <td data-title="''" style="border-top:none;">
+                                            <label> {{details.LateFees610DaysForStudent}}</label>
+
+                                        </td>
+                                        <td data-title="''" style="border-top:none;">
+                                            <label>{{details.LateFees610DaysForCollege}}</label>
+                              
+                                        </td>
+
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                       
+                    </div>-->
+
+                    <div class="row" style="text-align:center;">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6" style="text-align:right;">
+
+                                    <label class="form-label"><b>Start Date Of Examination</b></label>
+                                </div>
+                                <div class="col-lg-6" style="text-align:left;">
+                                    <label>{{details.StartDateOfExam}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6" style="text-align:right;">
+
+                                    <label class="form-label"><b>End Date Of Examination</b></label>
+                                </div>
+                                <div class="col-lg-6" style="text-align:left;">
+                                    <label>{{details.EndDateOfExam}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6" style="text-align:right;">
+
+                                    <label class="form-label"><b></b></label>
+                                </div>
+                                <div class="col-lg-6" style="text-align:left;">
+                                    <label>{{details.ProbableDateOfResult}}</label>
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+                <div class="row clearfix">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card" style="margin-bottom:100px;">
+                            <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                                <h3 class="card-title" style="font-size:20px;font-weight:700;">Already Attached Courses</h3>
+                            </div>
+                            <div class="card-block">
+                                <div class="table-responsive" >
+                                    <table id="ApplicationStatsId" class="table table-striped table-bordered" ng-table="detailsTableParams" show-filter="true" style="font-size:13px;">
+                                        <tbody>
+                                            <tr style="text-align:center" ng-repeat="courses in details.attachedCourses">
+                                                <!--ng-repeat="courses in details.attachedCourses"-->
+                                                <td data-title="'Programme Name'" filter="{'ProgrammeName': 'text'}" sortable="'ProgrammeName'"  style="border-top: none; text-align: left; white-space: unset !important; padding: .10rem; ">
+                                                    <label style="text-align: left; align-content: flex-start; white-space: unset !important; ">{{courses.ProgrammeName}}</label>
+                                                </td>
+                                                <!--<td data-title="'Branch Name'" filter="{'BranchName': 'text'}" sortable="'BranchName'"   style="border-top: none; text-align: left; white-space: unset !important; padding: .10rem; ">
+                                                    <label style="text-align:left;align-content:flex-start; ">{{courses.BranchName}}</label>
+                                                </td>-->
+
+                                                <td data-title="'Programme Part'" filter="{'PartName': 'text'}" sortable="'PartName'" style="border-top: none; text-align: left; white-space: unset !important; padding: .10rem; ">
+                                                    <label style="text-align: left; align-content: flex-start; white-space: unset !important; ">{{courses.PartName}}</label>
+                                                </td>
+                                                <td data-title="'Programme Part Term'" filter="{'ProgrammePartTermName': 'text'}" sortable="'ProgrammePartTermName'"   style="border-top: none; text-align: left; white-space: unset !important; padding: .10rem; ">
+                                                    <label style="text-align: left; align-content: flex-start; white-space: unset !important; ">{{courses.ProgrammePartTermName}} </label>
+                                                </td>
+                                                <td data-title="'Attched Venue Count'" filter="{'AttchedVenueCount': 'text'}" sortable="'AttchedVenueCount'" style="border-top:none;">
+                                                    <label>{{courses.AttchedVenueCount}} </label>
+                                                </td>
+                                                <td data-title="'Venue Status'" filter="{'VenueStatus': 'text'}" sortable="'VenueStatus'" style="border-top:none;">
+                                                    <label>{{courses.VenueStatus}} </label>
+                                                </td>
+                                                <!--<td data-title="'Exam Type'" filter="{'ExamSlotName':'text'}" sortable="'ExamSlotName'" style="border-top:none;width:20px;">
+                                                    <div style="font-size: 13px;margin-top:0px;height:32px;margin-bottom:4px;">
+                                                        <span class="nullable">-->
+                                                            <!--<slot-select style="margin-bottom:4px;width:130px;height:32px;margin-top:0px;" ng-model="timetable.ExamSlotId" ng-options="ExamSlot.Id as ExamSlot.SlotName for ExamSlot in ExamSlotMasterListGetActiveList"></slot-select>-->
+                                                            <!--<select class="form-control" style="margin-bottom: 4px; width: 130px; height: 32px; margin-top: 0px;" type="text" placeholder="Slot" title="Slot" ng-model="timetable.ExamSlotId" ng-options="ExamSlot.Id as ExamSlot.SlotName for ExamSlot in ExamSlotMasterListGetActiveList"></select>-->
+                                                            <!--<types-select style="margin-bottom:3px;" ng-model="Examevent.IsOnline"></types-select>-->
+                                                            <!--<select type="option" class="form-control" name="example-text-input" placeholder="Select Exam Type" ng-model="courses.IsOnline" style="margin-bottom:4px;width:130px;height:32px;margin-top:0px;">
+                                                                <option value="">Select Exam Type</option>
+                                                                <option value="0" ng-click="onlineCourseScheduleMapIsOnline(courses)">Offline</option>
+                                                                <option value="1" ng-click="offlineCourseScheduleMapIsOffline(courses)">Online</option>
+                                                            </select>-->
+
+                                                            <!--<select ng-model="selectedOption" ng-change="updateSelected()">
+                                                                <option value="nextweek">Select Branches</option>
+                                                                <option value="next15days">Select Branches</option>
+                                                            </select>-->
+
+
+
+                                                            <!--case 1-->
+                                                            <!--<select>
+        <option ng-click="switchLanguage('en')" value="en">EN</option>
+        <option ng-click="switchLanguage('de')" value="de">DE</option>
+        <option ng-click="switchLanguage('it')" value="it">IT</option>
+        <option ng-click="switchLanguage('fr')" value="fr">FR</option>
+        <option ng-click="switchLanguage('es')" value="es">ES</option>
+    </select>-->
+                                                            <!--case 2-->
+                                                            <!--<select  ng-model="selected" ng-change="switchLanguage()">
+        <option value="en">EN</option>
+        <option value="de">DE</option>
+        <option value="it">IT</option>
+        <option value="fr">FR</option>
+        <option value="es">ES</option>
+    </select>-->
+
+                                                        <!--</span>
+                                                    </div>
+                                                </td>
+
+                                                <td data-title="'Hall Ticket Publish'" filter="{'AttchedVenueCount': 'text'}" sortable="'AttchedVenueCount'" style="border-top:none;">
+
+                                                    <button title="Show" ng-click="publishHallTicketPublished(courses)" class="btn btn-primary ml-2 button-size"><i class="fas fa-spinner"></i></button>
+
+                                                </td>
+                                                <td data-title="'Hall Ticket Download'" filter="{'AttchedVenueCount': 'text'}" sortable="'AttchedVenueCount'" style="border-top:none;">
+
+                                                    <button title="Show" ng-click="" class="btn btn-secondary ml-2 button-size"><i class="fas fa-download"></i></button>
+
+                                                </td>-->
+<!-- <td data-title="'Confirm Status'" filter="{'IsConfirmed': 'text'}" sortable="'IsConfirmed'" style="border-top:none;">
+                                                    <div ng-show="IsInstitute" ng-hide="IsSection">
+                                                        <label ng-show="courses.IsConfirmed" ng-click="unconfirmCourseScheduleMapIsUnconfirmed(courses)" style="cursor:pointer;margin-top:2px;" class="btn btn-success" title="Confirm">Confirmed</label>
+                                                        <label ng-hide="courses.IsConfirmed" ng-click="confirmCourseScheduleMapIsConfirmed(courses)" style="cursor: pointer;margin-top:0px;" class="btn btn-secondary" title="UnConfirm">UnConfirmed</label>
+                                                    </div>
+                                                    <div ng-show="IsSection" ng-hide="IsInstitute">
+                                                        <label ng-show="courses.IsConfirmed" style="cursor:pointer;margin-top:2px;" class="btn btn-success" title="Confirm">Confirmed</label>
+                                                        <label ng-hide="courses.IsConfirmed" style="cursor: pointer;margin-top:0px;" class="btn btn-secondary" title="UnConfirm">UnConfirmed</label>
+                                                    </div>                                                    
+                                                </td>
+                                                <td data-title="'Publish Status'" filter="{'IsPublished': 'text'}" sortable="'IsPublished'" style="border-top:none;">
+                                                    <div ng-show="IsInstitute" ng-hide="IsSection">
+                                                        <label ng-show="courses.IsPublished === true" style="cursor:pointer; margin-top:2px;" class="btn btn-success" title="Publish">Published</label>
+                                                        <label ng-show="courses.IsPublished === false" style="cursor: pointer;margin-top:0px;" class="btn btn-secondary" title="UnPublish">UnPublished</label>
+                                                    </div>
+                                                    <div ng-show="IsSection" ng-hide="IsInstitute">
+                                                        <label ng-show="courses.IsPublished === true" style="cursor:pointer; margin-top:2px;" class="btn btn-success" title="Publish">Published</label>
+                                                        <label ng-show="courses.IsPublished === false" ng-click="publishCourseScheduleMapIsPublished(courses)" style="cursor: pointer;margin-top:0px;" class="btn btn-secondary" title="UnPublish">UnPublished</label>
+                                                    </div>                                                    
+                                                </td>-->
+
+
+                                                <td data-title="'Confirm Status'" filter="{'IsConfirmed': 'text'}" sortable="'IsConfirmed'" style="border-top:none;">
+                                                        <label ng-show="courses.IsConfirmed" ng-click="unconfirmCourseScheduleMapIsUnconfirmed(courses)" style="cursor:pointer;margin-top:2px;" class="btn btn-success" title="Confirm">Confirmed</label>
+                                                        <label ng-hide="courses.IsConfirmed" ng-click="confirmCourseScheduleMapIsConfirmed(courses)" style="cursor: pointer;margin-top:0px;" class="btn btn-secondary" title="UnConfirm">UnConfirmed</label>
+                                                </td>
+                                                <td data-title="'Publish Status'" filter="{'IsPublished': 'text'}" sortable="'IsPublished'" style="border-top:none;">
+                                                        <label ng-show="courses.IsPublished === true" style="cursor:pointer; margin-top:2px;" class="btn btn-success" title="Publish">Published</label>
+                                                        <label ng-show="courses.IsPublished === false" ng-click="publishCourseScheduleMapIsPublished(courses)" style="cursor: pointer;margin-top:0px;" class="btn btn-secondary" title="UnPublish">UnPublished</label>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

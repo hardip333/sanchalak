@@ -1,0 +1,111 @@
+﻿<!--#searchResult tr > *:nth-child(n+7) {
+        display: none;
+}-->
+<style>
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style> 
+
+<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Time Table Scheduled Report</h4></div>
+
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="ExamEvent" novalidate>
+
+                            <div class="form-group row" ng-init="GetAcademicYearList()">
+                                <label for="Activity" class="col-sm-2 col-form-label">Academic Year<span style="color:red;"> *</span></label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="ExamEvent.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicList" [value]="ExamEvent.AcademicYearId" name="AcademicYear">
+                                            <option value="" disabled selected>-- Select Academic Year --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="GetExamEventList()">
+                                <div class="col-sm-2">Exam Event<span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select id="ddlExamEvent" ng-model="ExamEvent.ExamEventId" ng-options="d.Id as d.DisplayName for d in ExamEventList  | orderBy:'ExamEventList'" class="form-control" required>
+                                                <option value="" disabled selected>-- Select Exam Event --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button" ng-click="GetTimeTableScheduledData()" class="btn btn-success">&nbsp; Submit</button>
+                                        <button class="btn btn-disabled disabled" ng-click="cancelTimeTableSchedule()">Cancel</button>
+
+                                    </div>
+                                    <div class="col-sm-6" ng-if="checkDataExists == false">
+                                        <button type="button" class="btn btn-success" ng-click="ExportTimeTableScheduledDatatoExcel()">Export To Excel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="TimeTableScheduledTableparam" show-filter="true">
+                                    <tbody ng-repeat="ExamEvent in $data">
+                                        <tr>
+                                            <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;text-align:center"><label>{{ExamEvent.IndexId}}</label></td>
+                                            <td data-title="'PaperName'" filter="{PaperName: 'text'}" sortable="'PaperName'" style="border-top:none;"><label>{{ExamEvent.PaperName}}</label></td>
+                                            <td data-title="'PaperCode'" filter="{PaperCode: 'text'}" sortable="'PaperCode'" style="border-top: none; text-align: center;"><label>{{ExamEvent.PaperCode}}</label></td>
+                                            <td data-title="'ExamDate'" filter="{ExamDate: 'text'}" sortable="'ExamDate'" style="border-top: none; text-align: center;"><label>{{ExamEvent.ExamDate}}</label></td>
+                                            <td data-title="'StartTime'" filter="{StartTime: 'text'}" sortable="'StartTime'" style="border-top: none; text-align: center;"><label>{{ExamEvent.StartTime}}</label></td>
+                                            <td data-title="'EndTime'" filter="{EndTime: 'text'}" sortable="'EndTime'" style="border-top: none; text-align: center;"><label>{{ExamEvent.EndTime}}</label></td>
+                                            <td data-title="'SlotName'" filter="{SlotName: 'text'}" sortable="'SlotName'" style="border-top: none; text-align: center;"><label>{{ExamEvent.SlotName}}</label></td>
+
+                                            <!--<td data-title="'Start_Time_HR'" filter="{Start_Time_HR: 'text'}" sortable="'Start_Time_HR'" style="border-top: none; text-align: center;"><label>{{ExamEvent.Start_Time_HR}}</label></td>
+                                            <td data-title="'Start_Time_MIN'" filter="{Start_Time_MIN: 'text'}" sortable="'Start_Time_MIN'" style="border-top: none; text-align: center;"><label>{{ExamEvent.Start_Time_MIN}}</label></td>
+                                            <td data-title="'Start_AM_PM'" filter="{Start_AM_PM: 'text'}" sortable="'Start_AM_PM'" style="border-top: none; text-align: center;"><label>{{ExamEvent.Start_AM_PM}}</label></td>
+                                            <td data-title="'End_Time_HR'" filter="{End_Time_HR: 'text'}" sortable="'End_Time_HR'" style="border-top: none; text-align: center;"><label>{{ExamEvent.End_Time_HR}}</label></td>
+                                            <td data-title="'End_Time_MIN'" filter="{End_Time_MIN: 'text'}" sortable="'End_Time_MIN'" style="border-top: none; text-align: center;"><label>{{ExamEvent.End_Time_MIN}}</label></td>
+                                            <td data-title="'End_AM_PM'" filter="{End_AM_PM: 'text'}" sortable="'End_AM_PM'" style="border-top: none; text-align: center;"><label>{{ExamEvent.End_AM_PM}}</label></td>-->
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <div ng-if="checkDataExists">
+                                    <div style="color:red;margin:1px;text-align:center;padding:10px;">Scheduled Time-Table Not Available.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

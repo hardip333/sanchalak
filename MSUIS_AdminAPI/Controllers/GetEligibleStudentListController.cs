@@ -1,0 +1,323 @@
+﻿using MSUISApi.Models;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Data;
+using System.Data.SqlClient;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Web.Http;
+using MSUIS_TokenManager.App_Start;
+using MSUISApi.BAL;
+namespace MSUISApi.Controllers
+{
+    public class GetEligibleStudentListController : ApiController
+    {
+        TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+        DateTime datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.Now.ToUniversalTime(), TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+
+        #region Get Institute List
+        [HttpPost]
+        public HttpResponseMessage getInstList()
+        {
+            try
+            {
+              
+                SqlConnection Con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MSUISConnectionString"].ConnectionString);
+                SqlDataAdapter Da = new SqlDataAdapter();
+                DataTable Dt = new DataTable();
+                SqlCommand Cmd = new SqlCommand("getInstList", Con);
+                Cmd.CommandType = CommandType.StoredProcedure;
+                Da.SelectCommand = Cmd;
+                Da.Fill(Dt);
+                List<GetInstitute> list = new List<GetInstitute>();
+                list = Dt.DataTableToList<GetInstitute>();
+                return Return.returnHttp("200", list, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+        #endregion
+
+        #region Get Programme List 
+        [HttpPost]
+        public HttpResponseMessage getProgList(int FacultyId)
+        {
+            try
+            {
+                SqlConnection Con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MSUISConnectionString"].ConnectionString);
+                SqlDataAdapter Da = new SqlDataAdapter();
+                DataTable Dt = new DataTable();
+                SqlCommand Cmd = new SqlCommand("getProgListfromInstitute", Con);
+                Cmd.CommandType = CommandType.StoredProcedure;
+                Cmd.Parameters.AddWithValue("@FacultyId", FacultyId);
+                Da.SelectCommand = Cmd;
+                Da.Fill(Dt);
+                List<progfromFaculty> list = new List<progfromFaculty>();
+                list = Dt.DataTableToList<progfromFaculty>();
+                return Return.returnHttp("200", list, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+        #endregion
+
+        #region Get Programme Part List from Programme
+        [HttpPost]
+        public HttpResponseMessage getProgPartfromProg(int ProgId)
+        {
+            try
+            {
+                SqlConnection Con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MSUISConnectionString"].ConnectionString);
+                SqlDataAdapter Da = new SqlDataAdapter();
+                DataTable Dt = new DataTable();
+                SqlCommand Cmd = new SqlCommand("getProgPartfromProg", Con);
+                Cmd.CommandType = CommandType.StoredProcedure;
+                Cmd.Parameters.AddWithValue("@ProgId", ProgId);
+                Da.SelectCommand = Cmd;
+                Da.Fill(Dt);
+                List<progPartfromProg> list = new List<progPartfromProg>();
+                list = Dt.DataTableToList<progPartfromProg>();
+                return Return.returnHttp("200", list, null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+        #endregion
+
+        #region Get Eligible Student Count for Branch 
+        [HttpPost]
+        public HttpResponseMessage getEligibleStudentCountforBranch(studentCountParameters s1)
+        { 
+            try
+            {
+                String token = Request.Headers.GetValues("token").FirstOrDefault();
+                TokenOperation ac = new TokenOperation();
+
+                string res = ac.ValidateToken(token);
+
+                if (res == "0")
+                {
+                    return Return.returnHttp("0", null, null);
+                }
+                SqlConnection Con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MSUISConnectionString"].ConnectionString);
+                SqlDataAdapter Da = new SqlDataAdapter();
+                DataTable Dt = new DataTable();
+                SqlCommand Cmd = new SqlCommand("getEligibleStudentCountforBranch2", Con);
+                Cmd.CommandType = CommandType.StoredProcedure;
+                Cmd.Parameters.AddWithValue("@AcademicYearId", s1.AcademicYearId);
+                //Cmd.Parameters.AddWithValue("@InstituteId", s1.InstituteId);
+                Cmd.Parameters.AddWithValue("@ProgrammeId", s1.ProgrammeId);
+                Cmd.Parameters.AddWithValue("@ProgPartId", s1.ProgPartId);
+                //Cmd.Parameters.AddWithValue("@isEligConsidered", s1.isEligConsidered);
+                Cmd.Parameters.AddWithValue("@UserId", Convert.ToInt64(res));
+                Cmd.Parameters.AddWithValue("@UserTime", datetime);
+                Cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
+                Cmd.Parameters["@Message"].Direction = ParameterDirection.Output;
+                Cmd.Parameters.Add("@Message1", SqlDbType.NVarChar, 500);
+                Cmd.Parameters["@Message1"].Direction = ParameterDirection.Output;
+                //string strMessage = Convert.ToString(Cmd.Parameters["@Message"].Value);
+                //string finalMessage = strMessage;
+                Da.SelectCommand = Cmd;
+                Da.Fill(Dt);
+                List<studentListCountforBranch> list = new List<studentListCountforBranch>();
+                list = Dt.DataTableToList<studentListCountforBranch>();
+                if(list.Count == 0 &&  ((Convert.ToString(Cmd.Parameters["@Message"].Value) == "" || Convert.ToString(Cmd.Parameters["@Message"].Value) is null))){ 
+                    return Return.returnHttp("202", "Unsuccessfull", null);
+                }
+                else if (list.Count != 0)
+                {
+                    return Return.returnHttp("200", list, null);
+                }
+                else if (Convert.ToString(Cmd.Parameters["@Message"].Value) != null)
+                {
+                    return Return.returnHttp("202", Convert.ToString(Cmd.Parameters["@Message"].Value), null);
+                }
+                //else if(Convert.ToString(Cmd.Parameters["@Message"].Value) == "-1")s
+                //{
+                //    return Return.returnHttp("202", Convert.ToString(Cmd.Parameters["@Message1"].Value), null);
+                //}
+                //else if (Convert.ToString(Cmd.Parameters["@Message1"].Value) =="-1")
+                //{
+                //    return Return.returnHttp("700", Convert.ToString(Cmd.Parameters["@Message"].Value), null);
+                //}
+                else
+                {
+                    return Return.returnHttp("202", "Something went wrong", null);
+                }
+                
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+        #endregion
+
+        #region Store List of eligible Students
+
+        [HttpPost]
+        public HttpResponseMessage sendStudentList(studentListStoring s1)
+        {
+            try
+            {
+                String token = Request.Headers.GetValues("token").FirstOrDefault();
+                //String facultyDepartIntituteId = Request.Headers.GetValues("facultyDepartIntituteId").FirstOrDefault();
+                String userRoleToken = Request.Headers.GetValues("userRoleToken").FirstOrDefault();
+                TokenOperation ac = new TokenOperation();
+                string res = ac.ValidateToken(token);
+                string resRoleToken = ac.ValidateRoleToken(userRoleToken);
+
+                if (res == "0")
+                {
+                    return Return.returnHttp("0", null, null);
+                }
+                else if (resRoleToken == "0")
+                {
+                    return Return.returnHttp("0", null, null);
+                }
+                Int64 UserId = Convert.ToInt64(res.ToString());
+
+                SqlConnection Con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MSUISConnectionString"].ConnectionString);
+                SqlDataAdapter Da = new SqlDataAdapter();
+                DataTable Dt = new DataTable();
+                DataTable Dt1 = new DataTable();
+                //Dt.Columns.Add("AcademicYearId", typeof(Int16));
+                //Dt.Columns.Add("InstituteId", typeof(Int16));
+                //Dt.Columns.Add("ProgrammeId", typeof(Int16));
+                //Dt.Columns.Add("ProgPartId", typeof(Int16));
+                //Dt.Columns.Add("isEligConsidered", typeof(bool));
+                Dt.Columns.Add("SpecialisationId", typeof(Int16));
+                //Dt.Columns.Add("AdmissionLevel", typeof(string));
+                //Dt.Columns.Add("UserId", typeof(Int64));
+                //Dt.Columns.Add("UserTime", typeof(DateTime));
+
+                //Int32 AcademicYearId = s1.objstudentCountParameters.AcademicYearId;
+                //Int32 InstituteId = s1.objstudentCountParameters.InstituteId;
+                //Int32 ProgrammeId = s1.objstudentCountParameters.ProgrammeId;
+                //Int32 ProgPartId = s1.objstudentCountParameters.ProgPartId;
+                //Int32 isEligConsidered = s1.objstudentCountParameters.isEligConsidered;
+
+                for (var i = 0; i < s1.studentCount.Count; i++)
+                {
+                    if (s1.studentCount[i].checkvalue == true)
+                    {
+                        DataRow rowStudent = Dt.NewRow();
+                        Int32 SpecialisationId = s1.studentCount[i].SpecialisationId;
+                        //string AdmissionLevel = s1.admlevel;
+                        Dt.Rows.Add(SpecialisationId);
+                    }
+                }
+
+                SqlCommand Cmd = new SqlCommand("storeStudentList1", Con);
+                Cmd.CommandType = CommandType.StoredProcedure;
+                Cmd.Parameters.AddWithValue("@DtspId", Dt);
+                Cmd.Parameters.AddWithValue("@AcademicYearId", s1.objstudentCountParameters.AcademicYearId);
+                //Cmd.Parameters.AddWithValue("@InstituteId", s1.objstudentCountParameters.InstituteId);
+                Cmd.Parameters.AddWithValue("@ProgrammeId", s1.objstudentCountParameters.ProgrammeId);
+                Cmd.Parameters.AddWithValue("@ProgPartId", s1.objstudentCountParameters.ProgPartId);
+                Cmd.Parameters.AddWithValue("@isEligConsidered", s1.isEligConsidered);
+                Cmd.Parameters.AddWithValue("@UserId", UserId);
+                Cmd.Parameters.AddWithValue("@UserTime", datetime);
+                Cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
+                Cmd.Parameters["@Message"].Direction = ParameterDirection.Output;
+                Da.SelectCommand = Cmd;
+                Da.Fill(Dt1);
+                //List<progPartfromProg> list = new List<progPartfromProg>();
+                //list = Dt.DataTableToList<progPartfromProg>();
+                return Return.returnHttp("200", "DATA STORED SUCCESSFULLY", null);
+            }
+            catch (Exception e)
+            {
+                return Return.returnHttp("201", e.Message, null);
+            }
+        }
+        #endregion
+
+
+
+
+        //#region Store List of eligible Students
+
+        //[HttpPost]
+        //public HttpResponseMessage sendStudentList(studentListStoring s1)
+        //{
+        //    try
+        //    {
+
+        //        String token = Request.Headers.GetValues("token").FirstOrDefault();
+        //        //String facultyDepartIntituteId = Request.Headers.GetValues("facultyDepartIntituteId").FirstOrDefault();
+        //        String userRoleToken = Request.Headers.GetValues("userRoleToken").FirstOrDefault();
+        //        TokenOperation ac = new TokenOperation();
+        //        string res = ac.ValidateToken(token);
+        //        string resRoleToken = ac.ValidateRoleToken(userRoleToken);
+
+        //        if (res == "0")
+        //        {
+        //            return Return.returnHttp("0", null, null);
+        //        }
+        //        else if (resRoleToken == "0")
+        //        {
+        //            return Return.returnHttp("0", null, null);
+        //        }
+        //        Int64 UserId = Convert.ToInt64(res.ToString());
+
+        //        SqlConnection Con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MSUISConnectionString"].ConnectionString);
+        //        SqlDataAdapter Da = new SqlDataAdapter();
+        //        DataTable Dt = new DataTable();
+        //        DataTable Dt1 = new DataTable();
+        //        Dt.Columns.Add("AcademicYearId", typeof(Int16));
+        //        Dt.Columns.Add("InstituteId", typeof(Int16));
+        //        Dt.Columns.Add("ProgrammeId", typeof(Int16));
+        //        Dt.Columns.Add("ProgPartId", typeof(Int16));
+        //        Dt.Columns.Add("isEligConsidered", typeof(bool));
+        //        Dt.Columns.Add("SpecialisationId", typeof(Int16));
+        //        Dt.Columns.Add("AdmissionLevel", typeof(string));
+        //        Dt.Columns.Add("UserId", typeof(Int64));
+        //        Dt.Columns.Add("UserTime", typeof(DateTime));
+        //        Int32 AcademicYearId = s1.objstudentCountParameters.AcademicYearId;
+        //        Int32 InstituteId = s1.objstudentCountParameters.InstituteId;
+        //        Int32 ProgrammeId = s1.objstudentCountParameters.ProgrammeId;
+        //        Int32 ProgPartId = s1.objstudentCountParameters.ProgPartId;
+        //        Int32 isEligConsidered = s1.objstudentCountParameters.isEligConsidered;
+                
+        //        for (var i = 0; i < s1.studentCount.Count; i++)
+        //        {
+        //            if (s1.studentCount[i].checkvalue == true)
+        //            {
+        //                DataRow rowStudent = Dt.NewRow();
+        //                Int32 SpecialisationId = s1.studentCount[i].SpecialisationId;
+        //                string AdmissionLevel = s1.admlevel;
+        //                Dt.Rows.Add(AcademicYearId, InstituteId, ProgrammeId, ProgPartId, isEligConsidered, SpecialisationId , AdmissionLevel , UserId , datetime);
+        //            }
+        //        }
+        //        SqlCommand Cmd = new SqlCommand("storeStudentList", Con);
+        //        Cmd.CommandType = CommandType.StoredProcedure;
+        //        Cmd.Parameters.AddWithValue("@DtspId", Dt);
+        //        Cmd.Parameters.AddWithValue("@UserId", UserId);
+        //        Cmd.Parameters.AddWithValue("@UserTime", datetime);
+        //        Cmd.Parameters.Add("@Message", SqlDbType.NVarChar, 500);
+        //        Cmd.Parameters["@Message"].Direction = ParameterDirection.Output;
+        //        Da.SelectCommand = Cmd;
+        //        Da.Fill(Dt1);
+        //        //List<progPartfromProg> list = new List<progPartfromProg>();
+        //        //list = Dt.DataTableToList<progPartfromProg>();
+        //        return Return.returnHttp("200", "DATA STORED SUCCESSFULLY", null);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return Return.returnHttp("201", e.Message, null);
+        //    }
+        //}
+        //#endregion
+    }
+}

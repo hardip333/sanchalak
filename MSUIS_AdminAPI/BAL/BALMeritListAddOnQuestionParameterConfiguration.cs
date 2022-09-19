@@ -1,0 +1,139 @@
+﻿using MSUISApi.Models;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
+
+namespace MSUISApi.BAL
+{
+    public class BALMeritListAddOnQuestionParameterConfiguration
+    {
+        public MeritListAddOnQuestionParameterConfiguration setRowIntoObjForAdmin(MeritListAddOnQuestionParameterConfiguration element, DataRow dr)
+        {
+            element.Id = Convert.ToInt32(dr["Id"].ToString());
+            element.MeritListInstanceId = Convert.ToInt32(dr["MeritListInstanceId"].ToString());
+            element.MeritListInstance = dr["Name"].ToString();
+            if (!string.IsNullOrEmpty(dr["AddOnQuestionId"].ToString()))
+                element.AddOnQuestionId = Convert.ToInt16(dr["AddOnQuestionId"].ToString());
+            element.AddOnQuestion = dr["TitleName"].ToString();
+            if (!string.IsNullOrEmpty(dr["Weightage"].ToString()))
+                element.Weightage = (float)Convert.ToDecimal(dr["Weightage"].ToString());
+            if (!string.IsNullOrEmpty(dr["DenominatorType"].ToString()))
+                element.DenominatorType = Convert.ToBoolean(dr["DenominatorType"].ToString());
+            if (!string.IsNullOrEmpty(dr["DenominatorValue"].ToString()))
+                element.DenominatorValue = (float)Convert.ToDecimal(dr["DenominatorValue"].ToString());
+            if (!string.IsNullOrEmpty(dr["DenominatorFieldId"].ToString()))
+                element.DenominatorFieldId = Convert.ToInt16(dr["DenominatorFieldId"].ToString());
+            element.DenominatorField = dr["DenominatorField"].ToString();
+            if (!string.IsNullOrEmpty(dr["Sequence"].ToString()))
+                element.Sequence = Convert.ToInt16(dr["Sequence"].ToString());
+            if (!string.IsNullOrEmpty(dr["GroupCodeId"].ToString()))
+                element.GroupCodeId = Convert.ToInt16(dr["GroupCodeId"].ToString());
+            element.IsActive = Convert.ToBoolean(dr["IsActive"].ToString());
+            return element;
+
+        }
+
+        public MeritListAddOnQuestionParameterConfiguration setRowIntoObjForUser(MeritListAddOnQuestionParameterConfiguration element, DataRow dr)
+        {
+            element.Id = Convert.ToInt32(dr["Id"].ToString());
+            element.MeritListInstanceId = Convert.ToInt32(dr["MeritListId"].ToString());
+            element.MeritListInstance = dr["Name"].ToString();
+            if (!string.IsNullOrEmpty(dr["AddOnQuestionId"].ToString()))
+                element.AddOnQuestionId = Convert.ToInt16(dr["AddOnQuestionId"].ToString());
+            element.AddOnQuestion = dr["TitleName"].ToString();
+            if (!string.IsNullOrEmpty(dr["Weightage"].ToString()))
+                element.Weightage = (float)Convert.ToDecimal(dr["Weightage"].ToString());
+            if (!string.IsNullOrEmpty(dr["DenominatorType"].ToString()))
+                element.DenominatorType = Convert.ToBoolean(dr["DenominatorType"].ToString());
+            if (!string.IsNullOrEmpty(dr["DenominatorValue"].ToString()))
+                element.DenominatorValue = (float)Convert.ToDecimal(dr["DenominatorValue"].ToString());
+            if (!string.IsNullOrEmpty(dr["DenominatorFieldId"].ToString()))
+                element.DenominatorFieldId = Convert.ToInt16(dr["DenominatorFieldId"].ToString());
+            element.DenominatorField = dr["DenominatorField"].ToString();
+            if (!string.IsNullOrEmpty(dr["Sequence"].ToString()))
+                element.Sequence = Convert.ToInt16(dr["Sequence"].ToString());
+            if (!string.IsNullOrEmpty(dr["GroupCodeId"].ToString()))
+                element.GroupCodeId = Convert.ToInt16(dr["GroupCodeId"].ToString());
+            return element;
+        }
+
+        public MeritListAddOnQuestionParameterConfiguration setRowIntoObjForAll(MeritListAddOnQuestionParameterConfiguration element, DataRow dr)
+        {
+            element.Id = Convert.ToInt32(dr["Id"].ToString());
+            element.MeritListInstanceId = Convert.ToInt32(dr["MeritListId"].ToString());
+            element.MeritListInstance = dr["Name"].ToString();
+            if (!string.IsNullOrEmpty(dr["AddOnQuestionId"].ToString()))
+                element.AddOnQuestionId = Convert.ToInt16(dr["AddOnQuestionId"].ToString());
+            element.AddOnQuestion = dr["TitleName"].ToString();
+            if (!string.IsNullOrEmpty(dr["Weightage"].ToString()))
+                element.Weightage = (float)Convert.ToDecimal(dr["Weightage"].ToString());
+            if (!string.IsNullOrEmpty(dr["DenominatorType"].ToString()))
+                element.DenominatorType = Convert.ToBoolean(dr["DenominatorType"].ToString());
+            if (!string.IsNullOrEmpty(dr["DenominatorValue"].ToString()))
+                element.DenominatorValue = (float)Convert.ToDecimal(dr["DenominatorValue"].ToString());
+            if (!string.IsNullOrEmpty(dr["DenominatorFieldId"].ToString()))
+                element.DenominatorFieldId = Convert.ToInt16(dr["DenominatorFieldId"].ToString());
+            element.DenominatorField = dr["DenominatorField"].ToString();
+            if (!string.IsNullOrEmpty(dr["Sequence"].ToString()))
+                element.Sequence = Convert.ToInt16(dr["Sequence"].ToString());
+            if (!string.IsNullOrEmpty(dr["GroupCodeId"].ToString()))
+                element.GroupCodeId = Convert.ToInt16(dr["GroupCodeId"].ToString());
+            element.CreatedOn = Convert.ToDateTime(dr["CreatedOn"].ToString());
+            element.CreatedBy = Convert.ToInt32(dr["CreatedBy"].ToString());
+            if (!string.IsNullOrEmpty(dr["ModifiedOn"].ToString()))
+                element.ModifiedOn = Convert.ToDateTime(dr["ModifiedOn"].ToString());
+            if (!string.IsNullOrEmpty(dr["ModifiedBy"].ToString()))
+                element.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"].ToString());
+            element.IsActive = Convert.ToBoolean(dr["IsActive"].ToString());
+            element.IsDeleted = Convert.ToBoolean(dr["IsDeleted"].ToString());
+            return element;
+        }
+
+        public List<MeritListAddOnQuestionParameterConfiguration> getMeritListAddOnQuestionParameterConfiguration(string flag, int? IsDeleted, int? IsActive, int? MeritListInstanceId)
+        {
+            try
+            {
+                SqlConnection Con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MSUISConnectionString"].ConnectionString);
+                SqlDataAdapter Da = new SqlDataAdapter();
+                DataTable Dt = new DataTable();
+                SqlCommand Cmd = new SqlCommand("M_MeritListAddOnQuestionParameterConfigurationGet", Con);
+                Cmd.CommandType = CommandType.StoredProcedure;
+                Cmd.Parameters.AddWithValue("@Flag", flag);
+                Cmd.Parameters.AddWithValue("@IsActive", IsActive);
+                Cmd.Parameters.AddWithValue("@IsDeleted", IsDeleted);
+                Cmd.Parameters.AddWithValue("@MeritListInstanceId", MeritListInstanceId);
+                Da.SelectCommand = Cmd;
+
+                Da.Fill(Dt);
+
+                List<MeritListAddOnQuestionParameterConfiguration> ObjList = new List<MeritListAddOnQuestionParameterConfiguration>();
+
+                if (Dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < Dt.Rows.Count; i++)
+                    {
+                        MeritListAddOnQuestionParameterConfiguration objMeritListAddOnQuestionParameterConfiguration = new MeritListAddOnQuestionParameterConfiguration();
+                        if (flag == "admin")
+                        {
+                            setRowIntoObjForAdmin(objMeritListAddOnQuestionParameterConfiguration, Dt.Rows[i]);
+                        }
+                        else if (flag == "user")
+                        {
+                            setRowIntoObjForUser(objMeritListAddOnQuestionParameterConfiguration, Dt.Rows[i]);
+                        }
+
+                        ObjList.Add(objMeritListAddOnQuestionParameterConfiguration);
+                    }
+                }
+                return ObjList;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+    }
+}

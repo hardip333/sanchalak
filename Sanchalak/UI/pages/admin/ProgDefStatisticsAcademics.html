@@ -1,0 +1,89 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+
+<div class="page-body" ng-controller="ProgDefStatisticsAcademicsCtrl">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Programme Defination Statistics</h4>
+
+
+                </div>
+                <div class="card-block">
+                    <div class="card-block">
+                        <div class="col-md-12 offset-md-2">
+                            <form ng-model="ProgDefStatisticsAcademics">
+
+                                <div class="form-group row" ng-init="getFacultyList();">
+                                    <div class="col-sm-2">Select Faculty<span style="color:red;"> * </span></div>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <span class="nullable">
+                                                <select ng-model="ProgDefStatisticsAcademics.FacultyId" ng-options="d.Id as d.FacultyName for d in FacList" ng-change="getAcademicYear()" [value]="ProgDefStatisticsAcademics.FacultyId" class="form-control" name="Facdropdown">
+                                                    <option value="">-- select --</option>
+                                                </select>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-2">Instance Year<span style="color:red;"> * </span></div>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <span class="nullable">
+                                                <select ng-model="ProgDefStatisticsAcademics.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcadList" [value]="ProgDefStatisticsAcademics.AcademicYearId" class="form-control" name="Progdropdown">
+                                                    <option value="">-- select --</option>
+                                                </select>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 offset-md-2">
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <button type="button" ng-click="getProgDefStatisticsAcademics();" class="btn btn-success">&nbsp; Submit</button>
+                                            <button class="btn btn-disabled disabled" ng-click="resetApplicationStatistics();">Cancel</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-block">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered" id="example-2" ng-table="ProgDefStatisticsAcademicsTableParams" show-filter="true">
+                                <tbody>
+                                    <tr ng-repeat="ProgDefStatisticsAcademics in $data">
+                                        <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;"><label>{{ProgDefStatisticsAcademics.IndexId}}</label></td>
+                                        <td data-title="'Instance Part Term Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style=" border-top: none;"><label>{{ProgDefStatisticsAcademics.InstancePartTermName}}</label></td>
+                                        <td data-title="'Faculty Name'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style=" border-top: none;"><label>{{ProgDefStatisticsAcademics.FacultyName}}</label></td>
+                                        <td data-title="'Completed Status(Exam/Academic)'" filter="{CompleteStatus: 'text'}" sortable="'CompleteStatus'" style=" border-top: none;"><label>{{ProgDefStatisticsAcademics.CompleteStatus}}</label></td>
+                                        <td data-title="'Verified Status(Exam/Academic)'" filter="{VerficationStatus: 'text'}" sortable="'VerficationStatus'" style=" border-top: none;"><label>{{ProgDefStatisticsAcademics.VerficationStatus}}</label></td>
+                                        <td data-title="'Launched Status(Exam/Academic)'" filter="{LaunchStatus: 'text'}" sortable="'LaunchStatus'" style=" border-top: none;"><label>{{ProgDefStatisticsAcademics.LaunchStatus}}</label></td>
+                                        <td data-title="'Completed Status for Assessment Report (Exam/Academics)'" filter="{CompleteStatusAssessment: 'text'}" sortable="'CompleteStatusAssessment'" style=" border-top: none;"><label>{{ProgDefStatisticsAcademics.CompleteStatusAssessment}}</label></td>
+                                        <td data-title="'Verified Status for Assessment Report (Faculty) '" filter="{VerficationStatusAssessment: 'text'}" sortable="'VerficationStatusAssessment'" style=" border-top: none;"><label>{{ProgDefStatisticsAcademics.VerficationStatusAssessment}}</label></td>
+                                        <td data-title="'Launched Status for Assessment Report (Exam/Academics)'" filter="{LaunchStatusAssessment: 'text'}" sortable="'LaunchStatusAssessment'" style=" border-top: none;"><label>{{ProgDefStatisticsAcademics.LaunchStatusAssessment}}</label></td>
+
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

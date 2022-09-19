@@ -1,0 +1,191 @@
+﻿
+<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+
+<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Academic Wise Category Report</h4></div>
+                    </div>
+
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="FacultyCategory" novalidate>
+                            <div class="form-group row" ng-init="getFacultyList()">
+                                <div class="col-sm-3">Select Faculty:<span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="FacultyCategory.FacultyId" ng-options="d.Id as d.FacultyName for d in FacList" class="form-control" required>
+                                                <option value="" disabled selected>-- select Faculty --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row" ng-init="getAcademicList()">
+                                <div class="col-sm-3">Select Academic Year:<span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="FacultyCategory.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcadList" class="form-control" required>
+                                                <option value="" disabled selected>-- select Academic Year --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button" ng-click="getAcademicWiseCategoryReport()" class="btn btn-success">&nbsp; Submit</button>
+
+                                        <button class="btn btn-disabled disabled" ng-click="cancelAcademicCategoryWiseReport()">Cancel</button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+
+
+                    </div>
+
+
+
+
+                </div>
+
+
+                <div class="card-block">
+
+                    <div class="table-responsive" ng-show="IsTableVisible">
+                        <table id="exampledata" class="table table-striped table-bordered"  show-filter="true">
+                            <tr>
+                                <th rowspan="2">S.No</th>
+                                <th rowspan="2" style="border-top:none;text-align:center;font-size:medium;">Faculty Name</th>
+                                <th rowspan="2" style="border-top:none;text-align:center;font-size:medium;">Programme Name</th>
+                                <th rowspan="2" style="border-top:none;text-align:center;font-size:medium;">Programme Code</th>
+                                <th rowspan="2" style="border-top:none;text-align:center;font-size:medium;">Programme Mode Name</th>
+                                <th rowspan="2" style="border-top:none;text-align:center;font-size:medium;">Branch Name</th>
+                                <th rowspan="2" style="border-top:none;text-align:center;font-size:medium;">Instance Part Term Name</th>
+                                <th rowspan="2" style="border-top:none;text-align:center;font-size:medium;">Part Name</th>
+                                <th rowspan="2" style="border-top:none;text-align:center;font-size:medium;">Part Term Name </th>
+                                <th rowspan="2" style="border-top:none;text-align:center;font-size:medium;">Total Students </th>
+                                <th colspan="6" style="border-top:none;text-align:center;font-size:medium;">Female </th>
+                                <th colspan="6" style="border-top:none;text-align:center;font-size:medium;">Male </th>
+
+                            </tr>
+                           
+
+                            <tr>
+                                <th>Physically Challenged</th>
+                                <th>General</th>
+                                <th>SC</th>
+                                <th>ST</th>
+                                <th>SEBC</th>
+                                <th>TotalFemale</th>
+                                <th>Physically Challenged</th>
+                                <th>General</th>
+                                <th>SC</th>
+                                <th>ST</th>
+                                <th>SEBC</th>
+                                <th>TotalMale</th>
+                            </tr>
+                          
+
+
+                            <tbody>
+                                <tr ng-repeat="FacultyCat in FacultyWiseCategoryReport">
+                                    <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{FacultyCat.IndexId }}</label></td>
+                                    <td data-title="'Faculty Name'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.FacultyName}}</label></td>
+                                    <td data-title="'Programme Name'" filter="{ProgrammeName: 'text'}" sortable="'ProgrammeName'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.ProgrammeName}}</label></td>
+                                    <td data-title="'Programme Code'" filter="{ProgrammeCode: 'text'}" sortable="'ProgrammeCode'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.ProgrammeCode}}</label></td>
+                                    <td data-title="'Programme Mode Name'" filter="{ProgrammeModeName: 'text'}" sortable="'ProgrammeModeName'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.ProgrammeModeName}}</label></td>
+                                    <td data-title="'Branch Name'" filter="{BranchName: 'text'}" sortable="'BranchName'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.BranchName}}</label></td>
+                                    <td data-title="'Instance Part Term Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.InstancePartTermName}}</label></td>
+                                    <td data-title="'Part Name'" filter="{PartName: 'text'}" sortable="'PartName'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.PartName}}</label></td>
+                                    <td data-title="'Part Term Name'" filter="{PartTermName: 'text'}" sortable="'PartTermName'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.PartTermName}}</label></td>
+                                    <td data-title="'Total Student'" filter="{TotalStudent: 'text'}" sortable="'TotalStudent'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.TotalStudent}}</label></td>
+
+                                    <td data-title="'FemalePH'" filter="{FemalePH: 'text'}" sortable="'FemalePH'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.FemalePH}}</label></td>
+                                    <td data-title="'General'" filter="{FemaleGeneral: 'text'}" sortable="'FemaleGeneral'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.FemaleGeneral}}</label></td>
+                                    <td data-title="'SC'" filter="{FemaleSC: 'text'}" sortable="'FemaleSC'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.FemaleSC}}</label></td>
+                                    <td data-title="'ST'" filter="{FemaleST: 'text'}" sortable="'FemaleST'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.FemaleST}}</label></td>
+                                    <td data-title="'SEBC'" filter="{FemaleSEBC: 'text'}" sortable="'FemaleSEBC'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.FemaleSEBC}}</label></td>
+                                    <td data-title="'TotalFemale'" filter="{TotalFemale: 'text'}" sortable="'TotalFemale'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.TotalFemale}}</label></td>
+
+                                    <td data-title="'MalePH'" filter="{MalePH: 'text'}" sortable="'MalePH'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.MalePH}}</label></td>
+                                    <td data-title="'General'" filter="{MaleGeneral: 'text'}" sortable="'FemaleGeneral'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.MaleGeneral}}</label></td>
+                                    <td data-title="'SC'" filter="{MaleSC: 'text'}" sortable="'MaleSC'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.MaleSC}}</label></td>
+                                    <td data-title="'ST'" filter="{MaleST: 'text'}" sortable="'MaleST'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.MaleST}}</label></td>
+                                    <td data-title="'SEBC'" filter="{MaleSEBC: 'text'}" sortable="'MaleSEBC'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.MaleSEBC}}</label></td>
+                                    <td data-title="'TotalMale'" filter="{TotalMale: 'text'}" sortable="'TotalMaleCount'" style=" border-top: none; text-align:center;"><label>{{FacultyCat.TotalMale}}</label></td>
+
+
+
+
+
+
+
+
+
+
+
+                                </tr>
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card" ng-show="NoRecLabel">
+                        <label style="font:bold; text-align:center; font-size:medium; color:red;">No Record Found..!</label>
+                    </div>
+
+                </div>
+
+
+                <div style="text-align:right;width:100%" ng-show="IsExcelButton">
+                    <button type="button" class="btn btn-success text-left" ng-click="exportDataAcademic()">Export To Excel</button>
+                </div>
+                <div id="overlay" class="col-lg-6 offset-md-2">
+                    <div class="w-100 d-flex justify-content-lg-center align-items-center">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>$("#exampledata").attr('width', '1000px')</script>

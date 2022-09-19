@@ -1,0 +1,667 @@
+﻿<!-- Date-time picker css -->
+<link rel="stylesheet" type="text/css" href="../../../assets/pages/advance-elements/css/bootstrap-datetimepicker.css">
+<!-- Date-range picker css  -->
+<link rel="stylesheet" type="text/css"
+      href="../../../bower_components/bootstrap-daterangepicker/css/daterangepicker.css" />
+<!-- Date-Dropper css -->
+<link rel="stylesheet" type="text/css" href="../../../bower_components/datedropper/css/datedropper.min.css" />
+
+<!-- Style.css -->
+<link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="../../../assets/css/dashboard.css" />
+
+<!--color css-->
+<link rel="stylesheet" type="text/css" href="../../../assets/css/linearicons.css">
+<link rel="stylesheet" type="text/css" href="../../../assets/css/simple-line-icons.css">
+<link rel="stylesheet" type="text/css" href="../../../assets/css/ionicons.css">
+<link rel="stylesheet" type="text/css" href="../../../assets/css/jquery.mCustomScrollbar.css">
+
+
+
+<div class="main-body" ng-controller="dashboardCtrl">
+
+    <div class="page-wrapper">
+
+        <!--fixed icons-->
+
+        <div><i id="fixed-go-up-icon" class="icofont icofont-circled-up"></i></div>
+        <div id="overlay">
+            <div class="w-100 d-flex justify-content-center align-items-center">
+                <div class="spinner"></div>
+            </div>
+        </div>
+
+        <div class="page-header">
+
+            <div class="page-header-title d-flex">
+
+                <!-- Dashboard page Header-->
+                <h1 style="font-weight: bold; color: #4a6076;">Dashboard</h1>
+
+                <!--refresh & back button-->
+                <div class="ml-auto">
+                    <div class="d-inline" data-toggle="tooltip" data-placement="bottom" title="Reset All" ng-click="reloadPage()" ng-show="LiveDepartmentId!=0 || LiveInstituteId!=0 || LiveAcademicYear!=CurrentAcademicYear">
+                        <i id="top-refresh-icon" class="icofont icofont-ui-reply"></i>
+                    </div>
+
+                    <div class="d-inline" data-toggle="tooltip" data-placement="bottom" title="Go To Previous Page" ng-click="goBack()" ng-show="LiveDepartmentId!=0 || LiveInstituteId!=0">
+                        <i id="top-back-icon" class="icofont icofont-circled-left"></i>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row mb-3">
+
+                <!--Calender-->
+                <div class="col-md-12 col-lg-6 col-xl-4 d-flex mx-auto ">
+                    <ul>
+                        <li class="col-lg-12">
+                            <div>
+                                <label for="dropper-shadow" class="d-inline calendar-label"><i class="icofont icofont-ui-calendar calendar-label"></i> Academic Year :- </label>
+                                <input id="dropper-shadow" type="text" class="form-control d-inline" style="width:7.5rem; font-size:1.2rem;" ng-model="LiveAcademicYear" ng-focus="ChangeAcademicYear()" />
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="row m-0">
+
+                <!--Institute Name-->
+                <h5 style="font-weight: bold; color: #4a6076;" ng-show="(((RoleId == 7)&&LiveInstituteId!=0)||((RoleId ==3||RoleId ==8) && LiveInstituteId==0))">
+                    {{LiveInstituteName}}
+                </h5>
+
+                <!--Department Name-->
+                <h5 style="font-weight: bold; color: #4a6076; display: inline;" ng-show="(((RoleId == 7)&& LiveDepartmentId!=0)||((RoleId ==3||RoleId == 8) && LiveDepartmentId!=0))">
+                    <i class="icofont icofont-dotted-right" style="font-weight: bold; color: #4a6076;" ng-show="((RoleId == 7) && LiveDepartmentId != 0)"></i>
+                    {{LiveDepartmentName}}
+                </h5>
+
+            </div>
+
+        </div>
+
+        <div class="page-body position-relative">
+
+            <div class="row" ng-init="GeneralStatistics()">
+
+                <div class="col-md-6 col-lg-4 col-xl-2" ng-click="StudentStat()">
+                    <div class="card social-widget-card">
+                        <div class="card-block-big">
+                            <h3>{{TotalStudents}}</h3>
+                            <span class="m-t-10"><b>Students <br><br></b></span>
+                            <i class="icofont icofont-graduate-alt"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 col-xl-2" ng-click="TeacherStat()">
+                    <div class="card social-widget-card">
+                        <div class="card-block-big">
+                            <h3>{{TotalTeachers}}</h3>
+                            <span class="m-t-10"><b>Teachers<br><br></b></span>
+                            <i class="icofont icofont-teacher"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 col-xl-2">
+                    <div class="card social-widget-card">
+                        <div class="card-block-big" id="All-Institutes">
+
+                            <div ng-show="(((RoleId == 7)&&LiveInstituteId==0) || ((RoleId == 3 || RoleId == 8)&&LiveDepartmentId==0))">
+                                <h3>{{TotalInstitutes}}</h3>
+                                <span class="m-t-10"><b>Institutes<br><br></b></span>
+                            </div>
+
+                            <div ng-show="(((RoleId == 7)&&LiveInstituteId!=0) || ((RoleId == 3 || RoleId == 8)&&LiveDepartmentId!=0) || (RoleId == 17))">
+                                <h3>{{TotalDepartments}}</h3>
+                                <span class="m-t-10"><b>Departments<br><br></b></span>
+                            </div>
+
+                            <i class="icofont icofont-university"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12  position-absolute" id="All-Institute-MegaMenu-Outer" ng-show="(ShowInstitute || ShowDepartment)">
+                    <div class="col-xl-6 container-fluid card d-flex mx-auto" id="All-Institute-MegaMenu">
+                        <div class="row card-block  card-list" ng-show="ShowInstitute">
+                            <div class="col-md-12 col-lg-6 card-header">
+                                <h3>Faculties</h3>
+                                <ul>
+                                    <li ng-repeat="faculty in Faculties" ng-click="selectedFaculty(faculty.FacultyId,faculty.FacultyName)">
+                                        <div>{{faculty.FacultyName}}</div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-12 col-lg-6 card-header">
+                                <h3>Colleges</h3>
+                                <ul>
+                                    <li ng-repeat="college in Colleges" ng-click="selectedFaculty(college.CollegeId,college.CollegeName)">
+                                        <div>{{college.CollegeName}}</div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        <div class="row card-block  card-list" ng-show="ShowDepartment">
+                            <div class="col-md-12 card-header">
+                                <h3>Departments</h3>
+                                <ul>
+                                    <li class="col-md-12 col-lg-6 d-inline-block" ng-repeat="department in Departments" ng-click="selectedDepartment(department.SubjectId,department.SubjectName)">
+                                        <div>{{department.SubjectName}}</div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6 col-lg-4 col-xl-2">
+                    <div class="card social-widget-card">
+                        <div class="card-block-big">
+                            <h3>{{TotalPrograms}}</h3>
+                            <span class="m-t-10"><b>Programs <br><br></b></span>
+                            <i class="icofont icofont-files"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 col-xl-2">
+                    <div class="card social-widget-card">
+                        <div class="card-block-big">
+                            <h3>{{TotalStudentAchivements}}</h3>
+                            <span class="m-t-10"><b>Student <br>Achievements</b></span>
+                            <i class="ion-ribbon-a"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 col-xl-2">
+                    <div class="card social-widget-card">
+                        <div class="card-block-big">
+                            <h3>{{TotalTeacherAchivements}}</h3>
+                            <span class="m-t-10"><b>Teacher <br> Achievements</b></span>
+                            <i class="icofont icofont-trophy-alt"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row container-fluid">
+
+                <div class="card tab-card col-xl-12 upper-card">
+
+                    <ul class="nav nav-tabs md-tabs upper-tabs" role="tablist">
+                        <!-- Student Statistics -->
+
+                        <li class="nav-item" ng-click="StudentStat()">
+
+                            <a class="nav-link active" data-toggle="tab" data-target="#studentsPanel" role="tab">Student Statistics</a>
+                        </li>
+
+                        <!-- Teacher Statistics -->
+
+                        <li class="nav-item" ng-click="TeacherStat()">
+                            <a class="nav-link" data-toggle="tab" data-target="#teachersPanel" role="tab">Teacher Statistics</a>
+                        </li>
+
+                    </ul>
+
+                    <div class="tab-content">
+
+                        <!-- Students Statistics -->
+                        <div class="tab-pane active" id="studentsPanel" role="tabpanel" data-toggle="tab" ng-show="(LiveEntity=='studentsPanel')" ng-init="ApplicationStatistics()">
+
+                            <div class="col-xl-12 p-0">
+
+                                <div class="card tab-card" style="border-top:none">
+
+                                    <ul class="nav nav-tabs md-tabs inner-student-tabs" role="tablist">
+                                        <!-- Student Application Statistics -->
+                                        <li class="nav-item" ng-click="StudentApplicationStat()">
+                                            <a class="nav-link active" data-toggle="tab" data-target="#student_application" role="tab">
+                                                Application Statistics
+                                            </a>
+                                        </li>
+                                        <!-- Student Admission Statistics -->
+                                        <li class="nav-item" ng-click="StudentAdmissionStat()">
+                                            <a class="nav-link" data-toggle="tab" data-target="#student_admission" role="tab">
+                                                Admission Statistics
+                                            </a>
+                                        </li>
+                                        <!-- Student Pre-Examination Statistics -->
+                                        <li class="nav-item" ng-click="StudentPre_ExaminationStat()">
+                                            <a class="nav-link" data-toggle="tab" data-target="#student_pre_examination" role="tab">
+                                                Pre-Examination Statistics
+                                            </a>
+                                        </li>
+                                        <!-- Student Examination Statistics -->
+                                        <li class="nav-item" ng-click="StudentExaminationStat()">
+                                            <a class="nav-link" data-toggle="tab" data-target="#student_examination" role="tab">
+                                                Examination Statistics
+                                            </a>
+                                        </li>
+                                        <!-- Student Academic Statistics -->
+                                        <li class="nav-item" ng-click="StudentAcademicStat()">
+                                            <a class="nav-link" data-toggle="tab" data-target="#student_academics" role="tab">
+                                                Academic Statistics
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                    <div class="tab-content">
+                                        <!-- Student Application Statistics -->
+                                        <div class="tab-pane active" id="student_application" role="tabpanel" data-toggle="tab" ng-show="LiveStat=='student_application'">
+
+                                            <div class="card-block">
+
+                                                <div class="row">
+
+                                                    <div class="col-md-12 col-xl-8">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h4>Application Status</h4>
+                                                            </div>
+                                                            <div class="card-block">
+                                                                <div id="ApplicationStatisticsMainChart">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 col-xl-4">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h4>Application Fee Status</h4>
+                                                            </div>
+                                                            <div class="card-block">
+                                                                <div id="ApplicationStatisticsFeeChart">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 col-xl-12">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h4>Cancelled or Rejected Applications</h4>
+                                                            </div>
+                                                            <div class="card-block">
+                                                                <div id="ApplicationStatisticsCancelledOrRejectedChart">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 col-xl-12">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h4>Pending Applications</h4>
+                                                            </div>
+                                                            <div class="card-block">
+                                                                <div id="ApplicationStatisticsPendingStatusChart">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- Student Admission Statistics-->
+                                        <div class="tab-pane" id="student_admission" role="tabpanel" data-toggle="tab" ng-show="(LiveStat=='student_admission')">
+
+                                            <div class="card-block">
+
+                                                <div class="row">
+
+                                                    <div class="col-md-12 col-lg-8">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h4> Admission Status</h4>
+                                                            </div>
+                                                            <div class="card-block">
+                                                                <div id="AdmissionStatisticsMainChart">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 col-lg-6 col-xl-4">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h4>Student Eligibility Status</h4>
+                                                            </div>
+                                                            <div class="card-block">
+                                                                <div id="AdmissionStatisticsEligibilityChart">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 col-lg-6 col-xl-4">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h4>Students Gender</h4>
+                                                            </div>
+                                                            <div class="card-block">
+                                                                <div id="AdmissionStatisticsGenderChart">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 col-lg-8">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h4> Admission Fees Status</h4>
+                                                            </div>
+                                                            <div class="card-block">
+                                                                <div id="AdmissionStatisticsFeeChart">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 col-lg-12">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h4> Student Cast Status</h4>
+                                                            </div>
+                                                            <div class="card-block">
+                                                                <div id="AdmissionStatisticsCastChart">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 col-lg-3">
+                                                        <div class="row">
+
+                                                            <div class="col-md-12 col-xl-12 " ng-click="GoToNextState('NRI Students','NRIStudents','Admission')">
+                                                                <div class="card social-widget-card stat-card">
+                                                                    <div class="card-block-big">
+                                                                        <h3>NRI Students</h3>
+                                                                        <h4><b>{{NRIStudents}}</b></h4>
+                                                                        <i class="icofont icofont-airplane-alt"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-12 col-xl-12 " ng-click="GoToNextState('Local Students','LocalStudents','Admission')">
+                                                                <div class="card social-widget-card stat-card">
+                                                                    <div class="card-block-big ">
+                                                                        <h3>Local Students</h3>
+                                                                        <h4><b>{{LocalStudents}}</b></h4>
+                                                                        <i class="icofont icofont-group-students"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-12 col-xl-12 " ng-click="GoToNextState('Phsically Challenged Students','PhysicallyChallengedStudents','Admission')">
+                                                                <div class="card social-widget-card stat-card">
+                                                                    <div class="card-block-big">
+                                                                        <h3>Phsically Challenged Students</h3>
+                                                                        <h4><b>{{PhysicallyChallengedStudents}}</b></h4>
+                                                                        <i class="icofont icofont-wheelchair"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-12 col-xl-12" data-toggle="modal" data-target="#SocialCategoriesList">
+                                                                <div id="SocialCategories" class="card social-widget-card stat-card">
+                                                                    <div class="card-block-big">
+                                                                        <h3>Social Categories wise Student List</h3>
+
+                                                                        <i class="icofont icofont-group"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="modal fade" id="SocialCategoriesList" tabindex="-1" role="dialog" aria-labelledby="SocialCategoriesListLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                                    <div class="modal-content" id="category">
+                                                                        <div class="modal-header">
+                                                                            <h3 class="modal-title" id="SocialCategoriesListLabel">Social Categories</h3>
+                                                                            <i class="icofont icofont-ui-close close" data-dismiss="modal" aria-label="Close"></i>
+
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-12 col-xl-4 " ng-repeat="item in SocialCategory" ng-click="GoToNextState(item.Category,item.Cname,'Admission')">
+                                                                                    <div class="card social-widget-card category-card">
+                                                                                        <div class="card-block-big">
+                                                                                            <h5>{{item.Category}}</h5>
+                                                                                            <h4><b>{{item.Students}}</b></h4>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 col-lg-9">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h4> Blood Group Wise Student Status</h4>
+                                                            </div>
+                                                            <div class="card-block">
+                                                                <div id="AdmissionStatisticsBloodGroupChart">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- Student Pre-Examination Statistics -->
+                                        <div class="tab-pane" id="student_pre_examination" role="tabpanel" data-toggle="tab" ng-show="(LiveStat=='student_pre_examination')">
+
+                                            <div class="card-block">
+
+                                                <div class="row d-flex mb-3">
+
+                                                    <div class="col-md-8 dropdown-label">
+                                                        Exam Event : {{CurrentExamEventName}}
+                                                    </div>
+
+                                                    <div class="d-inline col-md-4">
+                                                        <select id="exameventselect" ng-model="LiveExamEventId" ng-change="ChangeExamEventId()" ng-options="examevent.ExamEventId as examevent.ExamEventName for examevent in ExamEventList">
+                                                            <option value="">Select Exam Event</option>
+                                                        </select>
+                                                    </div>
+
+
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-12 col-lg-8">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h4> Pre-Examination Statistics</h4>
+                                                            </div>
+                                                            <div class="card-block">
+                                                                <div id="PreExaminationStatisticsMainChart">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 col-lg-6 col-xl-4" ng-show="((RoleId == 7)&& LiveInstituteId == 0 && LiveDepartmentId == 0)">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h4>Status of Exam Scheduled (Faculty wise)</h4>
+                                                            </div>
+                                                            <div class="card-block">
+                                                                <div id="PreExaminationExamScheduledChart">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 col-lg-6 col-xl-4">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h4>Status of TimeTable Published (Branch wise)</h4>
+                                                            </div>
+                                                            <div class="card-block">
+                                                                <div id="PreExaminationTimeTableConfigureChart">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 col-lg-6 col-xl-4">
+                                                        <div class="row">
+
+                                                            <div class="col-md-12 col-xl-12 " ng-click="GoToNextState('Total Repeaters Applied For Exam','TotalRepeaters','Pre-Examination')">
+                                                                <div class="card social-widget-card stat-card">
+                                                                    <div class="card-block-big">
+                                                                        <h3>Total Repeaters Applied For Exam</h3>
+                                                                        <h4><b>{{TotalRepeaters}}</b></h4>
+                                                                        <i class="icofont icofont-pen-alt-4"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-12 col-xl-12 " ng-click="GoToNextState('Total Exam Scheduled (Programme Part Wise)','TotalProgrammePartTermExams','Pre-Examination')">
+                                                                <div class="card social-widget-card stat-card">
+                                                                    <div class="card-block-big">
+                                                                        <h3>Total Exam Scheduled (Programme Part Wise)</h3>
+                                                                        <h4><b>{{TotalProgrammePartTermExams}}</b></h4>
+                                                                        <i class="icofont icofont-paper"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- Student Examination Statistics -->
+                                        <div class="tab-pane" id="student_examination" role="tabpanel" data-toggle="tab" ng-show="(LiveStat=='student_examination')">
+
+                                            <div class="card-block">
+
+                                                <h3>This is from Examination</h3>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- Student Academics Statistics -->
+                                        <div class="tab-pane" id="student_academics" role="tabpanel" data-toggle="tab" ng-show="(LiveStat=='student_academics')">
+
+                                            <div class="card-block">
+
+                                                <h3>This is from Academics</h3>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Teachers Statistics -->
+                        <div class="tab-pane" id="teachersPanel" role="tabpanel" data-toggle="tab" ng-show="(LiveEntity == 'teachersPanel')">
+
+                            <h3> This Is from Teacher tab</h3>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Scripts -->
+<!-- Required Jqurey -->
+<script type="text/javascript" src="../../../bower_components/jquery/js/jquery.min.js"></script>
+<script src="../../../bower_components/jquery-ui/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../../../bower_components/popper.js/js/popper.min.js"></script>
+<script type="text/javascript" src="../../../bower_components/bootstrap/js/bootstrap.min.js"></script>
+<!-- jquery slimscroll js -->
+<script type="text/javascript" src="../../../bower_components/jquery-slimscroll/js/jquery.slimscroll.js"></script>
+<!-- modernizr js -->
+<script type="text/javascript" src="../../../bower_components/modernizr/js/modernizr.js"></script>
+<script type="text/javascript" src="../../../bower_components/modernizr/js/css-scrollbars.js"></script>
+<!-- classie js -->
+<script type="text/javascript" src="../../../bower_components/classie/js/classie.js"></script>
+
+<!-- Bootstrap date-time-picker js -->
+<script type="text/javascript" src="../../../assets/pages/advance-elements/moment-with-locales.min.js"></script>
+<script type="text/javascript"
+        src="../../../bower_components/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="../../../assets/pages/advance-elements/bootstrap-datetimepicker.min.js"></script>
+<!-- Date-range picker js -->
+<script type="text/javascript" src="../../../bower_components/bootstrap-daterangepicker/js/daterangepicker.js"></script>
+<!-- Year-dropper js -->
+<!--<script type="text/javascript" src="../../../bower_components/datedropper/js/yeardropper.js"></script>-->
+<script src="../../../bower_components/datedropper/js/yeardropper.min.js"></script>
+<!-- i18next.min.js -->
+<script type="text/javascript" src="../../../bower_components/i18next/js/i18next.min.js"></script>
+<script type="text/javascript" src="../../../bower_components/i18next-xhr-backend/js/i18nextXHRBackend.min.js"></script>
+<script type="text/javascript"
+        src="../../../bower_components/i18next-browser-languagedetector/js/i18nextBrowserLanguageDetector.min.js"></script>
+<script type="text/javascript" src="../../../bower_components/jquery-i18next/js/jquery-i18next.min.js"></script>
+
+<!-- Custom js -->
+<script type="text/javascript" src="../../../assets/pages/dashboard/custom-dashboard.js"></script>
+<script type="text/javascript" src="../../../assets/js/script.js"></script>
+<script type="text/javascript" src="../../../assets/pages/advance-elements/custom-picker.js"></script>
+<script src="../../../assets/js/pcoded.min.js"></script>
+<script src="../../../assets/js/demo-12.js"></script>
+<script src="../../../assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="../../../assets/js/jquery.mousewheel.min.js"></script>
+<!--<script type="text/javascript" src="../../../assets/js/chart-loader.js"></script>-->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

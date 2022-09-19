@@ -1,0 +1,88 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+<div id="overlay" class="col-lg-6 offset-md-2">
+    <div class="w-100 d-flex justify-content-lg-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <!--Applicant Information Search Start | Created by Harsh Mistry on 13-07-2021 -->
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4><b>Search Applicant Information</b></h4></div>
+                    </div>
+                </div>
+                <div class="card-block">
+
+                    <div class="col-md-12">
+                        <form ng-model="MstRole">
+                            <div class="form-group row">
+                                <label class="col-sm-6 col-form-label"><b>Username / Firstname / Middlename / Lastname / Mobile / Email :</b></label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" ng-model="RetrieveInformation.UserName" placeholder="Enter here" required>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button class="btn btn-success" ng-click="ApplicantInformationGet(RetrieveInformation.UserName)">Search</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--Applicant Information Search End | Created by Harsh Mistry on 13-07-2021 -->
+        <!--Applicant Information Get Start | Created by Harsh Mistry on 13-07-2021 -->
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div ng-repeat="RI in RetrievedInfo">
+                <div class="row">
+                    <!-- Invoice list card start -->
+                    <div class="col-sm-12">
+                        <div class="card card-border-primary" ng-show="InfoVisibleFlag">
+                            <div class="card-header">
+                                <h5 id="RetrivedInfo"><b>Fullname</b> : {{RI.FullName}}</h5>
+                                <div class="dropdown-secondary dropdown f-right">
+                                    <h5 id="RetrivedInfo">Deleted : {{RI.IsDeleted==0?'No':'Yes'}}</h5>
+                                </div>
+                            </div>
+
+                            <div class="card-block">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-6"><b>Username</b> : <span class="text-semibold" id="RetrivedInfo">{{RI.UserName}}</span></div>
+                                            <div class="col-sm-6"><b>Password</b> : <span class="text-semibold" id="RetrivedInfo">{{RI.RetrivedPassword}}</span></div>
+                                            <div class="col-sm-6"><b>Email</b>    : <span class="text-semibold" id="RetrivedInfo">{{RI.EmailId}}</span></div>
+                                            <div class="col-sm-6"><b>Mobile</b>   : <span class="text-semibold" id="RetrivedInfo">{{RI.MobileNo}}</span></div>
+
+                                        </div>
+                                        <div class="float-right">
+                                            <button ui-sref="ApplicantsAdmissionInformationDetails" class="btn btn-success" ng-click="RedirectToApplicantAdmissionDetails(RI.UserName)">View Details</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                          
+                        </div>
+
+
+                    </div>
+                    <!-- Invoice list card end -->
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--Applicant Information Get End | Created by Harsh Mistry on 13-07-2021 -->
+</div>

@@ -1,0 +1,189 @@
+﻿
+<style>
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+<script src="../../../app/admin/controller/alasql.js"></script>
+<!-- Page body start -->
+<div class="page-body" ng-controller="PreExaminationStatisticsFacultyCtrl" ng-init="getPreExaminationStatisticsFacultyGetPPT()">
+    <!--ng-init="getPreExaminationStatisticsGetPPT(ExamEventId, FacultyId, InstituteId)"-->
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Pre-Examination Statistics</h4></div><br /><br />
+                        <div class="float-left"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-block">
+                        <div class="table-responsive">
+                            <table id="ApplicationStatsId" class="table table-striped table-bordered" show-filter="true">
+                                <thead style="vertical-align: middle">
+                                    <tr>
+                                        <th style="width:auto;">Sr.<br />No</th>
+                                        <th style="width:auto;">Schedule Code</th>
+                                        <th style="width:auto;">Faculty Name</th>
+                                        <th style="width:auto;">Programme Part Term Name</th>
+                                        <th style="width:auto;">Admitted Student</th>
+                                        <th style="width:auto;">Paper Selected</th>
+                                        <th style="width:auto;">Exam Form Generated</th>
+                                        <th style="width:auto;">Inward Mode <br /> Student</th>
+                                        <th style="width:auto;">No Inward Mode <br /> Student</th>
+                                        <th style="width:auto;">Exam <br /> Fees Paid</th>
+                                        <th style="width:auto;">No Exam <br /> Fees Paid</th>
+                                        <th style="width:auto;">Seat Number <br /> Generated</th>
+                                        <th style="width:auto;">Venue Allocation <br /> Generated</th>
+                                        <th style="width:auto;">Time Table <br /> Published</th>
+                                        <th style="width:auto;">Hall Ticket <br /> Published</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="text-align:center" ng-repeat="PreExaminationStatistics in PreExamList">
+                                        <!--<td class="expand_data" id="{{'first_col'+$index}}" ng-click="expand_row($index)">+</td>-->
+                                        <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;width:20%;"><label>{{ PreExaminationStatistics.IndexId }}</label></td>
+                                        <td data-title="'Schedule Code'" filter="{ScheduleCode: 'text'}" sortable="'ScheduleCode'" style="border-top:none;">
+
+                                            <label>{{PreExaminationStatistics.ScheduleCode}}</label>
+
+                                        </td>
+
+                                        <td data-title="'Faculty Name'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style="border-top:none;">
+
+                                            <label>{{PreExaminationStatistics.FacultyName}}</label>
+
+                                        </td>
+                                        <td data-title="'Part Term Name'" filter="{PartTermName: 'text'}" sortable="'PartTermName'" style="border-top:none;">
+
+                                            <label>{{PreExaminationStatistics.PartTermName}}</label>
+
+                                        </td>
+                                        <td data-title="'Admitted Student'" filter="{AdmittedStudents: 'text'}" sortable="'AdmittedStudents'" style="border-top:none;">
+                                            <span ng-if="PreExaminationStatistics.AdmittedStudents >'0'">
+                                                <a ui-sref="PreExamStatisticsforStudentListFaculty" ng-click="moveFaculty(PreExaminationStatistics.ExamEventId,PreExaminationStatistics.FacultyExamMapId,PreExaminationStatistics.InstituteId,PreExaminationStatistics.ProgrammePartTermId,PreExaminationStatistics.FacultyId,PreExaminationStatistics.SpecialisationId,'1');">
+                                                    <label>{{PreExaminationStatistics.AdmittedStudents}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="PreExaminationStatistics.AdmittedStudents == '0'">  <label>{{PreExaminationStatistics.AdmittedStudents}}</label></span>
+                                        </td>
+                                        <td data-title="'Paper Selected '" filter="{PaperSelected: 'text'}" sortable="'PaperSelected'" style="border-top:none;">
+                                            <span ng-if="PreExaminationStatistics.PaperSelected >'0'">
+                                                <a ui-sref="PreExamStatisticsforStudentListFaculty" ng-click="moveFaculty(PreExaminationStatistics.ExamEventId,PreExaminationStatistics.FacultyExamMapId,PreExaminationStatistics.InstituteId,PreExaminationStatistics.ProgrammePartTermId,PreExaminationStatistics.FacultyId,PreExaminationStatistics.SpecialisationId,'2');">
+                                                    <label>{{PreExaminationStatistics.PaperSelected}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="PreExaminationStatistics.PaperSelected == '0'">  <label>{{PreExaminationStatistics.PaperSelected}}</label></span>
+                                        </td>
+                                        <td data-title="'Exam Form Generation'" filter="{ExamFormGenerated: 'text'}" sortable="'ExamFormGenerated'" style="border-top:none;">
+                                            <span ng-if="PreExaminationStatistics.ExamFormGenerated >'0'">
+                                                <a ui-sref="PreExamStatisticsforStudentListFaculty" ng-click="moveFaculty(PreExaminationStatistics.ExamEventId,PreExaminationStatistics.FacultyExamMapId,PreExaminationStatistics.InstituteId,PreExaminationStatistics.ProgrammePartTermId,PreExaminationStatistics.FacultyId,PreExaminationStatistics.SpecialisationId,'3');">
+                                                    <label>{{PreExaminationStatistics.ExamFormGenerated}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="PreExaminationStatistics.ExamFormGenerated == '0'">  <label>{{PreExaminationStatistics.ExamFormGenerated}}</label></span>
+                                        </td>
+                                        <td data-title="'Inward Student'" filter="{InwardModeStudent: 'text'}" sortable="'InwardModeStudent'" style="border-top:none;" title="'Approved By Faculty">
+                                            <span ng-if="PreExaminationStatistics.InwardModeStudent >'0'">
+                                                <a ui-sref="PreExamStatisticsforStudentListFaculty" ng-click="moveFaculty(PreExaminationStatistics.ExamEventId,PreExaminationStatistics.FacultyExamMapId,PreExaminationStatistics.InstituteId,PreExaminationStatistics.ProgrammePartTermId,PreExaminationStatistics.FacultyId,PreExaminationStatistics.SpecialisationId,'6');">
+                                                    <label>{{PreExaminationStatistics.InwardModeStudent}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="PreExaminationStatistics.InwardModeStudent == '0'">  <label>{{PreExaminationStatistics.InwardModeStudent}}</label></span>
+
+                                        </td>
+                                        <td data-title="'Not Inward Student'" filter="{NotInwardModeStudent: 'text'}" sortable="'NotInwardModeStudent'" style="border-top:none;" title="'Approved By Faculty">
+                                            <span ng-if="PreExaminationStatistics.NotInwardModeStudent >'0'">
+                                                <a ui-sref="PreExamStatisticsforStudentListFaculty" ng-click="moveFaculty(PreExaminationStatistics.ExamEventId,PreExaminationStatistics.FacultyExamMapId,PreExaminationStatistics.InstituteId,PreExaminationStatistics.ProgrammePartTermId,PreExaminationStatistics.FacultyId,PreExaminationStatistics.SpecialisationId,'7');">
+                                                    <label>{{PreExaminationStatistics.NotInwardModeStudent}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="PreExaminationStatistics.NotInwardModeStudent == '0'">  <label>{{PreExaminationStatistics.NotInwardModeStudent}}</label></span>
+
+                                        </td>
+                                        <td data-title="'Exam Fees Paid'" filter="{ExamFeesPaid: 'text'}" sortable="'ExamFeesPaid'" style="border-top:none;" title="'Approved By Faculty">
+                                            <span ng-if="PreExaminationStatistics.ExamFeesPaid >'0'">
+                                                <a ui-sref="PreExamStatisticsforStudentList" ng-click="move(PreExaminationStatistics.ExamEventId,PreExaminationStatistics.FacultyExamMapId,PreExaminationStatistics.InstituteId,PreExaminationStatistics.ProgrammePartTermId,PreExaminationStatistics.FacultyId,PreExaminationStatistics.SpecialisationId,'6');">
+                                                    <label>{{PreExaminationStatistics.ExamFeesPaid}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="PreExaminationStatistics.ExamFeesPaid == '0'">  <label>{{PreExaminationStatistics.ExamFeesPaid}}</label></span>
+
+                                        </td>
+                                        <td data-title="'NO Exam Fees Paid'" filter="{NOExamFeesPaid: 'text'}" sortable="'NOExamFeesPaid'" style="border-top:none;" title="'Approved By Faculty">
+                                            <span ng-if="PreExaminationStatistics.NOExamFeesPaid >'0'">
+                                                <a ui-sref="PreExamStatisticsforStudentList" ng-click="move(PreExaminationStatistics.ExamEventId,PreExaminationStatistics.FacultyExamMapId,PreExaminationStatistics.InstituteId,PreExaminationStatistics.ProgrammePartTermId,PreExaminationStatistics.FacultyId,PreExaminationStatistics.SpecialisationId,'6');">
+                                                    <label>{{PreExaminationStatistics.NOExamFeesPaid}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="PreExaminationStatistics.NOExamFeesPaid == '0'">  <label>{{PreExaminationStatistics.NOExamFeesPaid}}</label></span>
+
+                                        </td>
+                                        <td data-title="'Seat Number Generated'" filter="{SeatNoGenerated: 'text'}" sortable="'SeatNoGenerated'" style="border-top:none;" title="'Approved By Faculty">
+                                            <span ng-if="PreExaminationStatistics.SeatNoGenerated >'0'">
+                                                <a ui-sref="PreExamStatisticsforStudentListFaculty" ng-click="moveFaculty(PreExaminationStatistics.ExamEventId,PreExaminationStatistics.FacultyExamMapId,PreExaminationStatistics.InstituteId,PreExaminationStatistics.ProgrammePartTermId,PreExaminationStatistics.FacultyId,PreExaminationStatistics.SpecialisationId,'4');">
+                                                    <label>{{PreExaminationStatistics.SeatNoGenerated}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="PreExaminationStatistics.SeatNoGenerated == '0'">  <label>{{PreExaminationStatistics.SeatNoGenerated}}</label></span>
+
+                                        </td>
+                                        <td data-title="'Venue Allocation'" filter="{VenueAllocation: 'text'}" sortable="'VenueAllocation'" style="border-top:none;" title="'Approved By Faculty">
+                                            <span ng-if="PreExaminationStatistics.VenueAllocation >'0'">
+                                                <a ui-sref="PreExamStatisticsforStudentListFaculty" ng-click="moveFaculty(PreExaminationStatistics.ExamEventId,PreExaminationStatistics.FacultyExamMapId,PreExaminationStatistics.InstituteId,PreExaminationStatistics.ProgrammePartTermId,PreExaminationStatistics.FacultyId,PreExaminationStatistics.SpecialisationId,'5');">
+                                                    <label>{{PreExaminationStatistics.VenueAllocation}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="PreExaminationStatistics.VenueAllocation == '0'">  <label>{{PreExaminationStatistics.VenueAllocation}}</label></span>
+
+                                        </td>
+
+                                        <td data-title="'Time Table Publish'" filter="{TimeTablePublished: 'text'}" sortable="'TimeTablePublished'" style="border-top:none;" title="'Approved By Faculty">
+                                            <span ng-if="PreExaminationStatistics.TimeTablePublished >'0'">
+                                                <a ui-sref="" ng-click="move();">
+                                                    <label>{{PreExaminationStatistics.TimeTablePublished}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="PreExaminationStatistics.TimeTablePublished == '0'">  <label>{{PreExaminationStatistics.TimeTablePublished}}</label></span>
+
+                                        </td>
+                                        <td data-title="'Hall Ticket Published'" filter="{HallTicketPublished: 'text'}" sortable="'HallTicketPublished'" style="border-top:none;" title="'Approved By Faculty">
+                                            <span ng-if="PreExaminationStatistics.HallTicketPublished >'0'">
+                                                <a ui-sref="" ng-click="move();">
+                                                    <label>{{PreExaminationStatistics.HallTicketPublished}}</label>
+                                                </a>
+                                            </span>
+                                            <span ng-if="PreExaminationStatistics.HallTicketPublished == '0'">  <label>{{PreExaminationStatistics.HallTicketPublished}}</label></span>
+
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                        <div layout="row" style="margin-top:3px" class="float-right">
+
+                            <button ng-click="exportPreExaminationStatistics()" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="min-width:40px;">Export to Excel </button>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

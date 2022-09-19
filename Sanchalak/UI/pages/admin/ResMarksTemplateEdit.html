@@ -1,0 +1,139 @@
+﻿
+
+<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .button-size {
+        width: 11rem !important;
+    }
+</style>
+
+
+<!-- Page body start -->
+<div class="page-body" ng-init="getMarksTemplateList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Class Template</h4>
+
+
+                </div>
+                <div class="card-block">
+
+                    <button type="button" ng-click="newMarksTemplateAdd()" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><span class="ion-plus-round"></span>&nbsp; Add New</button><br /><br />
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="Template" ng-show="showFormFlag">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Enter No. of Intervals<span style="color:red;"> * </span></label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" ng-model="Template.NoofIntervals" placeholder="Enter No. of Intervals" ng-disabled="true" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Template Name<span style="color:red;"> * </span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="Template.MarksTemplateName" placeholder="Template Name" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Description<span style="color:red;"> * </span></label>
+                                <div class="col-sm-6">
+                                    <textarea type="text" class="form-control" ng-model="Template.MarksTemplateDescription" placeholder="Description" required></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Do you want to use this template with<span style="color:red;"> * </span></label>
+                                <div class="col-sm-6">
+                                    <input type="radio" name="TemplateUse" id="TemplateUseProgramme" ng-model="Template.TemplateUsedwith" value="Programme">&nbsp;Programme &nbsp;&nbsp;
+                                    <input type="radio" name="TemplateUse" id="TemplateUseCourse" ng-model="Template.TemplateUsedwith" value="Course">&nbsp;Course
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="editMarksTemplate()">Update </button>
+                                        <button class="btn btn-disabled disabled" ng-click="cancelMarksTemplate()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="MarksTempTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="Template in $data">
+
+                                            <td data-title="'Actions'">
+                                                <div layout="row">
+                                                    <span flex></span>
+
+                                                    <button type="button" ng-click="displayMarksTemplate(Template)" class="btn btn-info btn-icon mr-2" data-target="#large-Modal" data-toggle="modal"><span class="icofont ion-eye"></span></button>
+                                                    <button type="button" ng-click="modifyMarksTemplateData(Template)" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><span class="icofont icofont-ui-edit"></span></button>
+                                                    <button type="button" ng-click="deleteMarksTemplate($event,Template)" class="tabledit-delete-button btn btn-danger waves-effect waves-light ml-2"><span class="icofont icofont-ui-delete"></span></button>
+
+                                                </div>
+                                            </td>
+                                            <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top: none; text-align: center;"><label>{{Template.IndexId }}</label></td>
+                                            <td data-title="'Template Name'" filter="{MarksTemplateName: 'text'}" sortable="'MarksTemplateName'" style="border-top:none;"><label>{{Template.MarksTemplateName}}</label></td>
+                                            <td data-title="'Description'" filter="{MarksTemplateDescription: 'text'}" sortable="'MarksTemplateDescription'" style="border-top:none;"><label>{{Template.MarksTemplateDescription}}</label></td>
+                                            <td data-title="'Intervals'" filter="{NoofIntervals: 'text'}" sortable="'NoofIntervals'" style="border-top: none; text-align: center;"><label>{{Template.NoofIntervals}}</label></td>
+                                            <td data-title="'Template Type'" filter="{TemplateUsedwith: 'text'}" sortable="'TemplateUsedwith'" style="border-top:none;"><label>{{Template.TemplateUsedwith}}</label></td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="large-Modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Marks Template Detail - {{Template.MarksTemplateName}}</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5></h5>
+                                    <table class="table table-striped table-bordered">
+                                        <tr>
+                                            <td>Template Name:</td>
+                                            <td>{{Template.MarksTemplateName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Description:</td>
+                                            <td>{{Template.MarksTemplateDescription}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Intervals:</td>
+                                            <td>{{Template.NoofIntervals}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Template Type:</td>
+                                            <td>{{Template.TemplateUsedwith}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary waves-effect waves-light " data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

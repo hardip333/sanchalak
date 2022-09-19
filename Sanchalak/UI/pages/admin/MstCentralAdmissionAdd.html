@@ -1,0 +1,300 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
+<!-- Page body start -->
+<div class="page-body" ng-init="getMstCentralAdmission()">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Central Admission Committee Data:</h4></div>
+                        <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form name="centralAdm">
+
+
+                            <div class="form-group row" ng-init="getFacultyList()">
+                                <div class="col-sm-2">Faculty Name:<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="CentralAdmission.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" [value]="Department.FacultyId" class="form-control" ng-change="getIncProgrammeInstancePartTermByFacId()" name="Facdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row" ng-init="getAcademicYear()">
+                                <div class="col-sm-2">Academic Year Code: <span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="CentralAdmission.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicYearList" class="form-control" name="Facdropdown" ng-change="getIncProgrammeInstancePartTermByFacId()" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Program Instance Part Term Name:<span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="CentralAdmission.ProgrammeInstancePartTermId" ng-options="d.Id as d.IncProgramInstancePartTermName for d in IncProgInstanceListByFaculty" class="form-control" name="Facdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getMstAdmissionCommittee()">
+                                <div class="col-sm-2">Admission Committee Name:<span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="CentralAdmission.AdmissionCommitteeId" ng-options="d.Id as d.CommitteeName for d in MstAdmissionCommitteeList" class="form-control" name="Facdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Mode Of upload EnrollNo/AllotmentNo:<span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+
+                                    <ul>
+                                        <li>
+                                            <input type="radio" name="CentralAdmission" value="Excel" ng-click="displayAcademicUploadExcel()" ng-model="CentralAdmission.UploadExcel" required>
+                                            Do you want to Import Data From Excel?:
+                                        </li>
+
+
+                                        <li>
+                                            <input type="radio" name="CentralAdmission" value="Manual" ng-click="displayAcademicManualDetails()" ng-model="CentralAdmission.Manual" required>
+                                            Do You want to Enter Data Manually?:
+                                        </li>
+
+
+                                    </ul>
+
+
+                                </div>
+                            </div>
+
+                            <div ng-show="IsManualAcademicVisible">
+                                <div class="form-group row">
+                                    <div class="col-sm-2">
+                                        Applicant Name:
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" ng-model="CentralAdmission.ApplicantName" placeholder="Enter ApplicantName Name"><br />
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-2">
+                                        Mobile No:
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input id="omE" name="om" type="text" placeholder="Type your Mobile No" ng-minlength="10" ng-maxlength="10" allow-pattern="\d"
+                                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                               maxlength="10" class="form-control" ng-model="CentralAdmission.MobileNo">
+                                        <span ng-show="((centralAdm.om.$error.minlength || centralAdm.om.$error.maxlength) && centralAdm.om.$dirty) " style="color:red;">
+                                            Only 10 digits.
+                                        </span>
+
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-2">
+                                        Enrollment/Allotment/Application No:<span style="color:red;"> * </span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" ng-model="CentralAdmission.AllotmentNo" placeholder="Enter Enroll No" required><br />
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-2">
+                                        MeritNo/Reference No:<span style="color:red;"> * </span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" ng-model="CentralAdmission.MeritNo" placeholder="Enter Merit No" required><br />
+
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-12 offset-md-2">
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <button class="btn btn-success" ng-click="addCentralAdmission()">Add</button>
+                                            <button class="btn btn-disabled disabled" ng-click="resetCentralAdmission()">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <div ng-show="IsUploadAcademicVisible">
+                                <div class="form-group row">
+                                    <div class="col-sm-2">
+                                        Upload Excel File :<span style="color:red;"> * </span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="file" class="form-control" id="ngexcelfile" ngf-select="UploadImageDocument($files)"  required />
+                                    </div><br />
+                                    <span id="ErrorMsgUploadFile" style="color:red"></span>
+                                    <span id="SuccessMsgUploadFile" style="color:green"></span>
+                                    
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <h5><span style="color:blue">Note To Remember before uploading Excel File:-</span></h5>
+                                        <ul>
+                                            <li>1.Create Excel like Following File to Import.</li>
+                                            <li>2.Please Verify Created Excel Before Upload.</li>
+                                            <li>3.Mobile Number is Optional</li>
+                                            <li>4.Applicant Name is Optional</li>
+
+                                        </ul>
+
+
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>MeritNo</th>
+                                                    <th>AllotmentNo</th>
+                                                    <th>Mobile No</th>
+                                                    <th>ApplicantName</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>MET1234</td>
+                                                    <td>ALT1234</td>
+                                                    <td>87xxxxxx54</td>
+                                                    <td>Jerxxxxxffi</td>
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td>MET3456</td>
+                                                    <td>Alt3456</td>
+                                                    <td>91xxxxxx32</td>
+                                                    <td>Shixxxxna</td>
+
+                                                </tr>
+
+
+                                            </tbody>
+                                        </table>
+
+                                        <div class="form-group col">
+                                            <div class="col-sm-2 col-lg-10">
+                                                <div class="col-md-12 offset-md-2">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-6">
+                                                            <button class="btn btn-success" ng-click="ReadExcelFile()">Add</button>
+                                                            <button class="btn btn-disabled disabled" ng-click="resetCentralAdmission()">Cancel</button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <table border=1 ng-hide="true">
+                                <thead>
+                                    <tr>
+                                        <th>FacultyId</th>
+                                        <th>AcademicYearId</th>
+                                        <th>ProgrammeInstancePartTermId</th>
+                                        <th>AdmissionCommitteeId</th>
+                                        <th>AllotmentNo</th>
+                                        <th>MeritNo</th>
+                                        <th>MobileNo</th>
+                                        <th>ApplicantName</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in data">
+                                        <td>{{item.FacultyId}}</td>
+                                        <td>{{item.AcademicYearId}}</td>
+                                        <td>{{item.ProgrammeInstancePartTermId}}</td>
+                                        <td>{{item.AdmissionCommitteeId}}</td>
+                                        <td>{{item.AllotmentNo}}</td>
+                                        <td>{{item.MeritNo}}</td>
+                                        <td>{{item.MobileNo}}</td>
+                                        <td>{{item.ApplicantName}}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                        </form>
+                    </div>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="CentralCommitteeTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="CentralAdmission in $data">
+                                            <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                            <td data-title="'FacultyName'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style="border-top:none;text-align:left;"><label>{{CentralAdmission.FacultyName}}</label></td>
+                                            <td data-title="'MeritNo/Reference No'" filter="{MeritNo: 'text'}" sortable="'MeritNo'" style="border-top:none;text-align:left;"><label>{{CentralAdmission.MeritNo}}</label></td>
+                                            <td data-title="'Enroll No'" filter="{AllotmentNo: 'text'}" sortable="'AllotmentNo'" style="border-top:none;text-align:left;"><label>{{CentralAdmission.AllotmentNo}}</label></td>
+                                            <td data-title="'Academic Year Code'" filter="{AcademicYearCode: 'text'}" sortable="'AcademicYearCode'" style="border-top:none;text-align:left;"><label>{{CentralAdmission.AcademicYearCode}}</label></td>
+                                            <td data-title="'Program Instance Part Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style="border-top:none;text-align:left;"><label>{{CentralAdmission.InstancePartTermName}}</label></td>
+                                            <td data-title="'Committee Name'" filter="{CommitteeName: 'text'}" sortable="'CommitteeName'" style="border-top:none;text-align:left;"><label>{{CentralAdmission.CommitteeName}}</label></td>
+                                            <td data-title="'Applicant Name'" filter="{ApplicantName: 'text'}" sortable="'ApplicantName'" style="border-top:none;text-align:left;"><label>{{CentralAdmission.ApplicantName}}</label></td>
+                                            <td data-title="'Mobile No'" filter="{MobileNo: 'text'}" sortable="'MobileNo'" style="border-top:none;text-align:left;"><label>{{CentralAdmission.MobileNo}}</label></td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

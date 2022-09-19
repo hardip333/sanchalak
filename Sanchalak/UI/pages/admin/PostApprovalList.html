@@ -1,0 +1,130 @@
+﻿
+<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>POST APPROVAL LIST</h4></div>
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12">
+                        <form ng-model="PostProgInst" novalidate>
+
+                            <div class="form-group row" ng-init="getFacultyById('PostApprovalList')">
+                                <div class="col-sm-12"><h5><b>Faculty Name : </b>{{Institute.FacultyName}} - {{Institute.Id}}</h5></div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-12"><h5><b>Institute Name : </b>{{Institute.InstituteName}} - {{Institute.InstituteId}}</h5></div>
+                            </div><br />
+
+                            <div class="form-group row">
+                                <div class="col-sm-10">
+                                    <div class="checkbox-fade fade-in-primary">
+                                        <label class="check-task">
+                                            <input type="checkbox" id="checkListFaculty" checked="{{checklistFaculty}}" value="Facultylist" ng-model="checklistFaculty" ng-change="getListByCheckBox()">
+                                            <span class="cr">
+                                                <i class="cr-icon icofont icofont-ui-check txt-primary"></i>
+                                            </span>
+                                            <span><b>Eligible List By Faculty</b></span>
+                                        </label>&nbsp;&nbsp;&nbsp;
+                                        <label class="check-task">
+                                            <input type="checkbox" id="checkListAcademic" checked="{{checklistAcedemic}}" value="AcademicList" ng-model="checklistAcedemic" ng-change="getListByCheckBox()">
+                                            <span class="cr">
+                                                <i class="cr-icon icofont icofont-ui-check txt-primary"></i>
+                                            </span>
+                                            <span><b>Eligible List By Academic</b></span>
+                                        </label>&nbsp;&nbsp;&nbsp;
+                                        <label class="check-task">
+                                            <input type="checkbox" id="checkListFee" checked="{{checklistFeePaid}}" value="FeePaidList" ng-model="checklistFeePaid" ng-change="getListByCheckBox()">
+                                            <span class="cr">
+                                                <i class="cr-icon icofont icofont-ui-check txt-primary"></i>
+                                            </span>
+                                            <span><b>Fees Paid Status</b></span>
+                                        </label>&nbsp;&nbsp;&nbsp;
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-success" id="btnexporttoexcel" ng-click="ExportDatatoExcel()" ng-if="checklistFaculty == true || checklistAcedemic == true || checklistFeePaid == true"> Export to Excel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <div class="dt-responsive table-responsive">
+                                    <table class="table table-striped table-bordered" id="EligibleList" ng-table="PostApprovedStudentsparam" show-filter="true">
+                                        <tbody>
+                                            <tr ng-repeat="PostProgInst in $data">
+                                                <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                                <td data-title="'Name'" filter="{LastName: 'text'}" sortable="'EligibilityGroup'" style="border-top:none;"><label>{{PostProgInst.LastName}}&nbsp;{{PostProgInst.FirstName}}&nbsp;{{PostProgInst.MiddleName}}</label></td>
+                                                <td data-title="'Programme Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style="border-top:none;"><label>{{PostProgInst.InstancePartTermName}}</label></td>
+                                                <td data-title="'Faculty Remarks'" filter="{AdminRemarkByFaculty: 'text'}" sortable="'AdminRemarkByFaculty'" style="border-top:none;text-align:center;">
+                                                    <label hidden>{{PostProgInst.AdminRemarkByFaculty}}</label>
+
+                                                    <span ng-if="PostProgInst.AdminRemarkByFaculty != ''" title="{{PostProgInst.AdminRemarkByFaculty}}"><i class="ion-checkmark-round"></i></span>
+                                                    <span ng-if="PostProgInst.AdminRemarkByFaculty == ''">--</span>
+                                                </td>
+
+                                                <!--<td data-title="'Notification'"style="border-top:none;text-align:center;position: absolute;">
+                                                   <a class="mytooltip" href="javascript:void(0)" ng-if="PostProgInst.AdminRemarkByFaculty != ''"> <i class="ion-checkmark-round"></i>
+                                                      <span class="tooltip-content5"><span class="tooltip-text3"><span class="tooltip-inner2" style="font-size: 15px; padding:60px; width:auto;">{{PostProgInst.AdminRemarkByFaculty}}</span></span></span>
+                                                   </a>
+                                                </td>-->
+
+                                                <!--<p>
+
+        <span class="mytooltip tooltip-effect-5">
+            <span class="tooltip-item">Show Effect</span>
+            <span class="tooltip-content clearfix">
+                <span class="tooltip-text">
+                    {{PostProgInst.AdminRemarkByFaculty}}
+                    Also known as Euclid of andria, was a Greek mathematician, often referred.
+                </span>
+            </span>
+        </span>
+    </p>-->
+                                                <!--<a class="mytooltip" href="javascript:void(0)"
+       ng-if="PostProgInst.AdminRemarkByFaculty != ''"
+       title="{{PostProgInst.AdminRemarkByFaculty}}">
+        <i class="ion-checkmark-round"></i>
+        <span class="tooltip-content5">
+            <span class="tooltip-text3">
+                <span class="tooltip-inner2">
+                    {{PostProgInst.AdminRemarkByFaculty}}
+                </span>
+            </span>
+        </span>
+    </a>-->
+
+                                            <td data-title="'Academic Remarks'" filter="{AdminRemarkByAcademics: 'text'}" sortable="'AdminRemarkByAcademics'" style="border-top:none;text-align:center;">
+                                                <label hidden>{{PostProgInst.AdminRemarkByAcademics}}</label>
+                                                <span ng-if="PostProgInst.AdminRemarkByAcademics != ''" title="{{PostProgInst.AdminRemarkByAcademics}}"><i class="ion-checkmark-round"></i></span>
+                                                <span ng-if="PostProgInst.AdminRemarkByAcademics == ''">--</span>
+                                            </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>

@@ -1,0 +1,88 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+<script src="../../../app/admin/controller/alasql.js"></script>
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Applicant List whose Admission Fee Not Paid</h4></div>
+
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="AdmFeeNotPaid">
+
+                            <div class="form-group row" ng-init="getFacultyById()">
+                                <div class="col-sm-2">Faculty Name</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <label>{{Institute.FacultyName}} - {{Institute.Id}}</label>
+
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">Institute Name</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <label>{{Institute.InstituteName}} - {{Institute.Id}}</label>
+
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div style="text-align: center;width:50%">
+
+                <button class="btn btn-success" ng-click="exportApplicationStatsData()">Export to Excel </button>
+
+            </div>-->
+                        </form>
+                    </div>
+                </div>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table id="AdmFeeNotPaidId" class="table table-striped table-bordered" ng-table="AdmFeeNotPaidTableParams" show-filter="true">
+                                    <tbody>
+
+                                        <tr ng-repeat="AdmFeeNotPaid in $data">
+                                            <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                            <td data-title="'Full Name'" filter="{Name: 'text'}" sortable="'Name'" style="border-top:none;"><label>{{AdmFeeNotPaid.Name}}</label></td>
+                                            <!--<td data-title="'Middle Name'" filter="{MiddleName: 'text'}" sortable="'MiddleName'" style="border-top:none;"><label>{{AdmFeeNotPaid.MiddleName}}</label></td>
+                                            <td data-title="'Last Name'" filter="{LastName: 'text'}" sortable="'LastName'" style="border-top:none;"><label>{{AdmFeeNotPaid.LastName}}</label></td>-->
+                                            <td data-title="'Semester\Part Term Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style="border-top:none;"><label>{{AdmFeeNotPaid.InstancePartTermName}}</label></td>
+                                            <td data-title="'Specialisation\Branch Name'" filter="{BranchName: 'text'}" sortable="'BranchName'" style="border-top:none;"><label>{{AdmFeeNotPaid.BranchName}}</label></td>
+                                            <td data-title="'Institute Name'" filter="{InstituteName: 'text'}" sortable="'InstituteName'" style="border-top:none;"><label>{{AdmFeeNotPaid.InstituteName}}</label></td>
+                                            <td data-title="'Attached Fee Category Name'" filter="{FeeCategoryName: 'text'}" sortable="'FeeCategoryName'" style="border-top:none;"><label>{{AdmFeeNotPaid.FeeCategoryName}}</label></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div layout="row" style="margin-top:3px" class="float-right">
+
+                                <button ng-click="exportAdmFeeNotPaidData();" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="min-width:40px;">Export to Excel </button>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+               
+            </div>
+        </div>
+    </div>
+</div>

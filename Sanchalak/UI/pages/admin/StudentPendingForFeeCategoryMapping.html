@@ -1,0 +1,151 @@
+﻿
+
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card" style="margin-bottom:15px;">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4 style="margin-bottom:0px;">Set Fee Category</h4></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-6">
+                    <div class="card" style="margin-bottom: 0px;">
+                        <div class="card-body" style="padding:10px 20px 0px 20px;" ng-init="getSpecId()">
+                            <!--<div class="row">
+        <div class="col-md-4">
+            <label class="form-label">Academic Year</label>
+            <div>
+                <span class="nullable">
+                    <academic-year-select style="margin-bottom:3px;" ng-model="filter.AcademicYearId" ng-change="getInstList()"></academic-year-select>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Institute</label>
+            <div>
+                <span class="nullable">
+                    <select ng-model="filter.InstituteId" ng-options="d.InstituteId as d.InstituteName for d in InstList" [value]="{{filter.InstituteId}}" ng-change="getProgList(filter.InstituteId)" class="form-control" required>
+                        <option value="" disabled selected>-- SELECT --</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <br />
+
+        <div class="col-md-4">
+            <label class="form-label">Programme Name</label>
+            <div>
+                <span class="nullable">
+                    <select ng-model="filter.ProgrammeId" ng-options="d.ProgrammeId as d.ProgrammeName for d in ProgList" [value]="{{filter.ProgrammeId}}" ng-change="getProgPartfromProg(filter.ProgrammeId)" class="form-control" required>
+                        <option value="" disabled selected>-- SELECT --</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="col-md-4">
+            <label class="form-label">Programme Part Name</label>
+            <div>
+                <span class="nullable">
+                    <select id="partName" ng-model="filter.ProgPartId" ng-options="d.ProgPartId as d.PartName for d in ProgPartList" [value]="{{filter.ProgPartId}}" ng-change="getProgPartTermfromProgPart(filter.ProgPartId)" class="form-control" required>
+                        <option value="" disabled selected>-- SELECT --</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div>
+                <label class="form-label">Do you want to consider Eligibility for beginning Admissions?</label>
+                <div>
+                    <span class="nullable">
+                        <input type="radio" id="eligibility" name="eligconsideration" ng-model="filter.isEligConsidered" ng-change="hide()" value=1 />
+                        <label for="html">Yes</label>&nbsp;&nbsp;
+                        <input type="radio" id="eligibility" name="eligconsideration" ng-model="filter.isEligConsidered" ng-change="hide()" value=0 />
+                        <label for="html">No</label><br>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+
+    <div class="col-sm-12 text-center">
+        <div class="col-sm-2 offset-md-5">
+            <div class="form-group has-sucess">
+                <input type="button" id="vis" value="SUBMIT" ng-click="sendData(filter)">
+            </div>
+        </div>
+    </div>-->
+
+                            <table class="resulttable" id="eligib" ng-hide="hide">
+                                <thead>
+                                    <tr style="border-color:black">
+                                        <th scope="col" rowspan="2" style="vertical-align:top;text-align:center" ;font-size: 12px">Sr.No</th>
+                                        <th scope="col" rowspan="2" style="vertical-align:top;text-align:center" ;font-size: 12px">PRN</th>
+                                        <th scope="col" rowspan="2" style="vertical-align:top;text-align:center" ;font-size: 12px;">Student Name</th>
+                                        <th scope="col" rowspan="2" style="vertical-align:top;text-align:center" ;font-size: 12px;">Old Fee Category</th>
+                                        <th scope="col" rowspan="2" style="vertical-align:top;text-align:center" ;font-size: 12px;">Gender</th>
+                                        <th scope="col" rowspan="2" style="vertical-align:top;text-align:center" ;font-size: 12px;">Assign New Category</th>
+                                        <!--<th scope="col" rowspan="2" style="vertical-align:top;text-align:center" ;font-size: 12px">
+                    <input type="checkbox" id="eligibility" ng-click="select()" /> Select
+                </th>-->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="student in studentList" style="border-color:black">
+                                        <td scope="col" style="vertical-align:top;text-align:center" ;font-size: 12px">{{$index + 1}}</td>
+                                        <td scope="col" style="vertical-align:top;text-align:center" ;font-size: 12px">{{student.PRN}}</td>
+                                        <td scope="col" style="vertical-align:top;text-align:center" ;font-size: 12px;">{{student.StudentName}}</td>
+                                        <td scope="col" style="vertical-align:top;text-align:center" ;font-size: 12px;">{{student.OldFeeCategoryName}}</td>
+                                        <td scope="col" style="vertical-align:top;text-align:center" ;font-size: 12px;">{{student.gender}}</td>
+                                        <td scope="col" style="text-align: center; font-size: 14px;">
+                                            <div>
+                                                <span class="nullable">
+                                                    <select ng-model="student.newAdmissionFeeCategoryId" ng-options="d.FeeCategoryId as d.FeeCategoryName for d in student.ApplicableFeeCategories" [value]="{{studentData.FeeCategoryId}}" class="form-control">
+                                                        <option value="" disabled selected>-- select --</option>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!--div  ng-hide="store">
+        <label class="form-label">Please choose a level of Admission.</label>
+        <div>
+            <span class="nullable">
+                <input type="radio" id="eligibility" name="admlevel" ng-model="admlevel" value="Part" />
+                <label for="html">Part</label>&nbsp;&nbsp;
+                <input type="radio" id="eligibility" name="admlevel" ng-model="admlevel" value="PartTerm"/>
+                <label for="html">Part Term</label><br>
+            </span>
+        </div>
+    </div>-->
+
+
+                            <div class="col-sm-12 text-center">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <button type="button" class="btn btn-primary" ng-click="sendNewFeeCategoryList(studentList)">SUBMIT</button>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <button type="button" class="btn btn-primary" ng-click="goBack()">BACK</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

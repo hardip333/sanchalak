@@ -1,0 +1,52 @@
+﻿
+    <div ng-init="getAddOnCriteria()">
+
+        <!-- Column Rendering table start-->
+        <div class="card">
+            <div class="card-header">
+                <h3>Additional Information: {{ProgrammeName}}-{{BranchName}}-{{AcademicYearCode}}</h3>
+                <!--<div class="float-right">
+                    &nbsp;&nbsp;<button type="button" id="btnback" class="btn btn-primary" ng-click="backToFacultyVerificationPage()" style="padding: 5px 15px 5px 15px;border-radius:30px;">Go Back</button>
+                </div>-->
+            </div>
+            <form name="AdmAddOnform" class="wizard-form" novalidate>
+                <div class="card-block">
+                    <div class="table-responsive">
+                        <div class="dt-responsive table-responsive">
+                            <table id="res-config" class="table table-striped table-bordered nowrap" ng-table="ApplicationConfigurationTableParams">
+                                <tbody ng-repeat="AddOnCriteria in c3List">
+                                    <tr>
+                                        <td data-title="'Sr.No.'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                        <td data-title="'Title'"
+                                            style="border-top:none;">
+                                            <label>{{AddOnCriteria.TitleName}}</label>
+                                        </td>
+                                        <td data-title="'Marks/ CGPA/ Grade * '"
+                                            style="border-top:none;">
+                                            <input name="value1" value={{AddOnCriteria.AddOnValue}} type={{AddOnCriteria.TitleType}} class="form-control" ng-model="AddOnCriteria.AddOnValue" />
+                                            <span style="color:red;" ng-show="AdmAddOnform.value1.$touched && AAdmAddOnform.value1.$error.required"> Required! </span>
+                                        </td>
+                                        <td data-title="'Actions'">
+                                            <div layout="row" style="margin-top:3px">                        
+                                                <button type="submit" name="Add" class="btn btn-primary" ng-click="addAddOnCriteriaDetails(AddOnCriteria.Id, AddOnCriteria.AddOnValue, AddOnCriteria.TitleType)">Add</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                                <span style="color:blue">Note: If you don't have the information asked, so you can go ahead without adding the information.</span>
+                            </table>
+                            <div layout="row" style="margin-top:3px">
+                                <span flex></span>
+                                <button type="button" id="btnback" class="btn btn-primary" ng-click="backToFacultyVerificationPage()" style="padding: 5px 15px 5px 15px;border-radius:30px;">Go Back</button>
+                            </div>
+                         
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- Column Rendering table end -->      
+
+    </div>
+

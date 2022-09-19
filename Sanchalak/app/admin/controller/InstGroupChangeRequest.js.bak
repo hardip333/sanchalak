@@ -1,0 +1,643 @@
+﻿app.controller('InstGroupChangeRequestCtrl', function ($scope, $http, $rootScope, $filter, $localStorage, $state, $cookies, Upload, $mdDialog, NgTableParams) {
+
+    var today = new Date();
+    var date = today.getDate();
+    var month = today.getMonth() + 1;
+    var year = today.getFullYear();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    
+    $scope.InstGroupChange = {};
+    $scope.InstGroupChange1 = {};
+
+    /*Show-Hide Flags*/
+    $scope.showInstLabel = false;
+    $scope.showGroupLabel = false;
+    $scope.showInstRadio = false;
+    $scope.showGrpRadio = false;
+
+    $scope.InstRadio = false;
+    $scope.GrpRadio = false;
+
+    $scope.flag = true;
+    $scope.tableFlag = false;
+    $scope.ShowFee = false;
+
+    $scope.BankDetails = false;
+
+    /*Get Data On The Basis Of Application Form Number*/
+    $scope.submit = function () {
+
+        if ($scope.InstGroupChange.ApplicationId === null || $scope.InstGroupChange.ApplicationId === undefined) {
+            alert("Please type Application Form No.");
+        }
+
+        else {
+            $http({
+                method: 'POST',
+                url: 'api/InstituteGroupChange/InstituteGroupChangeDetails',
+                data: { ApplicationId: $scope.InstGroupChange.ApplicationId },
+                headers: { "Content-Type": 'application/json' }
+            })
+                .success(function (response) {
+                    $rootScope.showLoading = false;
+                    if (response.response_code == "0") {
+                        $go.state('login');
+                    }
+                    else
+                        if (response.response_code != "200") {
+                            $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                            alert(response.obj);
+                        }
+                        else {
+
+                            $scope.InstGroupChangeTableParams = new NgTableParams({},
+                                {
+                                    dataset: response.obj
+                                });
+                            $scope.details = response.obj;
+                            $scope.details.ApplicationId = response.obj[0].ApplicationId;
+                            $scope.details.ProgrammeInstancePartTermId = response.obj[0].ProgrammeInstancePartTermId;
+                            $scope.details.DestinationIncProgInstPartTermId = response.obj[0].DestinationIncProgInstPartTermId;
+                            $scope.details.FeeCategoryPartTermMapId = response.obj[0].FeeCategoryPartTermMapId;
+                            
+                            $scope.flag = false;
+                            $scope.tableFlag = true;
+                            
+                            $scope.newInstituteGet();
+                            $scope.newGroupGet();
+                            $scope.newFeeCategoryGet();
+
+                        }
+                })
+                .error(function (res) {
+                    $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                });
+        }
+    };
+
+    /*For Expanding More Data With + Button*/
+    $scope.expand_row = function (id) {
+        let element = document.getElementById('expand' + id).classList
+        if (element.contains("collapse")) {
+            document.getElementById("first_col" + id).innerHTML = "-"
+            element.remove("collapse")
+        } else {
+            document.getElementById("first_col" + id).innerHTML = "+"
+            element.add("collapse")
+        }
+    };    
+
+    /*For Fee-Category Radio Button - Category Is Same Or Not?*/
+    $scope.changeFeeCategory = function (data) {
+
+        $scope.ChkFee = data;
+
+        if ($scope.ChkFee == 'true')
+        {
+            $scope.ShowFee = false;
+            $scope.InstGroupChange1.NewFeeCategoryId = $scope.details[0].FeeCategoryId;
+            $scope.InstGroupChange1.NewFeeCategoryPartTermMapId = $scope.details[0].FeeCategoryPartTermMapId;
+            $scope.BankDetails = false;
+        }
+
+        else if ($scope.ChkFee == 'false' && $scope.details[0].IsAdmissionFeePaid == true)
+        {
+            $scope.BankDetails = true;
+            $scope.ShowFee = true;
+            $scope.InstGroupChange1.NewFeeCategoryId = $scope.InstGroupChange.NewFeeCategoryId;
+
+            for (key of Object.keys($scope.FeeCategoryList)) {
+                if ($scope.FeeCategoryList[key].FeeCategoryId == $scope.InstGroupChange.NewFeeCategoryId) {
+                    var NewFee = $scope.FeeCategoryList[key].FeeCategoryPartTermMapId;
+                }
+            }
+
+            $scope.InstGroupChange1.NewFeeCategoryPartTermMapId = NewFee;
+        }
+
+        else
+        {
+            $scope.BankDetails = false;
+            $scope.ShowFee = true;
+            $scope.InstGroupChange1.NewFeeCategoryId = $scope.InstGroupChange.NewFeeCategoryId;
+
+            for (key of Object.keys($scope.FeeCategoryList)) {
+                if ($scope.FeeCategoryList[key].FeeCategoryId == $scope.InstGroupChange.NewFeeCategoryId) {
+                    var NewFee = $scope.FeeCategoryList[key].FeeCategoryPartTermMapId;
+                }
+            }
+
+            $scope.InstGroupChange1.NewFeeCategoryPartTermMapId = NewFee;
+        }
+    };
+
+    /*For Institute Radio Button - Do You Want To Change Or Not?*/
+    $scope.EnableDisableInstitute = function (data) {
+        $scope.wantToChangeInst = data;
+
+        if ($scope.wantToChangeInst == true) {
+            $scope.showInst = true;
+            $scope.showInstLabel = false;
+            $scope.Inst = true;
+            $scope.InstGroupChange1.NewInstituteId = $scope.InstGroupChange.NewInstituteId;
+        } else {
+            $scope.showInst = false;
+            $scope.Inst = false;
+        }
+    };
+
+    /*For Institute DropDown*/
+    $scope.newInstituteGet = function () {
+
+        var data = {
+            ApplicationId: $scope.details.ApplicationId,
+            ProgrammeInstancePartTermId: $scope.details.ProgrammeInstancePartTermId
+        }
+
+        $http({
+            method: 'POST',
+            url: 'api/InstituteGroupChange/NewInstituteGet',
+            data: data,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+
+                if (response.response_code == "201") {
+
+                    $scope.showInstLabel = true;
+                    $scope.showInst = false;
+                    $scope.showInstRadio = false;
+                    $scope.InstGroupChange1.NewInstituteId = $scope.details[0].AdmittedInstituteId;
+                    $scope.newGroupGet();
+                }
+                else {
+                    if ($scope.Inst == false) {
+                        $scope.InstGroupChange1.NewInstituteId = $scope.details[0].AdmittedInstituteId;
+                        $scope.newGroupGet();
+                    } else {
+                        
+                        $scope.showInstRadio = true;
+                        $scope.InstituteList = response.obj;
+                        $scope.InstGroupChange1.NewInstituteId = $scope.InstGroupChange.NewInstituteId;
+                        $scope.newGroupGet();
+                    }
+                }
+
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+
+    /*For Group Radio Button - Do You Want To Change Or Not?*/
+    $scope.EnableDisableGroup = function (data) {
+        $scope.wantToChangeGrp = data;
+        
+        if ($scope.wantToChangeGrp == true) {
+            $scope.showGroup = true;
+            $scope.showGroupLabel = false;
+            $scope.PreGrp = true;
+            $scope.InstGroupChange1.NewPreferenceGroupId = $scope.InstGroupChange.NewPreferenceGroupId;
+        } else {
+            $scope.showGroup = false;
+            $scope.PreGrp = false;
+            
+        }
+    };
+
+    /*For Group DropDown*/
+    $scope.newGroupGet = function () {
+        var data = {
+            ApplicationId: $scope.details.ApplicationId,
+            ProgrammeInstancePartTermId: $scope.details.ProgrammeInstancePartTermId
+        }
+        $http({
+            method: 'POST',
+            url: 'api/InstituteGroupChange/NewGroupGet',
+            data: data,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+
+                if (response.response_code == "201") {
+                    
+                    $scope.showGroupLabel = true;
+                    $scope.showGroup = false;
+                    $scope.showGrpRadio = false;
+                    $scope.InstGroupChange1.NewPreferenceGroupId = $scope.details[0].PreferenceGroupId;
+
+                    if ($scope.NewData == true) {
+                        $scope.InstituteGroupChangeAdd();
+                    }
+                }
+                else {
+                    
+                    if ($scope.PreGrp == false) {
+                        $scope.InstGroupChange1.NewPreferenceGroupId = $scope.details[0].PreferenceGroupId;
+                        if ($scope.NewData == true) {
+                            $scope.InstituteGroupChangeAdd();
+                        }
+                    } else {
+                        $scope.showGrpRadio = true;
+                        $scope.GroupList = response.obj;
+                        $scope.InstGroupChange1.NewPreferenceGroupId = $scope.InstGroupChange.NewPreferenceGroupId;
+
+                        if ($scope.NewData == true) {
+                            $scope.InstituteGroupChangeAdd();
+                        }
+                    }
+                }
+
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+
+    /*For Fee-Category DropDown*/
+    $scope.newFeeCategoryGet = function () {
+        $scope.FeeCategoryList = {};
+        var data = {
+            FeeCategoryPartTermMapId: $scope.details.FeeCategoryPartTermMapId,
+            DestinationIncProgInstPartTermId: $scope.details.DestinationIncProgInstPartTermId
+        }
+        $http({
+            method: 'POST',
+            url: 'api/InstituteGroupChange/NewFeeCategoryGet',
+            data: data,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $scope.FeeCategoryList = response.obj;
+                $scope.FeeCategoryList.FeeCategoryPartTermMapId = response.obj[0].FeeCategoryPartTermMapId;
+                $scope.FeeCategoryList.FeeCategoryId = response.obj[0].FeeCategoryId;
+
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+
+    /*Institute/Group Change Request Add*/
+    $scope.InstituteGroupChangeAdd = function () {
+        
+        if ($scope.InstGroupChange.IsFeeCategorySame == "false" && $scope.details[0].IsAdmissionFeePaid == true) {
+            var Passbook = $("#SuccessMsgPassbookImg").text();
+
+            if (Passbook == null || Passbook == undefined || Passbook == "") {
+                alert("File Not Uploaded Or File is Not in Proper Format");
+                return false;
+            }
+            else {
+                $scope.InstGroupChange.PassbookPhoto = $scope.AddPassBookImage;
+            }
+        }        
+
+        $scope.InstGroupChange1.ApplicationId = $scope.details[0].ApplicationId;
+        $scope.InstGroupChange1.OldInstituteId = $scope.details[0].AdmittedInstituteId;
+        $scope.InstGroupChange1.OldFeeCategoryId = $scope.details[0].FeeCategoryId;
+        $scope.InstGroupChange1.OldPreferenceGroupId = $scope.details[0].PreferenceGroupId;
+        $scope.InstGroupChange1.OldFeeCategoryPartTermMapId = $scope.details[0].FeeCategoryPartTermMapId;
+        $scope.InstGroupChange1.IsAdmissionFeePaid = $scope.details[0].IsAdmissionFeePaid;
+        $scope.InstGroupChange1.IsFeeCategorySame = $scope.InstGroupChange.IsFeeCategorySame;
+        $scope.InstGroupChange1.Remarks = $scope.InstGroupChange.Remarks;
+        $scope.InstGroupChange1.BankId = $scope.InstGroupChange.BankId;
+        $scope.InstGroupChange1.AccountNumber = $scope.InstGroupChange.AccountNumber;
+        $scope.InstGroupChange1.AccountName = $scope.InstGroupChange.AccountName;
+        $scope.InstGroupChange1.IFSCCODE = $scope.InstGroupChange.IFSCCODE;
+        $scope.InstGroupChange1.PassbookPhoto = $scope.InstGroupChange.PassbookPhoto;
+        $scope.InstGroupChange1.IsPRNGenerated = $scope.details[0].IsPRNGenerated;
+
+        $http({
+            method: 'POST',
+            url: 'api/InstituteGroupChange/InstituteGroupChangeDetailsAdd',
+            data: $scope.InstGroupChange1,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+
+                if (response.response_code == "0") {
+                    $state.go('login');
+
+                } else if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    alert(response.obj);
+                    $scope.InstGroupChange = {};
+                    $scope.InstGroupChange1 = {};
+                    $scope.flag = true;
+                    $scope.tableFlag = false;
+                    $scope.ShowFee = false;
+                    $scope.NewData = false;
+                    $scope.BankDetails = false;
+                    $scope.GrpRadio = {};
+                    $scope.InstRadio = {};
+                    $state.go('InstGroupChangeRequest');
+                }
+                else {
+
+                    alert(response.obj);
+                    $scope.InstGroupChange = {};
+                    $scope.InstGroupChange1 = {};
+                    $scope.NewData = false;
+                    $scope.flag = true;
+                    $scope.tableFlag = false;
+                    $scope.ShowFee = false;
+                    $scope.BankDetails = false;
+                    $scope.GrpRadio = {};
+                    $scope.InstRadio = {};
+                    $state.go('InstGroupChangeRequest');
+
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+
+    /*Click Event From Html Side*/
+    $scope.Add = function (data) {
+
+        $scope.NewData = true;
+        $scope.newInstituteGet();
+
+        $scope.check = data;
+        $scope.changeFeeCategory($scope.check);        
+
+    };
+
+    /*IFSC Validation By API*/
+    $scope.getRequest = function () {
+
+        $scope.obj = {};
+        $scope.obj.IFSCCODE = $scope.InstGroupChange.IFSCCODE;
+
+        var request = {
+            method: 'get',
+            url: 'https://ifsc.razorpay.com/' + $scope.obj.IFSCCODE,
+            dataType: 'json',
+            contentType: "application/json"
+        }
+        $scope.arrBirds = new Array;
+
+        $http(request)
+            .success(function (response) {
+
+                $scope.arrBirds = response;
+                $scope.list = $scope.arrBirds;
+                $scope.IsVisible = true;
+                $scope.IsError = false;
+
+            })
+            .error(function () {
+                $scope.IsError = true;
+                $scope.IsVisible = false;
+
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                $scope.IsVisible = false;
+            });
+    };
+
+    /*IFSC Validation*/
+    $("#ifsc").on("keyup", function () {
+
+        var ifsc = $("#ifsc").val();
+        var ifscCheck = document.getElementById("ifscCheck");
+        var regexp = /[A-Z|a-z]{4}[0][a-zA-Z0-9]{6}$/;
+        if (regexp.test(ifsc)) {
+            ifscCheck.innerHTML = "";
+        }
+        else {
+            ifscCheck.innerHTML = "Please Try Again ! IFSC Code Format Is Not Valid";
+        }
+    });
+
+    /*Genric Config for file size-Dynamic Validation*/
+    $scope.byId = function (data) {
+
+        return $http({
+            method: 'POST',
+            url: 'api/InstituteGroupChange/GenericConfigurationGetById',
+            data: { Id: data },
+            headers: { "Content-Type": 'application/json' }
+        })
+    };
+
+    /*Uploading Document Method*/
+    $scope.UploadStudentPassBookImage = function ($files) {
+
+        var ApplicantUserName = $scope.details[0].ApplicantUserName;
+
+        $scope.SelectedFiles = $files;
+
+        var fileExtension = '.' + $scope.SelectedFiles[0].name.split('.').pop();
+        //var name = $scope.SelectedFiles[0].name.split('.').slice(0, -1);
+        $scope.AddPassBookImage = ApplicantUserName + "_" + "PassBook" + "_" + date + "_" + month + "_" + year + fileExtension;
+        $cookies.put("passbookImage", $scope.AddPassBookImage);
+
+        if ($scope.SelectedFiles && $scope.SelectedFiles.length) {
+
+            var fileCheck = document.getElementById("file1").value;
+
+            //var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.bmp)$/i;
+            var allowedExtensions = /(\.jpg|\.jpeg)$/i;
+            const fi = document.getElementById("file1");
+
+            if (!allowedExtensions.exec(fileCheck)) {
+
+                document.getElementById("ErrorMsgPassbookImg").innerHTML = "It only accepts Jpeg file";
+                document.getElementById("SuccessMsgPassbookImg").innerHTML = "";
+                fileCheck.value = '';
+                return false;
+            }
+
+            if (fi.files.length > 0) {
+                var cnt = fi.files.length;
+                //$scope.byId(6).then(function (response) {
+                //  $scope.minVal = response.data.obj[0].Value;
+
+                $scope.byId(5).then(function (response) {
+                    $scope.maxVal = response.data.obj[0].Value;
+                    for (i = 0; i < cnt; i++) {
+
+                        const fsize = fi.files.item(i).size;
+                        const file = Math.round((fsize / 1024));
+                        if (file >= $scope.maxVal) {
+                            document.getElementById("ErrorMsgPassbookImg").innerHTML = "Please select a file below 512KB";
+                            document.getElementById("SuccessMsgPassbookImg").innerHTML = "";
+                            return false;
+                        }
+                        else {
+                            Upload.upload({
+                                url: 'api/InstituteGroupChange/UploadPassbookPhoto',
+                                data: {
+                                    files: $scope.SelectedFiles
+                                }
+                            }).then(function (response) {
+
+                                if (response.data.response_code == "200") {
+
+                                    $scope.Result = response.data;
+                                    document.getElementById("ErrorMsgPassbookImg").innerHTML = "";
+                                    document.getElementById("SuccessMsgPassbookImg").innerHTML = "File Uploaded Successfully - Click Submit To Continue";
+                                }
+                                else {
+
+                                    $scope.AddPassBookImage = undefined;
+                                    $("#file1").val("");
+                                    alert("File Upload Failed!");
+                                    return false;
+                                }
+
+
+
+                            }, function (response) {
+                                if (response.status > 0) {
+                                    var errorMsg = response.status + ': ' + response.data;
+
+
+                                }
+                            }, function (evt) {
+                                var element = angular.element(document.querySelector('#dvProgress'));
+                                $scope.Progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                                element.html('<div style="width: ' + $scope.Progress + '%">' + $scope.Progress + '%</div>');
+                            });
+                        }
+                    }
+                }).catch(function (res) {
+                    $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                });
+
+                /* }).catch(function (res) {
+                     $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                 });*/
+            }
+        }
+    };
+
+    /*Get Bank List For DropDown*/
+    $scope.getBankList = function () {
+
+        $http({
+            method: 'POST',
+            url: 'api/InstituteGroupChange/BankListGet',
+            headers: { "Content-Type": 'application/json' }
+        })
+
+            .success(function (response) {
+                if (response.response_code == "201") {
+                    $scope.BankList = {};
+                }
+                else {
+                    $scope.BankList = response.obj;
+                }
+
+            })
+            .error(function (res) {
+
+            });
+    };
+
+    $scope.GetDataForInstituteGroupChangeReport = function () {
+        var data = { InstituteId : 0}
+        $http({
+            method: 'POST',
+            url: 'api/InstituteGroupChange/GetDataForInstituteGroupChangeReport',
+            data: data,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+                if (response.response_code == "0") {
+                    $go.state('login');
+                }
+                else
+                    if (response.response_code != "200") {
+                        $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                        alert(response.obj);
+                    }
+                    else {
+
+                        $scope.InstGrpReportTableParams = new NgTableParams({},
+                            {
+                                dataset: response.obj
+                            });
+                        $scope.InstGrpChangeReport = response.obj;
+                                                   
+                    }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+        
+    };
+       
+    $scope.exportData = function () {
+
+        alert("Please wait, Excel is being prepared...");
+
+        var LongDate = new Date($.now());
+        var ShortDate = $filter('date')(LongDate, "yyyy-MM-dd");
+        var DateWithoutDashed = ShortDate.replace(new RegExp('-', 'g'), "");
+        var time = "_" + LongDate.getHours() + LongDate.getMinutes() + LongDate.getSeconds();
+
+        var DateAndTime = ShortDate + " " + LongDate.getHours() + ":" + LongDate.getMinutes();
+        var ExcelFileName = "Institute/Group_Change_Report_" + DateWithoutDashed + time;        
+
+        var mystyle = {
+            headers: true,
+            style: 'font-size:25px;font-weight:bold',
+            caption: {
+                title: 'Institute/Group Change Report' + DateAndTime,
+
+            },
+            columns: [
+                { columnid: 'IndexId', title: 'Sr.No' },
+                { columnid: 'Application_Form_Number', title: 'Application Form Number' },
+                { columnid: 'Name_As_Per_Marksheet', title: 'Name As Per Marksheet' },
+                { columnid: 'Faculty_Name', title: 'Faculty Name' },
+                { columnid: 'Instance_Part_Term_Name', title: 'Instance Part Term Name' },
+                { columnid: 'OldInstitute', title: 'Old Alloted Institute' },
+                { columnid: 'NewInstitute', title: 'New Alloted Institute' },
+                { columnid: 'OldAllotedGroup', title: 'Old Alloted Group' },
+                { columnid: 'NewAllotedGroup', title: 'New Alloted Group' },
+                { columnid: 'OldFeeCategory', title: 'Old Alloted Fee Category' },
+                { columnid: 'NewFeeCategory', title: 'New Alloted Fee Category' },
+                { columnid: 'Admission_Fee_Payment_Status', title: 'Admission Fee Payment Status' },
+                { columnid: 'Is_AdmissionFee_Category_Same', title: 'Is AdmissionFee Category Same?' },
+                { columnid: 'Is_PRN_Generated_Status', title: 'PRN Generated Status' },
+                { columnid: 'RequestStatus', title: 'Request Status' },
+            ],
+        };
+
+        //Create XLS format using alasql.js file.
+        alasql('SELECT * INTO XLS("' + ExcelFileName + '.xls",?) FROM ?', [mystyle, $scope.InstGrpChangeReport]);
+    };      
+});
+
+app.directive('allowPattern', [allowPatternDirective]);
+
+function allowPatternDirective() {
+    return {
+        restrict: "A",
+        compile: function (tElement, tAttrs) {
+            return function (scope, element, attrs) {
+
+                element.bind("keypress", function (event) {
+                    var keyCode = event.which || event.keyCode;
+                    var keyCodeChar = String.fromCharCode(keyCode);
+
+                    if (!keyCodeChar.match(new RegExp(attrs.allowPattern, "i"))) {
+                        event.preventDefault();
+                        return false;
+                    }
+
+                });
+            };
+        }
+    };
+}

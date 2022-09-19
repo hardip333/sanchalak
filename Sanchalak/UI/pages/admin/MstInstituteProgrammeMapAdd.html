@@ -1,0 +1,49 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="MstInstituteProgrammeMapCtrl" ng-init="getInstitute()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Add MstInstitute Programme Map</h4></div>
+                        <!--<div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>-->
+                    </div>
+                </div>
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                    </div>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="MstInstituteTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="MstInstitute in $data">
+                                            <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                            <td data-title="'Institute Name'" filter="{InstituteName: 'text'}" sortable="'InstituteName'" style=" border-top: none;"><label>{{MstInstitute.InstituteName}}</label></td>
+                                            <td data-title="'Actions'">
+                                                <div layout="row">
+                                                    <span flex></span>
+                                                    <button type="button" ng-click="backToList1(MstInstitute.Id,MstInstitute.InstituteName)" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><span class="ion-plus-round"></span>&nbsp; </button><br /><br />
+
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

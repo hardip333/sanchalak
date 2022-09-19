@@ -1,0 +1,122 @@
+﻿
+<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+    td {
+        white-space: normal !important;
+        text-align: center;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body"  ng-init="getPreDocumentListById()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left">
+                            <h4>Add Required Documents</h4>
+                        </div>
+                        <div class="float-right">
+                            <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Modify</button>&nbsp;&nbsp;
+                            <button type="button" ng-click="nextAdd()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Next</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <nav class="navbar navbar-expand-lg navbar-light light-nav-border">
+                        <span style="font-size:medium;color:navy"><b>{{ProgrammeInstanceName}} / {{PartName}} / {{ProgrammePartTermName}} </b></span>
+                    </nav>
+                    <br />
+
+                    <!--<button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Back</button><br /><br />-->
+                    <div class="col-md-12 offset-md-2">
+                        <form name="BosEdit" ng-model="rdocument">
+
+                            <div class="form-group row" ng-init="getprogramId()">
+                                <div class="col-sm-2">Select Programme Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        
+                                            <!--<select id="ProgramName" name="ProgramName1" ng-model="rdocument.ProgramId" class="form-control" ng-options="d.Id as d.ProgrammeName for d in ProgrammeList" [value]="rdocument.ProgramId" required>
+                                                {{d.ProgrammeName}}>>
+                                                <option value="" disabled selected>-- Select Program --</option>
+                                            </select>-->
+                                            <label>{{rdocument.ProgrammeName}} </label>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row" ng-init="getdocumentId()">
+                                <div class="col-sm-2">Select Document Name:<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select id="NameOfTheDocument" name="NameOfTheDocument1" ng-model="rdocument.DocumentId" class="form-control" ng-options="d.Id as d.NameOfTheDocument for d in DocumentList" [value]="rdocument.DocumentId" required>
+                                                {{d.NameOfTheDocument}}>>
+                                                <option value="" disabled selected>-- Select Document --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Is this Educational Qualification:<span style="color:red;"> * </span></label>
+                                <div class="col-sm-6">
+                                    <input type="radio" name="DocumentType1" ng-model="rdocument.DocumentType" ng-value="true" required>&nbsp;&nbsp;Yes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name="DocumentType1" ng-model="rdocument.DocumentType" ng-value="false" required>&nbsp;&nbsp;No
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Is this Compulsory Document:<span style="color:red;"> * </span></label>
+                                <div class="col-sm-6">
+                                    <input type="radio" name="CompulsoryDocument1" ng-model="rdocument.IsCompulsoryDocument" ng-value="true" required>&nbsp;&nbsp;Yes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name="CompulsoryDocument1" ng-model="rdocument.IsCompulsoryDocument" ng-value="false" required>&nbsp;&nbsp;No
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="addDocument()">Add</button>
+                                        <button class="btn btn-disabled disabled" ng-click="cancelDocument()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="rdocumentTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="rdocument in $data">
+                                            <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;text-align:center;"><label>{{ $index + 1 }}</label></td>                                          
+                                            <td data-title="'Name Of The Document'" filter="{NameOfTheDocument: 'text'}" sortable="'NameOfTheDocument'" style="border-top:none;white-space: normal !important;text-align: center;"><label>{{rdocument.NameOfTheDocument}}</label></td>
+                                            <td data-title="'Is this Educational Qualification'" filter="{DocumentType: 'text'}" sortable="'DocumentType'" style="border-top:none; width:10%; text-align:center;">
+                                                <span ng-if="rdocument.DocumentType==true"><label>Yes</label></span>
+                                                <span ng-if="rdocument.DocumentType==false"><label>No</label></span>
+                                            </td>
+
+                                            <td data-title="'Is this Compulsory Document'" filter="{IsCompulsoryDocument: 'text'}" sortable="'IsCompulsoryDocument'" style="border-top:none; width:10%; text-align:center;">                                             
+                                                <span ng-if="rdocument.IsCompulsoryDocument==true"><label>Yes</label></span>
+                                                <span ng-if="rdocument.IsCompulsoryDocument==false"><label>No</label></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

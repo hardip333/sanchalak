@@ -1,0 +1,71 @@
+﻿
+<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Verify Structure Report </h4></div><br /><br /><br />
+                        <div class="float-left"> <button type="button" ng-click="backToPrevious()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="ProgInst" novalidate>
+                            
+                            <div class="card-block" ng-show="ShowTree">
+                                <div class="card-block tree-view">
+                                    <div id="checkTree">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-show="ShowAfterSubmit">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Structure Report Remarks:</label>
+                                    <div class="col-sm-6">
+                                        <textarea class="form-control" id="FacRemark" name="FacRemark" rows="3" cols="59" ng-model="ProgInst.StructureReportRemark"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Approved Structure Report?</label>
+                                    <div class="col-sm-6">
+                                        <label>
+                                            <input type="radio" id="YesRb" ng-value=true name="ApproveRb" ng-model="ProgInst.IsApprovedStructureReport" ng-required="!ProgInst.IsApprovedStructureReport" />  Yes &nbsp;
+                                            <input type="radio" id="NoRb" ng-value=false name="ApproveRb" ng-model="ProgInst.IsApprovedStructureReport" ng-required="!ProgInst.IsApprovedStructureReport" /> No
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 offset-md-2">
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <button type="button" ng-click="submit()" class="btn btn-success">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div class="card-block text-center" ng-show="ShowLabel">
+                        <h4><label style="color:red;">Some Group(s)/Paper(s) are not attached properly. Kindly contact academics/exam section.</label></h4>
+                        <!--<h3><marquee behavior="alternate" style="color:red;" height="50" width="2000" >Incomplete Structure Report</marquee></h3>-->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

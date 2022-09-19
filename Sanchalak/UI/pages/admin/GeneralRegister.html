@@ -1,0 +1,69 @@
+﻿<style>
+    
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }    
+
+</style>
+
+<div>   
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <div class="float-left"> <h4>General Register Report</h4></div>                
+            </div>
+        </div>
+                
+        <div>
+
+            <div id="overlay">
+                <div class="w-100 d-flex justify-content-center align-items-center">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+
+            <!--<div class="table-responsive" ng-show="showTimeTable">-->
+            <div class="card" ng-init="submit();" ng-show="showTimeTable">
+                <div class="card-block">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" id="example-2" ng-table="GeneralRegistertableParams" show-filter="true">
+                            <tbody>
+                                <tr ng-repeat="GeneralRegister in $data">
+
+                                    <td data-title="'Sr. No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;text-align:center;"><label>{{GeneralRegister.IndexId}}</label></td>
+                                    <td data-title="'PRN'" filter="{PRN: 'text'}" sortable="'PRN'" style="text-align:center;"><label>{{GeneralRegister.PRN}}</label></td>
+                                    <td data-title="'Student Name'" filter="{StudentName: 'text'}" sortable="'StudentName'" style="text-align:center;"><label>{{GeneralRegister.StudentName}}</label></td>
+                                    <td data-title="'Gender'" filter="{Gender: 'text'}" sortable="'Gender'" style="text-align:center;"><label>{{GeneralRegister.Gender}}</label></td>
+                                    <td data-title="'Correspondence Address'" filter="{CorrespondenceAddress: 'text'}" sortable="'CorrespondenceAddress'" style="text-align:center;"><label>{{GeneralRegister.CorrespondenceAddress}}</label></td>
+                                    <td data-title="'Contact No'" filter="{MobileNo: 'text'}" sortable="'MobileNo'" style="text-align:center;"><label>{{GeneralRegister.MobileNo}}</label></td>
+                                    <td data-title="'Category'" filter="{ApplicationReservationName: 'text'}" sortable="'ApplicationReservationName'" style="text-align:center;"><label>{{GeneralRegister.ApplicationReservationName}}</label></td>
+                                    <td data-title="'Caste'" filter="{Caste: 'text'}" sortable="'Caste'" style="text-align:center;"><label>{{GeneralRegister.Caste}}</label></td>
+                                    <td data-title="'Place of Birth'" filter="{PlaceOfBirth: 'text'}" sortable="'PlaceOfBirth'" style="text-align:center;"><label>{{GeneralRegister.PlaceOfBirth}}</label></td>
+                                    <td data-title="'Date of Birth'" filter="{DOB: 'text'}" sortable="'DOB'" style="text-align:center;"><label>{{GeneralRegister.DOB}}</label></td>
+                                    <td data-title="'Previous School/College Name'" filter="{PreviousSchoolCollegeName: 'text'}" sortable="'PreviousSchoolCollegeName'" style="text-align:center;"><label>{{GeneralRegister.PreviousSchoolCollegeName}}</label></td>
+                                    <td data-title="'Date of Admission'" filter="{DateOfAdmission: 'text'}" sortable="'DateOfAdmission'" style="text-align:center;"><label>{{GeneralRegister.DateOfAdmission}}</label></td>
+                                    <td data-title="'Course Admitted to'" filter="{CourseName: 'text'}" sortable="'CourseName'" style="text-align:center;"><label>{{GeneralRegister.CourseName}}</label></td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div layout="row" style="margin-top:3px" class="float-right">
+                        <button ng-click="exportData();" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="min-width:40px;">Export to Excel </button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center;" ng-show="ShowLabel">
+                <h4 class="text-danger font-weight-bold">No Record Found.</h4>
+            </div>
+
+        </div>
+            </div>
+        </div>
+   
+

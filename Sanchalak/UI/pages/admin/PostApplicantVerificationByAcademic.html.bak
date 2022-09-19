@@ -1,0 +1,813 @@
+﻿
+<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light light-nav-border">
+    <span style="font-size:medium;color:navy"><b> {{InstPartTerm}}</b></span>
+   
+</nav>
+<br />
+
+<div ng-init="getPostApplicantConfig()">
+
+    <!-- Personal Details start -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Personal Details</h5>
+            <div class="float-right">
+                &nbsp;&nbsp;  <button type="button" id="btnback" class="btn btn-info" ng-click="backToPostConfigListforAcademic()" style="padding: 5px 15px 5px 15px;border-radius:30px;">Back to list</button>
+            </div>
+        </div>
+        <div class="card-block">
+            <form id="personalform" action="/" novalidate>
+
+                <div class="form-group row">
+
+                    <div class="form-group col">
+                        <div class="col-sm-offset-12">
+                            <label for="userName-2" class="block"><b>Applicant Name : </b></label>
+                            <label>{{ObjPersonal.FirstName}} {{ObjPersonal.MiddleName}} {{ObjPersonal.LastName}}</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <div class="col-lg-12">
+                            <label for="userName-2" class="block"><b>EmailId : </b></label>
+                            <label>{{ObjPersonal.EmailId}}</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <div class="col-sm-10 col-lg-10">
+                            <label for="userName-2" class="block"><b>MobileNo : </b></label>
+                            <label>{{ObjPersonal.MobileNo}}</label>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="form-group row">
+
+                    <div class="form-group col">
+                        <div class="col-sm-offset-12">
+                            <label for="userName-2" class="block"><b>Is Local to Vadodara : </b></label>
+                            <span ng-if="ObjPersonal.IsLocalToVadodara == true">Yes</span>
+                            <span ng-if="ObjPersonal.IsLocalToVadodara == false">No</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <div class="col-lg-12">
+                            <label for="userName-2" class="block"><b>Permanent State : </b></label>
+                            <label>{{ObjPersonal.PermanentState}}</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <div class="col-lg-12">
+                            <label for="userName-2" class="block"><b>Permanent City : </b></label>
+                            <label>{{ObjPersonal.PermanentCityVillage}}</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <div class="col-sm-10 col-lg-12">
+                            <label for="userName-2" class="block"><b>Gender : </b></label>
+                            <label>{{ObjPersonal.Gender}}</label>
+                        </div>
+                    </div>
+
+                    <!--<div class="form-group col">
+            <div class="col-sm-10 col-lg-10">
+                <label for="userName-2" class="block"><b>Social Category : </b></label>
+                <label>{{ObjPersonal.PermanentCityVillage}}</label>
+            </div>
+        </div>-->
+
+                </div>
+
+                <div class="form-group row">
+
+                    <div class="form-group col">
+                        <div class="col-sm-offset-12">
+                            <label for="userName-2" class="block"><b>Social Category : </b></label>
+                            <!--<label>{{ObjPersonal.SocialCategoryName}}</label>-->
+                            <span ng-if="ObjPersonal.SocialCategoryId != 0 ||ObjPersonal.SocialCategoryId != null">{{ObjPersonal.SocialCategoryName}}</span>
+                            <span ng-if="ObjPersonal.SocialCategoryId == 0 ||ObjPersonal.SocialCategoryId == null">NA</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <div class="col-lg-12">
+                            <label for="userName-2" class="block"><b>Reservation Category : </b></label>
+                            <span ng-if="ObjPersonal.ApplicationCategoryId != 0 ||ObjPersonal.ApplicationCategoryId != null">{{ObjPersonal.ReservationCategory}}</span>
+                            <span ng-if="ObjPersonal.ApplicationCategoryId == 0 ||ObjPersonal.ApplicationCategoryId == null">NA</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <div class="col-lg-12">
+                            <label for="userName-2" class="block"><b>Major Thelesamia Status : </b></label>
+                            <label>{{ObjPersonal.IsMajorThelesamiaStatus}}</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group row" ng-if="ObjPersonal.IsPhysicallyChallenged == 'True'">
+
+                    <div class="form-group col">
+                        <div class="col-sm-offset-12">
+                            <label for="userName-2" class="block"><b>Disability Type : </b></label>
+                            <label>{{ObjPersonal.DisabilityType}}</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <div class="col-lg-12">
+                            <label for="userName-2" class="block"><b>Disability Percentage : </b></label>
+                            <label>{{ObjPersonal.DisabilityPercentage}}</label>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="form-group row">
+
+                    <div class="form-group col" ng-if="ObjAdmAppInfo.MainCategoryRemarks != null && ObjAdmAppInfo.MainCategoryRemarks != ''">
+                        <div class="col-sm-10 col-lg-10" style="display:flex">
+                            <label for="userName-2" class="block"><b>Category Remarks By Faculty : </b></label>
+                            <label>&nbsp;{{ObjAdmAppInfo.MainCategoryRemarks}}</label>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+
+            <div class="card-block">
+                <div class="table-responsive">
+                    <div class="dt-responsive table-responsive">
+                        <table id="res-config" class="table table-striped table-bordered nowrap" ng-table="docsTableParams">
+                            <tbody>
+                                <tr>
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>Date of Birth</label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top:none;text-align:center;">
+
+                                        <span ng-if="ObjPersonal.DOBDoc != null">
+                                            <a href="{{ObjPersonal.DOBDoc}}" target="_blank">
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.DOBDoc == null">
+                                            Not Uploaded
+                                        </span>
+
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>Photo ID</label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.PhotoIdDoc != null">
+                                            <a href="{{ObjPersonal.PhotoIdDoc}}" target="_blank">
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.PhotoIdDoc == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr ng-if="ObjPersonal.AadharDoc != null">
+                                    <td data-title="'Document Name'"
+                                        style="border-top: none;">
+                                        <label>Aadhar Card </label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.AadharDoc != null">
+                                            <a href="{{ObjPersonal.AadharDoc}}" target="_blank">
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.AadharDoc == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr ng-if="ObjPersonal.SocialCategoryId != 0 && ObjPersonal.SocialCategoryId != null && ObjPersonal.SocialCategoryCode != 'NA'">
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>Category Document </label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.SocialCategoryDoc != null">
+                                            <a href="{{ObjPersonal.SocialCategoryDoc}}" target="_blank">
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.SocialCategoryDoc == 'Not Applicable' || ObjPersonal.SocialCategoryDoc == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr ng-if="ObjPersonal.ReservationCategoryCode != 'GEN'">
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>Reservation Category</label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.ReservationCategoryDoc != null">
+                                            <a href="{{ObjPersonal.ReservationCategoryDoc}}" target="_blank">
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.ReservationCategoryDoc == 'Not Applicable' || ObjPersonal.ReservationCategoryDoc == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr ng-if="ObjPersonal.ReservationCategoryCode == 'SEBC'">
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>Non Creamy Layer (SEBC)</label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.NCLCerti != null">
+                                            <a href="{{ObjPersonal.NCLCerti}}" target="_blank">
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.NCLCerti == 'Not Applicable' || ObjPersonal.NCLCerti == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr ng-if="ObjPersonal.IsEWS == 'True'">
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>EWS</label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.EWSDoc != null">
+                                            <a href="{{ObjPersonal.EWSDoc}}" target="_blank">
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.EWSDoc == 'Not Applicable' || ObjPersonal.EWSDoc == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr ng-if="ObjPersonal.IsEWS == 'True' && ObjPersonal.EWS_IADoc != null">
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>Income & Assets (EWS)</label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.EWS_IADoc != null">
+                                            <a href="{{ObjPersonal.EWS_IADoc}}" target="_blank">
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.EWS_IADoc == 'Not Applicable' || ObjPersonal.EWS_IADoc == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr ng-if="ObjPersonal.IsPhysicallyChallenged == 'True'">
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>Disability Doc</label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.PCDoc != null">
+                                            <a href="{{ObjPersonal.PCDoc}}" target="_blank">
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.PCDoc == 'Not Applicable' || ObjPersonal.PCDoc == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>Applicant Photo</label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.ApplicantPhoto != null">
+                                            <a href="{{ObjPersonal.ApplicantPhoto}}" target="_blank">
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.ApplicantPhoto == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>Applicant Signature</label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.ApplicantSignature != null">
+                                            <a href="{{ObjPersonal.ApplicantSignature}}" target="_blank">
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.ApplicantSignature == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                 
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                <div ng-if="ObjEducation.length == 0" class="row" style="color:red;margin:1px;border:1px solid;text-align:center;padding:10px;">
+                    No Records for Display
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- Personal Details end -->
+
+    <!-- Education Details start -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Education Details</h5>
+        </div>
+        <div class="card-block">
+            <div ng-if="ObjEducation.length > 0" class="table-responsive">
+                <div class="dt-responsive table-responsive">
+                    <table id="res-config" class="table table-striped table-bordered nowrap" ng-table="edudetailsTableParams">
+                        <tbody ng-repeat="ObjEdu in ObjEducation">
+                            <tr>
+                                <td class="expand_data" id="{{'first_col'+ObjEdu.Id}}" ng-click="expand_row(ObjEdu.Id)">+</td>
+                                <td data-title="'Sr.No.'" style="border-top: none; text-align: center;"><label>{{ $index + 1 }}</label></td>
+                                <!--<td data-title="'AdmApplicantRegistrationId'" filter="{AdmApplicantRegistrationId: 'text'}" sortable="'AdmApplicantRegistrationId'"
+        style="border-top:none;">
+        <label>{{ObjEdu.AdmApplicantRegistrationId}}</label>
+    </td>-->
+                                <!--<td data-title="'Degree'"
+        style="border-top:none;">
+        <label>{{ObjEdu.Id}}</label>
+    </td>-->
+                                <td data-title="'Degree'"
+                                    style="border-top: none; text-align: center;">
+                                    <label>{{ObjEdu.EligibleDegreeName}}</label>
+                                </td>
+                                <td data-title="'Passing Year'"
+                                    style="border-top:none;text-align:center;">
+                                    <label>{{ObjEdu.ExamPassYear}}</label>
+                                </td>
+                                <td data-title="'Specialization'"
+                                    style="border-top: none; text-align: center;">
+                                    <label>{{ObjEdu.SpecializationName}}</label>
+                                </td>
+                                <td data-title="'Board/ University'" style="white-space: initial; text-align: center;" class="w-50 text-wrap">
+                                    <label>{{ObjEdu.ExaminationBodyName}}</label>
+                                </td>
+                                <td data-title="'Institute Attended'" style="white-space: initial; text-align: center;" class="w-50 text-wrap">
+                                    <label>{{ObjEdu.InstituteAttended}}</label>
+                                </td>
+                                <!--<td data-title="'AttachDocument'" filter="{AttachDocument: 'text'}" sortable="'AttachDocument'"
+        style="border-top:none;">
+
+        <a href="https://localhost:44374/Upload/Documents/{{ObjEdu.AttachDocument}}" target="_blank">{{ObjEdu.AttachDocument}}</a>
+    </td>-->
+                                <td data-title="'View Doc'">
+
+                                    <div layout="row" style="margin-top:3px">
+                                        <span ng-if="ObjEdu.AttachDocument != null">
+                                            <a href="{{ObjEdu.AttachDocument}}" target="_blank">
+                                                <button type="button" title="View" ng-hide="modifyAdminUserFlag"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width: 40px; text-align: center;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>&nbsp;
+                                        </span>
+                                        <span ng-if="ObjEdu.AttachDocument == null">
+                                            Not Uploaded
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr id="{{'expand'+ObjEdu.Id}}" class="collapse">
+                                <td colspan="7">
+                                    <div class="row">
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Exam Certificate Number : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.ExamCertificateNumber}}</span></div>
+                                        </div>
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Mark Obtained : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.MarkObtained}}</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Mark Outof : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.MarkOutof}}</span></div>
+                                        </div>
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>CGPA : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.CGPA}}</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Grade : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.Grade}}</span></div>
+                                        </div>
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Percentage Equivalence CGPA : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.PercentageEquivalenceCGPA}}</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Percentage : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.Percentage}}</span></div>
+                                        </div>
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Passing Class : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.ClassName}}</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span> Is First Trial.? : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.IsFirstTrial}}</span></div>
+                                        </div>
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Is Last Qualifying Exam.? : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.IsLastQualifyingExam}}</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Passing Language : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.LanguageName}}</span></div>
+                                        </div>
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Attach Document : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.AttachDocument}}</span></div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <div ng-if="ObjEducation.length == 0" class="row" style="color:red;margin:1px;border:1px solid;text-align:center;padding:10px;">
+                No Records for Display
+            </div>
+            <!--<div class="row" ng-if="ObjEducation.length > 0">
+                <div class="col-sm-10">
+                    <button style="padding:unset;" type="submit" id="btnEdu" ng-click="UpdateAdmApplicationEduStatus(ObjAdmAppInfo)">
+                        <span ng-if="ObjAdmAppInfo.EduVerification == 'False'" class="btn btn-info">&nbsp;<i class="ion-close"> Verify</i></span>
+                        <span ng-if="ObjAdmAppInfo.EduVerification == 'True'" class="btn btn-success">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                    </button>
+                </div>
+            </div>-->
+
+        </div>
+    </div>
+    <!-- Education Details end -->
+
+    <!-- Add-On Details start -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Add-On Details</h5>
+        </div>
+        <div class="card-block">
+            <div ng-if="ObjAddOn.length > 0" class="table-responsive">
+                <div class="table-responsive">
+                    <div class="dt-responsive table-responsive">
+                        <table id="res-config" class="table table-striped table-bordered nowrap" ng-table="ApplicationConfigurationTableParams">
+                            <tbody ng-repeat="AddOnCriteria in ObjAddOn">
+                                <tr>
+                                    <td data-title="'Sr.No.'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                    <!--<td data-title="'Id'" style="border-top:none;"><label>{{AddOnCriteria.Id}}</label></td>-->
+                                    <td data-title="'Title'"
+                                        style="border-top:none;">
+                                        <label>{{AddOnCriteria.TitleName}}</label>
+                                    </td>
+                                    <td data-title="'Marks/ CGPA/ Grade'"
+                                        style="border-top:none;text-align:center;">
+                                        <span ng-if="AddOnCriteria.Id != 0">
+                                            <label>{{AddOnCriteria.AddOnValue}}</label>
+                                        </span>
+                                        <span ng-if="AddOnCriteria.Id == 0">
+                                            <label>NA</label>
+                                        </span>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="ObjAddOn.length == 0" class="row" style="color:red;margin:1px;border:1px solid;text-align:center;padding:10px;">
+                No Records for Display
+            </div>
+        </div>
+    </div>
+    <!-- Add-On Details end -->
+
+    <!-- Student Submitted Document start -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Required Submitted Document</h5>
+        </div>
+        <div class="card-block">
+            <div ng-if="ObjSubmittedDoc.length > 0" class="table-responsive">
+                <div class="table-responsive">
+                    <div class="dt-responsive table-responsive">
+                        <table id="res-config" class="table table-striped table-bordered nowrap" ng-table="sdocumentTableParams">
+                            <tbody ng-repeat="sdocument in ObjSubmittedDoc">
+                                <tr>
+                                    <td data-title="'Sr.No'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                    <!--<td data-title="'Id'" style="border-top:none;"><label>{{sdocument.Id}}</label></td>-->
+                                    <td data-title="'Document Name'" style="white-space: break-spaces;display:contents;" class="w-50 text-wrap">
+
+                                        <span ng-if="sdocument.IsCompulsoryDocument == 'True'"><b>{{sdocument.NameOfTheDocument}}</b></span>
+                                        <span ng-if="sdocument.IsCompulsoryDocument == 'False' || sdocument.IsCompulsoryDocument == null">{{sdocument.NameOfTheDocument}}</span>
+                                    </td>
+                                    <td data-title="'View Doc'" style="text-align:center;">
+                                        <div layout="row" style="margin-top:3px;display:inline;">
+                                            <span ng-if="sdocument.Id != 0">
+                                                <a href="{{sdocument.FileNameofDocumnetBySystem}}" target="_blank">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light" style="min-width:40px;"><i class="icon-doc" style="color:white"></i></button>
+                                                </a>&nbsp;&nbsp;
+                                            </span>
+                                            <span ng-if="sdocument.Id == 0">
+                                                Not Uploaded
+                                            </span>
+
+                                            <!--<md-button class="btn btn-primary md-raised pull-right" style="margin-right:0px; height:15px; margin-top:20px; margin-left:0px;" ng-click="addStudentDocument(sdocument.DocumentId)" ng-hide="modifyAdminUserFlag">Add</md-button>-->
+                                        </div>
+                                    </td>
+                                    <td data-title="'Status'" style="border-top: none; text-align: center; vertical-align: middle; font-size:15px;">
+
+                                        <div ng-if="sdocument.IsVerifiedByAcademic == null" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<i class="ion-eye-disabled"></i> Not Verified</span>
+                                        </div>
+                                        <div ng-if="sdocument.IsVerifiedByAcademic == 'False'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:blue">&nbsp;<i class="ion-close"></i> Not Approved</span>
+                                        </div>
+                                        <div ng-if="sdocument.IsVerifiedByAcademic == 'True'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:green">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                                        </div>
+
+
+                                    </td>
+                                    <!--<td data-title="'Actions'" style="border-top: none; vertical-align: middle; text-align: center;">
+
+                                        <button type="button" data-target="#Category-Modal" data-toggle="modal" ng-disabled="sdocument.Id == 0" ng-click="getdocName(sdocument.NameOfTheDocument,$index)" style="border:unset;padding:unset;">
+                                            <span class="btn btn-secondary" style="padding: 5px 10px 5px 10px;border-radius: 30px; ">&nbsp;<i class="ion-more"></i></span>
+                                        </button>
+                                    </td>-->
+                                    <td data-title="'Actions'" style="border-top: none; vertical-align: middle; text-align: center;">
+                                        <button type="button" ng-click="updateDocStatus(sdocument.NameOfTheDocument,$index,'False',ApplicantData)" ng-disabled="sdocument.Id == 0 || disableFlag == true" ng-show="sdocument.IsVerifiedByAcademic == 'True' || sdocument.IsVerifiedByAcademic == null" class="btn btn-info waves-effect waves-light "><span style="color:white">&nbsp;<i class="ion-close"></i></span></button>
+                                        <button type="button" ng-click="updateDocStatus(sdocument.NameOfTheDocument,$index,'True',ApplicantData)" ng-disabled="sdocument.Id == 0 || disableFlag == true" ng-show="sdocument.IsVerifiedByAcademic == 'False' || sdocument.IsVerifiedByAcademic == null" class="btn btn-success waves-effect waves-light "> <span style="color:white">&nbsp;<i class="ion-checkmark-round"></i></span></button>
+
+                                        <!--<button type="button" data-target="#Category-Modal" data-toggle="modal" ng-disabled="sdocument.Id == 0" ng-click="getdocName(sdocument.NameOfTheDocument,$index)" style="border:unset;padding:unset;">
+                                            <span class="btn btn-secondary" style="padding: 5px 10px 5px 10px;border-radius: 30px; ">&nbsp;<i class="ion-more"></i></span>
+                                        </button>-->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="ObjSubmittedDoc.length == 0" class="row" style="color:red;margin:1px;border:1px solid;text-align:center;padding:10px;">
+                No Records for Display
+            </div>
+        </div>
+    </div>
+    <!-- Student Submitted Document end -->
+
+    <!-- Additional Documents start -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Additional Document</h5>
+        </div>
+        <div class="card-block">
+            <div ng-if="ObjAdditional.length > 0" class="table-responsive">
+                <div class="table-responsive">
+                    <div class="dt-responsive table-responsive">
+                        <table id="res-config" class="table table-striped table-bordered nowrap" ng-table="additionalTableParams">
+                            <tbody ng-repeat="additional in ObjAdditional">
+                                <tr>
+                                    <td data-title="'Sr.No'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                    <!--<td data-title="'Id'" style="border-top:none;"><label>{{additional.Id}}</label></td>-->
+                                    <td data-title="'Title'" style="border-top:none;">
+                                        <label>{{additional.DocName}}</label>
+                                    </td>
+                                    <td data-title="'View Doc'" style="text-align:center; ">
+                                        <div layout="row" style="margin-top:3px; display:inline; ">
+
+                                            <a href="{{additional.DocFileName}}" target="_blank">
+                                                <button type="button" ng-show="{{additional.DocFileName}}!=0" class="btn btn-info waves-effect waves-light" style="min-width:40px;"><i class="icon-doc" style="color:white"></i></button>
+                                            </a>&nbsp;&nbsp;
+
+                                            <!--<md-button class="btn btn-primary md-raised pull-right" style="margin-right:0px; height:15px; margin-top:20px; margin-left:0px;" ng-click="addStudentDocument(sdocument.DocumentId)" ng-hide="modifyAdminUserFlag">Add</md-button>-->
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="ObjAdditional.length == 0" class="row" style="color:red;margin:1px;border:1px solid;text-align:center;padding:10px;">
+                No Records for Display
+            </div>
+        </div>
+    </div>
+    <!-- Additional Documents end -->
+
+    <!-- Eligibility Verification start -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Final Verification</h5>
+            <div class="float-right">
+                <button type="button" id="btnback" class="btn btn-info" ng-click="backToPostConfigListforAcademic()" style="padding: 5px 10px 5px 10px;border-radius:30px;">Back to list</button>
+            </div>
+        </div>
+        <div class="card-block">
+            <form id="academicverify" action="/" novalidate>
+                <!--<div><h6 style="color:red;">If any document is pending for Approval, the eligibility status: 'Eligible/ Provisionally Eligible' will not be available.</h6></div>-->
+                <div class="form-group row">
+                    <div class="form-group col">
+                        <div class="col-sm-10 col-lg-12">
+                            <label for="userName-2" class="block"><b>Eligibility Status : </b></label>
+                            <select class=" form-control" id="academiceligibilitystatus" name="academiceligibilitystatus" ng-model="ObjAcademic.EligibilityByAcademics" ng-disabled="disableFlag == true" required>
+                                <option value="" selected disabled hidden>-- Select Eligibility Status --</option>
+                                <option value="Eligible">Eligible</option>
+                               <!-- <option value="Eligible" ng-show="checkDocFlag == false">Eligible</option>-->
+                                <option value="Not_Eligible" ng-hide="showStatusFlag == true">Not Eligible</option>
+                                <option value="Provisionally_Eligible">Provisionally Eligible</option>
+                               <!-- <option value="Provisionally_Eligible" ng-show="checkDocFlag == false">Provisionally Eligible</option>-->
+                                <option value="Pending" ng-hide="showStatusFlag == true">Pending</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <div class="col-sm-10 col-lg-12">
+                            <label for="userName-2" class="block"><b> Remarks : </b></label>
+                            <textarea class="form-control" id="academicremarks" ng-model="ObjAcademic.AdminRemarkByAcademics" name="AdminRemarkByAcademics1" placeholder="Enter Remarks" ng-disabled="disableFlag == true" required></textarea>
+                            <!--<span style="color:red;" ng-show="academicverify.AdminRemarkByAcademics1.$touched && academicverify.AdminRemarkByAcademics1.$error.required"> Required! </span><br />-->
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <span style="color:blue;"> &nbsp;&nbsp;<b>Selected for Institute : </b>{{ObjAcademic.InstituteName}}</span>
+                </div>
+
+                <div class="form-group row">
+                    <span style="color:blue;"> &nbsp;&nbsp;<b>Attached Fee : </b>{{ObjAcademic.FeeCategoryName}}</span>
+                </div>
+
+                <div class="form-group row">
+                    <span style="color:blue;"> &nbsp;&nbsp;<b>Group Preference Choice : </b>{{ObjAcademic.GroupName}}</span>
+                </div>
+
+                <br />
+                <div class="row">
+                    <div class="col-sm-10">
+                        <button type="button" id="btnFinalVerify" class="btn btn-info m-b-0" ng-click="UpdateAdmApplicationAcademicRemarks()" ng-disabled="disableFlag == true">Verify</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Eligibility Verification end -->
+
+
+    <div class="modal fade" id="Category-Modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Are you sure to Approve Document ?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!--<button type="button" ng-click="updateDocStatus(null,ApplicantData)" class="btn btn-danger waves-effect waves-light " data-dismiss="modal">&nbsp;<i class="ion-close"> Not View</i></button>-->
+                    <button type="button" ng-click="updateDocStatus('False',ApplicantData)" class="btn btn-info waves-effect waves-light " data-dismiss="modal">Not Approve</button>
+                    <button type="button" ng-click="updateDocStatus('True',ApplicantData)" class="btn btn-success waves-effect waves-light " data-dismiss="modal">Approve</button>
+                    <!--<button style="padding:unset;" type="button" id="btnCatVerify" ng-click="UpdateAdmApplicationCategoryVerification(ObjAdmAppInfo)" data-target="#Category-Modal" data-toggle="modal">
+                        <span ng-if="ObjAdmAppInfo.CategoryVerification == null" class="btn btn-danger">&nbsp;<i class="ion-close"> Not View</i></span>
+                        <span ng-if="ObjAdmAppInfo.CategoryVerification == 'False'" class="btn btn-info">&nbsp;<i class="ion-close"> Verify</i></span>
+                        <span ng-if="ObjAdmAppInfo.CategoryVerification == 'True'" class="btn btn-success">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                    </button>-->
+
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-default waves-effect " data-dismiss="modal" disabled>Close</button>-->
+                    <!--<button type="button" class="btn btn-primary waves-effect waves-light " data-dismiss="modal">Close</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

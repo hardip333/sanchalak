@@ -1,0 +1,96 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+
+    <div class="page-body" ng-controller="ProgDefStatusAcademicsCtrl">
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- Basic Form Inputs card start -->
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Programme Defination Status</h4>
+
+
+                    </div>
+                    <div class="card-block">                        
+                        <div class="card-block">
+                            <div class="col-md-12 offset-md-2">
+                                <form ng-model="ProgDefStatusAcademics">
+
+                                    <div class="form-group row" ng-init="getFacultyList();">
+                                        <div class="col-sm-2">Select Faculty<span style="color:red;"> * </span></div>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <span class="nullable">
+                                                    <select ng-model="ProgDefStatusAcademics.FacultyId" ng-options="d.Id as d.FacultyName for d in FacList" ng-change="getAcademicYear()" [value]="ProgDefStatusAcademics.FacultyId" class="form-control" name="Facdropdown">
+                                                        <option value="">-- select --</option>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" >
+                                        <div class="col-sm-2">Instance Year<span style="color:red;"> * </span></div>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <span class="nullable">
+                                                    <select ng-model="ProgDefStatusAcademics.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcadList" [value]="ProgDefStatusAcademics.AcademicYearId" class="form-control" name="Progdropdown" >
+                                                        <option value="" >-- select --</option>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 offset-md-2">
+                                        <div class="form-group row">
+                                            <div class="col-sm-6">
+                                                <button type="button" ng-click="getProgDefStatusAcademics();" class="btn btn-success">&nbsp; Submit</button>
+                                                <button class="btn btn-disabled disabled" ng-click="resetProgDefStatusAcademics();">Cancel</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" >
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="ProgDefStatusAcademicsTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="ProgDefStatusAcademics in $data">
+                                            <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;"><label>{{ProgDefStatusAcademics.IndexId}}</label></td>
+                                            <td data-title="'Instance PartTerm Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style=" border-top: none;"><label>{{ProgDefStatusAcademics.InstancePartTermName}}</label></td>
+                                            <td data-title="'Faculty Name'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style=" border-top: none;"><label>{{ProgDefStatusAcademics.FacultyName}}</label></td>
+                                            <td data-title="'Completed Status'" filter="{CompleteStatus: 'text'}" sortable="'CompleteStatus'" style=" border-top: none;"><label>{{ProgDefStatusAcademics.CompleteStatus}}</label></td>
+                                            <!--<td data-title="'Completed Status'" filter="{CompletedStatus: 'text'}" sortable="'CompletedStatus'" style=" border-top: none;"><label>{{ProgDefStatusAcademics.CompletedStatus}}</label></td>-->
+
+                                            <td data-title="'Actions'">
+                                                <div layout="row">
+                                                    <span flex></span>
+
+                                                    <!--Hide Button-->
+                                                    <button title="Hide" ng-click="ShowProgDefStatusAcademics(ProgDefStatusAcademics)" class="btn btn-danger ml-2 button-size" ng-hide="ProgDefStatusAcademics.IsCompleted"><i class="fa fa-toggle-on"></i>Completed</button>
+                                                    <!--Show Button-->
+                                                    <button title="Show" ng-disabled="true" ng-click="HideProgDefStatusAcademics(ProgDefStatusAcademics)" class="btn btn-success ml-2 button-size" ng-show="ProgDefStatusAcademics.IsCompleted"><i class="fa fa-toggle-off"></i>Incompleted</button>
+                                                </div>
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                
+                </div>
+            </div>
+        </div>
+    </div>

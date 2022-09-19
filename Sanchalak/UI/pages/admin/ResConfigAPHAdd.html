@@ -1,0 +1,454 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    select:focus {
+        border: 2px solid #555;
+    }
+        input:focus {
+            border: 2px solid #555;
+        }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-init="getResAPHByIdList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Result Configuration APH ({{ResAPHByIdList.APHCode}} - {{ResAPHByIdList.APHName}} - {{ResAPHByIdList.APHAbbrev}})</h4></div>
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12">
+                        <form name="form" >  
+                            <div class="form-group row" ng-init="AcademicYearGet()">
+                                <div class="col-sm-3">Academic Year<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="APHConfig.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicList" class="form-control" name="Facultydropdown" ng-change="FacultyGet()" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-3">Select Faculty Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="APHConfig.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" class="form-control"  id="Facultydropdown" ng-change="getResIncProgrammeInsGetByFacId()" ng-disabled="ShowAPHConfig">
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-3">Select Programme Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="APHConfig.ProgramInstanceId" ng-options="d.Id as d.InstanceName for d in ProgInstList" ng-change="getResIncProgInsPartByProgInstId();" class="form-control" id="ProgInstdropdown" ng-disabled="ShowAPHConfig">
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-3">Select Programme Part Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="APHConfig.IncProgrammeInstancePartId" ng-options="d.Id as d.PartName for d in ProgInstPartList" ng-change="getResIncProgInsPartTermByProgInstPartId();" class="form-control" id="ProgInstPartdropdown" ng-disabled="ShowAPHConfig">
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-3">Select Programme Part Term Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="APHConfig.IncProgrammeInstancePartTermId" ng-options="d.Id as d.InstancePartTermName for d in ProgInstPartTermList"  class="form-control" ng-change="getResIncProgrammeInfoGetByProgInsId();" id="ProgInstPertTermdropdown" ng-disabled="ShowAPHConfig">
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card-block" ng-if="APHConfig.IncProgrammeInstancePartTermId > 0">
+                    <div class="table-responsive col-md-12" ng-if="ProgInfoList.length > 0">
+                        <table class="table table-striped table-bordered">
+                            <thead style="vertical-align: middle">
+                                <tr>
+                                    <th>Paper Name</th>
+                                    <th>Teaching Learning<br /> Method</th>
+                                    <th>Assessment<br /> Method</th>
+                                    <th>Assessment<br /> Type</th>
+                                    <th>Paper<br /> Max Marks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="APHConfig in ProgInfoList">
+                                    <td data-title="'Paper Name'" >
+                                        <input type="checkbox" id="APHPaper" ng-model="APHConfig.CheckPaper" name="APHPaper1" value="true" ng-checked="APHConfig.PaperFlag" ng-disabled="ShowAPHConfig">
+                                        <label style="white-space:break-spaces; display:contents;">{{APHConfig.PaperName}}</label>
+                                    </td>
+                                    <td data-title="'Teaching Learning Method'"><label>{{APHConfig.TeachingLearningMethodName}}</label></td>
+                                    <td data-title="'Assessment Method Name'"><label>{{APHConfig.AssessmentMethodName}}</label></td>
+                                    <td data-title="'Assessment Type'"><label>{{APHConfig.AssessmentType}}</label></td>
+                                    <td data-title="'Paper Max Marks'"><label>{{APHConfig.PaperMaxMarks}}</label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div ng-if="ProgInfoList.length == 0" class="row" style="color:red;margin:1px;border:1px solid;text-align:center;padding:10px;">
+                        <span style="text-align:center;">Paper not Configured</span>
+                    </div>
+                </div>
+
+
+                <div class="card-block">
+                    <div class="col-md-12">
+                        <form name="form">                         
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Enter APH Minimum Marks<span style="color:red;"> * </span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="APHMinMarks1" class="form-control" ng-model="APHConfig.APHMinMarks" placeholder="APH Minimum Marks" ng-disabled="ShowAPHConfig">
+                                </div>
+                            </div>
+
+                            
+                            <div class="form-group row" ng-init="getResMstEvaluation()">
+                                <div class="col-sm-3">Select Evaluation System<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="APHConfig.MstEvaluationId" ng-options="d.Id as d.EvaluationName for d in EvaluationList" class="form-control" ng-change="MstEvalResCal()" id="Evaluationdropdown" ng-disabled="ShowAPHConfig">
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row" ng-show="APHConfig.MstEvaluationId==3">
+                                <div class="col-sm-3">Select Mark Template Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="APHConfig.MarkTemplateId" ng-options="d.Id as d.MarksTemplateName for d in MarksTempList" class="form-control" ng-change="getMarksTemplateByIdList()" id="MarksTemplatedropdown" ng-disabled="ShowAPHConfig" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span ng-if="APHConfig.MarkTemplateId>0">
+                                        <button type="button" ng-click="getMarksTemplateByIdList()" class="btn btn-info btn-icon mr-2" data-target="#large-Modal" data-toggle="modal"><span class="icofont ion-eye"></span></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row" ng-show="APHConfig.MstEvaluationId!=3">
+                                <div class="col-sm-3">Select Grade Scale<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="APHConfig.GradeScaleId" ng-options="d.Id as d.GradeScaleName for d in GradeScaleList" ng-change="getGPATemplateByGScaleIdAndEvalIdList()" class="form-control" id="GradeScaledropdown" ng-disabled="ShowAPHConfig" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-show="APHConfig.MstEvaluationId!=3">
+                                <div class="col-sm-3">Select Grade Template Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="APHConfig.GradeTemplateId" ng-options="d.Id as d.GPATemplateName for d in GPATemplateGScaleIdAndEvalIdList" class="form-control" ng-change="getGPATemplateByIdList()" id="GradeTemplatedropdown" ng-disabled="ShowAPHConfig" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span ng-if="APHConfig.GradeTemplateId>0">
+
+                                        <button type="button" class="btn btn-info btn-icon mr-2" data-target="#large-Modal1" data-toggle="modal"><span class="icofont ion-eye"></span></button>                                  
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                  
+                    <div layout="row" style="margin-top:3px" class="float-right">                      
+                        <button ng-if="APHConfig.IncProgrammeInstancePartTermId > 0" ng-click="getResIncProgInstPartTermPaperMapByPartTermId()" class="btn btn-primary" style="min-width:40px;" data-target="#large-Modal3" data-toggle="modal">View Paper List </button>&nbsp;&nbsp;
+                        <button ng-click="addAPHConfig()" class="btn btn-primary" style="min-width:40px;" ng-disabled="ShowAPHConfig"> Submit </button>&nbsp;&nbsp;
+                        <button ng-click="deleteAPHConfig($event)" class="btn btn-primary" style="min-width:40px;">Delete </button>
+                    </div>
+                    <div class="modal fade" id="large-Modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Mark Template Detail</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5></h5>
+                                    <table class="table table-striped table-bordered">
+                                        <tr>
+                                            <td>Template Name:</td>
+                                            <td>{{MarksTempByIdList.MarksTemplateName}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Description:</td>
+                                            <td>{{MarksTempByIdList.MarksTemplateDescription}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Enter No. of Intervals:</td>
+                                            <td>{{MarksTempByIdList.NoofIntervals}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Use this template with:</td>
+                                            <td>{{MarksTempByIdList.TemplateUsedwith}}</td>
+                                        </tr>
+                                        <tr></tr>
+
+                                        <tr>
+                                            <td colspan="2">
+                                                <table class="table table-striped table-bordered">
+                                                    <thead style="vertical-align: middle; text-align:center;">
+                                                        <tr>
+                                                            <th>Sr.No</th>
+                                                            <th>Class Name</th>
+                                                            <th>From (%)</th>
+                                                            <th> To (%)</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        <tr ng-repeat="TempConfig in MarksTempConfigList">
+                                                            <td data-title="'Sr.No'" sortable="'$index'" style="border-top:none;">
+                                                                <label>{{ $index + 1 }}</label>
+                                                            </td>
+                                                            <td data-title="'Class Name'">
+                                                                <label>{{TempConfig.MarksLevelName}}</label>
+                                                            </td>
+                                                            <td data-title="'From (%)'">
+                                                                <label>{{TempConfig.RangeFrom}}</label>
+                                                            </td>
+                                                            <td data-title="'To (%)'">
+                                                                <label>{{TempConfig.RangeTo}}</label>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+
+                                                </table>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary waves-effect waves-light " data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="large-Modal1" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Grade Template Detail</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5></h5>
+                                    <table class="table table-striped table-bordered">
+                                        <tr>
+                                            <td>Grade Point Scale:</td>
+                                            <td>{{GPATemplateByIdList.GradeScaleName}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Evaluation System:</td>
+                                            <td>{{GPATemplateByIdList.EvaluationName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Template Name:</td>
+                                            <td>{{GPATemplateByIdList.GPATemplateName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Description: </td>
+                                            <td>{{GPATemplateByIdList.GPATemplateDescription}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Enter No. of Intervals: </td>
+                                            <td>{{GPATemplateByIdList.NoofIntervals}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <table class="table table-striped table-bordered">
+                                                    <thead style="vertical-align: middle; text-align:center;">
+                                                        <tr>
+                                                            <th>Sr.<br />No</th>
+                                                            <th>Grade<br /> Abbreviation</th>
+                                                            <th>Mark From<br /> (%)</th>
+                                                            <th> Mark To<br /> (%)</th>
+                                                            <th> GPA From<br /> (%)</th>
+                                                            <th> GPA To<br /> (%)</th>
+                                                            <th> Grade<br /> Point</th>
+                                                            <th> Status</th>
+                                                            <th> Description</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        <tr ng-repeat="GTempConfig in GradeTempConfigList">
+                                                            <td data-title="'No.'" style="border-top: none;">
+                                                                <label>{{ $index + 1 }}</label>
+                                                            </td>
+                                                            <td data-title="'Grade Abbreviation'">
+                                                                <label>{{GTempConfig.GradeAbbrev}}</label>
+                                                            </td>
+                                                            <td data-title="'Mark From (%)'">
+                                                                <label>{{GTempConfig.MarkPercentRangeFrom}}</label>
+                                                            </td>
+                                                            <td data-title="'Mark To (%)'">
+                                                                <label>{{GTempConfig.MarkPercentRangeTo}}</label>
+                                                            </td>
+
+                                                            <td data-title="'GPA From (%)'">
+                                                                <label>{{GTempConfig.GPAFrom}}</label>
+                                                            </td>
+                                                            <td data-title="'GPA To (%)'">
+                                                                <label>{{GTempConfig.GPATo}}</label>
+                                                            </td>
+                                                            <td data-title="'Grade Point'">
+                                                                <label>{{GTempConfig.GradePoint}}</label>
+                                                            </td>
+                                                            <td data-title="'Status'">
+                                                                <label>{{GTempConfig.Status}}</label>
+                                                            </td>
+                                                            <td data-title="'Description'">
+                                                                <label>{{GTempConfig.GradeLevelName}}</label>
+                                                            </td>
+
+                                                        </tr>
+                                                    </tbody>
+
+
+                                                </table>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary waves-effect waves-light " data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="large-Modal2" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">APH Detail</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5></h5>
+                                    <table class="table table-striped table-bordered">
+                                        <tr>
+                                            <td>APH Code:</td>
+                                            <td>{{ResAPHByIdList.APHCode}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>APH Name:</td>
+                                            <td>{{ResAPHByIdList.APHName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>APH Abbreviation:</td>
+                                            <td>{{ResAPHByIdList.APHAbbrev}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>APH Description: </td>
+                                            <td>{{ResAPHByIdList.APHDescription}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Evaluation Name: </td>
+                                            <td>{{ResAPHByIdList.EvaluationName}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary waves-effect waves-light " data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="large-Modal3" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Paper Detail</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5></h5>
+                                    <table class="table table-striped table-bordered" >
+                                        <tr>
+                                            <th>Sr.No</th>
+                                            <th>Paper Code</th>
+                                            <th>Paper Name</th>
+                                        </tr>
+                                        <tr ng-repeat="PaperDetail in PaperByPartTermIdList">
+                                            <td data-title="'Sr.No'"><label>{{ $index + 1 }}</label></td>
+                                            <td data-title="'Paper Code'"><label>{{PaperDetail.PaperCode}}</label></td>
+                                            <td data-title="'Paper Name'"><label>{{PaperDetail.PaperName}}</label></td>
+                                        </tr>                                    
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary waves-effect waves-light " data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

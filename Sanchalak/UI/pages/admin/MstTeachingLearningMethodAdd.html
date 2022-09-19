@@ -1,0 +1,75 @@
+﻿
+
+<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="MstTeachingLearningMethodCtrl" ng-init="getTeachingLearningMethod()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Add Teaching Learning Method</h4></div>
+                        <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+                    </div>
+                </div>
+
+                <div class="card-block">                    
+                                    
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="MstTeachingLearningMethod">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Teaching Learning Method Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="MstTeachingLearningMethod" class="form-control" ng-model="MstTeachingLearningMethod.TeachingLearningMethodName" placeholder="Type Method Name" required />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Teaching Learning Method Code</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="MstTeachingLearningMethod" class="form-control" ng-model="MstTeachingLearningMethod.TeachingLearningMethodCode" placeholder="Type Method Code" required />
+                                </div>
+                            </div>
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="addTeachingLearningMethod()">Add</button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetTeachingLearningMethod()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="MstTeachingLearningMethodTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="MstTeachingLearningMethod in $data">
+                                            <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;text-align:center;"><label>{{MstTeachingLearningMethod.IndexId}}</label></td>
+                                            <td data-title="'TeachingLearningMethodName'" filter="{TeachingLearningMethodName: 'text'}" sortable="'TeachingLearningMethodName'" style=" border-top: none;"><label>{{MstTeachingLearningMethod.TeachingLearningMethodName}}</label></td>                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

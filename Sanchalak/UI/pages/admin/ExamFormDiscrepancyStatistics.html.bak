@@ -1,0 +1,198 @@
+﻿<!-- Page body end -->
+<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-init="getExamFormCancelApplicantList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                 
+                    <div class="float-left"> <h4>Exam Form Cancel Discrepancy Statistics</h4></div>
+                    <div ng-show="Backbtn" class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+                </div>
+               
+                <div class="card-block">
+                  
+                    <form ng-show="showFormFlag">
+                        <table class="table table-striped table-bordered">
+                            <tr>
+                                <td><b>Programme Part Term Name:</b></td>
+                                <td>{{ExamCancelForm.PartTermName}}</td>
+
+                            </tr>
+                            <tr>
+                                <td><b>Programme Name:</b></td>
+                                <td>{{ExamCancelForm.ProgrammeName}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Branch Name:</b></td>
+                                <td>{{ExamCancelForm.BranchName}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Exam Event Name:</b></td>
+                                <td>{{ExamCancelForm.ExamEvent}}</td>
+                            </tr>
+
+                        </table>
+
+                      
+                        <div class="well">
+
+                            <h4>Details Of Applicants For Cancel Exam Form</h4>
+                        </div>
+
+                        <div class="example" style="margin:auto;max-width:500px">
+                            <input type="text" id="myInput" placeholder="Search For Cancel Particular User" ng-click="DisableCkbox()" ng-model="CancelExamForm.Search">
+                            <button type="submit"><i class="fa fa-search"></i></button>
+                        </div>&nbsp;
+
+                        <div class="form-group row">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Sr.No</th>
+                                        <th>Student PRN</th>
+                                        <th>Student Name</th>
+                                        <th>Previous Result Status</th>
+                                        <th>Exam Form Cancel Status</th>
+                                        <th>
+                                            Select All
+                                            <input type="checkbox" style="border-top:none; text-align:center;" id="SelAllEval" name="ResEval1" ng-disabled="CancelExamForm.Search" ng-model="CancelExamForm.SelAllEval" ng-click="checkAll();" value='true'>
+                                        </th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody id="myTable" ng-repeat="CancelExamForm in CancelFromExamApplicantList">
+                                    <tr>
+
+
+                                        <td><label>{{CancelExamForm.IndexId}}</label></td>
+                                        <td style="border-top:none;text-align:center;"><label>{{CancelExamForm.StudentPRN}}</label></td>
+                                        <td style="border-top:none;text-align:center;"><label>{{CancelExamForm.StudentName}}</label></td>
+                                        <td style="border-top:none;text-align:center;"><label>{{CancelExamForm.ResultStatus}}</label></td>
+                                        <td style="color:red;text-align:center;" ng-show="CancelExamForm.IsCancelled" for="Activity" class="col-sm-4 col-form-label">Cancelled</td>
+                                        <td style="color:forestgreen;text-align:center" ng-hide="CancelExamForm.IsCancelled" for="Activity" class="col-sm-4 col-form-label">Not Cancelled</td>
+                                        <td data-title="'Select All'" style="border-top:none; text-align:center;">
+                                            <input type="checkbox" id="IsCheckSelect" ng-model="CancelExamForm.IsCheckSelect" value="true" ng-disabled="CancelExamForm.IsCheckSelectSts">{{showdrop()}}
+                                        </td>
+
+                                    </tr>
+
+
+
+                                </tbody>
+                            </table>
+
+                        </div>
+
+
+
+                        <div id="overlay" class="col-lg-6 offset-md-2">
+                            <div class="w-100 d-flex justify-content-lg-center align-items-center">
+                                <div class="spinner-Cancel"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-3"></div>
+
+                            <div class="col-sm-6">
+                                <button class="btn btn-success" ng-click="AtLeastOneCheckforExamForm()">Cancel Exam Form</button>
+
+                            </div>
+                        </div>
+                    </form>                    
+                </div>
+
+              
+                    <div class="card" ng-show="showTableFlag">
+                        <div class="card-block">
+                            <div  class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="example-2" ng-table="ExamFormDiscrepancyStatisticsTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="EFD in $data">
+                                            <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="text-align:center;"><label>{{EFD.IndexId}}</label></td>
+                                            <td data-title="'Part Term Name'" filter="{PartTermName: 'text'}" sortable="'PartTermName'" style="text-align:center;"><label>{{EFD.PartTermName}}</label></td>
+                                            <td data-title="'Programme Name'" filter="{ProgrammeName: 'text'}" sortable="'ProgrammeName'" style="text-align:center;"><label>{{EFD.ProgrammeName}}</label></td>
+                                            <td data-title="'Branch Name'" filter="{BranchName: 'text'}" sortable="'BranchName'" style="text-align:center;"><label>{{EFD.BranchName}}</label></td>
+                                            <td data-title="'Exam Event'" filter="{ExamEvent: 'text'}" sortable="'ExamEvent'" style="text-align:center;"><label>{{EFD.ExamEvent}}</label></td>
+                                             <td data-title="'Exam Form Not Inwarded'" filter="{ExamFormNotInwarded: 'text'}" sortable="'ExamFormNotInwarded'" style="text-align:center;"><button type="button" class="btn btn-info">TotalStudents <span class="badge">{{EFD.ExamFormNotInwarded}}</span></button></td>
+                                            <td data-title="'Actions'">
+                                                <div layout="row">
+                                                    <span flex></span>
+                                                    <button type="button" ng-click="DisplayApplicantDetails(EFD)" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Select</button>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" ng-show="NoRecLabel">
+                        <label style="font:bold; text-align:center; font-size:medium; color:red;">No Record Found..!</label>
+                    </div>
+                   
+                
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+
+<style>
+   
+    * {
+        box-sizing: border-box;
+    }
+
+    div.example input[type=text] {
+        padding: 10px;
+        font-size: 17px;
+        border: 1px solid grey;
+        float: left;
+        width: 80%;
+        background: #f1f1f1;
+    }
+
+    div.example button {
+        float: left;
+        width: 20%;
+        padding: 10px;
+        background: #2196F3;
+        color: white;
+        font-size: 17px;
+        border: 1px solid grey;
+        border-left: none;
+        cursor: pointer;
+    }
+
+        form.example button:hover {
+            background: #0b7dda;
+        }
+
+    div.example::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+</style>
+<!-- Page body end -->

@@ -1,0 +1,55 @@
+﻿<script type="text/javascript">
+    $(document).ready(function () {        
+        $('#sign-in-modal').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: true
+        }); 
+    });
+</script>
+<div class="page-body button-page">
+    <!-- Sign in modal start -->
+    <form>
+        <div class="modal fade" id="sign-in-modal" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <!--<div class="modal-header">
+                    <h5 class="modal-title">Log In as a Role</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>-->
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Log In as a Role</h5>
+                    </div>
+                    <div class="modal-body p-b-0">
+                        <div class="col-sm-12 col-xl-12 m-b-15">
+                            <!--<h4 class="sub-title">Please select your Role</h4>-->
+                            <div>
+                                <select name="select" class="form-control form-control-inverse" ng-model="Id" ng-options="d.RoleName for d in roleInfo">
+                                    <option value="">Please select your role</option>
+                                </select>
+                            </div>
+                            <!--<div class="form-radio">
+                               <div class="radio" ng-repeat="roleName in roleInfo">
+                                   <label>
+                                       <input type="radio" name="radio" checked="checked" value="{{roleName.RoleName}}">
+                                           <i class="helper"></i>{{roleName.RoleName}}
+                                       </label>
+                                       </div>
+                                   </div>
+                            </div>-->
+                        </div> 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-click="confirmRoleSubmit()">Submit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Logout</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form> 
+    <!-- Sign in modal end -->
+</div>

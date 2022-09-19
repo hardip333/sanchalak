@@ -1,0 +1,337 @@
+﻿
+<script type="text/javascript">
+
+    //function generateQRCode(prn,ProgId,CertiId) {
+    //    (function () {
+
+    //        r1 = "http://localhost:64686/index.html#/dashboard/TransferCertificateVerification"
+    //        qr = new QRious({
+    //            element: document.getElementById('qrcode'),
+    //            size: 200,
+    //            value: r1,
+    //        });
+    //    })();
+
+    //    qr.set({
+    //        foreground: 'black',
+    //        size: 185,
+    //        value: r1 + '?prn=' + prn + '&ProgId=' + ProgId + '&CertiId=' + CertiId
+    //    });
+
+    //    var canvas = document.getElementById("qrcode");
+    //    document.getElementById('imgqrcode').src = canvas.toDataURL();
+
+    //}
+
+    //function getProgId() {
+
+
+    //    let urlstring = window.location.href;
+    //    let paramString = urlstring.split('?')[1];
+    //    let param_arr = paramString.split('&');
+    //    let pair1 = []; let pair2 = []; let pair3 = [];
+    //    pair1 = param_arr[0].split('=');
+    //    pair2 = param_arr[1].split('=');
+    //    pair3 = param_arr[2].split('=');
+    //    let progId = [];
+    //    progId[0] = pair1[1];
+    //    progId[1] = pair2[1];
+    //    progId[2] = pair3[1];
+    //    return [progId];
+    //}
+
+
+</script>
+
+<style>
+    p {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    /*.table {
+        border: 1px solid black;
+    }
+
+        .table thead th {
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000 !important;
+            border-left: 1px solid #000;
+            border-right: 1px solid #000;
+        }
+
+        .table td {
+            border-left: 1px solid #000;
+            border-right: 1px solid #000;
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+        }*/
+
+
+    .watermark {
+        opacity: 0.2;
+        font-size: 160px;
+        color: grey;
+        background: #FFFFFF;
+        position: absolute;
+        cursor: default;
+        user-select: none;
+        -webkit-user-select: none;
+        /*-khtml-user-select: none;*/
+        -moz-user-select: none;
+        -ms-user-select: none;
+        top: 415px;
+        left: 15px;
+        right: 5px;
+        bottom: 5px;
+    }
+</style>
+
+<div class="page-body" ng-controller="ProvisionalResultController" ng-init="GenerateProvisionalResult()">
+    <div class="card">
+        <div class="card-block" id="disp1">
+            <div class="col-sm-12 mt-3 ml-3 m-r-5">
+                <div class="row">
+                    <div class="col-sm-3 text-right" style="padding-right:50px">
+                        <img src="/Vidhyarthi/assets/images/MSUB_Logo.png" class="logoImg mt-2" style="height:50%" />
+                    </div>
+                    <div class="col-sm-9 mt-2 text-center">
+                        <h6 style="color:black">THE MAHARAJA SAYAJIRAO UNIVERSITY OF BARODA</h6>
+                        <h6>Fatehgunj,Vadodara-390002,Gujarat(India)</h6>
+                    </div>
+                </div>
+
+                <div class="clearfix">
+
+                </div>
+                <div class="row">
+
+                    <div class="col-sm-12 mt-2 text-center">
+                        <p style="font-size:15px">Statement of Grade for {{ResultObtained.ObjStudConsolidatedResult.ProgrammePartTermName}}  [{{ResultObtained.ObjStudConsolidatedResult.ProgrammeName}}] Examination : {{ResultObtained.ObjStudConsolidatedResult.ExamEventName}}</p>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <b>Name</b> : {{ResultObtained.ObjStudConsolidatedResult.StudentName}}
+                    </div>
+
+                    <div class="col-sm-6">
+                        <b>Mother Name</b> : {{ResultObtained.ObjStudConsolidatedResult.MotherName}}
+                    </div>
+
+                    <div class="col-sm-6">
+
+                        <b>PRN</b> : {{ResultObtained.ObjStudConsolidatedResult.StudentPRN}}
+
+                    </div>
+                    <div class="col-sm-6">
+                        <b>Seat Number</b> : {{ResultObtained.ObjStudConsolidatedResult.SeatNumber}} ({{ResultObtained.ObjStudConsolidatedResult.StudentAppType}})
+                    </div>
+
+                    <div class="col-sm-6">
+                        <b>Faculty</b> : {{ResultObtained.ObjStudConsolidatedResult.FacultyName}}
+                    </div>
+
+                    <div class="col-sm-6">
+                        <b>Specialisation</b> : {{ResultObtained.ObjStudConsolidatedResult.SpecialisationName}}
+                    </div>
+                </div>
+
+                <br />
+                <br />
+
+
+                <div class="watermark">
+                    PROVISIONAL
+                </div>
+
+                <table class="resulttable">
+                    <thead>
+                        <tr style="border-color:black">
+                            <th scope="col" rowspan="2" style="vertical-align:top;text-align:center" ;font-size: 12px">Course Code</th>
+                            <th scope="col" rowspan="2" style="vertical-align:top;text-align:center" ;font-size: 12px;">Course Name</th>
+                            <th scope="col" rowspan="2" style="vertical-align:top;text-align:center" ;font-size: 12px">AM</th>
+                            <th scope="col" colspan="3" style="text-align:center" ;font-size: 12px">UA</th>
+                            <th scope="col" colspan="3" style="text-align:center" ;font-size: 12px">IA</th>
+                            <th scope="col" colspan="3" style="text-align:center" ;font-size: 12px">Total</th>
+                            <th scope="col" style="text-align:center" ;font-size: 12px">Sts</th>
+                            <th scope="col" style="text-align:center" ;font-size: 12px">Rmk</th>
+                        </tr>
+
+                        <tr>
+                            <th scope="col" style="text-align: center; font-size: 12px">Max</th>
+                            <th scope="col" style="text-align: center; font-size: 12px">Min</th>
+                            <th scope="col" style="text-align: center; font-size: 12px">Obt</th>
+                            <th scope="col" style="text-align: center; font-size: 12px">Max</th>
+                            <th scope="col" style="text-align: center; font-size: 12px">Min</th>
+                            <th scope="col" style="text-align: center; font-size: 12px">Obt</th>
+                            <th scope="col" style="text-align: center; font-size: 12px">Max</th>
+                            <th scope="col" style="text-align: center; font-size: 12px">Min</th>
+                            <th scope="col" style="text-align: center; font-size: 12px">Obt</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <!--<---loopp----- ng-repeat="Student in ResultObtained">-->
+                        <tr ng-repeat="Student in ResultObtained.ObjLstPaperResultModel">
+                            <td scope="col" style="text-align:center;font-size:14px"><b>{{Student.PaperCode}}</b></td>
+                            <td scope="col" style="text-align: center; font-size: 14px;">{{Student.PaperName}}</td>
+                            <td scope="col" style="text-align:center;font-size:14px">{{Student.AssessmentMethodCode}}</td>
+                            <td scope="col" style="text-align:center;font-size:14px">{{Student.UAMaxMarks}}</td>
+                            <td scope="col" style="text-align: center; font-size: 14px">{{Student.UAMinMarks}}</td>
+                            <td scope="col" style="text-align: center; font-size: 14px">{{Student.UAMarks}}</td>
+                            <td scope="col" style="text-align: center; font-size: 14px">{{Student.IAMaxMarks}}</td>
+                            <td scope="col" style="text-align: center; font-size: 14px">{{Student.IAMinMarks}}</td>
+                            <td scope="col" style="text-align: center; font-size: 14px">{{Student.IAMarks}}</td>
+                            <td scope="col" style="text-align: center; font-size: 14px">{{Student.MaxMarks}}</td>
+                            <td scope="col" style="text-align: center; font-size: 14px">{{Student.MinMarks}}</td>
+                            <td scope="col" style="text-align: center; font-size: 14px">{{Student.FinalMarks}}</td>
+                            <td scope="col" style="text-align: center; font-size: 14px">{{Student.PaperStatus}}</td>
+                            <td scope="col" style="text-align: center; font-size: 14px">{{Student.Remark}} , {{Student.RemarkEvent}}</td>
+                        </tr>
+
+                        <tr>
+                            <td scope="col" colspan="5" style="text-align:right"><b>TOTAL</b></td>
+                            <td scope="col" style="text-align:center">{{TotalUAMarks}}</td>
+                            <td scope="col" colspan="2"></td>
+                            <td scope="col" style="text-align:center">{{TotalIAMarks}}</td>
+                            <td scope="col" style="text-align:center">{{TotalMaxMarks}}</td>
+                            <td scope="col" colspan="1"></td>
+                            <td scope="col" style="text-align:center">{{TotalFinalMarks}}</td>
+                        </tr>
+
+                        <!--<---loopp-----  ng-repeat="Student in ResultObtained.ObjStudConsolidatedResultPrevSem">-->
+                        <tr ng-hide="isPart">
+                            <th scope="col" colspan="9">{{ResultObtained.ObjStudConsolidatedResultPrevSem.ProgrammePartTermShortName}}(Seat No : {{ResultObtained.ObjStudConsolidatedResultPrevSem.SeatNumber}}) (Exam Event : {{ResultObtained.ObjStudConsolidatedResultPrevSem.ExamEventName}})</th>
+                            <td scope="col" style="text-align:center">{{ResultObtained.ObjStudConsolidatedResultPrevSem.MarksObtainedOutof}}</td>
+                            <td scope="col" style="text-align:center">--</td>
+                            <td scope="col" style="text-align:center">
+                                <b>{{ResultObtained.ObjStudConsolidatedResultPrevSem.MarksObtained}}</b>
+                            </td>
+                            <td scope="col" style="text-align:center" colspan="2">
+                                <b>{{ResultObtained.ObjStudConsolidatedResultPrevSem.ResultStatus}}</b>
+                            </td>
+                        </tr>
+                        <!------------LOOP OVE---------------------------------------------->
+                        <tr>
+                            <td colspan="9" ng-if="isPart == false">
+                                <b>GRAND TOTAL</b> : <b>{{ResultObtained.ObjStudConsolidatedResult.PartMarksObtained}}</b> OUT OF {{ResultObtained.ObjStudConsolidatedResult.PartMarksObtainedOutof}}   <b>({{ResultObtained.ObjStudConsolidatedResult.MarkstoWords}})</b>
+                            </td>
+                            <td colspan="9" ng-if="isPart == true">
+                                <b>GRAND TOTAL</b> : <b>{{ResultObtained.ObjStudConsolidatedResult.MarksObtained}}</b> OUT OF {{ResultObtained.ObjStudConsolidatedResult.MarksObtainedOutof}}   <b>({{ResultObtained.ObjStudConsolidatedResult.MarkstoWords}})</b>
+                            </td>
+                            <td colspan="5"><b>ORDINANCE</b> : {{ordinanceapplied}}</td>
+                        </tr>
+
+                        <tr>
+							 <td colspan="3" ng-if="isPart == false">
+                                <b>RESULT</b> :{{ResultObtained.ObjStudConsolidatedResult.PartStatus}}
+                            </td>
+                            <td colspan="3" ng-if="isPart == true">
+                                <b>RESULT</b> :{{ResultObtained.ObjStudConsolidatedResult.ResultStatus}}
+                            </td>
+                            <!--<td colspan="3"><b>RESULT</b> : {{ResultObtained.ObjStudConsolidatedResult.ResultStatus}}</td>-->
+                            <td colspan="6"><b>CLASS</b> : {{ResultObtained.ObjStudConsolidatedResult.ClassRemark}}</td>
+                            <td colspan="5" ng-if="isPart == false">
+                                <b>PERCENTAGE</b> :{{ResultObtained.ObjStudConsolidatedResult.PartPercentage}}
+                            </td>
+                            <td colspan="5" ng-if="isPart == true">
+                                <b>PERCENTAGE</b> :{{ResultObtained.ObjStudConsolidatedResult.Percentage}}
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <br />
+
+                <div class="col-sm-12" style="font-size:14px">
+                    Abbreviations:- IA : Internal Assessment ; UA : University Assessment ; AM : Assessment Method ; Sts : Result Status ; Rmk : Remark/s ; P : Pass ; F : Fail ; AB : Absent ; RR : Result Reserved ; X : Past Appearance ; E : Exempted ; T/ATKT : Allowed to keep Term ; M : Performance Cancelled ; D : Detained ; EHB : Explicitly Hold Back ; NP : No Punishment ; N : Not Exempted ; C : Current Appearance ; TDL : To be Declared Later.
+                </div>
+
+                <br />
+
+                <div class="col-sm-12" style="font-size:14px">
+                    <b>DISCLAIMER : </b>
+                    These marks/Grades and result Information is purely a <b>'Provisional Statement of Marks/Grade'</b><br />
+                    This Provisional statement shall not be used for any other purpose other than admission, filling exam forms and redressal procedure<br />
+                    Concerned Faculty/College admitting the student must verify the true state of this Provisional Result from https://msuis.msubaroda.ac.in/vidhyarthi/  <br />
+                    In case of any query, please contact university authorities for further clarifications.<br />
+					<br />
+                    <b>Printed On : {{printdate}}</b>
+                </div>
+            </div>
+        </div>
+
+        <div class="row m-b-30 m-t-15">
+            <div class="col-sm-2 offset-md-5">
+                <div class="form-group has-sucess">
+                    <input type="button" id="vis" value="PRINT/SAVE PDF" ng-click="printDiv('disp1')">
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <!--<hr style="width:100%" ; size="2" color=black>
+
+            <div class="col-sm-4 mt-2">
+                <div class="row">
+                    <div class="col-sm-4 text-right">
+                        <p style="font-size:13px"><b>Sign :</b></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <img data-ng-src="data:8021000046_signature/png;base64,{{firstRecord.StudentSignature}}" class="avatar" style="border-color:deepskyblue ; border-style:solid ; border-width:3px;" width="120" height="30" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 ml-3 mr-3">
+                <p style="font-size:13px">{{firstRecord.Part1}} <u><b>{{firstRecord.NameAsPerMarksheet}}</b></u> {{firstRecord.Part2}}  <u><b>{{firstRecord.InstituteName}}</b></u></p>
+                <p style="font-size:13px" ng-repeat="Student in ListOfRecords">
+                    {{firstRecord.Gender}} --------- {{Student.Part4}} <b>{{Student.PartName}}</b>-<b>{{Student.BranchName}}</b>-<b>{{Student.ProgrammeModeName}}</b> {{Student.Part5}} <b>{{Student.DisplayName}}</b>
+                </p>
+                <p style="font-size:13px">{{firstRecord.Gender}} {{firstRecord.Part6}} <b>{{firstRecord.AcademicYearCode}}</b> {{firstRecord.Part7}} <b>{{firstRecord.PartTermShortName}}</b> {{firstRecord.Part8}} ------------- {{firstRecord.Part9}} <b>{{firstRecord.DisplayName}}</b> </p>
+                <p style="font-size:13px">{{firstRecord.Part10}}</p>
+                <p style="font-size:13px">{{firstRecord.Part11}}</p>
+                <p style="font-size:13px">{{firstRecord.Gender}} {{firstRecord.Part12}} {{firstRecord.InstituteName}}</p>
+                <p style="font-size:13px"><b>DATE OF BIRTH : {{firstRecord.DOB}}</b></p>
+                <p style="font-size:13px">{{firstRecord.Part13}} {{gpronoun}} {{firstRecord.Part3}}</p>
+                <p style="font-size:13px">{{firstRecord.Part14}}</p>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-7 mt-5">
+                        <div class="col-sm-6">
+                            <img data-ng-src="data:Sign/png;base64,{{firstRecord.Sign}}" class="avatar" width="170" height="50" />
+                        </div>
+                        <div class="col-sm-4">
+                            <p style="font-size:15px"><b>{{firstRecord.NameOfAuthority}}</b></p>
+                        </div>
+                        <div class="col-sm-2">
+                            <p style="font-size:15px"><b>{{firstRecord.AuthorityType}}</b></p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-5 mt-5">
+                        <div id="imp" style="display:none">
+                            <canvas id="qrcode" class="code1"></canvas>
+                        </div>
+                        <div id="imp">
+                            <img id="imgqrcode" class="float-right" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row m-b-30">
+            <div class="col-sm-2 offset-md-5">
+                <div class="form-group has-sucess">
+                    <input type="button" id="vis" value="PRINT/SAVE PDF" ng-click="printDiv('disp1')">
+                </div>
+            </div>
+        </div>-->
+    </div>
+</div>

@@ -1,0 +1,100 @@
+﻿
+<style>
+    .jstree-anchor {
+        display: inline-table;
+    }
+</style>
+<div>
+    <div class="form">
+        
+        <div class="card">
+            <div class="card-header">
+                <h4>Preference and Group Selection</h4>
+            </div>
+            <div class="card-block">
+                <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Back</button><br /><br />
+                <form ng-model="PGP">
+                    <div class="form-group row" ng-init="IncAcademicYearListGet()">
+                        <label for="Activity" class="col-sm-2 col-form-label">Academic Year Code <span style="color:red">*</span>:</label>
+                        <div class="col-sm-8 col-lg-10">
+                            <span class="nullable">
+                                <select class="form-control" ng-model="GAPR.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicList" ng-change="FacultyGet()" [value]="PGP.AcademicYearId" name="AcademicYear">
+                                    <option value="" disabled selected>--SELECT--</option>
+                                </select>
+                                <span ng-show="myForm.AcademicYear.$touched && myForm.AcademicYear.$invalid" style="color:red">The Field is required.</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-2 col-form-label">Faculty Name :</label>
+                        <div class="col-sm-8 col-lg-10">
+                            <span class="nullable">
+                                <select class="form-control" ng-model="GAPR.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" ng-change="ProgrammeGet()" [value]="PGP.FacultyId" name="Faculty">
+                                    <option value="" disabled selected>--SELECT--</option>
+                                </select>
+                                <span ng-show="myForm.Faculty.$touched && myForm.Faculty.$invalid" style="color:red">The Field is required.</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-2 col-form-label">Programme Name :</label>
+                        <div class="col-sm-8 col-lg-10">
+                            <span class="nullable">
+                                <select class="form-control" ng-model="GAPR.ProgrammeId" ng-options="d.Id as d.ProgrammeName for d in ProgrammeList" ng-change="PTGet()" [value]="PGP.ProgrammeId" name="Programme">
+                                    <option value="" disabled selected>--SELECT--</option>
+                                </select>
+                                <span ng-show="myForm.Programme.$touched && myForm.Programme.$invalid" style="color:red">The Field is required.</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-2 col-form-label">Semester Name :</label>
+                        <div class="col-sm-8 col-lg-10">
+                            <span class="nullable">
+                                <select class="form-control" ng-model="GAPR.ProgrammeInstancePartTermId" ng-options="d.Id as d.InstancePartTermName for d in PTList" [value]="PGP.ProgrammeInstancePartTermId" name="ProgrammeInstancePartTerm">
+                                    <option value="" disabled selected>--SELECT--</option>
+                                </select>
+                                <span ng-show="myForm.ProgrammeInstancePartTerm.$touched && myForm.ProgrammeInstancePartTerm.$invalid" style="color:red">The Field is required.</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row" ng-init="PreferenceGet()">
+                        <label for="Activity" class="col-sm-2 col-form-label">Preference  <span style="color:red">*</span>:</label>
+                        <div class="col-sm-8 col-lg-10">
+                            <span class="nullable">
+                                <select class="form-control" ng-model="GAPR.PreferenceId" ng-options="d.Id as d.GroupName for d in PreferenceList" [value]="PGP.PreferenceId" name="Preference">
+                                    <option value="" disabled selected>--SELECT--</option>
+                                </select>
+                                <span ng-show="myForm.Preference.$touched && myForm.Preference.$invalid" style="color:red">The Field is required.</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <button type="button" ng-click="SelectGroup()" class="btn btn-info btn-round ">Get Report</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="card" ng-show="ShowTree">
+                <!--ng-init="FetchData()"-->
+                <div class="card-header">
+                    <h4>Group and Paper</h4>
+                </div>
+
+                <div class="card-block">
+                    <div class="card-block tree-view">
+                        <div id="PTGTree">
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card-block">
+                    <button type="button" ng-click="SavePGPData()" class="btn btn-info btn-round ">Submit</button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,215 @@
+﻿
+<style>
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+
+
+    .card .card-block ul {
+        float: right !important;
+    }
+
+    /*   for table*/
+    .card .card-block table tr {
+        padding-bottom: 20px;
+    }
+
+    .table td {
+        padding: .25rem;
+    }
+
+    .table label{
+        margin-bottom:0px;
+        margin-top:8px;
+    }
+
+ /*  for button in table*/
+    .table button {
+        width: 45px;
+        height: 40px;
+        padding: 0px;
+    }
+
+    .table button i {
+            margin-right: 0px;
+        }
+
+    /*  for sort indicator*/
+    .ng-table th.sortable .sort-indicator {
+        padding-right: 18px;
+        position: relative;
+        white-space: normal;
+    }
+
+        .ng-table th.sortable .sort-indicator:after, .ng-table th.sortable .sort-indicator:before {
+            content: "";
+            border-width: 0 4px 4px;
+            border-style: solid;
+            border-color: #000 transparent;
+            visibility: hidden;
+            right: 5px;
+            top: 50%;
+            position: absolute;
+            opacity: .3;
+        }
+
+    .ng-table th.sortable.sort-desc .sort-indicator:after {
+        border-bottom: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid #000;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:before {
+        opacity: 1;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:after {
+        opacity: 1;
+        visibility: hidden;
+    }
+
+
+</style>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+
+
+
+            <div class="card" style="margin-bottom:15px;">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> 
+                        <h4 style="margin-bottom:0px;">Exam Venue</h4>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row clearfix">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card" style="margin-bottom: 100px;">
+                        <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                            <h3 class="card-title" style="font-size:18px;">Exam Venue Detail</h3>
+                        </div>
+                        <div class="card-body" style="padding:10px 20px 20px 20px;">
+
+                            <label class="form-label">Exam Center</label>
+                            <div>
+                                <span class="nullable">
+                                    <examcenter-select style="margin-bottom:3px;" ng-model="venue.ExamCenterId"></examcenter-select>
+                                </span>
+                            </div>
+
+                            <div layout="row" style="height:25px;">
+                                <label class="form-label">Code</label>
+                                <span flex></span>
+                                <p class="input-length">{{venue.Code.length}} / 10</p>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="example-text-input" placeholder="Enter Code" ng-model="venue.Code" limit-to="10">
+                            </div>
+
+                            <div layout="row" style="height:25px;">
+                                <label class="form-label">Name</label>
+                                <span flex></span>
+                                <p class="input-length">{{venue.DisplayName.length}} / 50</p>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="example-text-input" placeholder="Enter  Name" ng-model="venue.DisplayName" limit-to="50">
+                            </div>
+
+                            <div layout="row" style="height:25px;">
+                                <label class="form-label">Address</label>
+                                <span flex></span>
+                                <p class="input-length">{{venue.Address.length}} / 50</p>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="example-text-input" placeholder="Enter  Address" ng-model="venue.Address" limit-to="50">
+                            </div>
+
+                            <!--<div layout="row" style="height:25px;">
+                                <label class="form-label">Capacity</label>
+                                <span flex></span>
+                                <p class="input-length">{{venue.Capacity.length}} / 50</p>
+                            </div>
+                            <div class="form-group">
+                                <input type="number" class="form-control" name="example-text-input" placeholder="Enter Capacity" ng-model="venue.Capacity" limit-to="50">
+                            </div>-->
+
+                        </div>
+                        <div class="card-footer">
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <button type="button" ng-click="saveExamVenue(venue)" class="btn btn-success">Save</button>
+                                        <button class="btn btn-secondary" ng-click="cancelExamVenue()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--<a href="" class="btn btn-block btn-info btn-sm" ng-click="saveClassMaster()" style="cursor:pointer;">Save</a>-->
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-8 col-md-6">
+                    <div class="card">
+                        <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                            <h3 class="card-title" style="font-size:18px;">List of Exam Venue</h3>
+                        </div>
+
+                        <div class="card-block">
+                            <div class="table-responsive" >
+                                <table id="ApplicationStatsId" class="table table-striped table-bordered" ng-table="venueTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr style="text-align:center;" ng-repeat="venue in $data">
+                                            <td data-title="'Exam Center'" filter="{'ExamCenter': 'text'}" sortable="'ExamCenter'" style="border-top:none;text-align:left;">
+                                                <label style="text-align:left;align-content:flex-start;">{{venue.ExamCenter}}</label>
+                                            </td>
+                                            <td data-title="'Code'" filter="{'Code':'text'}" sortable="'Code'" style="border-top:none;">
+                                                <label>{{venue.Code}}</label>
+                                            </td>
+                                            <td data-title="'Name'" filter="{'DisplayName':'text'}" sortable="'DisplayName'" style="border-top: none; text-align: left;">
+                                                <label style="text-align:left;align-content:flex-start;">{{venue.DisplayName}} </label>
+                                            </td>
+                                            <td data-title="'Address'" filter="{'Address': 'text'}" sortable="'Address '" style="border-top: none; text-align: left;">
+                                                <label style="text-align:left;align-content:flex-start;">{{venue.Address}} </label>
+                                            </td>
+                                            <!--<td data-title="'Capacity'" filter="{'Capacity':'text'}" sortable="'Capacity '" style="border-top:none;">
+                                                <label>{{venue.Capacity}}</label>
+                                            </td>-->
+                                    
+                                            <td data-title="'Actions'" style="border-top:none;">
+                                                <div layout="row" style="padding:0px;">
+                                                    <span flex></span>
+                                                    <button type="button" ng-click="editExamVenue(venue)" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><span class="icofont icofont-ui-edit"></span></button>
+                                                    <!--<button title="Show" ng-click="hideExamVenue(venue)" class="btn btn-secondary ml-2 button-size" ng-hide="venue.IsActive"><i class="fas fa-toggle-off" ></i></button>
+                                                    <button title="Hide" ng-click="showExamVenue(venue)" class="btn btn-success ml-2 button-size" ng-show="venue.IsActive" ><i class="fas fa-toggle-on" ></i></button>-->
+
+                                                    <!--<md-button title="Delete" ng-click="removeItem(Examevent)" class="md-raised" style="min-width:40px;background-color:#f00e0e;color:white"><i class="fa fa-trash-o"></i></md-button> -->
+                                                    <span flex></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

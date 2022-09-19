@@ -1,0 +1,46 @@
+﻿
+<style>
+    ::-webkit-scrollbar {
+        height: 20px !important;
+        overflow: visible;
+        width: 0px;
+        background-color: lightgray;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-init="getMandateByAppId();">
+    <div class="row">
+        <div class="col-sm-12" >
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>MANDATE</h4></div>
+
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="AppStats">
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="AcademicsMandatedownloadPDF()">Mandate - Academics Section</button>
+                                        <button class="btn btn-success" ng-click="facultyMandatedownloadPDF()">Mandate Faculty-College</button>
+                                        <!--<button class="btn btn-warning">Clear Selection</button>-->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+               
+
+            </div>
+        </div>
+    </div>
+</div>

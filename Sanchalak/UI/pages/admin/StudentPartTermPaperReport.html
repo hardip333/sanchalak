@@ -1,0 +1,67 @@
+﻿<!--#searchResult tr > *:nth-child(n+7) {
+        display: none;
+}-->
+<style>
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+
+<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<div class="page-body" >
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Part Term wise Student - Paper List</h4>
+
+                </div>
+                <div class="card-block">
+                    <div class="col-md-12 ">
+                     
+                            <div >
+                                <button class="btn btn-success" ng-click="exportData()">Export to Excel Full</button>
+
+                            </div>
+
+                    </div>
+                </div>
+                <div class="card" ng-init="getSPTPList()">
+                    <div class="card-block">
+                        <div class="table-responsive">
+                            <table id="SPTPTable" class="table table-striped table-bordered" ng-table="SPTPTableParams" show-filter="true">
+                                <tbody>
+                                    <tr ng-repeat="SPTP in $data">
+                                        <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;"><label>{{SPTP.Index}}</label></td>
+                                        <td data-title="'Faculty Name'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style=" border-top: none;"><label>{{SPTP.FacultyName}}</label></td>
+                                        <td data-title="'Semester Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style=" border-top: none;"><label>{{SPTP.InstancePartTermName}}</label></td>
+                                        <td data-title="'PRN'" filter="{PRN: 'text'}" sortable="'PRN'" style=" border-top: none;"><label>{{SPTP.PRN}}</label></td>
+                                        <td data-title="'Seat Number'" filter="{SeatNumber: 'text'}" sortable="'SeatNumber'" style=" border-top: none;"><label>{{SPTP.SeatNumber}}</label></td>
+                                        <td data-title="'Name'" filter="{FullName: 'text'}" sortable="'FullName'" style="border-top:none;"><label>{{SPTP.FullName}}</label></td>
+                                        <td data-title="'Email Id'" filter="{EmailId: 'text'}" sortable="'EmailId'" style=" border-top: none;"><label>{{SPTP.EmailId}}</label></td>
+                                        <td data-title="'Mobile No'" filter="{MobileNo: 'text'}" sortable="'MobileNo'" style=" border-top: none;"><label>{{SPTP.MobileNo}}</label></td>
+                                        <td data-title="'Paper Code'" filter="{PaperCode: 'text'}" sortable="'PaperCode'" style=" border-top: none;"><label>{{SPTP.PaperCode}}</label></td>
+                                        <td data-title="'Paper Name'" filter="{PaperName: 'text'}" sortable="'PaperName'" style=" border-top: none;"><label>{{SPTP.PaperName}}</label></td>
+                                        
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

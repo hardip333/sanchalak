@@ -1,0 +1,117 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-init="getAdmPaymentTransByOrderId()">
+    <div class="row">
+        <div class="col-sm-12">
+
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-header-text">Payment Information</h5>
+                    <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light "><i class="ti-pencil-alt"></i>  Back To List </button></div>
+                </div>
+                <div class="card-block">
+                    <div class="view-info">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="general-info">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="table-responsive">
+                                                <table class="table m-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">Full Name</th>
+                                                            <td>{{StudentPaymentInfo.FirstName}} {{StudentPaymentInfo.MiddleName}} {{StudentPaymentInfo.LastName}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Programme Part Term Name</th>
+                                                            <td>{{StudentPaymentInfo.InstancePartTermName}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Mobile Number</th>
+                                                            <td>{{StudentPaymentInfo.MobileNo}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Email Id</th>
+                                                            <td>{{StudentPaymentInfo.EmailId}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Transaction Date</th>
+                                                            <td>{{StudentPaymentInfo.TransactionDate}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Transaction No.</th>
+                                                            <td>{{StudentPaymentInfo.OrderId}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Transaction Status</th>
+                                                            <td>{{StudentPaymentInfo.TransactionStatus}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Gateway Request</th>
+                                                            <td style="white-space:break-spaces; display:contents;">{{StudentPaymentInfo.GatewayRequest}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Gateway Response</th>
+                                                            <td style="white-space:break-spaces; display:contents;">{{StudentPaymentInfo.GatewayResponse}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Installment No</th>
+                                                            <td>{{StudentPaymentInfo.InstalmentNo}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Remaining Installment</th>
+                                                            <td>{{StudentPaymentInfo.RemainingInstallment}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- end of table col-lg-6 -->
+                                        <!--<div class="col-lg-12 col-xl-6">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody>
+
+                                                        <tr>
+                                                            <th scope="row">Mobile Number</th>
+                                                            <td>{{StudentPaymentInfo.MobileNo}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Email Id</th>
+                                                            <td>{{StudentPaymentInfo.EmailId}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Transaction Date</th>
+                                                            <td>{{StudentPaymentInfo.TransactionDate}}</td>
+                                                        </tr>
+                                                       
+                                                      
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>-->
+                                        <!-- end of table col-lg-6 -->
+                                    </div>
+                                    <!-- end of row -->
+                                </div>
+                                <!-- end of general info -->
+                            </div>
+                            <!-- end of col-lg-12 -->
+                        </div>
+                        <!-- end of row -->
+                    </div>
+
+                </div>
+                <!-- end of card-block -->
+            </div>
+
+        </div>
+    </div>
+</div>

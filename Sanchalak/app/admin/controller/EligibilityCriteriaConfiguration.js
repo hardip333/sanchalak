@@ -1,0 +1,522 @@
+﻿app.controller('EligibilityCriteriaConfigurationController', function ($scope, $http, $rootScope, $filter, $localStorage, $state, $cookies, $mdDialog, NgTableParams, $window) {
+    debugger;
+    $scope.visibility = true;
+    $scope.elig = true;
+    $scope.progpartterm = true;
+    $scope.filter = {};
+    $scope.filter.radioValue = "Part";
+    document.getElementById('admissionlevel').style.display = "none";
+    //$scope.visibile = true;
+    document.getElementById('vis').style.display = "none";
+    $scope.ShowTable = false;
+    $rootScope.pageTitle = "Manage Create Table";
+    debugger;
+    //$scope.ShowDate = false;
+    $rootScope.showLoading = false;
+
+    $scope.getProgList = function (FacultyId) {
+        debugger;
+        $http({
+            method: 'POST',
+            url: 'api/EligibilityCriteriaConfiguration/getProgList?FacultyId=' + FacultyId,
+            //data: DATA,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code == "0") {
+                    $state.go('login');
+                }
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    debugger;
+                    $scope.ProgList = response.obj;
+                    //var lengthOfTTData = Object.keys($scope.TTData).length;
+                    ////var lengthOfTTData = getObjectLength($scope.TTDataToBePassed);
+                    //for (var i = 0; i < lengthOfTTData; i++) {
+                    //    var elem = document.getElementById('submit');
+                    //    if ($scope.TTData[i].buttonVisibility == 1) {
+                    //        elem.style.display = "block";
+                    //    }
+                    //}
+
+                    //$localStorage.TTData = $scope.TTData;
+                    //$scope.TTC = DATA;
+                    //$scope.TTC.TTData = $scope.TTData;
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+
+    $scope.getProgPartfromProg = function (ProgId) {
+        debugger;
+        $http({
+            method: 'POST',
+            url: 'api/EligibilityCriteriaConfiguration/getProgPartfromProg?ProgId=' + ProgId,
+            //data: DATA,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code == "0") {
+                    $state.go('login');
+                }
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    debugger;
+                    $scope.ProgPartList = response.obj;
+                    //var lengthOfTTData = Object.keys($scope.TTData).length;
+                    ////var lengthOfTTData = getObjectLength($scope.TTDataToBePassed);
+                    //for (var i = 0; i < lengthOfTTData; i++) {
+                    //    var elem = document.getElementById('submit');
+                    //    if ($scope.TTData[i].buttonVisibility == 1) {
+                    //        elem.style.display = "block";
+                    //    }
+                    //}
+
+                    //$localStorage.TTData = $scope.TTData;
+                    //$scope.TTC = DATA;
+                    //$scope.TTC.TTData = $scope.TTData;
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+
+    $scope.getProgPartTermfromProgPart = function (ProgPartId) {
+        debugger;
+        $http({
+            method: 'POST',
+            url: 'api/EligibilityCriteriaConfiguration/getProgPartTermfromProgPart?ProgPartId=' + ProgPartId,
+            //data: DATA,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code == "0") {
+                    $state.go('login');
+                }
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    debugger;
+                    $scope.ProgPartTermList = response.obj;
+                    //var lengthOfTTData = Object.keys($scope.TTData).length;
+                    ////var lengthOfTTData = getObjectLength($scope.TTDataToBePassed);
+                    //for (var i = 0; i < lengthOfTTData; i++) {
+                    //    var elem = document.getElementById('submit');
+                    //    if ($scope.TTData[i].buttonVisibility == 1) {
+                    //        elem.style.display = "block";
+                    //    }
+                    //}
+
+                    //$localStorage.TTData = $scope.TTData;
+                    //$scope.TTC = DATA;
+                    //$scope.TTC.TTData = $scope.TTData;
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+
+    //$scope.checkAlreadyExistingRecords = function (alldata) {
+    //    debugger;
+    //    $localStorage.alldata1 = alldata;
+    //    //if (alldata.radioValue == "Part") {
+    //    //    $scope.Name = $("#partName option:selected").text()
+    //    //}
+    //    //else if (alldata.radioValue == "PartTerm") {
+    //    //    $scope.Name = $("#ptName option:selected").text()
+    //    //}
+    //    //else {
+    //    //    alert('Select a level of configuration');
+    //    //    $state.go('createtimetable');
+    //    //}
+
+    //    //alert($("#partName option:selected").text());
+    //    //$scope.visibility = true;
+    //    $http({
+    //        method: 'POST',
+    //        url: 'api/EligibilityCriteriaConfiguration/checkAlreadyExistingRecords',
+    //        data: alldata,
+    //        headers: { "Content-Type": 'application/json' }
+    //    })
+    //        .success(function (response) {
+    //            if (response.response_code == "0") {
+    //                $state.go('login');
+    //            }
+    //            if (response.response_code != "200") {
+    //                $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+    //            }
+    //            else {
+    //                debugger;
+    //                $scope.ExistingData = response.obj;
+    //                if (response.obj.length == 0) {
+    //                    $scope.visibility = true;
+    //                    $scope.visibile = false;
+    //                    //$localStorage.configLevel = "";
+    //                    alert('Please select a level of configuration');
+    //                }
+    //                else {
+    //                    $scope.FirstRecord = $scope.ExistingData[0];
+    //                    $localStorage.configLevel = $scope.FirstRecord.TypeforEligibilty;
+    //                    $localStorage.length = response.obj.length;
+    //                    $localStorage.ExistingData = $scope.ExistingData;
+    //                    //document.getElementById('vis').style.display = "none";
+    //                    document.getElementById('vis1').style.display = "block";
+    //                    //$scope.buttvisibility = false;
+    //                    //$scope.buttonvisibility = false;
+    //                    //var lengthOfTTData = Object.keys($scope.TTData).length;
+    //                    ////var lengthOfTTData = getObjectLength($scope.TTDataToBePassed);
+    //                    //for (var i = 0; i < lengthOfTTData; i++) {
+    //                    //    var elem = document.getElementById('submit');
+    //                    //    if ($scope.TTData[i].buttonVisibility == 1) {
+    //                    //        elem.style.display = "block";
+    //                    //    }
+    //                    //}
+
+    //                    //$localStorage.TTData = $scope.TTData;
+    //                    //$scope.TTC = DATA;
+    //                    //$scope.TTC.TTData = $scope.TTData;
+    //                }
+    //            }
+    //        })
+    //        .error(function (res) {
+    //            $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+    //        });
+    //};
+
+    //$scope.checkLevel = function (ev, alldata) {
+    //    debugger;
+    //    if (document.getElementById('PartTerm').checked) {
+    //        debugger;
+    //        $scope.progpartterm = false;
+    //    }
+    //    $http({
+    //        method: 'POST',
+    //        url: 'api/EligibilityCriteriaConfiguration/checkLevel',
+    //        data: alldata,
+    //        headers: { "Content-Type": 'application/json' }
+    //    })
+    //        .success(function (response) {
+    //            if (response.response_code == "0") {
+    //                $state.go('login');
+    //            }
+    //            if (response.response_code != "200") {
+    //                $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+    //            }
+    //            else {
+    //                debugger;
+    //                $scope.radioChange = response.obj;
+
+    //                if ($scope.radioChange == 0) {
+    //                    debugger;
+    //                    var confirm = $mdDialog.confirm()
+    //                        .title("This is already configured with another level of Configuration.Do you want to continue with the new configuration level?")
+    //                        .textContent('')
+    //                        .ariaLabel('Lucky Day')
+    //                        .targetEvent(ev)
+    //                        .ok('Yes')
+    //                        .cancel('No');
+    //                    $mdDialog.show(confirm).then(function () {
+    //                        $scope.getEligibilityCriteria(alldata)
+    //                    }, function () {
+    //                        debugger;
+    //                        $scope.status = 'You decided not to change Configuration level.';
+    //                        // $scope.Showbuttonflag1 = false;
+    //                        alert($scope.status);
+    //                        $state.go('createtimetable');
+    //                    });
+    //                }
+    //                else {
+    //                    $scope.getEligibilityCriteria(alldata);
+    //                }
+    //            }
+
+    //        })
+    //        .error(function (res) {
+    //            $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+    //        });
+    //}
+
+    $scope.getEligibilityCriteria = function (alldata) {
+        debugger;
+        $localStorage.alldata1 = alldata;
+        if (alldata.FacultyId == null || alldata.FacultyId == undefined || alldata.ProgrammeId == null || alldata.ProgrammeId == undefined || alldata.ProgPartId == null || alldata.ProgPartId == undefined) {
+            alert('Please Select all fields');
+        }
+        //alldata.configLevel = $localStorage.configLevel;
+        //if ($localStorage.configLevel == null || $localStorage.configLevel == undefined) {
+        //alldata.configLevel = 1;
+        else {
+           
+            debugger;
+
+            $http({
+                method: 'POST',
+                url: 'api/EligibilityCriteriaConfiguration/getEligibilityCriteria',
+                data: alldata,
+                headers: { "Content-Type": 'application/json' }
+            })
+                .success(function (response) {
+                    if (response.response_code == "0") {
+                        $state.go('login');
+                    }
+                    if (response.response_code != "200") {
+                        $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    }
+                    else {
+                        debugger;
+                        $scope.elig = false;
+                        $scope.visibility = false;
+                        $scope.EligibilityOptions = response.obj;
+                        if ($scope.EligibilityOptions[0].isEligConsidered) {
+                            debugger;
+                            $scope.iseligconsidered = true;
+                        }
+                        if ($scope.EligibilityOptions[0].isPaperSelectionByStudent) {
+                            debugger;
+                            $scope.paperselbystudent = true;
+                        }
+                       
+                        if ($scope.EligibilityOptions[0].IsPaperSelectionBeforeFees) {
+                            debugger;
+                            $scope.paperselbeforefees = true;
+                        }
+                        $scope.MainName = $scope.EligibilityOptions[0].ParentName;
+                        $localStorage.length = response.obj.length;
+                        document.getElementById('vis').style.display = "inline";
+                    }
+                })
+                .error(function (res) {
+                    $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                });
+        }
+    };
+
+    $scope.hide = function (isPaperSelectionByStudent) {
+        debugger;
+        if (isPaperSelectionByStudent == "false") {
+            $scope.filter.IsPaperSelectionBeforeFees = false;
+            $scope.disable = true;
+        }
+
+        if (isPaperSelectionByStudent == "true") {
+            $scope.disable = false;
+        }
+    };
+
+
+    $scope.sendData = function (filter, EligibilityOptions) {
+        debugger;
+        $scope.dataSending = {};
+        $scope.dataSending.forDatabase = filter;
+        $scope.dataSending.parentData = EligibilityOptions;
+        //let j = 0;
+        //var markedCheckbox = document.getElementsByName('eligi');
+        //for (var i = 0; i < $localStorage.length; i++) {
+        //    debugger;
+        //    if ($localStorage.alldata1.radioValue == "Part") {
+        //        $scope.ProgPartIdforDb = EligibilityOptions[i].ProgPartId;
+        //        $scope.PreviousName = EligibilityOptions[i].PreviousNames;
+        //    }
+        //    else if ($localStorage.alldata1.radioValue == "PartTerm") {
+        //        $scope.ProgPartTermIdforDb = EligibilityOptions[i].ProgPartTermId;
+        //        $scope.PreviousName = EligibilityOptions[i].PreviousNames;
+        //    }
+        //    else {
+        //        alert('Select a level of configuration');
+        //        $state.go('createtimetable');
+        //    }
+        //    while (j < markedCheckbox.length) {
+        //        debugger;
+        //        if (markedCheckbox[j].checked) {
+        //            debugger;
+        //            if (markedCheckbox[j].value == "PASS") {
+        //                $scope.eligibilityLabel = "PASS";
+        //                $scope.EStatus = true;
+        //            }
+        //            if (markedCheckbox[j].value == "FAIL/ATKT") {
+        //                if ($scope.eligibilityLabel == "PASS") {
+        //                    $scope.checkBoth = 1;
+        //                }
+        //                else {
+        //                    $scope.checkBoth = 0;
+        //                }
+        //                //$scope.eligibilityLabel = "FAIL/ATKT";
+        //                //$scope.Status = true;
+        //            }
+        //            if (markedCheckbox[j].value == "FAIL") {
+        //                $scope.eligibilityLabel = "FAIL";
+        //                $scope.EStatus = true;
+        //            }
+        //            if (markedCheckbox[j].value == "ABSENT") {
+        //                $scope.eligibilityLabel = "ABSENT";
+        //                $scope.EStatus = true;
+        //            }
+        //            j++;
+        //            if (j % 4 == 0) {
+        //                break;
+        //            }
+        //        }
+        //        else {
+        //            j++;
+        //            if (j % 4 == 0) {
+        //                break;
+        //            }
+        //        }
+        //    }
+        //    $scope.dataSending.dataToBeSent.push({ PreviousName: $scope.PreviousName, ProgPartIdforDb: $scope.ProgPartIdforDb, ProgPartTermIdforDb: $scope.ProgPartTermIdforDb, eligibilityLabel: $scope.eligibilityLabel, EStatus: $scope.EStatus, checkBoth: $scope.checkBoth });
+
+
+        debugger;
+        $http({
+            method: 'POST',
+            url: 'api/EligibilityCriteriaConfiguration/storeEligibilityCriteria',
+            data: $scope.dataSending,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code == "0") {
+                    $state.go('login');
+                }
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    debugger;
+                    document.getElementById('vis').style.display = "none";
+                    alert('DATA STORED SUCCESSFULLY');
+                    $scope.visibility = true;
+                    $scope.elig = true;
+                    //$scope.filter = {};
+                    //$scope.EligibilityOptions = {};
+                    $state.go('EligibilityCriteriaConfiguration');
+                    //$scope.buttvisibility = false;
+                    //$scope.buttonvisibility = false;
+                    //var lengthOfTTData = Object.keys($scope.TTData).length;
+                    ////var lengthOfTTData = getObjectLength($scope.TTDataToBePassed);
+                    //for (var i = 0; i < lengthOfTTData; i++) {
+                    //    var elem = document.getElementById('submit');
+                    //    if ($scope.TTData[i].buttonVisibility == 1) {
+                    //        elem.style.display = "block";
+                    //    }
+                    //}
+
+                    //$localStorage.TTData = $scope.TTData;
+                    //$scope.TTC = DATA;
+                    //$scope.TTC.TTData = $scope.TTData;
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+});
+
+
+
+
+
+
+
+
+
+
+        //if ($localStorage.alldata1.radioValue == "Part") {
+        //    //debugger;
+        //    Status[i] = $localStorage.EligibilityOptions[i].ProgPartId;
+        //    while (j < markedCheckbox.length) {
+        //        //debugger;
+        //        if (markedCheckbox[j].checked) {
+        //            Status[i].push(markedCheckbox[i].value);
+        //            //Status[i][j] = markedCheckbox[j].value;
+        //            j++;
+        //            if (j == 0) {
+        //                if ((j + 1) % 4 == 0) {
+        //                    break;
+        //                }
+        //            }
+        //            else if (j % 4 == 0) {
+        //                break;
+        //            }
+        //            else {
+        //                continue;
+        //            }
+        //        }
+        //    }
+        //}
+        //else if (alldata1.radioValue == "PartTerm") {
+        //    //debugger;
+        //    Status[i] = $localStorage.EligibilityOptions[i].ProgPartTermId;
+        //    while (j < markedCheckbox.length) {
+        //        //debugger;
+        //        if (markedCheckbox[j].checked) {
+        //            //markedCheckbox[j].value = 1;
+        //            Status[i][j] = markedCheckbox[j].value;
+        //            j++;
+        //            if (j == 0) {
+        //                if ((j + 1) % 4 == 0) {
+        //                    break;
+        //                }
+        //            }
+        //            else if (j % 4 == 0) {
+        //                break;
+        //            }
+        //            else {
+        //                continue;
+        //            }
+        //        }
+        //    }
+        //}
+        //else {
+        //    alert('Select a level of configuration');
+        //    $state.go('createtimetable');
+        //}
+
+        //for (var i = 0; i < Status.length; i++) {
+        //    //debugger;
+        //    Status[i] = new Array();
+        //}
+        //Loop and push the checked CheckBox value in Array.
+
+
+    ////debugger;
+    //$scope.eligibilityData.requiredStatus = Status;
+    ////Display the selected CheckBox values.
+    //if (Status.length > 0) {
+    //    alert("Selected values: " + Status.join(","));
+    //    StatusList = Status.join(",");
+    //}
+    //alert($("#partName option:selected").text());
+    //$scope.visibility = true;
+    //$http({
+    //    method: 'POST',
+    //    url: 'api/EligibilityCriteriaConfiguration/saveEligibilityCriteria',
+    //    data: alldata,
+    //    headers: { "Content-Type": 'application/json' }
+    //})
+    //    .success(function (response) {
+    //        if (response.response_code == "0") {
+    //            $state.go('login');
+    //        }
+    //        else if (response.response_code != "200") {
+    //            $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+    //        }
+    //        else {
+    //            //debugger;
+    //            $scope.EligibilityOptions = response.obj;
+    //            document.getElementById('vis').style.display = "none";
+    //            document.getElementById('vis1').style.display = "block";
+    //        }
+    //    })
+    //    .error(function (res) {
+    //        $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+    //    });
+

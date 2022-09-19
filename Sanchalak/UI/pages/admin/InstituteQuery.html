@@ -1,0 +1,103 @@
+﻿<div id="pcoded" class="pcoded">
+    <div class="pcoded-overlay-box"></div>
+
+    <!-- Sidebar inner chat end-->
+    <div class="pcoded-main-container">
+        <!-- Main-body start -->
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- Page header start -->
+                <div class="page-header">
+                    <div class="page-header-title">
+                        <h4> Faculty Help Desk</h4>
+
+                    </div>
+
+                </div>
+                <!-- Page header end -->
+                <!-- Page body start -->
+                <div class="page-body" ng-controller="InstituteQueryCtrl" ng-init="getInstituteQuery()" >
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <!-- Basic Form Inputs card start -->
+                            <div class="card">
+
+                                <div class="card-block">
+
+                                    <form ng-model="InstituteQuery">
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">User Name:</label>
+                                            <div class="col-sm-10" ng-model="InstituteQuery">
+                                                <label>{{InstQuery[0].UserName}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Institute Name:</label>
+                                            <div class="col-sm-10">
+                                                <label>{{InstQuery[0].InstituteName}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Faculty Name:</label>
+                                            <div class="col-sm-10">
+                                                <label>{{InstQuery[0].FacultyName}}</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Query:</label>
+                                            <div class="col-sm-10">
+                                                <select name="select" class="form-control" ng-options="item.name as item.name for item in InstituteQueryList track by item.id " ng-model="Query" required>
+                                                    <option value="">-- Choose Query --</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Query Description:</label>
+                                            <div class="col-sm-10">
+                                                <textarea rows="5" cols="5" ng-model="QueryDescription" class="form-control" placeholder="Enter your Query" required></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Upload Image:</label>
+                                            <div class="col-sm-10">
+                                                <input type="file" name="file1" id="file1" class="preview clearfix" ng-model="InstituteQueryImageDoc" onchange="readPhoto(this);" ngf-select="UploadInstituteQueryImage($files)" />
+                                                <!--  <img class="preview clearfix pt-3" id="photo" data-ng-src="data:image/png;base64,{{imageList1[0].ApplicantPhoto}}" src="http://localhost:65445/MSUIS_Main_View/assets/images/avatar-5.png" /><br />-->
+                                                <span style="color:blue;font-weight:bold">Note: image Should below 4MB size and .jpg .jpeg and .png file format</span><br />
+                                                <span id="ErrorMsgAdditionalDoc" style="color:red"></span>
+                                                <span id="SuccessMsgAdditionalDoc" style="color:green"></span>
+
+                                            </div>
+                                        </div>
+                                        <!--{{InstQuery[0]}}-->
+                                        <div class="form-group col">
+                                            <button type="submit" class="btn btn-primary addnew pull-left  mr-2" ng-click="InstituteQueryAdd(InstQuery[0].UserRegistrationId,InstQuery[0].InstituteId,InstQuery[0].FacultyId,InstQuery[0].FacultyEmail,InstQuery[0].FacultyName,InstQuery[0].InstituteName,InstQuery[0].UserName)">Submit</button>
+
+                                        </div>
+
+                                    </form>
+
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Page body end -->
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+</div>
+
+

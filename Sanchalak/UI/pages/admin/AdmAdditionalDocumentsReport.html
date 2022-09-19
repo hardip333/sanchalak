@@ -1,0 +1,176 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+<!-- Page body start -->
+
+<div ng-controller="AdmAdditionalDocumentsReportCtrl">
+    <!-- Verticle Wizard card start -->
+    <div class="card">
+        <div class="card-header">
+            <h4>
+                <label> Adm Additional Documents Report</label>
+
+            </h4>
+            
+        </div>
+        <div class="card">
+
+            <div class="card-block">
+                <div class="table-responsive">
+                    <div class="form-group row" ng-init="getProgInstPartTerm()">
+                        <div class="col-sm-2">Select Programme Instance Part Term Name</div>
+                        <div class="col-sm-6">
+                            <div>
+                                <span class="nullable">
+                                    <select ng-model="AdmAdditionalDocumentsReport.ProgInstPartTermId" ng-options="d.Id as d.ProgrammePartTermName for d in ProgInstPartTermList" [value]="AdmAdditionalDocumentsReport.ProgInstPartTermId" class="form-control" name="spedropdown" required>
+                                        <option value="" disabled selected>-- select --</option>  <!--ng-change="getMstSubSpecialisationList()"-->
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 offset-md-2">
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <button class="btn btn-success" ng-click="getAdmAdditionalDocumentsReport()">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    <p>
+                        <div class="card-header-right"> <button type="button" ng-click="exportDataFull(ProgrammeInstancePartTermId)" class="btn btn-info">Export To Excel</button></div>
+                    </p>
+                    <table class="table table-striped table-bordered" id="canclereport" ng-table="AdmAdditionalDocumentsReportTableParams" show-filter="true" style="width:100%">
+                        <tbody ng-repeat="AdmAdditionalDocumentsReport in $data">
+                            <tr>
+                                <td data-title="'Sr.No.'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                <td data-title="'Application Form No.'" filter="{AdmApplicationId: 'text'}" sortable="'AdmApplicationId'" style=" border-top: none;"><label>{{AdmAdditionalDocumentsReport.AdmApplicationId}}</label></td>
+                                <td data-title="'Faculty Name'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style=" border-top: none;"><label>{{AdmAdditionalDocumentsReport.FacultyName}}</label></td>
+                                <td data-title="'Programme Name'" filter="{ProgrammeName: 'text'}" sortable="'ProgrammeName'" style=" border-top: none;"><label>{{AdmAdditionalDocumentsReport.ProgrammeName}}</label></td>
+                                <td data-title="'Branch Name'" filter="{BranchName: 'text'}" sortable="'BranchName'" style=" border-top: none;"><label>{{AdmAdditionalDocumentsReport.BranchName}}</label></td>
+                                <td data-title="'Approved By Faculty '" filter="{IsApprovedByFacultys: 'text'}" sortable="'IsApprovedByFacultys'" style=" border-top: none;"><label>{{AdmAdditionalDocumentsReport.IsApprovedByFacultys}}</label></td>
+                                <!--<td data-title="'Document Name'" filter="{DocFileName: 'text'}" sortable="'DocFileName'" style=" border-top: none;"><label>{{AdmAdditionalDocumentsReport.DocFileName}}</label></td>-->
+                                <td data-title="Upload" sortable="'IsApprovedByFacultys'" style=" border-top: none;">
+                                    <div layout="row" style="margin-top:3px">
+                                        <span id="{{$index}}" style="color:red"></span>
+                                        <a href=http://172.25.15.22/MSUISApi/Upload/AdditionalDocuments/{{AdmAdditionalDocumentsReport.DocFileName}} target="_blank">
+                                            <button type="button" ng-show="{{AdmAdditionalDocumentsReport.Id}}!=0" class="btn btn-info waves-effect waves-light" style="min-width:40px;"><i class="ion-android-download"></i></button>
+                                        </a>&nbsp;&nbsp;
+                                        <!--  <button type="submit" name="Add" class="btn btn-primary" ng-click="addStudentDocument(sdocument.DocumentId)">Save</button>-->
+                                        <!--<md-button class="btn btn-primary md-raised pull-right" style="margin-right:0px; height:15px; margin-top:20px; margin-left:0px;" ng-click="addStudentDocument(sdocument.DocumentId)" ng-hide="modifyAdminUserFlag">Add</md-button>-->
+                                    </div>
+                                    <div layout="row" style="margin-top:3px">
+                                        <label for="userName-2" class="block">  (Download PDF File)</label>
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+
+                    <table id="test" ng-table="AdmAdditionalDocumentsReportTableParams" style="width:100%; visibility:hidden; display:none;" template-pagination="none">
+                        <tbody ng-repeat="AdmAdditionalDocumentsReport in exporttoexcel">
+                            <tr>
+                                <td data-title="'Sr.No.'" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                <td data-title="'Application Form No.'"  sortable="'AdmApplicationId'" style=" border-top: none;"><label>{{AdmAdditionalDocumentsReport.AdmApplicationId}}</label></td>
+                                <td data-title="'Faculty Name'" sortable="'FacultyName'" style=" border-top: none;"><label>{{AdmAdditionalDocumentsReport.FacultyName}}</label></td>
+                                <td data-title="'Programme Name'"  sortable="'ProgrammeName'" style=" border-top: none;"><label>{{AdmAdditionalDocumentsReport.ProgrammeName}}</label></td>
+                                <td data-title="'Branch Name'"  sortable="'BranchName'" style=" border-top: none;"><label>{{AdmAdditionalDocumentsReport.BranchName}}</label></td>
+                                <td data-title="'Approved By Faculty'"  sortable="'IsApprovedByFacultys'" style=" border-top: none;"><label>{{AdmAdditionalDocumentsReport.IsApprovedByFacultys}}</label></td>
+                                <td data-title="'Document Name'"  sortable="'DocFileName'" style=" border-top: none;"><label>{{AdmAdditionalDocumentsReport.DocFileName}}</label></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+
+
+                    <div ng-if="contentPresent">
+                        <h2 style="font-size:small; text-align:center">You have not appllied to any Course. Click on "Apply Online" to apply in course</h2>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Verticle Wizard card end -->
+
+
+    <div class="modal fade" id="ignismytrueModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label=""><span>×</span></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="thank-you-pop">
+                        <div class="swal2-icon swal2-success swal2-animate-success-icon" style="display: flex;">
+                            <div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+                            <span class="swal2-success-line-tip"></span>
+                            <span class="swal2-success-line-long"></span>
+                            <div class="swal2-success-ring"></div>
+                            <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+                            <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+                        </div>
+                        <!--<img src="http://goactionstations.co.uk/wp-content/uploads/2017/03/Green-Round-Tick.png" alt="">-->
+                        <h1>Thank You!</h1>
+                        <p>Your application fee is received.</p>
+                        <h3 class="cupon-pop">Your ApplicationId : <span>{{ApplicationId}}</span></h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="ignismyfalseModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label=""><span>×</span></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="thank-you-pop">
+                        <div class="swal2-icon swal2-error swal2-animate-error-icon" style="display: flex;"><span class="swal2-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span></div>
+                        <!--<img src="http://goactionstations.co.uk/wp-content/uploads/2017/03/Green-Round-Tick.png" alt="">-->
+                        <h1>Try Again...</h1>
+                        <p>Your application fee is pending.</p>
+                        <h3 class="cupon-pop">Your ApplicationId : <span>{{ApplicationId}}</span></h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function CloseModalignismytrueModal() {
+            $('#ignismytrueModal').modal('hide');
+        }
+
+        function CloseModalignismyfalseModal() {
+            $('#ignismyfalseModal').modal('hide');
+        }
+        $("#verticle-wizard").steps({
+            headerTag: "h3",
+            bodyTag: "fieldset",
+            transitionEffect: "slide",
+            stepsOrientation: "vertical",
+            autoFocus: true
+        });
+
+    </script>
+
+</div>

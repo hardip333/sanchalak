@@ -1,0 +1,136 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="DualAdmissionByAcademicCtrl" >
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Process for Dual/ Transfer Admission</h4>
+                </div>
+                <div class="card-block">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Search PRN <span style="color:red">*</span></label>
+                        <div class="col-sm-10 col-lg-4">
+                            <input type="number" class="form-control" ng-model="DualAdmission.PRN" placeholder="Type PRN">
+
+                        </div>
+                        <div class="col-sm-10 col-lg-4">
+                            <button class="btn btn-success" ng-click="DualAdmissionSearchByPRN()">Search </button>
+                        </div>
+
+
+                    </div>
+
+                    <!-- Dual Admission Details start -->
+
+                    <div class="card" ng-show="ShowApplicantFlag == true">
+                        <div class="card-block" style="text-align:center;" ng-show="ShowApplicantFlag">
+                            <span style="font-size:large;color:navy;"><b>Student Admitted Programme List</b></span>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Full Name</b> </label>
+                            <label class="col-sm-8 col-form-label">{{PRNSerachData[0].FullName}}</label>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">&nbsp;&nbsp;&nbsp;&nbsp;<b>Mobile</b> </label>
+                            <label class="col-sm-8 col-form-label">{{PRNSerachData[0].MobileNo}}</label><br />
+
+                        </div>
+
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="">
+                                    <tbody ng-repeat="PRNdata in PRNSerachData">
+                                        <tr>
+                                            <td data-title="'Sr.No'" style="border-top:none;text-align:center"><label>{{PRNdata.IndexId}}</label></td>
+                                            <td data-title="'ApplicationId'" style="border-top:none;text-align:center"><label>{{PRNdata.ApplicationId}}</label></td>
+                                            <td data-title="'Faculty Name'" style="border-top:none;text-align:center"><label>{{PRNdata.FacultyName}}</label></td>
+                                            <!--<td data-title="'Full Name'" style="border-top: none; text-align: center;"><label>{{PRNdata.FullName}}</label></td>-->
+                                            <!--<td data-title="'MobileNo'" style="border-top: none;"><label>{{PRNdata.MobileNo}}</label></td>-->
+                                            <td data-title="'Programme Name'" style="border-top: none;"><label>{{PRNdata.InstancePartTermName}}</label></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-block" ng-show="MsgFlag == true">
+                        <span style="font-size:large;color:red;"><b>Note: Student has been already Admitted in 2 Programmes.</b></span>
+                    </div>
+
+                    <!-- Dual Admission Details end -->
+                    <div ng-show="SubmitDualflag == true && HideFlag == true">
+
+                        <div class="form-group row" ng-if="IsSection == true">
+                            <label class="col-sm-3 col-form-label">Select Admission Mode <span style="color:red">*</span></label>
+                            <div class="col-sm-8">
+                                <input type="radio" id="Transfer_Admission" value="TransferAdmission" name="AdmRadio" ng-model="DualAdmission.TransorDualAdmission" ng-click="CheckAdmissionValue();" />  Transfer Admission Request &nbsp;
+                                <input type="radio" id="Dual_Admission" value="DualAdmission" name="AdmRadio" ng-model="DualAdmission.TransorDualAdmission" ng-click="CheckAdmissionValue();" /> Dual Admission Request<br />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Eligible Programme Name <span style="color:red">*</span></label>
+                            <div class="col-sm-8">
+                                <select id="ddlInstID" ng-model="DualAdmission.InstancePartTermId" ng-options="d.InstancePartTermName for d in ProgrammeListforDualAdm" [value]="DualPRN.Id" class="form-control" name="Programmeddl" ng-change="setId();" required>
+                                    <option value="" disabled selected>- - - select Programme - - -</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Remark for Dual/ Transfer Admission <span style="color:red">*</span></label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" ng-model="DualAdmission.DualAdmissionRemark" id="DualAdmissionRemark" placeholder="Enter Dual Admission Remarks"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Attach Document for Dual/ Transfer Admission <span style="color:red">*</span></label>
+                            <div class="col-sm-8">
+                                <input type="file" name="file1" ng-model="DualAdmission.DualAdmissionDoc" id="file1" class="form-control" ngf-select="UploadDualAdmissionDoc($files)" required />
+                                <span style="color:blue;text-align:left;font-weight:bold">Note:image Should below 512KB size and .jpg .jpeg file format</span><br />
+                                <span id="ErrorMsgDualDocImg" style="color:red" ng-show="DualAdmission.DualAdmissionDoc != null"></span>
+                                <span id="SuccessMsgDualDocImg" style="color:green" ng-show="DualAdmission.DualAdmissionDoc != null"></span>
+                            </div>
+                        </div>
+
+                        <!--<div class="col-sm-10 col-lg-4">
+                            <button class="btn btn-success" ng-click="DualAdmissionUpdate()" ng-show="RadioDualFlag == true">Proceed for Dual </button>
+                        </div>
+
+                        <div class="col-sm-10 col-lg-4">
+                            <button class="btn btn-success" ng-click="TransferAdmissionUpdate()" ng-show="RadioTransFlag == true">Proceed for Transfer </button>
+                        </div>-->
+
+                       
+                        <div class="col-md-12 offset-md-2">
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <button class="btn btn-success" ng-click="DualAdmissionUpdate($event)" ng-if="IsSection == true && RadioDualFlag == true">Proceed for Dual </button>
+                                    <button class="btn btn-success" ng-click="TransferAdmissionUpdate($event)" ng-show="RadioTransFlag == true || (IsInstitute == true && DefaultRadioFlag == false)">Proceed for Transfer </button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="card-block" ng-show="HideFlag == false">
+                        <span style="font-size:large;color:red;"><b>Note: Student Eligible for Admission in only 1 Programme.</b></span>
+                    </div>
+
+                    </div>
+                </div>  
+        </div>
+    </div>
+
+</div>

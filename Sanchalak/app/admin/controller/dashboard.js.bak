@@ -1,0 +1,115 @@
+﻿/*app.controller("dashboardCtrl", function ($scope, $http, $rootScope, $localStorage, $state, $cookies, $mdDialog, NgTableParams) {
+	$scope.confirmRoleSubmit = function () {
+		$localStorage.UserId = $cookies.get('id');
+		$cookies.put('roleId', $localStorage.roleId);
+	}
+	$scope.confirmRoleSubmit();
+});*/
+app.controller("dashboardCtrl", function ($scope, $http, $rootScope, $state, $cookies, $mdDialog, NgTableParams) {
+    $scope.Ins = {};
+    $scope.InstituteId = {};
+    $scope.getInstituteById = function () {
+        //debugger;
+        $http({
+            method: 'POST',
+            url: 'api/MstFaculty/MstFacultyGetbyId',
+
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $scope.Institute = response.obj[0];   
+                
+                $scope.getTotalProgrammesByInstituteId();
+                $scope.getTotalApplicantsByInstituteId();
+                $scope.getTotalApplicantsApprovedByInstituteId();
+                $scope.getTotalApplicantsFeesPaidByInstituteId(); 
+                
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+   
+   $scope.getTotalProgrammesByInstituteId = function () {
+     
+       var InstId = { InstituteId: $scope.Institute.InstituteId };  
+        $http({
+            method: 'POST',
+            url: 'api/PreConfigurationAdmission/PreConfigMstProgrammeCountGet',
+            data: InstId,
+
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $scope.pca = response.obj[0];
+
+
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+
+    $scope.getTotalApplicantsByInstituteId = function () {
+        $scope.InstituteId = {};
+        var InstId = { InstituteId: $scope.Institute.InstituteId };
+        $http({
+            method: 'POST',
+            url: 'api/PreConfigurationAdmission/PreConfigAdmApplicantsCountGet',
+            data: InstId,
+
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $scope.Apca = response.obj[0];
+
+
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+
+    $scope.getTotalApplicantsApprovedByInstituteId = function () {
+        //debugger;
+        var InstId = { InstituteId: $scope.Institute.InstituteId };
+        $http({
+            method: 'POST',
+            url: 'api/PreConfigurationAdmission/PreConfigAdmApprovedApplicantsCountGet',
+            data: InstId,
+
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $scope.AApca = response.obj[0];
+
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+
+    $scope.getTotalApplicantsFeesPaidByInstituteId = function () {
+        var InstId = { InstituteId: $scope.Institute.InstituteId };
+        $http({
+            method: 'POST',
+            url: 'api/PreConfigurationAdmission/PreConfigAdmApplicationFeesPaidCountGet',
+            data: InstId,
+
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $scope.AFpca = response.obj[0];
+
+
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+
+    $scope.nextbtn = function () {
+        $state.go('PreProgInstanceConfigEdit');
+    };
+});
+

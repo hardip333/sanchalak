@@ -1,0 +1,85 @@
+﻿<div class="demo-container dx-viewport">
+    <div class="form" ng-init="getReportList()">
+
+        <div class="card">
+            <div class="card-header">
+                <h4>Structure Report</h4>
+            </div>
+            <div class="card-block">
+                <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Back</button><br /><br />
+            </div>
+            <div class="card-block">
+                <button type="button" ng-click="printDiv('print','Structure')" class="btn btn-info btn-round ">Print</button>
+                <button type="button" ng-click="GetProgrammeComplete()" class="btn btn-info btn-round ">Complete</button>
+            </div>
+            <div class="card-block" ng-show="ShowTable">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered" id="example-2" ng-table="PTTableParams" show-filter="true">
+                        <tbody>
+                            <tr ng-repeat="PT in $data">
+                                <td data-title="'Semester Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style="text-align:center;"><label>{{PT.InstancePartTermName}}</label></td>
+                                <td data-title="'Semester Paper Status'" filter="{PaperCompleteStatus :'text'}" sortable="'PaperCompleteStatus'" style="text-align:center;"><label ng-show="PT.PaperCompleteStatus">Complete</label> <label ng-hide="PT.PaperCompleteStatus">Incomplete</label></td>
+                                <td data-title="'Semester Group Status'" filter="{GroupCompleteStatus :'text'}" sortable="'GroupCompleteStatus'" style="text-align:center;"><label ng-show="PT.GroupCompleteStatus">Complete</label> <label ng-hide="PT.GroupCompleteStatus">Incomplete</label></td>
+                                <td data-title="'Semester Status'">
+                                    <div layout="row">
+                                        <span flex></span>
+                                        <div>
+                                            <!-- ng-if="PT.GroupCompleteStatus == 'true' && PT.PaperCompleteStatus == 'true'"-->
+                                            <button type="button" ng-click="CompletePT(PT)" ng-hide="PT.IsCompleted" ng-if="PT.GroupCompleteStatus" class="tabledit-edit-button btn btn-primary waves-effect waves-light"> Click to Complete</button>
+                                            <label ng-show="PT.IsCompleted">Complete</label>
+                                        </div>
+                                        <!--<div ng-if="PT.GroupCompleteStatus == 'false' && PT.PaperCompleteStatus == 'false'">
+                <label>Part Term is not complete</label>
+            </div>-->
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card-block">
+                <div class="card-block tree-view">
+                    <div dx-tree-view="treeViewOptions" dx-item-alias="item">
+                        <div data-options="dxTemplate: {name: 'item'}">
+                            <div>
+                                <h5>{{item.IsPartTerm == true?item.InstancePartTermName:item.GroupName}}</h5>
+
+                            </div>
+                        </div>
+                    </div><br />
+                </div>
+            </div>
+            <div class="card-block" ng-hide="true">
+                <div class="card" id="print">
+                    <div class="card-block">
+                        <br /><br /><br />
+                        <div class="pt-2" style="text-align: center;"><img src="images/MSU_Logo.png" alt=" "></div><br /><br />
+                        <h2 style="text-align:center"><b>The Maharaja Sayajirao University</b></h2><br />
+                        <h5 style="text-align:center">Fatehgunj, Vadodara-390 002, Gujarat (India)</h5><br /><br /><br />
+                        <h4 style="text-align:center"><b>Programme Structure Report</b></h4><br />
+                        <h5 style="text-align:center">For</h5><br /><br />
+                        <h3 style="text-align:center">{{reportOTHERdata.FacultyName}}</h3><br />
+                        <h4 style="text-align:center">{{reportOTHERdata.ProgrammeName}}</h4><br />
+                        <h4 style="text-align:center">{{reportOTHERdata.BranchName}}</h4><br /><br /><br />
+                        <h5 style="text-align:center">for Academic Year :{{reportOTHERdata.AcademicYearCode}}</h5><br /><br /><br />
+                    </div>
+                    <div class="card-block tree-view">
+                        <div dx-tree-view="treeViewOptions" dx-item-alias="item">
+                            <div data-options="dxTemplate: {name: 'item'}">
+                                <div>
+                                    <h5>{{item.IsPartTerm == true?item.InstancePartTermName:item.GroupName}}</h5>
+                                </div>
+                            </div>
+                        </div><br />
+                    </div>
+                </div>
+            </div>
+            <div class="card-block">
+                <button type="button" ng-click="printDiv('print','Structure')" class="btn btn-info btn-round ">Print</button>
+                <button type="button" ng-click="GetProgrammeComplete()" class="btn btn-info btn-round ">Complete</button>
+            </div>
+        </div>
+    </div>
+</div>

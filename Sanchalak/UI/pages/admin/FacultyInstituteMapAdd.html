@@ -1,0 +1,88 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+<!-- Page body start -->
+<div class="page-body" ng-controller="FacultyInstituteMapCtrl" ng-init="getFacultyInstituteMap()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Add Faculty Institute Map Master</h4></div>
+                        <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+                    </div>
+                </div>
+                <div class="card-block">
+                    
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="FacultyInstituteMap">
+
+                            <div class="form-group row" ng-init="getFacultyList()">
+                                <div class="col-sm-2">Faculty Name</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="FacultyInstituteMap.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" [value]="FacultyInstituteMap.FacultyId" class="form-control" name="Facdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getInstituteList()">
+                                <div class="col-sm-2">Institute Name</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="FacultyInstituteMap.InstituteId" ng-options="d.Id as d.InstituteName for d in InstituteList" [value]="FacultyInstituteMap.InstituteId" class="form-control" name="Insdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-10">
+                                        <button class="btn btn-success" ng-click="addFacultyInstituteMap()">Add</button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetFacultyInstituteMap()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                        </div>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="FacultyInstituteMapTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="FacultyInstituteMap in $data">
+                                            <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;text-align:center;"><label>{{FacultyInstituteMap.IndexId}}</label></td>
+                                            <td data-title="'Faculty Name'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style="border-top:none;"><label>{{FacultyInstituteMap.FacultyName}}</label></td>
+                                            <td data-title="'Institute Name'" filter="{InstituteName: 'text'}" sortable="'InstituteName'" style="border-top:none;"><label>{{FacultyInstituteMap.InstituteName}}</label></td>
+                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page body end -->

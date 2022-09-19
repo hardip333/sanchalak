@@ -1,0 +1,93 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+ <!--Page body start--> 
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+             <!--Basic Form Inputs card start--> 
+            <div class="card">
+                <div class="card-header">
+                    <h4>UnPublish Fee Report</h4>
+                </div>
+                <div class="card-block">
+
+
+                    <div class="form-group row" ng-init="AcademicYearGet()">
+                        <label for="Activity" class="col-sm-2 col-form-label">Academic Year Code <span style="color:red">*</span>:</label>
+                        <div class="col-sm-8 col-lg-10">
+                            <span class="nullable">
+                                <select class="form-control" ng-model="FTR.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicList" ng-change="getFTList()" name="AcademicYear" required>
+                                    <option value="" disabled selected>--SELECT--</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Activity" class="col-sm-2 col-form-label">Fee Type Name <span style="color:red">*</span>:</label>
+                        <!--<label for="Activity" class="col-sm-2 col-form-label">Application Fee</label>-->
+                        <div class="col-sm-8 col-lg-10">
+                            <span class="nullable">
+                                <select name="FeeType" ng-model="FTR.FeeTypeId" ng-options="d.Id as d.FeeTypeName for d in FTList" class="form-control" required>
+                                    <option value="" disabled selected>--SELECT--</option>
+                                </select>
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <button class="btn btn-success" ng-click="UnPublishedSubmit()">Submit </button>
+
+                </div>
+                <div class="card-block" >
+                    <div class="table-responsive">
+                        
+                         <table id="example1" class="table table-striped table-bordered">
+                              <thead>
+
+                                  <tr>
+                                      <th><label>Sr.No.</label></th>
+                                      <th><label>Academic Year Code</label></th>
+                                      <th><label>Fee Type Name</label></th>
+                                      <th><label>Instance Part Term Name</label></th>
+                                      <th><label>Faculty Name</label></th>
+                                      <th><label>Programme Name</label></th>
+                                      <th><label>Branch Name</label></th>
+                                      <th><label>Fee Category Name</label></th>
+                                      <th><label>Total Amount</label></th>
+
+                                  </tr>
+
+                              </thead>
+                              <tbody>
+
+                                  <tr ng-repeat="FTR in UnPublishList">
+                                      <th><label>{{$index +1}}</label></th>
+                                      <th><label>{{FTR.AcademicYearCode}}</label></th>
+                                      <th><label>{{FTR.FeeTypeName}}</label></th>
+                                      <th><label>{{FTR.InstancePartTermName}}</label></th>
+                                      <th><label>{{FTR.FacultyName}}</label></th>
+                                      <th><label>{{FTR.ProgrammeName}}</label></th>
+                                      <th><label>{{FTR.BranchName}}</label></th>
+                                      <th><label>{{FTR.FeeCategoryName}}</label></th>
+                                      <th><label>{{FTR.TotalAmount}}</label></th>
+
+
+
+                                  </tr>
+                                    
+
+                              </tbody>
+
+                         </table>
+                            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

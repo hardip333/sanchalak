@@ -1,0 +1,108 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .parent {
+        width: 100vw;
+    }
+
+    p {
+        /*border: 1px dashed black;*/
+        padding: 1em;
+        font-size: medium;
+        direction: ltr;
+        width: 70vw;
+        /*margin: auto;*/
+        text-align: left;
+        word-break: break-word;
+        white-space: pre-line;
+        overflow-wrap: break-word;
+        -ms-word-break: break-word;
+        word-break: break-word;
+        -ms-hyphens: auto;
+        -moz-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto;
+    }
+</style>
+<!-- Page body start -->
+<div class="page-body" ng-controller="PaymentDetailsCtrl" ng-init="PaymentDetailsGet()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>ApplicationPayment Details</h4></div>
+                        <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+                    </div>
+                </div>
+
+                <form ng-model="PaymentDetails">
+                    <fieldset>
+                        <table ng-table="PaymentDetailsGetTableParams" border="1" class="table table-framed" style="border-style:solid" width="100%" align="center" template-pagination="none">
+
+                            <tr ng-repeat="PaymentDetails in $data">
+                                <td style="" align="left"><b>Applicant Full Name*:</b></td>
+                                <td>{{PaymentDetails.FirstName}}.{{PaymentDetails.MiddleName}}.{{PaymentDetails.LastName}}</td>
+                            </tr>
+                            <tr ng-repeat="PaymentDetails in $data">
+                                <td style="" align="left" width="500px"><b>Programme Name*:</b> </td>
+                                <td style=" " width="500px">{{PaymentDetails.ProgrammeName}}</td>
+                            </tr>
+                            <tr ng-repeat="PaymentDetails in $data">
+                                <td style="" align="left" width="500px"><b>Transaction Amount:</b></td>
+                                <td>&#8377; {{PaymentDetails.ApplicationFeesPaid}}</td>
+                            </tr>
+                            <tr ng-repeat="PaymentDetails in $data">
+                                <td style="" align="left" width="500px"><b>TransactionDate:</b></td>
+                                <td> {{PaymentDetails.TransactionDate}}</td>
+                            </tr>
+                            <tr ng-repeat="PaymentDetails in $data">
+                                <td style="" align="left" width="500px"><b>TransactionId:</b></td>
+                                <td> {{PaymentDetails.TransactionId}}</td>
+                            </tr>
+                            <tr ng-repeat="PaymentDetails in $data">
+                                <td style="" align="left" width="500px"><b>TransactionStatus:</b></td>
+                                <td> {{PaymentDetails.TransactionStatus}}</td>
+                            </tr>
+                            <tr ng-repeat="PaymentDetails in $data">
+                                <td style="" align="left" width="500px"><b>GatewayRequest:</b></td>
+                                <td><div class="parent"><p>{{PaymentDetails.GatewayRequest}}</p></div></td>
+                            </tr>
+                            <tr ng-repeat="PaymentDetails in $data">
+
+                                <td style="" align="left" width="500px"><b>GatewayResponse:</b></td>
+                                <td><div class="parent"><p>{{PaymentDetails.GatewayResponse}}</p></div></td>
+                            </tr>
+                            <tr ng-repeat="PaymentDetails in $data">
+                                <td style="" align="left" width="500px"><b>Error:</b></td>
+                                <td> {{PaymentDetails.Error}}</td>
+                            </tr>
+                            <tr ng-repeat="PaymentDetails in $data">
+                                <td style="" align="left" width="500px"><b>IpAddress:</b></td>
+                                <td>{{PaymentDetails.IpAddress}}</td>
+                            </tr>
+                            <tr ng-repeat="PaymentDetails in $data">
+                                <td style="" align="left" width="500px"><b>Browser:</b></td>
+                                <td>{{PaymentDetails.Browser}}</td>
+                            </tr>
+                            <tr ng-repeat="PaymentDetails in $data">
+                                <td style="" align="left" width="500px"><b>OS:</b></td>
+                                <td>{{PaymentDetails.OS}}</td>
+                            </tr>
+                            <tr ng-repeat="PaymentDetails in $data">
+                                <td style="" align="left" width="500px"><b>DeviceName:</b></td>
+                                <td>{{PaymentDetails.DeviceName}}</td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Page body end -->

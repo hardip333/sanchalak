@@ -1,0 +1,214 @@
+﻿
+<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+
+<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Exam Fee Configuration</h4></div>
+                        <div ng-show="Backbtn" class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+                    </div>
+
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12">
+                        <form name="vaidateForm" ng-model="ExamFeeConfig" novalidate>
+
+                            <div class="form-group row" ng-init="ExamEventGet()">
+                                <div class="col-sm-4"><b>Select Exam Event:</b><span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ExamFeeCon.ExamEventId" ng-change="FacultyGetByExamEventId()" ng-options="d.Id as d.DisplayName for d in ExamEventList" class="form-control" required>
+                                                <option value="" disabled selected>-- Select Exam Event --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row" ng-init="getFacultyList()">
+                                <div class="col-sm-4"><b>Faculty Name:</b><span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ExamFeeCon.FacultyId" ng-options="d.FacultyId as d.FacultyName for d in FacultyList" ng-change="IsVisibleSubmitBtn()" class="form-control" name="Facdropdown" required>
+                                                <option value="" disabled selected>-- Select Faculty --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-4"></div>
+                                <div class="col-sm-6">
+                                    <button type="button" ng-show="IsSubmitBtnVisible" ng-click="ExamFeeConfigurationGetByExamEventId()" class="btn btn-success">&nbsp; Submit</button>
+
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-block" ng-show="IsVisibleSelectBtn">
+
+                    <button title="Hide" ng-show="selectallFlag" ng-hide="deselectallFlag" ng-click="selectall()" class="btn btn-info">Select All</button>
+                    <button title="Hide" ng-show="deselectallFlag" ng-hide="selectallFlag" ng-click="deselectall()" class="btn btn-info">DeSelect All</button>
+                </div>
+
+
+                <div class="card-block">
+                    <div class="table-responsive" ng-show="showTableFlag">
+                        <table class="table table-striped table-bordered" id="example-2" ng-table="ExamFeeConfigurationTableParams" show-filter="true">
+                            <tbody>
+                                <tr ng-repeat="ExamFeeCon in $data">
+                                    <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ExamFeeCon.IndexId}}</label></td>
+                                    <td><input ng-model="ExamFeeCon.IsCheckSelect" class="checkbox" ng-disabled="ExamFeeCon.ExamFeeAmount>0 && ExamFeeCon.ExamFeePublish==0" type='checkbox' /></td>
+                                    <td data-title="Actions">
+                                        <button ng-show="ExamFeeCon.ExamFeeAmount>0 && ExamFeeCon.ExamFeePublish==0" ng-click="ShowExamFeeAmountForm(ExamFeeCon)" ng-disabled="ExamFeeCon.IsCheckSelect" type="button" class="btn btn-success">Edit</button>
+                                        <label style="color:red;" ng-show="ExamFeeCon.ExamFeePublish==1">Exam Fee Already Published</label>
+                                    </td>
+                                    <td data-title="'ExamFeeAmount'" filter="{ExamFeeAmount: 'text'}" sortable="'ExamFeeAmount'" style="border-top:none;text-align:center"><label>{{ExamFeeCon.ExamFeeAmount}}</label></td>
+                                    <td data-title="'ScheduleCode'" filter="{ScheduleCode: 'text'}" sortable="'ScheduleCode'" style="border-top:none;text-align:center"><label>{{ExamFeeCon.ScheduleCode}}</label></td>
+                                    <td data-title="'FacultyName'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style="border-top:none;text-align:center"><label>{{ExamFeeCon.FacultyName}}</label></td>
+                                    <td data-title="'InstituteName'" filter="{InstituteName: 'text'}" sortable="'InstituteName'" style="border-top:none;text-align:center"><label>{{ExamFeeCon.InstituteName}}</label></td>
+                                    <td data-title="'PartTermName'" filter="{PartTermName: 'text'}" sortable="'PartTermName'" style="border-top:none;text-align:center"><label>{{ExamFeeCon.PartTermName}}</label></td>
+                                    <td data-title="'ExamFeeStartDate'" filter="{ExamFeeStartDate: 'text'}" sortable="'ExamFeeStartDate'" style="border-top:none;text-align:center"><label>{{ExamFeeCon.ExamFeeStartDate}}</label></td>
+                                    <td data-title="'ExamFeeEndDateForStudent'" filter="{ExamFeeEndDateForStudent: 'text'}" sortable="'ExamFeeEndDateForStudent'" style="border-top:none;text-align:center"><label>{{ExamFeeCon.ExamFeeEndDateForStudent}}</label></td>
+                                    <td data-title="'ExamFeeEndDateForFaculty'" filter="{ExamFeeEndDateForFaculty: 'text'}" sortable="'ExamFeeEndDateForFaculty'" style="border-top:none;text-align:center"><label>{{ExamFeeCon.ExamFeeEndDateForFaculty}}</label></td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>&nbsp;
+
+                        <form ng-show="IsFeeAmountVisibleForAll">
+                            <div class="form-group row">
+                                <div class="col-sm-2">Enter Fee Amount:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <input type="number" class="form-control" ng-model="ExamFeeCon.ExamFeeAmount" placeholder="Type Fee Amount Name " required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-6">
+                                    <button type="submit" ng-click="AtLeastOneCheckforExamForm()" class="btn btn-primary">Update</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card-block" ng-show="IsFeeAmountVisible">
+                    <div class="well">
+
+                        <h4>Exam Fee Amount Details</h4>
+                    </div>
+                    <form>
+                        <div class="form-group row">
+                            <div class="col-sm-2">Enter Fee Amount:</div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <input type="number" class="form-control" ng-model="ExamFeeCon.ExamFeeAmount" placeholder="Type Fee Amount Name " required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-6">
+                                <button type="submit" ng-click="EditExamFeeConfigForParticularId()" class="btn btn-primary">Update</button>
+                                <button class="btn btn-disabled disabled" ng-click="resetExamFeeConfigForParticularId()">Cancel</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            </div>
+
+       
+           
+        </div>
+
+        <div class="card" ng-show="NoRecLabel">
+            <label style="font:bold; text-align:center; font-size:medium; color:red;">No Record Found..!</label>
+        </div>
+
+
+       
+
+
+    </div>
+  
+   
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    div.example input[type=text] {
+        padding: 10px;
+        font-size: 17px;
+        border: 1px solid grey;
+        float: left;
+        width: 80%;
+        background: #f1f1f1;
+    }
+
+    div.example button {
+        float: left;
+        width: 20%;
+        padding: 10px;
+        background: #2196F3;
+        color: white;
+        font-size: 17px;
+        border: 1px solid grey;
+        border-left: none;
+        cursor: pointer;
+    }
+
+    form.example button:hover {
+        background: #0b7dda;
+    }
+
+    div.example::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+</style>
+
+

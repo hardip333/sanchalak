@@ -1,0 +1,59 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="FTCtrl" ng-init="getFTList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Fee Type</h4>
+                </div>
+                <div class="card-block">
+                    <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Back</button><br /><br />
+                    <form ng-model="FT" name="FTAdd">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Fee Type Name <span style="color:red">*</span>:</label>
+                            <div class="col-sm-10 col-lg-9 col-md-9">
+                                <input type="text" class="form-control" ng-model="FT.FeeTypeName" placeholder="Type your Fee Type Name"  name="FeeTypeName" required>
+                                <span ng-show="FTAdd.FeeTypeName.$touched && FTAdd.FeeTypeName.$invalid" style="color:red">The Field is required.</span>
+                            </div>
+                        </div>
+                        <!--<div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Fee Type Code <span style="color:red">*</span>:</label>
+                            <div class="col-sm-10 col-lg-9 col-md-9">
+                                <input type="text" class="form-control" ng-model="FT.FeeTypeCode" placeholder="Type your Fee Type Code"  name="FeeTypeCode" required>
+                                <span ng-show="FTAdd.FeeTypeCode.$touched && FTAdd.FeeTypeCode.$invalid" style="color:red">The Field is required.</span>
+                            </div>
+                        </div>-->
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button class="btn btn-success" ng-click="addFT()">Add </button>
+                                <button class="btn btn-disabled disabled" ng-click="cancelFT()">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="FTTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="FT in $data">
+                                            <td data-title="'Fee Type Name'" filter="{FeeTypeName: 'text'}" sortable="'FeeTypeName'" style="text-align:center;"><label>{{FT .FeeTypeName}}</label></td>
+                                            <!--<td data-title="'Fee Type Code'" filter="{FeeTypeCode: 'text'}" sortable="'FeeTypeCode'" style="text-align:center;"><label>{{FT .FeeTypeCode}}</label></td>-->
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page body end -->

@@ -1,0 +1,78 @@
+﻿<!-- Page body end -->
+<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="FCCtrl" ng-init="getFCList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Fee Category</h4>
+                </div>
+                <div class="card-block">
+                    <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Back</button><br /><br />
+                    <form ng-model="FC" name="FCAdd">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Fee Category Name <span style="color:red">*</span>:</label>
+                            <div class="col-sm-10 col-lg-9 col-md-9">
+                                <input type="text" class="form-control" ng-model="FC.FeeCategoryName" placeholder="Type your Fee Category Name" name="FeeCategoryName" required>
+                                <span ng-show="FCAdd.FeeCategoryName.$touched && FCAdd.FeeCategoryName.$invalid" style="color:red">The Field is required.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row" ng-init="getFCTList()">
+                            <label for="Activity" class="col-sm-2 col-form-label">Fee Category Type Name <span style="color:red">*</span>*:</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <select name="FeeCategoryTyopeName" ng-model="FC.FeeCategoryTypeId" ng-options="d.Id as d.FeeCategoryTypeName for d in FCTList" [value]="FCT.FeeCategoryTypeName" class="form-control" required>
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="FCTAdd.FeeCategoryTypeName.$touched && FCTAdd.FeeCategoryTypeName.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row" ng-init="getEPList()">
+                            <label for="Activity" class="col-sm-2 col-form-label">Fee Category Period <span style="color:red">*</span>:</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <div ng-repeat="EP in EPList">
+                                        <input type="radio" name="CategoryPeriodId" value="{{EP.Id}}" ng-model="FC.CategoryPeriodId" />
+                                        <label>{{EP.ExaminationPatternName}}</label>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button class="btn btn-success" ng-click="addFC()">Add </button>
+                                <button class="btn btn-disabled disabled" ng-click="cancelFC()">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="FCTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="FC in $data">
+                                            <td data-title="'Fee Category Name'" filter="{FeeCategoryName: 'text'}" sortable="'FeeCategoryName'" style="text-align:center;"><label>{{FC.FeeCategoryName}}</label></td>
+                                            <!--<td data-title="'Fee Category Code'" filter="{FeeCategoryCode: 'text'}" sortable="'FeeCategoryCode'" style="text-align:center;"><label>{{FC.FeeCategoryCode}}</label></td>-->
+                                            <td data-title="'Fee Category Period'" filter="{CategoryPeriodName: 'text'}" sortable="'CategoryPeriodName'" style="text-align:center;"><label>{{FC.CategoryPeriodName}}</label></td>
+                                            <td data-title="'Fee Category Type Name'" filter="{FeeCategoryTypeName: 'text'}" sortable="'FeeCategoryTypeName'" style="text-align:center;"><label>{{FC.FeeCategoryTypeName}}</label></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page body end -->

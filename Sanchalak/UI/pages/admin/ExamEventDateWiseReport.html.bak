@@ -1,0 +1,78 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+    .button-size {
+        width: 11rem !important;
+    }
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="ExamEventDateWiseCtrl">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Timetable schedule OR Student Paper Map Report</h4>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="Schedule">
+
+                            <div class="form-group row" ng-init="getExamEvent()">
+                                <div class="col-sm-2">Select Exam Event<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="Schedule.ExamMasterId" ng-options="d.Id as d.DisplayName  for d in ExamMasterListGetActiveList" [value]="Schedule.ExamMasterId" class="form-control" name="eventdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Select Date<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <md-datepicker ng-model="Schedule.ExamDate" md-placeholder="Enter date" input-aria-describedby="datepicker-description" input-aria-labelledby="datepicker-header "></md-datepicker>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label>
+                                        <input type="radio" id="TimeTableSchedule" ng-value='"TimeTableSchedule"' name="ReportType" ng-model="Schedule.ReportType" ng-required="!Schedule.ReportType" />  TimeTable Schedule Data&nbsp;&nbsp;
+                                        <input type="radio" id="StudentPaperMapData" ng-value='"StudentPaperMapData"' name="ReportType" ng-model="Schedule.ReportType" ng-required="!Schedule.ReportType" /> Student Paper Map Data&nbsp;&nbsp;
+                                        <input type="radio" id="ConflictedStudentlistData" ng-value='"ConflictedStudentlistData"' name="ReportType" ng-model="Schedule.ReportType" ng-required="!Schedule.ReportType" /> Conflicted Student list from OES
+                                    </label>
+                                </div>
+                            </div>
+
+                            
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <button class="btn btn-success" ng-click="getData(Schedule.ReportType)"> Export To Excel </button>
+                                    <button class="btn btn-disabled" ng-click="resetSelection()">Cancel</button>
+                                </div>
+                            </div>
+                           
+                        </form>
+                    </div>                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

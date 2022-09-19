@@ -1,0 +1,235 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="UserNotificationCtrl" ng-init="getUserNotification()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Add User Notification</h4>
+
+
+                </div>
+                <div class="card-block">
+
+                    <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Back</button><br /><br />
+                    <!--<button type="button" ng-click="backToGet()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Back</button><br /><br />-->
+                    <form ng-model="UserNotification">
+
+                        <div class="form-group row" ng-init="getFacultyList()">
+                            <div class="col-sm-2">Faculty Name</div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <span class="nullable">
+                                        <select ng-model="UserNotification.FacultyId" ng-options="d.Id as d.FacultyName for d in FacList" ng-change="getProgrammeList()" [value]="UserNotification.FacultyId" class="form-control" name="Facdropdown"  required>
+                                            <option value="" disabled selected>-- select --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row" >
+                            <div class="col-sm-2">Select Programme</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="UserNotification.ProgrammeId" ng-options="d.Id as d.ProgrammeName for d in ProgList" ng-change="getIncProgrammeInstancePartTerm()" [value]="UserNotification.ProgrammeId" class="form-control" name="Progdropdown"  required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <div class="col-sm-2">Select Instance PartTerm Name </div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <span class="nullable">
+                                        <select ng-model="UserNotification.IncInstancePartTermId" ng-options="d.Id as d.InstancePartTermName for d in ProgInstPartTermList" ng-change="getNotificationType()" [value]="UserNotification.IncInstancePartTermId" class="form-control" name="Progdropdown" required>
+                                            <option value="" disabled selected>-- select --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row" >
+                            <div class="col-sm-2">Select NotificationType Name</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="UserNotification.NotificationTypeId" ng-options="d.Id as d.NotificationTypeName for d in NTList" [value]="UserNotification.NotificationTypeId" class="form-control" name="Progdropdown"  required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Notification Description:</label>
+                            <div class="col-sm-10">
+                                <textarea  ng-model="UserNotification.NotificationDescription" class="f-13 form-control msg-send" placeholder="Enter your Description" required></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Notification User Type:</label>
+                            <div class="col-sm-10">
+                                <span class="nullable">
+                                    <input type="checkbox" ng-model="UserNotification.NotificationUserType1" value="All" />
+                                    <label for="All"> All</label><br>
+                                    <input type="checkbox" ng-model="UserNotification.NotificationUserType2" value="Student" />
+                                    <label for="Student"> Student</label><br>
+                                    <input type="checkbox" ng-model="UserNotification.NotificationUserType3" value="Faculty" />
+                                    <label for="Faculty"> Faculty</label><br>
+                                </span>
+                                <!--{{UserNotification.NotificationUserType1}}
+                                {{UserNotification.NotificationUserType2}}
+                                {{UserNotification.NotificationUserType3}}-->
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Notification File:</label>
+                            <div class="col-sm-10">
+                                <input type="file" name="file1" id="file1" class="preview clearfix" ng-model="UserNotificationImageDoc" onchange="readPhoto(this);" ngf-select="UploadUserNotification($files)" />
+                                <span style="color:blue;font-weight:bold">Note: file Should below 4MB size and .pdf .dox and .xslx file format</span><br />
+                                <span id="ErrorMsgAdditionalDoc" style="color:red"></span>
+                                <span id="SuccessMsgAdditionalDoc" style="color:green"></span>
+
+                            </div>
+                        </div>
+                        <div class="form-group row" >
+                            <div class="col-sm-2">Notifcation Start Date</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <input type="date" name="NotificationStartDate" ng-model="UserNotification.NotificationStartDate" required />
+                                            <span ng-show="myForm.NotificationStartDate.$touched && myForm.NotificationStartDate.$invalid" style="color:red">The name is required.</span>
+                                        </span>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2">Notification End Date *</div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <span class="nullable">
+                                        <input type="date" name="NotificationEndDate" ng-model="UserNotification.NotificationEndDate" required />
+                                        <span ng-show="myForm.NotificationEndDate.$touched && myForm.NotificationEndDate.$invalid" style="color:red">The name is required.</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2">Notification For:</div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <span class="nullable">
+                                        <select ng-model="UserNotification.NotificationFor" ng-options="item.name  as item.name for item in UserNotificationlList " [value]="UserNotification.NotificationFor" class="form-control" name="Facdropdown" required>
+                                            <option value="" disabled selected>-- select --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                            <div class="col-sm-10">
+
+                                <button class="btn btn-success" ng-click="addUserNotification()">Insert </button>
+                                <button class="btn btn-disabled disabled" ng-click="resetUserNotification()">Cancel</button>
+                            </div>
+                        </div>
+
+                     
+
+                </form>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="UserNotificationTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="UserNotification in $data">
+                                            <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                            <td data-title="'Faculty Name'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style=" border-top: none;"><label>{{UserNotification.FacultyName}}</label></td>
+                                            <td data-title="'InstancePartTerm Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style=" border-top: none;"><label>{{UserNotification.InstancePartTermName}}</label></td>
+                                            <td data-title="'Programme Name'" filter="{ProgrammeName: 'text'}" sortable="'ProgrammeName'" style=" border-top: none;"><label>{{UserNotification.ProgrammeName}}</label></td>
+                                            <td data-title="'NotificationType Name'" filter="{NotificationTypeName: 'text'}" sortable="'NotificationTypeName'" style=" border-top: none;"><label>{{UserNotification.NotificationTypeName}}</label></td>
+                                            <td data-title="'Notification Description'" filter="{NotificationDescription: 'text'}" sortable="'NotificationDescription'" style=" border-top: none;"><label>{{UserNotification.NotificationDescription}}</label></td>
+                                            
+                                            <td data-title="'Notification User Type'" filter="{NotificationUserType: 'text'}" sortable="'NotificationUserType'" style=" border-top: none;"><label>{{UserNotification.NotificationUserType}}</label></td>
+                                            
+                                            <td data-title="'Notification StartDate'" filter="{NotificationStartDate: 'text'}" sortable="'NotificationStartDate'" style=" border-top: none;"><label>{{UserNotification.NotificationStartDateView}}</label></td>
+                                            <td data-title="'Notification EndDate'" filter="{NotificationEndDate: 'text'}" sortable="'NotificationEndDate'" style=" border-top: none;"><label>{{UserNotification.NotificationEndDateView}}</label></td>
+                                            <td data-title="'Notification For'" filter="{NotificationFor: 'text'}" sortable="'NotificationFor'" style=" border-top: none;"><label>{{UserNotification.NotificationFor}}</label></td>
+
+
+                                            <td data-title="'Actions'">
+                                                <div layout="row">
+                                                    <span flex></span>
+
+                                                    <button type="button" ng-click="displayUserNotification(UserNotification)" class="btn btn-info btn-icon mr-2" data-target="#large-Modal" data-toggle="modal"><span class="icofont ion-eye"></span></button>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="large-Modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">ProgrammeBranchMap Detail</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5></h5>
+                                    <table class="table table-striped table-bordered">
+                                        <tr>
+                                            <td>Faculty-Name:</td>
+                                            <td>{{ProgrammeBranchMap.FacultyName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Programme-Name:</td>
+                                            <td>{{ProgrammeBranchMap.ProgrammeName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Subject-Name:</td>
+                                            <td>{{ProgrammeBranchMap.SubjectName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sub Specialisation Name:</td>
+                                            <td>{{ProgrammeBranchMap.SubSpecialisationName}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <!--<button type="button" class="btn btn-default waves-effect " data-dismiss="modal" disabled>Close</button>-->
+                                    <button type="button" class="btn btn-primary waves-effect waves-light " data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>

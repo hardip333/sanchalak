@@ -1,0 +1,136 @@
+﻿
+<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+
+<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>REFUND INITIATED BY FACULTY - ACADEMIC SECTION</h4></div>
+
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="RefundCase" novalidate>
+
+                            <div class="form-group row" ng-init="getFacultyById()">
+                                <div class="col-sm-2">Select Faculty<span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select id="ddlfaculty" ng-model="RefundCase.Id" ng-options="d.Id as d.FacultyName for d in FacultyList  | orderBy:'FacultyList'" class="form-control" required>
+                                                <option value="" disabled selected>-- select Faculty --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button" ng-click="RefCaseAcademicApplicantsList()" class="btn btn-success">&nbsp; Submit</button>
+                                        <button class="btn btn-disabled disabled" ng-click="cancelRefundCaseList()">Cancel</button>
+
+                                    </div>
+
+                                    <div class="col-sm-6" ng-if="checkDataExists == false">
+                                        <button type="button" ng-click="ExportAcademicRefundDatatoExcel()" class="btn btn-success">Export To Excel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="RefundCaseTableparam" show-filter="true">
+                                    <tbody ng-repeat="RefundCase in $data">
+                                        <tr>
+
+                                            <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;text-align:center"><label>{{RefundCase.IndexId}}</label></td>
+                                            <td data-title="'Actions'">
+                                                <div layout="row">
+                                                    <span flex></span>
+                                                    <button type="button" ng-click="StepToRefundProcess(RefundCase.ApplicationId,RefundCase.RequestType)" class="btn btn-info" ng-disabled="RefundCase.IsApprovedByAcademic == 'YES' || RefundCase.RequestStatus == 'Manually_Refunded'">&nbsp;Proceed</button>
+                                                </div>
+                                            </td>
+                                            <td data-title="'Application Form No.'" filter="{ApplicationId: 'text'}" sortable="'ApplicationId'" style="border-top:none;text-align:center"><label>{{RefundCase.ApplicationId}}</label></td>
+                                            <td data-title="'Full Name'" filter="{FullName: 'text'}" sortable="'FullName'" style="border-top:none;"><label>{{RefundCase.FullName}}</label></td>
+                                            <td data-title="'Programme Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style="border-top:none;"><label>{{RefundCase.InstancePartTermName}}</label></td>
+                                            <td data-title="'Change Type'" filter="{RequestType: 'text'}" sortable="'RequestType'" style="border-top: none; text-align: center;">
+                                                <span ng-if="RefundCase.RequestType == 'Fee_Category_Change'"><label>Fee Change</label></span>
+                                                <span ng-if="RefundCase.RequestType == 'Branch_Change'"><label>Branch Change</label></span>
+                                                <span ng-if="RefundCase.RequestType == 'Institute_Group_Change'"><label>Institute/ Group Change</label></span>
+                                                <span ng-if="RefundCase.RequestType == '--' || RefundCase.RequestType == '' || RefundCase.RequestType == null"><label>--</label></span>
+                                            </td>
+                                            <td data-title="'Refund Status'" filter="{RequestStatus: 'text'}" sortable="'RequestStatus'" style="border-top:none;text-align:center;">
+                                                <span ng-if="RefundCase.RequestStatus != null"><label>{{RefundCase.RequestStatus}}</label></span>
+                                                <span ng-if="RefundCase.RequestStatus == null || RefundCase.RequestStatus == ''"><label>--</label></span>
+                                            </td>
+                                            <td data-title="'Applicant Paid Amount'" filter="{AmountPaid: 'text'}" sortable="'AmountPaid'" style="border-top: none; text-align: center;">
+                                                <!--<label>{{RefundCase.AmountPaid}}</label>-->
+                                                <span ng-if="RefundCase.AmountPaid == null || RefundCase.AmountPaid == ''"><label>--</label></span>
+                                                <span ng-if="RefundCase.AmountPaid != null"><label>{{RefundCase.AmountPaid}}</label></span>
+                                            </td>
+                                            <td data-title="'Academic Refunded Amount'" filter="{RefundAmountByAcademic: 'text'}" sortable="'RefundAmountByAcademic'" style="border-top: none; text-align: center;">
+                                                <!--<label>{{RefundCase.RefundAmountByAcademic}}</label>-->
+                                                <span ng-if="RefundCase.RefundAmountByAcademic == null || RefundCase.RefundAmountByAcademic == ''"><label>--</label></span>
+                                                <span ng-if="RefundCase.RefundAmountByAcademic != null"><label>{{RefundCase.RefundAmountByAcademic}}</label></span>
+                                            </td>
+                                            <td data-title="'Audit Refunded Amount'" filter="{RefundAmountByAudit: 'text'}" sortable="'RefundAmountByAudit'" style="border-top: none; text-align: center;">
+                                                <!--<label>{{RefundCase.RefundAmountByAudit}}</label>-->
+                                                <span ng-if="RefundCase.RefundAmountByAudit == null || RefundCase.RefundAmountByAudit == ''"><label>--</label></span>
+                                                <span ng-if="RefundCase.RefundAmountByAudit != null"><label>{{RefundCase.RefundAmountByAudit}}</label></span>
+                                            </td>
+
+                                            <td data-title="'Is Approved By Academic'" filter="{IsApprovedByAcademic: 'text'}" sortable="'IsApprovedByAcademic'" style="border-top:none;text-align:center;"><label>{{RefundCase.IsApprovedByAcademic}}</label></td>
+                                            <td data-title="'Academic Approved On'" filter="{ProcessedOnAcademic: 'text'}" sortable="'ProcessedOnAcademic'" style="border-top: none; text-align: center;"><label>{{RefundCase.ProcessedOnAcademic}}</label></td>
+
+                                            <td data-title="'Is Approved By Audit'" filter="{IsApprovedByAudit: 'text'}" sortable="'IsApprovedByAudit'" style="border-top:none;text-align:center;"><label>{{RefundCase.IsApprovedByAudit}}</label></td>
+
+                                            <td data-title="'Audit Approved On'" filter="{ProcessedOnAudit: 'text'}" sortable="'ProcessedOnAudit'" style="border-top: none; text-align: center;"><label>{{RefundCase.ProcessedOnAudit}}</label></td>
+
+                                            <td data-title="'Is Approved By Account'" filter="{IsApprovedByAccount: 'text'}" sortable="'IsApprovedByAccount'" style="border-top:none;text-align:center;"><label>{{RefundCase.IsApprovedByAccount}}</label></td>
+
+                                            <td data-title="'Account Approved On'" filter="{ProcessedOnAccount: 'text'}" sortable="'ProcessedOnAccount'" style="border-top: none; text-align: center;"><label>{{RefundCase.ProcessedOnAccount}}</label></td>
+
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                                <div ng-if="checkDataExists">
+                                    <div style="color:red;margin:1px;text-align:center;padding:10px;">No Records available for Particular Programme.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

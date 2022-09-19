@@ -1,0 +1,283 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body"  ng-init="getProgInstPartTermList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Manual Entry Of Fee Transaction</h4></div>
+                  
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <form ng-model="FEECONFIG">
+                        <div class="form-group row" ng-init="IncAcademicYearListGet()">
+                            <label for="Activity" class="col-sm-2 col-form-label">Academic Year Code <span style="color:red">*</span>:</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <select class="form-control" ng-model="FEECONFIG.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicList" ng-change="FacultyGet()" [value]="FEECONFIG.AcademicYearId" name="AcademicYear">
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="myForm.AcademicYear.$touched && myForm.AcademicYear.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-2 col-form-label">Faculty Name :</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <select class="form-control" ng-model="FEECONFIG.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" ng-change="getProgrammeInstanceListByAcadId()" [value]="FEECONFIG.FacultyId" name="Faculty">
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="myForm.Faculty.$touched && myForm.Faculty.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-2 col-form-label">Select Instance/Object :</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <select ng-model="FEECONFIG.ProgrammeInstanceId" [value]="FEECONFIG.ProgrammeInstanceId" ng-options="d.Id as d.FacultyName+'-'+d.ProgrammeName+'-'+d.AcademicYear for d in InstList" ng-change="getProgrammePartListByProgInstId()" class="form-control" name="ProgrammeInstance">
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="myForm.ProgrammeInstance.$touched && myForm.ProgrammeInstance.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-2 col-form-label">Programme Part Short Name :</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <select ng-model="FEECONFIG.ProgrammeInstancePartId" ng-options="d.Id as d.PartShortName for d in ProgPartList" [value]="FEECONFIG.ProgrammePartId" ng-change="getBranchListByProgInstId()" class="form-control" name="ProgrammePart">
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="myForm.ProgrammePart.$touched && myForm.ProgrammePart.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-2 col-form-label">Select Branch :</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <select ng-model="FEECONFIG.SpecialisationId" ng-options="d.Id as d.BranchName for d in BranchList" [value]="FEECONFIG.SpecialisationId" ng-change="getProgPartTermListByProgInstPartId()" class="form-control" name="Specialisation">
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="myForm.Specialisation.$touched && myForm.Specialisation.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Activity" class="col-sm-2 col-form-label">Programme Part Term Short Name <span style="color:red">*</span>:</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <select ng-model="FEECONFIG.ProgrammeInstancePartTermId" ng-options="d.Id as d.PartTermShortName for d in ProgPartTermList" [value]="FEECONFIG.ProgrammeInstancePartTermId" class="form-control" name="ProgrammePartTerm" required>
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="myForm.ProgrammePartTerm.$touched && myForm.ProgrammePartTerm.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button class="btn btn-success" ng-click="getManualEntryOfFeeByProgInstPartTermId()">Submit</button>
+                            </div>
+                        </div>
+
+                    </form>
+
+                    <div class="card" ng-show="ApplicantDetailsVisible">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="ManualEntryOfFeeTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="ManualFeeData in $data">
+                                            <td data-title="'Sr. No'" sortable="'$index'" style="border-top:none;"><label>{{ ManualFeeData.IndexId }}</label></td>
+                                            <td data-title="'Application Id'" filter="{ApplicationFormNo: 'text'}" sortable="'ApplicationFormNo'" style="border-top:none;"><label>{{ManualFeeData.ApplicationFormNo}}</label></td>
+                                            <td data-title="'Applicant Name'" filter="{NameAsPerMarksheet: 'text'}" sortable="'NameAsPerMarksheet'" style="border-top:none;"><label>{{ManualFeeData.NameAsPerMarksheet}}</label></td>
+                                            <td data-title="'FeeCategoryName'" filter="{FeeCategoryName: 'text'}" sortable="'FeeCategoryName'" style="border-top:none;"><label>{{ManualFeeData.FeeCategoryName}}</label></td>
+                                            <td data-title="'CommitteeName'" filter="{CommitteeName: 'text'}" sortable="'CommitteeName'" style="border-top:none;"><label>{{ManualFeeData.CommitteeName}}</label></td>
+
+                                            <td data-title="'Actions'">
+                                                <div layout="row">
+                                                    <span flex></span>
+                                                    <button type="button" ng-hide="ManualFeeData.TransactionStatus==1 && ManualFeeData.PaymentStatus==1" ng-click="GetFeeDetails(ManualFeeData)" class="btn btn-primary waves-effect waves-light">Add Transaction</button>
+                                                    <button type="button" ng-show="ManualFeeData.TransactionStatus==1 && ManualFeeData.PaymentStatus==1" ng-click="AdmissionRecieptList(ManualFeeData)" class="btn btn-primary waves-effect waves-light">Fee Recepit</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                   </div>
+                    <div class="card" ng-show="NoRecLabel">
+                        <label style="font:bold; text-align:center; font-size:medium; color:red;">No Record Found..!</label>
+                    </div>
+
+                    <div class="card" ng-show="UpdateTransactionDetails">
+                        <div class="card-header">
+                            <div>
+                                <div class="float-left"> <h4>Fees Details Of Student For Manual Update:</h4></div>
+
+                            </div>
+                        </div>
+                        <div class="card-block">
+
+                            <form ng-model="AppStats">
+                                <div class="form-group row">
+                                    <div class="col-sm-3">ApplicationFormNo</div>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <span class="nullable">
+                                                <label>{{FeeDetails.ApplicationFormNo}}</label>
+
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <div class="col-sm-3">Student Name:</div>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <span class="nullable">
+                                                <label>{{FeeDetails.NameAsPerMarksheet }}</label>
+
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-3">Committee Name:</div>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <span class="nullable">
+                                                <label>{{FeeDetails.CommitteeName}}</label>
+
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-3">FeeCategoryName:</div>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <span class="nullable">
+                                                <label>{{FeeDetails.FeeCategoryName}}</label>
+
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-3">Total Amount:</div>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <span class="nullable">
+                                                <label>{{FeeDetails.TotalAmount}}</label>
+
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-3">Received Total Amount:</div>
+                                    <div class="col-sm-6">
+
+                                        <input type="number" class="form-control" ng-model="FeeUpdateDetails.TotalAmountPaid" placeholder="Type Received Total Amount " required><br />
+
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-3">University Account Number:</div>
+
+                                    <div class="col-sm-6">
+                                        <input type="number" class="form-control" ng-model="FeeUpdateDetails.UniversityAccountNumber" placeholder="Type Received Account Number" required>
+
+                                    </div>
+
+
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-3">Cheque No/dd No:</div>
+                                    <div class="col-sm-6">
+
+                                        <input type="number" class="form-control" ng-model="FeeUpdateDetails.ChequeNo" placeholder="Type Cheque No/dd No" />
+
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <div class="col-sm-3">Transaction Id:</div>
+                                    <div class="col-sm-6">
+
+                                        <input type="text" class="form-control" ng-model="FeeUpdateDetails.TransactionId" placeholder="Type Transaction Id" required>
+
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-3"></div>
+
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="updateFeeDetails(FeeDetails)">Update </button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetForm()">Cancel</button><br />
+
+                                    </div>
+                                </div>
+
+
+
+
+
+
+                            </form>
+
+
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

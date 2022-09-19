@@ -1,0 +1,107 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="MstGroupCodeCtrl" ng-init="MstGroupCodeGet()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Edit Mst MstGroup Code Master</h4>
+                </div>
+
+                <div class="card-block">
+
+                    <button type="button" ng-click="newMstGroupCodeAdd()" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><span class="ion-plus-round"></span>&nbsp; Add New</button><br /><br />
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="MstGroupCode" ng-show="showFormFlag">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Group Code</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="GroupCode" class="form-control" ng-model="MstGroupCode.GroupCode" placeholder="Type Group Code" required />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="MstGroupCodeEdit()">Update </button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetMstGroupCode()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        </div>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="MstGroupCodeTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="MstGroupCode in $data">
+                                            <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                            <td data-title="'Group Code'" filter="{GroupCode: 'text'}" sortable="'GroupCode'" style=" border-top: none;"><label>{{MstGroupCode.GroupCode}}</label></td>
+
+                                            <td data-title="'Actions'">
+                                                <div layout="row">
+                                                    <span flex></span>
+
+                                                    <button type="button" ng-click="displayMstGroupCode(MstGroupCode)" class="btn btn-info btn-icon mr-2" data-target="#large-Modal" data-toggle="modal"><span class="icofont ion-eye"></span></button>
+                                                    <button type="button" ng-click="modifyMstGroupCode(MstGroupCode)" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><span class="icofont icofont-ui-edit"></span></button>
+                                                    <button type="button" ng-click="MstGroupCodeDelete($event,MstGroupCode)" class="tabledit-delete-button btn btn-danger waves-effect waves-light ml-2"><span class="icofont icofont-ui-delete"></span></button>
+                                                    <!--Hide Button-->
+                                                    <button title="Hide" ng-click="showUser(MstGroupCode)" class="btn btn-danger ml-2" ng-hide="MstGroupCode.IsActive"><i class="fa fa-toggle-on"></i>Click to Active</button>
+                                                    <!--Show Button-->
+                                                    <button title="Show" ng-click="HideUser(MstGroupCode)" class="btn btn-success ml-2" ng-show="MstGroupCode.IsActive"><i class="fa fa-toggle-off"></i>Click to Suspended</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="large-Modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">MstGroup Code Detail - {{MstGroupCode.GroupCode}}</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5></h5>
+                                    <table class="table table-striped table-bordered">
+                                        <tr>
+                                            <td>Group-Code:</td>
+                                            <td>{{MstGroupCode.GroupCode}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Active-Status:</td>
+                                            <td>{{MstGroupCode.IsActiveSts}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <!--<button type="button" class="btn btn-default waves-effect " data-dismiss="modal" disabled>Close</button>-->
+                                    <button type="button" class="btn btn-primary waves-effect waves-light " data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>

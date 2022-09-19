@@ -1,0 +1,1905 @@
+﻿
+<script type="text/javascript">
+
+    var currentYear = new Date().getFullYear();
+
+    for (y = 1950; y <= currentYear; y++) {
+        var optn = document.createElement("OPTION");
+        optn.text = y;
+        optn.value = y;
+
+
+        document.getElementById('year').options.add(optn);
+    }
+</script>
+
+<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+<div class="modal fade" id="test" tabindex="-1" role="dialog" style="z-index: 1050; display: none;" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 70%;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6></h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span style="font-size:20px" aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <iframe id="imageID" src="" style="height: 150vh; width: 100%;">
+                </iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary waves-effect waves-light" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light light-nav-border">
+    <span style="font-size:medium;color:navy"><b> {{InstPartTerm}}</b></span>
+    <span ng-show="CheckAdmDateMessage == 'Admission Date not configure.Please configure..!!'" style="font-size:medium;color:red;">
+        <b>&nbsp;&nbsp; Note: </b>{{CheckAdmDateMessage}}
+    </span>
+ 
+</nav>
+<br />
+
+<div ng-init="getPostApplicantConfig()">
+
+    <!-- Personal Details start -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Personal Details</h5>
+            <div class="float-right">
+                <button type="submit" title="Edit" ng-click="modifyPersonalDetailsData(ObjPersonal)"
+                        class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="min-width:40px;" data-toggle="modal" data-target="#Personal-modal">
+                    <i class="icofont icofont-ui-edit"></i>
+                </button>
+                &nbsp;&nbsp;<button type="button" id="btnback" class="btn btn-info" ng-click="backToPostConfigList()" style="padding: 5px 15px 5px 15px;border-radius:30px;">Back to list</button>
+            </div>
+        </div>
+        <div class="card-block">
+            <form id="personalform" action="/" novalidate>
+
+                <div class="form-group row">
+
+                    <div class="form-group col">
+                        <div class="col-sm-offset-12">
+                            <label for="userName-2" class="block"><b>Applicant Name : </b></label>
+                            <label>{{ObjPersonal.FirstName}} {{ObjPersonal.MiddleName}} {{ObjPersonal.LastName}}</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <div class="col-lg-12">
+                            <label for="userName-2" class="block"><b>EmailId : </b></label>
+                            <label>{{ObjPersonal.EmailId}}</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <div class="col-sm-10 col-lg-10">
+                            <label for="userName-2" class="block"><b>MobileNo : </b></label>
+                            <label>{{ObjPersonal.MobileNo}}</label>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="form-group row">
+
+                    <div class="form-group col">
+                        <div class="col-sm-offset-12">
+                            <label for="userName-2" class="block"><b>Is Local to Vadodara : </b></label>
+                            <span ng-if="ObjPersonal.IsLocalToVadodara == true">Yes</span>
+                            <span ng-if="ObjPersonal.IsLocalToVadodara == false">No</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <div class="col-lg-12">
+                            <label for="userName-2" class="block"><b>Permanent State : </b></label>
+                            <label>{{ObjPersonal.PermanentState}}</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <div class="col-lg-12">
+                            <label for="userName-2" class="block"><b>Permanent City : </b></label>
+                            <label>{{ObjPersonal.PermanentCityVillage}}</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <div class="col-sm-10 col-lg-12">
+                            <label for="userName-2" class="block"><b>Gender : </b></label>
+                            <label>{{ObjPersonal.Gender}}</label>
+                        </div>
+                    </div>
+
+                    <!--<div class="form-group col">
+                        <div class="col-sm-10 col-lg-10">
+                            <label for="userName-2" class="block"><b>Social Category : </b></label>
+                            <label>{{ObjPersonal.PermanentCityVillage}}</label>
+                        </div>
+                    </div>-->
+
+                </div>
+
+                <div class="form-group row">
+
+                    <div class="form-group col">
+                        <div class="col-sm-offset-12">
+                            <label for="userName-2" class="block"><b>Social Category : </b></label>
+                            <!--<label>{{ObjPersonal.SocialCategoryName}}</label>-->
+                            <span ng-if="ObjPersonal.SocialCategoryId != 0 ||ObjPersonal.SocialCategoryId != null">{{ObjPersonal.SocialCategoryName}}</span>
+                            <span ng-if="ObjPersonal.SocialCategoryId == 0 ||ObjPersonal.SocialCategoryId == null">NA</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <div class="col-lg-12">
+                            <label for="userName-2" class="block"><b>Reservation Category : </b></label>
+                            <span ng-if="ObjPersonal.ApplicationCategoryId != 0 ||ObjPersonal.ApplicationCategoryId != null">{{ObjPersonal.ReservationCategory}}</span>
+                            <span ng-if="ObjPersonal.ApplicationCategoryId == 0 ||ObjPersonal.ApplicationCategoryId == null">NA</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <div class="col-lg-12">
+                            <label for="userName-2" class="block"><b>Major Thelesamia Status : </b></label>
+                            <label>{{ObjPersonal.IsMajorThelesamiaStatus}}</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group row" ng-if="ObjPersonal.IsPhysicallyChallenged == 'True'">
+
+                    <div class="form-group col">
+                        <div class="col-sm-offset-12">
+                            <label for="userName-2" class="block"><b>Disability Type : </b></label>
+                            <label>{{ObjPersonal.DisabilityType}}</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <div class="col-lg-12">
+                            <label for="userName-2" class="block"><b>Disability Percentage : </b></label>
+                            <label>{{ObjPersonal.DisabilityPercentage}}</label>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-lg-10"><b>Category Remarks : </b></label>
+                    <div class="col-sm-5">
+                        <textarea class="form-control" ng-model="ObjAdmAppInfo.MainCategoryRemarks" id="categoryremarks" name="categoryremarks1" placeholder="Enter Remarks" required></textarea>
+                        <span style="color:red;" ng-show="personalform.categoryremarks1.$touched && personalform.categoryremarks1.$error.required"> Required! </span><br />
+                    </div>
+
+                    <label class="col-sm-3">
+                        <button type="button" id="btnPersonal" class="btn btn-success" ng-click="UpdateAdmApplicationCategoryRemarks()">Save Category Remarks</button>
+                    </label>
+
+
+                </div>
+
+                <div>
+                    <span style="font-size:medium;color:navy"><u>Note:</u> If any query please mail us on <b>support.msuis-cc@msubaroda.ac.in</b></span>
+                </div>
+            </form>
+
+            <div class="card-block">
+                <div class="table-responsive">
+                    <div class="dt-responsive table-responsive">
+                        <table id="res-config" class="table table-striped table-bordered nowrap" ng-table="docsTableParams">
+                            <tbody>
+                                <tr>
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>Date of Birth</label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top:none;text-align:center;">
+
+                                        <span ng-if="ObjPersonal.DOBDoc != null">
+                                            <a data-toggle="modal" data-target="#test" ng-click="testclick(abc='DOBDoc')">
+                                                <!--href="{{ObjPersonal.DOBDoc}}" target="_blank"-->
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.DOBDoc == null">
+                                            Not Uploaded
+                                        </span>
+
+                                    </td>
+                                    <td data-title="'Status'" style="border-top: none; text-align: center; vertical-align: middle; font-size:15px;">
+                                        <div ng-if="ObjPersonal.IsDOBDocVerified == null" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<i class="ion-eye-disabled"></i> Not Verified</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsDOBDocVerified == 'False'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:blue">&nbsp;<i class="ion-close"></i> Not Approved</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsDOBDocVerified == 'True'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:green">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                                        </div>
+
+                                    </td>
+                                    <td data-title="'Actions'" style="border-top: none; vertical-align: middle; text-align: center;">
+                                          <!--<button type="button" data-target="#Category-Modal" data-toggle="modal" ng-disabled="ObjPersonal.IsDOBDocVerified == 'True'" ng-click="getdocName('DOB_doc')" style="border:unset;padding:unset;">
+                                            <span class="btn btn-secondary" style="padding: 5px 10px 5px 10px;border-radius: 30px; ">&nbsp;<i class="ion-more"></i></span>
+                                        </button>-->
+
+                                        <button type="button" ng-click="CheckUncheckDocVerification('DOB_doc',$index,'False',ApplicantData)" ng-disabled="ObjPersonal.IsDOBDocVerified == 'True'" ng-show="ObjPersonal.IsDOBDocVerified == 'True' || ObjPersonal.IsDOBDocVerified == null" class="btn btn-info waves-effect waves-light "><span style="color:white">&nbsp;<i class="ion-close"></i></span></button>
+                                        <button type="button" ng-click="CheckUncheckDocVerification('DOB_doc',$index,'True',ApplicantData)" ng-disabled="ObjPersonal.IsDOBDocVerified == 'True'" ng-show="ObjPersonal.IsDOBDocVerified == 'False' || ObjPersonal.IsDOBDocVerified == null" class="btn btn-success waves-effect waves-light "> <span style="color:white">&nbsp;<i class="ion-checkmark-round"></i></span></button>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>Photo ID</label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.PhotoIdDoc != null">
+                                            <a data-toggle="modal" data-target="#test" ng-click="testclick(abc='PhotoIdDoc')">
+                                                <!--href="{{ObjPersonal.PhotoIdDoc}}" target="_blank"-->
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.PhotoIdDoc == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                    <td data-title="'Status'" style="border-top: none; text-align: center; vertical-align: middle; font-size:15px;">
+                                        <div ng-if="ObjPersonal.IsPhotoIdDocVerified == null" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<i class="ion-eye-disabled"></i> Not Verified</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsPhotoIdDocVerified == 'False'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:blue">&nbsp;<i class="ion-close"></i> Not Approved</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsPhotoIdDocVerified == 'True'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:green">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                                        </div>
+
+                                    </td>
+                                    <td data-title="'Actions'" style="border-top: none; vertical-align: middle; text-align: center;">
+                                         <!--<button type="button" data-target="#Category-Modal" data-toggle="modal" ng-disabled="ObjPersonal.IsPhotoIdDocVerified == 'True'" ng-click="getdocName('PhotoID_doc')" style="border:unset;padding:unset;">
+                                            <span class="btn btn-secondary" style="padding: 5px 10px 5px 10px;border-radius: 30px; ">&nbsp;<i class="ion-more"></i></span>
+                                        </button>-->
+
+                                        <button type="button" ng-click="CheckUncheckDocVerification('PhotoID_doc',$index,'False',ApplicantData)" ng-disabled="ObjPersonal.IsPhotoIdDocVerified == 'True'" ng-show="ObjPersonal.IsPhotoIdDocVerified == 'True' || ObjPersonal.IsPhotoIdDocVerified == null" class="btn btn-info waves-effect waves-light "><span style="color:white">&nbsp;<i class="ion-close"></i></span></button>
+                                        <button type="button" ng-click="CheckUncheckDocVerification('PhotoID_doc',$index,'True',ApplicantData)" ng-disabled="ObjPersonal.IsPhotoIdDocVerified == 'True'" ng-show="ObjPersonal.IsPhotoIdDocVerified == 'False' || ObjPersonal.IsPhotoIdDocVerified == null" class="btn btn-success waves-effect waves-light "> <span style="color:white">&nbsp;<i class="ion-checkmark-round"></i></span></button>
+                                       
+                                    </td>
+
+                                </tr>
+
+                                <tr ng-if="ObjPersonal.AadharDoc != null">
+                                    <td data-title="'Document Name'"
+                                        style="border-top: none;">
+                                        <label>Aadhar Card </label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.AadharDoc != null">
+                                            <a data-toggle="modal" data-target="#test" ng-click="testclick(abc='AadharDoc')">
+                                                <!--href="{{ObjPersonal.AadharDoc}}" target="_blank"-->
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.AadharDoc == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                    <td data-title="'Status'" style="border-top: none; text-align: center; vertical-align: middle; font-size:15px;">
+                                        <div ng-if="ObjPersonal.IsAadharDocVerified == null" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<i class="ion-eye-disabled"></i> Not Verified</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsAadharDocVerified == 'False'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:blue">&nbsp;<i class="ion-close"></i> Not Approved</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsAadharDocVerified == 'True'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:green">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                                        </div>
+
+                                    </td>
+                                    <td data-title="'Actions'" style="border-top: none; vertical-align: middle; text-align: center;">
+                                        <!--<button type="button" data-target="#Category-Modal" data-toggle="modal" ng-disabled="ObjPersonal.IsAadharDocVerified == 'True'" ng-click="getdocName('Aadhar_doc')" style="border:unset;padding:unset;">
+                                            <span class="btn btn-secondary" style="padding: 5px 10px 5px 10px;border-radius: 30px; ">&nbsp;<i class="ion-more"></i></span>
+                                        </button>-->
+
+                                         <button type="button" ng-click="CheckUncheckDocVerification('Aadhar_doc',$index,'False',ApplicantData)" ng-disabled="ObjPersonal.IsAadharDocVerified == 'True'" ng-show="ObjPersonal.IsAadharDocVerified == 'True' || ObjPersonal.IsAadharDocVerified == null" class="btn btn-info waves-effect waves-light "><span style="color:white">&nbsp;<i class="ion-close"></i></span></button>
+                                         <button type="button" ng-click="CheckUncheckDocVerification('Aadhar_doc',$index,'True',ApplicantData)" ng-disabled="ObjPersonal.IsAadharDocVerified == 'True'" ng-show="ObjPersonal.IsAadharDocVerified == 'False' || ObjPersonal.IsAadharDocVerified == null" class="btn btn-success waves-effect waves-light "> <span style="color:white">&nbsp;<i class="ion-checkmark-round"></i></span></button>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr ng-if="ObjPersonal.SocialCategoryId != 0 && ObjPersonal.SocialCategoryId != null && ObjPersonal.SocialCategoryCode != 'NA'">
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>Category Document </label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.SocialCategoryDoc != null">
+                                            <a data-toggle="modal" data-target="#test" ng-click="testclick(abc='SocialCategoryDoc')">
+                                                <!--href="{{ObjPersonal.SocialCategoryDoc}}" target="_blank"-->
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.SocialCategoryDoc == 'Not Applicable' || ObjPersonal.SocialCategoryDoc == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                    <td data-title="'Status'" style="border-top: none; text-align: center; vertical-align: middle; font-size:15px;">
+                                        <div ng-if="ObjPersonal.IsSocialCategoryDocVerified == null" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<i class="ion-eye-disabled"></i> Not Verified</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsSocialCategoryDocVerified == 'False'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:blue">&nbsp;<i class="ion-close"></i> Not Approved</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsSocialCategoryDocVerified == 'True'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:green">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                                        </div>
+
+                                    </td>
+                                    <td data-title="'Actions'" style="border-top: none; vertical-align: middle; text-align: center;">
+                                        <!--<button type="button" data-target="#Category-Modal" data-toggle="modal" ng-disabled="ObjPersonal.IsSocialCategoryDocVerified == 'True'" ng-click="getdocName('category_doc')" style="border:unset;padding:unset;">
+                                            <span class="btn btn-secondary" style="padding: 5px 10px 5px 10px;border-radius: 30px; ">&nbsp;<i class="ion-more"></i></span>
+                                        </button>-->
+
+                                        <button type="button" ng-click="CheckUncheckDocVerification('category_doc',$index,'False',ApplicantData)" ng-disabled="ObjPersonal.IsSocialCategoryDocVerified == 'True'" ng-show="ObjPersonal.IsSocialCategoryDocVerified == 'True' || ObjPersonal.IsSocialCategoryDocVerified == null" class="btn btn-info waves-effect waves-light "><span style="color:white">&nbsp;<i class="ion-close"></i></span></button>
+                                        <button type="button" ng-click="CheckUncheckDocVerification('category_doc',$index,'True',ApplicantData)" ng-disabled="ObjPersonal.IsSocialCategoryDocVerified == 'True'" ng-show="ObjPersonal.IsSocialCategoryDocVerified == 'False' || ObjPersonal.IsSocialCategoryDocVerified == null" class="btn btn-success waves-effect waves-light "> <span style="color:white">&nbsp;<i class="ion-checkmark-round"></i></span></button>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr ng-if="ObjPersonal.ReservationCategoryCode != 'GEN'">
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>Reservation Category</label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.ReservationCategoryDoc != null">
+                                            <a data-toggle="modal" data-target="#test" ng-click="testclick(abc='ReservationCategoryDoc')">
+                                                <!--href="{{ObjPersonal.ReservationCategoryDoc}}" target="_blank"-->
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.ReservationCategoryDoc == 'Not Applicable' || ObjPersonal.ReservationCategoryDoc == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                    <td data-title="'Status'" style="border-top: none; text-align: center; vertical-align: middle; font-size:15px;">
+                                        <div ng-if="ObjPersonal.IsReservationCategoryDocVerified == null" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<i class="ion-eye-disabled"></i> Not Verified</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsReservationCategoryDocVerified == 'False'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:blue">&nbsp;<i class="ion-close"></i> Not Approved</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsReservationCategoryDocVerified == 'True'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:green">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                                        </div>
+
+                                    </td>
+                                    <td data-title="'Actions'" style="border-top: none; vertical-align: middle; text-align: center;">
+                                        <!--<button type="button" data-target="#Category-Modal" data-toggle="modal" ng-disabled="ObjPersonal.IsReservationCategoryDocVerified == 'True'" ng-click="getdocName('Res_category_doc')" style="border:unset;padding:unset;">
+                                            <span class="btn btn-secondary" style="padding: 5px 10px 5px 10px;border-radius: 30px; ">&nbsp;<i class="ion-more"></i></span>
+                                        </button>-->
+
+                                        <button type="button" ng-click="CheckUncheckDocVerification('Res_category_doc',$index,'False',ApplicantData)" ng-disabled="ObjPersonal.IsReservationCategoryDocVerified == 'True'" ng-show="ObjPersonal.IsReservationCategoryDocVerified == 'True' || ObjPersonal.IsReservationCategoryDocVerified == null" class="btn btn-info waves-effect waves-light "><span style="color:white">&nbsp;<i class="ion-close"></i></span></button>
+                                        <button type="button" ng-click="CheckUncheckDocVerification('Res_category_doc',$index,'True',ApplicantData)" ng-disabled="ObjPersonal.IsReservationCategoryDocVerified == 'True'" ng-show="ObjPersonal.IsReservationCategoryDocVerified == 'False' || ObjPersonal.IsReservationCategoryDocVerified == null" class="btn btn-success waves-effect waves-light "> <span style="color:white">&nbsp;<i class="ion-checkmark-round"></i></span></button>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr ng-if="ObjPersonal.ReservationCategoryCode == 'SEBC'">
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>Non Creamy Layer (SEBC)</label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.NCLCerti != null">
+                                            <a data-toggle="modal" data-target="#test" ng-click="testclick(abc='NCLCerti')">
+                                                <!--href="{{ObjPersonal.NCLCerti}}" target="_blank"-->
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.NCLCerti == 'Not Applicable' || ObjPersonal.NCLCerti == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                    <td data-title="'Status'" style="border-top: none; text-align: center; vertical-align: middle; font-size:15px;">
+                                        <div ng-if="ObjPersonal.IsNCLCertiVerified == null" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<i class="ion-eye-disabled"></i> Not Verified</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsNCLCertiVerified == 'False'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:blue">&nbsp;<i class="ion-close"></i> Not Approved</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsNCLCertiVerified == 'True'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:green">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                                        </div>
+
+                                    </td>
+                                    <td data-title="'Actions'" style="border-top: none; vertical-align: middle; text-align: center;">
+                                        <!--<button type="button" data-target="#Category-Modal" data-toggle="modal" ng-disabled="ObjPersonal.IsNCLCertiVerified == 'True'" ng-click="getdocName('NCLCerti_doc')" style="border:unset;padding:unset;">
+                                            <span class="btn btn-secondary" style="padding: 5px 10px 5px 10px;border-radius: 30px; ">&nbsp;<i class="ion-more"></i></span>
+                                        </button>-->
+
+                                        <button type="button" ng-click="CheckUncheckDocVerification('NCLCerti_doc',$index,'False',ApplicantData)" ng-disabled="ObjPersonal.IsNCLCertiVerified == 'True'" ng-show="ObjPersonal.IsNCLCertiVerified == 'True' || ObjPersonal.IsNCLCertiVerified == null" class="btn btn-info waves-effect waves-light "><span style="color:white">&nbsp;<i class="ion-close"></i></span></button>
+                                        <button type="button" ng-click="CheckUncheckDocVerification('NCLCerti_doc',$index,'True',ApplicantData)" ng-disabled="ObjPersonal.IsNCLCertiVerified == 'True'" ng-show="ObjPersonal.IsNCLCertiVerified == 'False' || ObjPersonal.IsNCLCertiVerified == null" class="btn btn-success waves-effect waves-light "> <span style="color:white">&nbsp;<i class="ion-checkmark-round"></i></span></button>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr ng-if="ObjPersonal.IsEWS == 'True'">
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>EWS</label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.EWSDoc != null">
+                                            <a data-toggle="modal" data-target="#test" ng-click="testclick(abc='EWSDoc')">
+                                                <!--href="{{ObjPersonal.EWSDoc}}" target="_blank"-->
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.EWSDoc == 'Not Applicable' || ObjPersonal.EWSDoc == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                    <td data-title="'Status'" style="border-top: none; text-align: center; vertical-align: middle; font-size:15px;">
+                                        <div ng-if="ObjPersonal.IsEWSDocVerified == null" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<i class="ion-eye-disabled"></i> Not Verified</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsEWSDocVerified == 'False'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:blue">&nbsp;<i class="ion-close"></i> Not Approved</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsEWSDocVerified == 'True'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:green">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                                        </div>
+
+                                    </td>
+                                    <td data-title="'Actions'" style="border-top: none; vertical-align: middle; text-align: center;">
+                                        <!--<button type="button" data-target="#Category-Modal" data-toggle="modal" ng-disabled="ObjPersonal.IsEWSDocVerified == 'True'" ng-click="getdocName('EWS_doc')" style="border:unset;padding:unset;">
+                                            <span class="btn btn-secondary" style="padding: 5px 10px 5px 10px;border-radius: 30px; ">&nbsp;<i class="ion-more"></i></span>
+                                        </button>-->
+
+                                        <button type="button" ng-click="CheckUncheckDocVerification('EWS_doc',$index,'False',ApplicantData)" ng-disabled="ObjPersonal.IsEWSDocVerified == 'True'" ng-show="ObjPersonal.IsEWSDocVerified == 'True' || ObjPersonal.IsEWSDocVerified == null" class="btn btn-info waves-effect waves-light "><span style="color:white">&nbsp;<i class="ion-close"></i></span></button>
+                                        <button type="button" ng-click="CheckUncheckDocVerification('EWS_doc',$index,'True',ApplicantData)" ng-disabled="ObjPersonal.IsEWSDocVerified == 'True'" ng-show="ObjPersonal.IsEWSDocVerified == 'False' || ObjPersonal.IsEWSDocVerified == null" class="btn btn-success waves-effect waves-light "> <span style="color:white">&nbsp;<i class="ion-checkmark-round"></i></span></button>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr ng-if="ObjPersonal.IsEWS == 'True' && ObjPersonal.EWS_IADoc != null">
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>Income & Assets (EWS)</label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.EWS_IADoc != null">
+                                            <a data-toggle="modal" data-target="#test" ng-click="testclick(abc='EWS_IADoc')">
+                                                <!--href="{{ObjPersonal.EWS_IADoc}}" target="_blank"-->
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.EWS_IADoc == 'Not Applicable' || ObjPersonal.EWS_IADoc == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                    <td data-title="'Status'" style="border-top: none; text-align: center; vertical-align: middle; font-size:15px;">
+                                        <div ng-if="ObjPersonal.IsEWS_IADocVerified == null" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<i class="ion-eye-disabled"></i> Not Verified</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsEWS_IADocVerified == 'False'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:blue">&nbsp;<i class="ion-close"></i> Not Approved</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsEWS_IADocVerified == 'True'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:green">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                                        </div>
+
+                                    </td>
+                                    <td data-title="'Actions'" style="border-top: none; vertical-align: middle; text-align: center;">
+                                        <!--<button type="button" data-target="#Category-Modal" data-toggle="modal" ng-disabled="ObjPersonal.IsEWS_IADocVerified == 'True'" ng-click="getdocName('EWS_IA_doc')" style="border:unset;padding:unset;">
+                                            <span class="btn btn-secondary" style="padding: 5px 10px 5px 10px;border-radius: 30px; ">&nbsp;<i class="ion-more"></i></span>
+                                        </button>-->
+
+                                        <button type="button" ng-click="CheckUncheckDocVerification('EWS_IA_doc',$index,'False',ApplicantData)" ng-disabled="ObjPersonal.IsEWS_IADocVerified == 'True'" ng-show="ObjPersonal.IsEWS_IADocVerified == 'True' || ObjPersonal.IsEWS_IADocVerified == null" class="btn btn-info waves-effect waves-light "><span style="color:white">&nbsp;<i class="ion-close"></i></span></button>
+                                        <button type="button" ng-click="CheckUncheckDocVerification('EWS_IA_doc',$index,'True',ApplicantData)" ng-disabled="ObjPersonal.IsEWS_IADocVerified == 'True'" ng-show="ObjPersonal.IsEWS_IADocVerified == 'False' || ObjPersonal.IsEWS_IADocVerified == null" class="btn btn-success waves-effect waves-light "> <span style="color:white">&nbsp;<i class="ion-checkmark-round"></i></span></button>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr ng-if="ObjPersonal.IsPhysicallyChallenged == 'True'">
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>Disability Doc</label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.PCDoc != null">
+                                            <a data-toggle="modal" data-target="#test" ng-click="testclick(abc='PCDoc')">
+                                                <!--href="{{ObjPersonal.PCDoc}}" target="_blank"-->
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.PCDoc == 'Not Applicable' || ObjPersonal.PCDoc == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                    <td data-title="'Status'" style="border-top: none; text-align: center; vertical-align: middle; font-size:15px;">
+                                        <div ng-if="ObjPersonal.IsPCDocVerified == null" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<i class="ion-eye-disabled"></i> Not Verified</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsPCDocVerified == 'False'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:blue">&nbsp;<i class="ion-close"></i> Not Approved</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsPCDocVerified == 'True'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:green">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                                        </div>
+
+                                    </td>
+                                    <td data-title="'Actions'" style="border-top: none; vertical-align: middle; text-align: center;">
+                                        <!--<button type="button" data-target="#Category-Modal" data-toggle="modal" ng-disabled="ObjPersonal.IsPCDocVerified == 'True'" ng-click="getdocName('disability_doc')" style="border:unset;padding:unset;">
+                                            <span class="btn btn-secondary" style="padding: 5px 10px 5px 10px;border-radius: 30px; ">&nbsp;<i class="ion-more"></i></span>
+                                        </button>-->
+
+                                        <button type="button" ng-click="CheckUncheckDocVerification('disability_doc',$index,'False',ApplicantData)" ng-disabled="ObjPersonal.IsPCDocVerified == 'True'" ng-show="ObjPersonal.IsPCDocVerified == 'True' || ObjPersonal.IsPCDocVerified == null" class="btn btn-info waves-effect waves-light "><span style="color:white">&nbsp;<i class="ion-close"></i></span></button>
+                                        <button type="button" ng-click="CheckUncheckDocVerification('disability_doc',$index,'True',ApplicantData)" ng-disabled="ObjPersonal.IsPCDocVerified == 'True'" ng-show="ObjPersonal.IsPCDocVerified == 'False' || ObjPersonal.IsPCDocVerified == null" class="btn btn-success waves-effect waves-light "> <span style="color:white">&nbsp;<i class="ion-checkmark-round"></i></span></button>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>Applicant Photo</label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.ApplicantPhoto != null">
+                                            <a data-toggle="modal" data-target="#test" ng-click="testclick(abc='ApplicantPhoto')">
+                                                <!--href="{{ObjPersonal.ApplicantPhoto}}" target="_blank"-->
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.ApplicantPhoto == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                    <td data-title="'Status'" style="border-top: none; text-align: center; vertical-align: middle; font-size:15px;">
+                                        <div ng-if="ObjPersonal.IsApplicantPhotoVerified == null" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<i class="ion-eye-disabled"></i> Not Verified</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsApplicantPhotoVerified == 'False'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:blue">&nbsp;<i class="ion-close"></i> Not Approved</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsApplicantPhotoVerified == 'True'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:green">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                                        </div>
+
+                                    </td>
+                                    <td data-title="'Actions'" style="border-top: none; vertical-align: middle; text-align: center;">
+                                        <!--<button type="button" data-target="#Category-Modal" data-toggle="modal" ng-disabled="ObjPersonal.IsApplicantPhotoVerified == 'True'" ng-click="getdocName('Photo_doc')" style="border:unset;padding:unset;">
+                                            <span class="btn btn-secondary" style="padding: 5px 10px 5px 10px;border-radius: 30px; ">&nbsp;<i class="ion-more"></i></span>
+                                        </button>-->
+
+                                        <button type="button" ng-click="CheckUncheckDocVerification('Photo_doc',$index,'False',ApplicantData)" ng-disabled="ObjPersonal.IsApplicantPhotoVerified == 'True'" ng-show="ObjPersonal.IsApplicantPhotoVerified == 'True' || ObjPersonal.IsApplicantPhotoVerified == null" class="btn btn-info waves-effect waves-light "><span style="color:white">&nbsp;<i class="ion-close"></i></span></button>
+                                        <button type="button" ng-click="CheckUncheckDocVerification('Photo_doc',$index,'True',ApplicantData)" ng-disabled="ObjPersonal.IsApplicantPhotoVerified == 'True'" ng-show="ObjPersonal.IsApplicantPhotoVerified == 'False' || ObjPersonal.IsApplicantPhotoVerified == null" class="btn btn-success waves-effect waves-light "> <span style="color:white">&nbsp;<i class="ion-checkmark-round"></i></span></button>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td data-title="'Document Name'"
+                                        style="border-top:none;">
+                                        <label>Applicant Signature</label>
+                                    </td>
+                                    <td data-title="'View Doc'"
+                                        style="border-top: none; text-align: center;">
+                                        <span ng-if="ObjPersonal.ApplicantSignature != null">
+                                            <a data-toggle="modal" data-target="#test" ng-click="testclick(abc='ApplicantSignature')">
+                                                <!--href="{{ObjPersonal.ApplicantSignature}}" target="_blank"-->
+                                                <button type="button" title="View"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>
+                                        </span>
+                                        <span ng-if="ObjPersonal.ApplicantSignature == null">
+                                            Not Uploaded
+                                        </span>
+                                    </td>
+                                    <td data-title="'Status'" style="border-top: none; text-align: center; vertical-align: middle; font-size:15px;">
+                                        <div ng-if="ObjPersonal.IsApplicantSignatureVerified == null" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<i class="ion-eye-disabled"></i> Not Verified</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsApplicantSignatureVerified == 'False'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:blue">&nbsp;<i class="ion-close"></i> Not Approved</span>
+                                        </div>
+                                        <div ng-if="ObjPersonal.IsApplicantSignatureVerified == 'True'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:green">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                                        </div>
+
+                                    </td>
+                                    <td data-title="'Actions'" style="border-top: none; vertical-align: middle; text-align: center;">
+                                        <!--<button type="button" data-target="#Category-Modal" data-toggle="modal" ng-disabled="ObjPersonal.IsApplicantSignatureVerified == 'True'" ng-click="getdocName('Signature_doc')" style="border:unset;padding:unset;">
+                                            <span class="btn btn-secondary" style="padding: 5px 10px 5px 10px;border-radius: 30px; ">&nbsp;<i class="ion-more"></i></span>
+                                        </button>-->
+
+                                        <button type="button" ng-click="CheckUncheckDocVerification('Signature_doc',$index,'False',ApplicantData)" ng-disabled="ObjPersonal.IsApplicantSignatureVerified == 'True'" ng-show="ObjPersonal.IsApplicantSignatureVerified == 'True' || ObjPersonal.IsApplicantSignatureVerified == null" class="btn btn-info waves-effect waves-light "><span style="color:white">&nbsp;<i class="ion-close"></i></span></button>
+                                        <button type="button" ng-click="CheckUncheckDocVerification('Signature_doc',$index,'True',ApplicantData)" ng-disabled="ObjPersonal.IsApplicantSignatureVerified == 'True'" ng-show="ObjPersonal.IsApplicantSignatureVerified == 'False' || ObjPersonal.IsApplicantSignatureVerified == null" class="btn btn-success waves-effect waves-light "> <span style="color:white">&nbsp;<i class="ion-checkmark-round"></i></span></button>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                <!--<div ng-if="ObjEducation.length == 0" class="row" style="color:red;margin:1px;border:1px solid;text-align:center;padding:10px;">
+                    No Records for Display
+                </div>-->
+                <!--<div class="row" ng-if="ObjEducation.length > 0">
+                    <div class="col-sm-10">
+                        <button style="padding:unset;" type="submit" id="btnEdu" ng-click="UpdateAdmApplicationEduStatus(ObjAdmAppInfo)">
+                            <span ng-if="ObjAdmAppInfo.EduVerification == 'False'" class="btn btn-info">&nbsp;<i class="ion-close"> Verify</i></span>
+                            <span ng-if="ObjAdmAppInfo.EduVerification == 'True'" class="btn btn-success">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                        </button>
+                    </div>
+                </div>-->
+
+            </div>
+        </div>
+    </div>
+    <!-- Personal Details end -->
+
+    <!-- Education Details start -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Education Details</h5>
+        </div>
+        <div class="card-block">
+            <div ng-if="ObjEducation.length > 0" class="table-responsive">
+                <div class="dt-responsive table-responsive">
+                    <table id="res-config" class="table table-striped table-bordered nowrap" ng-table="edudetailsTableParams">
+                        <tbody ng-repeat="ObjEdu in ObjEducation">
+                            <tr>
+                                <td class="expand_data" id="{{'first_col'+ObjEdu.Id}}" ng-click="expand_row(ObjEdu.Id)">+</td>
+                                <td data-title="'Sr.No.'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                <!--<td data-title="'AdmApplicantRegistrationId'" filter="{AdmApplicantRegistrationId: 'text'}" sortable="'AdmApplicantRegistrationId'"
+                                    style="border-top:none;">
+                                    <label>{{ObjEdu.AdmApplicantRegistrationId}}</label>
+                                </td>-->
+                                <!--<td data-title="'Degree'"
+                                    style="border-top:none;">
+                                    <label>{{ObjEdu.Id}}</label>
+                                </td>-->
+                                <td data-title="'Degree'"
+                                    style="border-top:none;">
+                                    <label>{{ObjEdu.EligibleDegreeName}}</label>
+                                </td>
+                                <td data-title="'Specialization'"
+                                    style="border-top:none;">
+                                    <label>{{ObjEdu.SpecializationName}}</label>
+                                </td>
+                                <td data-title="'Board/ University'" style="white-space: initial;" class="w-50 text-wrap">
+                                    <label>{{ObjEdu.ExaminationBodyName}}</label>
+                                </td>
+                                <td data-title="'Institute Attended'" style="white-space: initial;" class="w-50 text-wrap">
+                                    <label>{{ObjEdu.InstituteAttended}}</label>
+                                </td>
+                                <!--<td data-title="'AttachDocument'" filter="{AttachDocument: 'text'}" sortable="'AttachDocument'"
+                                    style="border-top:none;">
+
+                                    <a href="https://localhost:44374/Upload/Documents/{{ObjEdu.AttachDocument}}" target="_blank">{{ObjEdu.AttachDocument}}</a>
+                                </td>-->
+                                <td data-title="'View Doc'">
+                                    <div layout="row" style="margin-top:3px">
+                                        <span ng-if="ObjEdu.AttachDocument != null">
+                                            <a data-toggle="modal" data-target="#test" ng-click="testclickEdu(($index + 1),ObjEducation)">
+                                                <!--href="{{ObjEdu.AttachDocument}}" target="_blank"-->
+                                                <button type="button" title="View" ng-hide="modifyAdminUserFlag"
+                                                        class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                    <i class="icon-doc" style="color:white"></i>
+
+                                                </button>
+                                            </a>&nbsp;
+                                        </span>
+                                        <span ng-if="ObjEdu.AttachDocument == null">
+                                            Not Uploaded
+                                        </span>
+                                    </div>
+                                </td>
+                                <td data-title="'Status'" style="border-top: none; text-align: center; vertical-align: middle; font-size:15px;">
+                                    <div ng-if="ObjEdu.IsVerified == null" type="button" style="border:unset;padding:unset;">
+                                        <span style="color:red">&nbsp;<i class="ion-eye-disabled"></i> Not Verified</span>
+                                    </div>
+                                    <div ng-if="ObjEdu.IsVerified == 'False'" type="button" style="border:unset;padding:unset;">
+                                        <span style="color:blue">&nbsp;<i class="ion-close"></i> Not Approved</span>
+                                    </div>
+                                    <div ng-if="ObjEdu.IsVerified == 'True'" type="button" style="border:unset;padding:unset;">
+                                        <span style="color:green">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                                    </div>
+
+                                </td>
+                                <td data-title="'Actions'" style="border-top: none; vertical-align: middle; text-align: center;">
+                                    <!--<button type="button" data-target="#Category-Modal" data-toggle="modal" ng-disabled="ObjEdu.IsVerified == 'True'" ng-click="getdocName(ObjEdu.EligibleDegreeName,$index)" style="border:unset;padding:unset;">
+                                        <span class="btn btn-secondary" style="padding: 5px 10px 5px 10px;border-radius: 30px; ">&nbsp;<i class="ion-more"></i></span>
+                                    </button>-->
+                                     <button type="button" ng-click="CheckUncheckDocVerification(ObjEdu.EligibleDegreeName,$index,'False',ApplicantData)" ng-disabled="ObjEdu.IsVerified == 'True'" ng-show="ObjEdu.IsVerified == 'True' || ObjEdu.IsVerified == null" class="btn btn-info waves-effect waves-light "><span style="color:white">&nbsp;<i class="ion-close"></i></span></button>
+                                     <button type="button" ng-click="CheckUncheckDocVerification(ObjEdu.EligibleDegreeName,$index,'True',ApplicantData)" ng-disabled="ObjEdu.IsVerified == 'True'" ng-show="ObjEdu.IsVerified == 'False' || ObjEdu.IsVerified == null" class="btn btn-success waves-effect waves-light "> <span style="color:white">&nbsp;<i class="ion-checkmark-round"></i></span></button>
+
+                                </td>
+                                <td data-title="'Edit'" style="border-top: none; vertical-align: middle; text-align: center;">
+                                    <button type="submit" title="Edit" ng-click="modifyEduDetailsData(ObjEdu)"
+                                            class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="min-width:40px;" data-toggle="modal" data-target="#Edu-modal">
+                                        <i class="icofont icofont-ui-edit"></i>
+                                    </button>
+                                </td>
+
+
+                            </tr>
+
+                            <tr id="{{'expand'+ObjEdu.Id}}" class="collapse">
+                                <td colspan="7">
+                                    <div class="row">
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Exam Certificate Number : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.ExamCertificateNumber}}</span></div>
+                                        </div>
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Mark Obtained : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.MarkObtained}}</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Mark Outof : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.MarkOutof}}</span></div>
+                                        </div>
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>CGPA : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.CGPA}}</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Grade : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.Grade}}</span></div>
+                                        </div>
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Percentage Equivalence CGPA : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.PercentageEquivalenceCGPA}}</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Percentage : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.Percentage}}</span></div>
+                                        </div>
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Passing Class : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.ClassName}}</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span> Is First Trial.? : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.IsFirstTrial}}</span></div>
+                                        </div>
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Is Last Qualifying Exam.? : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.IsLastQualifyingExam}}</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Passing Language : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.LanguageName}}</span></div>
+                                        </div>
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Attach Document : </span></div>
+                                            <div class="col-md-6"><span>{{ObjEdu.AttachDocument}}</span></div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <div ng-if="ObjEducation.length == 0" class="row" style="color:red;margin:1px;border:1px solid;text-align:center;padding:10px;">
+                No Records for Display
+            </div>
+            <!--<div class="row" ng-if="ObjEducation.length > 0">
+                <div class="col-sm-10">
+                    <button style="padding:unset;" type="submit" id="btnEdu" ng-click="UpdateAdmApplicationEduStatus(ObjAdmAppInfo)">
+                        <span ng-if="ObjAdmAppInfo.EduVerification == 'False'" class="btn btn-info">&nbsp;<i class="ion-close"> Verify</i></span>
+                        <span ng-if="ObjAdmAppInfo.EduVerification == 'True'" class="btn btn-success">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                    </button>
+                </div>
+            </div>-->
+
+        </div>
+    </div>
+    <!-- Education Details end -->
+
+    <!-- Add-On Details start -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Add-On Details</h5>
+            <div class="float-right" ng-if="ObjAddOn.length > 0">
+                &nbsp;&nbsp;<button type="button" id="btnback" class="btn btn-primary" ng-click="backToStudentAddOn()" style="padding: 5px 15px 5px 15px;border-radius:30px;">Edit Add-on</button>
+            </div>
+        </div>
+        <div class="card-block">
+            <div ng-if="ObjAddOn.length > 0" class="table-responsive">
+                <div class="table-responsive">
+                    <div class="dt-responsive table-responsive">
+                        <table id="res-config" class="table table-striped table-bordered nowrap" ng-table="ApplicationConfigurationTableParams">
+                            <tbody ng-repeat="AddOnCriteria in ObjAddOn">
+                                <tr>
+                                    <td data-title="'Sr.No.'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                    <!--<td data-title="'Id'" style="border-top:none;"><label>{{AddOnCriteria.Id}}</label></td>-->
+                                    <td data-title="'Title'"
+                                        style="border-top:none;">
+                                        <label>{{AddOnCriteria.TitleName}}</label>
+                                    </td>
+                                    <td data-title="'Marks/ CGPA/ Grade'"
+                                        style="border-top:none;text-align:center;">
+                                        <span ng-if="AddOnCriteria.Id != 0">
+                                            <label>{{AddOnCriteria.AddOnValue}}</label>
+                                        </span>
+                                        <span ng-if="AddOnCriteria.Id == 0">
+                                            <label>NA</label>
+                                        </span>
+                                    </td>
+                                    <!--<td data-title="'IsVerified'"
+                                        style="border-top:none;">
+                                        <label>{{AddOnCriteria.IsVerified}}</label>
+                                    </td>-->
+                                    <!--<td data-title="'Verify'" style="border-top:none;text-align:center">
+                                        <button style="padding:unset;" type="submit" id="btnAddOn" ng-click="UpdatePostAdmStudentAddOnInfoStatus(AddOnCriteria,$index)">
+                                            <span ng-if="AddOnCriteria.IsVerified == 'False'" class="btn btn-info">&nbsp;<i class="ion-close"> Verify</i></span>
+                                            <span ng-if="AddOnCriteria.IsVerified == 'True'" class="btn btn-success">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                                        </button>
+                                    </td>-->
+                                    <td data-title="'Status'" style="border-top: none; text-align: center; vertical-align: middle; font-size:15px;">
+                                        <div ng-if="AddOnCriteria.IsVerified == null" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<i class="ion-eye-disabled"></i> Not Verified</span>
+                                        </div>
+                                        <div ng-if="AddOnCriteria.IsVerified == 'False'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:blue">&nbsp;<i class="ion-close"></i> Not Approved</span>
+                                        </div>
+                                        <div ng-if="AddOnCriteria.IsVerified == 'True'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:green">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                                        </div>
+
+                                    </td>
+                                    <td data-title="'Actions'" style="border-top: none; vertical-align: middle; text-align: center;">
+                                        <!--<button type="button" data-target="#Category-Modal" data-toggle="modal" ng-disabled="AddOnCriteria.Id == 0 || EligibilityStatus == 'Provisionally_Approved'" ng-click="getdocName(AddOnCriteria.TitleName,$index)" style="border:unset;padding:unset;">
+                                            <span class="btn btn-secondary" style="padding: 5px 10px 5px 10px;border-radius: 30px; ">&nbsp;<i class="ion-more"></i></span>
+                                        </button>-->
+                                        <button type="button" ng-click="CheckUncheckDocVerification(AddOnCriteria.TitleName,$index,'False',ApplicantData)" ng-disabled="AddOnCriteria.Id == 0 || EligibilityStatus == 'Provisionally_Approved'" ng-show="AddOnCriteria.IsVerified == 'True' || AddOnCriteria.IsVerified == null" class="btn btn-info waves-effect waves-light "><span style="color:white">&nbsp;<i class="ion-close"></i></span></button>
+                                        <button type="button" ng-click="CheckUncheckDocVerification(AddOnCriteria.TitleName,$index,'True',ApplicantData)" ng-disabled="AddOnCriteria.Id == 0 || EligibilityStatus == 'Provisionally_Approved'" ng-show="AddOnCriteria.IsVerified == 'False' || AddOnCriteria.IsVerified == null" class="btn btn-success waves-effect waves-light "> <span style="color:white">&nbsp;<i class="ion-checkmark-round"></i></span></button>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="ObjAddOn.length == 0" class="row" style="color:red;margin:1px;border:1px solid;text-align:center;padding:10px;">
+                No Records for Display
+            </div>
+        </div>
+    </div>
+    <!-- Add-On Details end -->
+
+    <!-- Student Submitted Document start -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Required Submitted Document</h5>
+            <!--<button type="button" class="btn btn-info waves-effect waves-light" data-target="#large-Modal3" data-toggle="modal" style="min-width:40px;"><i class="ion-eye"></i> View Documents</button>-->
+        </div>
+        <div class="card-block">
+            <div ng-if="ObjSubmittedDoc.length > 0" class="table-responsive">
+                <div class="table-responsive">
+                    <div class="dt-responsive table-responsive">
+                        <table id="res-config" class="table table-striped table-bordered nowrap" ng-table="sdocumentTableParams">
+                            <tbody ng-repeat="sdocument in ObjSubmittedDoc">
+                                <tr>
+                                    <td data-title="'Sr.No'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                    <!--<td data-title="'Id'" style="border-top:none;"><label>{{sdocument.Id}}</label></td>-->
+                                    <td data-title="'Document Name'" style="white-space:break-spaces;display:contents;" class="w-50 text-wrap">
+                                        <span ng-if="sdocument.IsCompulsoryDocument == 'True'"><b>{{sdocument.NameOfTheDocument}}</b></span>
+                                        <span ng-if="sdocument.IsCompulsoryDocument == 'False' || sdocument.IsCompulsoryDocument == null">{{sdocument.NameOfTheDocument}}</span>
+                                    </td>
+                                    <td data-title="'View Doc'" style="text-align:center;">
+                                        <div layout="row" style="margin-top:3px;display:inline;">
+                                            <span ng-if="sdocument.Id != 0">
+                                                <a data-toggle="modal" data-target="#test" ng-click="testclickReq(($index + 1),ObjSubmittedDoc)">
+                                                    <!--href="{{sdocument.FileNameofDocumnetBySystem}}" target="_blank"-->
+                                                    <button type="button" class="btn btn-info waves-effect waves-light" style="min-width:40px;"><i class="icon-doc" style="color:white"></i></button>
+                                                </a>&nbsp;&nbsp;
+                                            </span>
+                                            <span ng-if="sdocument.Id == 0">
+                                                Not Uploaded
+                                            </span>
+
+                                            <!--<md-button class="btn btn-primary md-raised pull-right" style="margin-right:0px; height:15px; margin-top:20px; margin-left:0px;" ng-click="addStudentDocument(sdocument.DocumentId)" ng-hide="modifyAdminUserFlag">Add</md-button>-->
+                                        </div>
+                                    </td>
+                                    <!--<td data-title="'IsVerified'"
+                                        style="border-top:none;">
+                                        <label>{{sdocument.IsVerified}}</label>
+                                    </td>-->
+                                    <!--<td data-title="'Verify Doc'" style="border-top:none;text-align:center">
+                                        <button style="padding:unset;" type="submit" id="btnSubDoc" ng-click="UpdateAdmApplicantSubmittedDocStatus(sdocument,$index)">
+                                            <span ng-if="sdocument.IsVerified == 'False'" class="btn btn-info">&nbsp;<i class="ion-close"> Verify</i></span>
+                                            <span ng-if="sdocument.IsVerified == 'True'" class="btn btn-success">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                                        </button>
+                                    </td>-->
+                                    <td data-title="'Status'" style="border-top: none; text-align: center; vertical-align: middle; font-size:15px;">
+
+                                        <div ng-if="sdocument.IsVerified == null" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<i class="ion-eye-disabled"></i> Not Verified</span>
+                                        </div>
+                                        <div ng-if="sdocument.IsVerified == 'False'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:blue">&nbsp;<i class="ion-close"></i> Not Approved</span>
+                                        </div>
+                                        <div ng-if="sdocument.IsVerified == 'True'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:green">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                                        </div>
+
+
+                                    </td>
+                                    <td data-title="'Actions'" style="border-top: none; vertical-align: middle; text-align: center;">
+
+                                        <!--<button type="button" data-target="#Category-Modal" data-toggle="modal" ng-disabled="sdocument.Id == 0 || EligibilityStatus == 'Provisionally_Approved'" ng-click="getdocName(sdocument.NameOfTheDocument,$index)" style="border:unset;padding:unset;">
+                                            <span class="btn btn-secondary" style="padding: 5px 10px 5px 10px;border-radius: 30px; ">&nbsp;<i class="ion-more"></i></span>
+                                        </button>-->
+
+                                        <button type="button" ng-click="CheckUncheckDocVerification(sdocument.NameOfTheDocument,$index,'False',ApplicantData)" ng-disabled="sdocument.Id == 0 || EligibilityStatus == 'Provisionally_Approved'" ng-show="sdocument.IsVerified == 'True' || sdocument.IsVerified == null" class="btn btn-info waves-effect waves-light "><span style="color:white">&nbsp;<i class="ion-close"></i></span></button>
+                                        <button type="button" ng-click="CheckUncheckDocVerification(sdocument.NameOfTheDocument,$index,'True',ApplicantData)" ng-disabled="sdocument.Id == 0 || EligibilityStatus == 'Provisionally_Approved'" ng-show="sdocument.IsVerified == 'False' || sdocument.IsVerified == null" class="btn btn-success waves-effect waves-light "> <span style="color:white">&nbsp;<i class="ion-checkmark-round"></i></span></button>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="ObjSubmittedDoc.length == 0" class="row" style="color:red;margin:1px;border:1px solid;text-align:center;padding:10px;">
+                No Records for Display
+            </div>
+        </div>
+    </div>
+    <!-- Student Submitted Document end -->
+
+    <!-- Additional Documents start -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Additional Document</h5>
+        </div>
+        <div class="card-block">
+            <div ng-if="ObjAdditional.length > 0" class="table-responsive">
+                <div class="table-responsive">
+                    <div class="dt-responsive table-responsive">
+                        <table id="res-config" class="table table-striped table-bordered nowrap" ng-table="additionalTableParams">
+                            <tbody ng-repeat="additional in ObjAdditional">
+                                <tr>
+                                    <td data-title="'Sr.No'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                    <!--<td data-title="'Id'" style="border-top:none;"><label>{{additional.Id}}</label></td>-->
+                                    <td data-title="'Title'" style="border-top:none;">
+                                        <label>{{additional.DocName}}</label>
+                                    </td>
+                                    <td data-title="'View Doc'" style="text-align:center; ">
+                                        <div layout="row" style="margin-top:3px; display:inline; ">
+
+                                            <a data-toggle="modal" data-target="#test" ng-click="testclickAdd($index, ObjAdditional)">
+                                                <!--href="{{additional.DocFileName}}" target="_blank"-->
+                                                <button type="button" ng-show="{{additional.DocFileName}}!=0" class="btn btn-info waves-effect waves-light" style="min-width:40px;"><i class="icon-doc" style="color:white"></i></button>
+                                            </a>&nbsp;&nbsp;
+
+                                            <!--<md-button class="btn btn-primary md-raised pull-right" style="margin-right:0px; height:15px; margin-top:20px; margin-left:0px;" ng-click="addStudentDocument(sdocument.DocumentId)" ng-hide="modifyAdminUserFlag">Add</md-button>-->
+                                        </div>
+                                    </td>
+
+                                    <td data-title="'Status'" style="border-top: none; text-align: center; vertical-align: middle; font-size:15px;">
+                                        <div ng-if="additional.IsVerified == null" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<i class="ion-eye-disabled"></i> Not Verified</span>
+                                        </div>
+                                        <div ng-if="additional.IsVerified == 'False'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:blue">&nbsp;<i class="ion-close"></i> Not Approved</span>
+                                        </div>
+                                        <div ng-if="additional.IsVerified == 'True'" type="button" style="border:unset;padding:unset;">
+                                            <span style="color:green">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                                        </div>
+
+                                    </td>
+                                    <td data-title="'Actions'" style="border-top: none; vertical-align: middle; text-align: center;">
+                                        <!--<button type="button" data-target="#Category-Modal" data-toggle="modal" ng-click="getdocName(additional.DocName,$index)" ng-disabled="EligibilityStatus == 'Provisionally_Approved'" style="border:unset;padding:unset;">
+                                            <span class="btn btn-secondary" style="padding: 5px 10px 5px 10px;border-radius: 30px; ">&nbsp;<i class="ion-more"></i></span>
+                                        </button>-->
+
+                                        <button type="button" ng-click="CheckUncheckDocVerification(additional.DocName,$index,'False',ApplicantData)" ng-disabled="EligibilityStatus == 'Provisionally_Approved'" ng-show="additional.IsVerified == 'True' || additional.IsVerified == null" class="btn btn-info waves-effect waves-light "><span style="color:white">&nbsp;<i class="ion-close"></i></span></button>
+                                        <button type="button" ng-click="CheckUncheckDocVerification(additional.DocName,$index,'True',ApplicantData)" ng-disabled="EligibilityStatus == 'Provisionally_Approved'" ng-show="additional.IsVerified == 'False' || additional.IsVerified == null" class="btn btn-success waves-effect waves-light "> <span style="color:white">&nbsp;<i class="ion-checkmark-round"></i></span></button>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="ObjAdditional.length == 0" class="row" style="color:red;margin:1px;border:1px solid;text-align:center;padding:10px;">
+                No Records for Display
+            </div>
+        </div>
+    </div>
+    <!-- Additional Documents end -->
+
+    <div class="row">
+        <div class="col-sm-2">
+            <button type="button" id="btnFinalVerify" class="btn btn-info m-b-0" ng-click="UpdateDualAdmissionRequest()">Submit</button>
+        </div>
+    </div><br />
+
+    <!-- Eligibility Verification start -->
+    <div class="card" ng-if="submitmsgEligibleflag == true">
+        <div class="card-header">
+            <h5>Final Verification </h5>
+            <div class="float-right">
+                <button type="button" id="btnback" class="btn btn-info" ng-click="backToPostConfigList()" style="padding: 5px 10px 5px 10px;border-radius:30px;">Back to list</button>
+            </div>
+        </div>
+        <div class="card-block">
+
+            <form id="verifyform" action="/" novalidate>
+                <div ng-if="submitmsgEligibleflag == true">
+
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="form-group col">
+                                <div class="col-sm-10 col-lg-10">
+                                    <label for="userName-2" class="block"><b>Verification Status </b></label>
+                                    <select class=" form-control" id="VerificationStatus" name="VerificationStatus" ng-model="VerificationStatus" ng-click="CheckallVerifyTrue()" ng-disabled="VerificationSuccessflag == true">
+                                        <option value="" selected disabled hidden>-- Select Eligibility Status --</option>
+                                        <option value="Verified" ng-show="checkDocFlag == false">Verified</option>
+                                        <option value="Not_Approved">Not Approved</option>
+                                        <option value="Pending">Pending</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group col">
+                                <div class="col-sm-10 col-lg-12">
+                                    <label for="userName-2" class="block"><b> Verification Remarks </b></label>
+                                    <textarea class="form-control" id="facremarks" ng-model="facremarksObj.remarks" name="AdminRemarkByFaculty1" placeholder="Enter Remarks" ng-disabled="VerificationSuccessflag == true" required></textarea>
+                                    <!--<span style="color:red;" ng-show="verifyform.AdminRemarkByFaculty1.$touched && verifyform.AdminRemarkByFaculty1.$error.required"> Required! </span><br />-->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                            <button type="button" id="btnFinalVerify" class="btn btn-info m-b-0" ng-click="UpdateAdmApplicationAdminRemarksByFaculty()" ng-disabled="VerificationSuccessflag == true">Verify</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <br />
+
+            </form>
+        </div>
+    </div><br /><br />
+    <!-- Eligibility Verification end -->
+
+
+    <div class="modal fade" id="Category-Modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Are you sure to Approve Document ?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!--<button type="button" ng-click="updateDocStatus(null,ApplicantData)" class="btn btn-danger waves-effect waves-light " data-dismiss="modal">&nbsp;<i class="ion-close"> Not View</i></button>-->
+                    <button type="button" ng-click="updateDocStatus('False',ApplicantData)" class="btn btn-info waves-effect waves-light " data-dismiss="modal">Not Approve</button>
+                    <button type="button" ng-click="updateDocStatus('True',ApplicantData)" class="btn btn-success waves-effect waves-light " data-dismiss="modal">Approve</button>
+                    <!--<button style="padding:unset;" type="button" id="btnCatVerify" ng-click="UpdateAdmApplicationCategoryVerification(ObjAdmAppInfo)" data-target="#Category-Modal" data-toggle="modal">
+                        <span ng-if="ObjAdmAppInfo.CategoryVerification == null" class="btn btn-danger">&nbsp;<i class="ion-close"> Not View</i></span>
+                        <span ng-if="ObjAdmAppInfo.CategoryVerification == 'False'" class="btn btn-info">&nbsp;<i class="ion-close"> Verify</i></span>
+                        <span ng-if="ObjAdmAppInfo.CategoryVerification == 'True'" class="btn btn-success">&nbsp;<i class="ion-checkmark-round"> Approved</i></span>
+                    </button>-->
+
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-default waves-effect " data-dismiss="modal" disabled>Close</button>-->
+                    <!--<button type="button" class="btn btn-primary waves-effect waves-light " data-dismiss="modal">Close</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Education Details Edit modal start -->
+    <div class="modal fade" id="Edu-modal" tabindex="-1" role="dialog" style="display: none;">
+        <div class="modal-dialog" style="max-width: 1350px!important;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Education Details</h5>&nbsp;&nbsp;<br />
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-b-3">
+                    <h6 class="modal-title" style="color:red;">  All fields mention with (*) are compulsory...</h6>
+                </div>
+                <div class="modal-body p-b-3">
+                    <fieldset>
+                        <div class="form-group row">
+
+                            <div class="form-group col">
+                                <div class="col-sm-10 col-lg-10">
+                                    <label for="userName-2" class="block">Education Level<span style="color:red;"> *</span></label>
+                                </div>
+                                <div class="col-sm-10 col-lg-12 " ng-init="sendeligibledegree()">
+                                    <select id="EligibleDegreeName" name="EligibleDegreeName1" ng-change="sendspecialization1()" ng-model="ObjEdu.EligibleDegreeId" ng-options="ed.Id as ed.EligibleDegreeName for ed in c1List" [value]="ObjEdu.EligibleDegreeId" class=" form-control" required>
+                                        {{ed.EligibleDegreeName}}>
+                                        <option value="">-- Choose Education Level --</option>
+                                    </select>
+                                    <span style="color:red;" ng-show="educationform.EligibleDegreeName1.$touched && educationform.EligibleDegreeName1.$error.required"> Required! </span><br />
+                                </div>
+                            </div>
+
+                            <div class="form-group col">
+                                <div class="col-sm-10 col-lg-10">
+                                    <label for="userName-2" class="block">Specialization<span style="color:red;"> *</span></label>
+                                </div>
+                                <div class="col-lg-12 ">
+                                    <span class="nullable">
+                                        <select ng-model="ObjEdu.SpecializationId" name="SpecializationName1" ng-options="s.Id as s.SpecializationName for s in c4List" [value]="ObjEdu.SpecializationId" class=" form-control" required>
+                                            {{s.SpecializationName}}>
+                                            <option value="">-- Choose Specialization --</option>
+                                        </select>
+                                        <span style="color:red;" ng-show="educationform.SpecializationName1.$touched && educationform.SpecializationName1.$error.required"> Required! </span><br />
+                                        <!--<span style="color:red;" ng-show="educationform.SpecializationName1.$untouched && educationform.SpecializationName1.$error.required"> Required! </span><br />-->
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Board/ University<span style="color:red;"> *</span></label>
+                                </div>
+                                <div class="col-sm-8 col-lg-12">
+                                    <span class="nullable">
+                                        <select ng-model="ObjEdu.ExaminationBodyId" name="ExaminationBodyName1" ng-options="e.Id as e.ExaminationBodyName for e in c3List" [value]="ObjEdu.ExaminationBodyId" class=" form-control" required>
+                                            {{e.ExaminationBodyName}}>
+                                            <option value="">-- Choose Board Name --</option>
+                                        </select>
+                                        <span style="color:red;" ng-show="educationform.ExaminationBodyName1.$touched && educationform.ExaminationBodyName1.$error.required"> Required! </span><br />
+                                        <!--<span style="color:red;" ng-show="educationform.ExaminationBodyName1.$untouched && educationform.ExaminationBodyName1.$error.required"> Required! </span><br />-->
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Faculty/ College/ School Name<span style="color:red;"> *</span></label>
+                                </div>
+                                <div class="col-sm-8 col-lg-12">
+                                    <input id="InstituteAttended" name="InstituteAttended1" type="text" class=" form-control" ng-model="ObjEdu.InstituteAttended" required />
+                                    <span style="color:red;" ng-show="educationform.InstituteAttended1.$touched && educationform.InstituteAttended1.$error.required"> Required! </span><br />
+                                    <!--<span style="color:red;" ng-show="educationform.InstituteAttended1.$untouched && educationform.InstituteAttended1.$error.required"> Required! </span><br />-->
+                                </div>
+                            </div>
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">School No.</label>
+                                </div>
+                                <div class="col-sm-8 col-lg-12">
+                                    <input type="text" class=" form-control" ng-model="ObjEdu.SchoolNo" />
+                                </div>
+                            </div>
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Institute City<span style="color:red;"> *</span></label>
+                                </div>
+                                <div class="col-sm-8 col-lg-12" ng-init="sendcity()">
+                                    <span class="nullable">
+                                        <select id="OtherInsCity" ng-model="ObjEdu.InstituteCityId" name="CityName1" ng-options="c.Id as c.CityName for c in c5List"
+                                                [value]="ObjEdu.InstituteCityId" class=" form-control" ng-change="OtherCityChange()" required>
+                                            {{c.CityName}}>
+                                            <option value="">-- Choose City --</option>
+                                        </select>
+                                        <span style="color:red;" ng-show="educationform.CityName1.$touched && educationform.CityName1.$error.required"> Required! </span><br />
+                                        <!--<span style="color:red;" ng-show="educationform.CityName1.$untouched && educationform.CityName1.$error.required"> Required! </span><br />-->
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group col" ng-show="showval == 'Other'">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Other Institute City<span style="color:red;"> *</span></label>
+                                </div>
+                                <div class="col-sm-8 col-lg-10">
+                                    <input id="OtherCity" name="OtherCity" type="text" ng-model="ObjEdu.OtherCity" class=" form-control" required />
+                                    <span style="color:red;" ng-show="educationform.OtherCity.$touched && educationform.OtherCity.$error.required"> Required! </span><br />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Exam Pass Location<span style="color:red;"> *</span></label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <span class="nullable">
+                                        <select ng-model="ObjEdu.ExamPassCity" name="ExamCityName1" class=" form-control" required>
+                                            <option value="">-- Choose City --</option>
+                                            <option>Within Vadodara</option>
+                                            <option>Outside Vadodara</option>
+                                            <option>Outside Gujarat</option>
+                                            <option>Outside India</option>
+                                        </select>
+                                        <span style="color:red;" ng-show="educationform.ExamCityName1.$touched && educationform.ExamCityName1.$error.required"> Required! </span><br />
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group col" ng-if="ObjEdu.ExaminationBodyId != 2">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Result Status<span style="color:red;"> *</span></label>
+                                </div>
+                                <div class="col-sm-8 col-lg-12">
+                                    <select id="res_status" class=" form-control" name="ResultStatus1" ng-model="ObjEdu.ResultStatus" resultstatus-options required>
+                                    </select>
+                                    <span style="color:red;" ng-show="educationform.ResultStatus1.$touched && educationform.ResultStatus1.$error.required"> Required! </span><br />
+                                </div>
+                            </div>
+
+                            <div class="form-group col" ng-if="ObjEdu.ExaminationBodyId == 2 && ShowFlagPendingStatus == false">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Result Status<span style="color:red;"> *</span></label>
+                                </div>
+                                <div class="col-sm-8 col-lg-12">
+                                    <select id="res_status" class=" form-control" name="ResultStatus1" ng-model="ObjEdu.ResultStatus" resultstatus-options required>
+                                    </select>
+                                    <span style="color:red;" ng-show="educationform.ResultStatus1.$touched && educationform.ResultStatus1.$error.required"> Required! </span><br />
+                                </div>
+                            </div>
+                            <div class="form-group col" ng-if="ObjEdu.ExaminationBodyId == 2 && ShowFlagPendingStatus == true">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Result Status<span style="color:red;"> *</span></label>
+                                </div>
+                                <div class="col-sm-8 col-lg-12">
+                                    <select id="res_status" class=" form-control" name="ResultStatus1" ng-model="ObjEdu.ResultStatus" resultpendingstatus-options required>
+                                    </select>
+                                    <span style="color:red;" ng-show="educationform.ResultStatus1.$touched && educationform.ResultStatus1.$error.required"> Required! </span><br />
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col">
+                                <div class="col-sm-2 col-lg-6">
+                                </div>
+                                <div class="col-sm-8 col-lg-10">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" ng-show="ObjEdu.ResultStatus=='Result_With_Marksheet'">
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Exam Pass Month<span style="color:red;"> *</span></label>
+                                </div>
+                                <div class="col-sm-8 col-lg-10">
+                                    <select class=" form-control" name="month1" ng-model="ObjEdu.ExamPassMonth" month-options required>
+                                    </select>
+                                    <span style="color:red;" ng-show="educationform.month1.$touched && educationform.month1.$error.required"> Required! </span><br />
+                                    <!--<span style="color:red;" ng-show="educationform.month1.$untouched && educationform.month1.$error.required"> Required! </span><br />-->
+                                    <!--<input id="ExamPassMonth" name="ExamPassMonth" type="text" class=" form-control" ng-model="ObjEdu.ExamPassMonth">-->
+                                </div>
+                            </div>
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Exam Pass Year</label>
+                                </div>
+                                <div class="col-sm-8 col-lg-10">
+                                    <select class=" form-control" name="year1" id="year" ng-model="ObjEdu.ExamPassYear" required>
+                                        <option value="">Select Year</option>
+                                    </select>
+                                    <span style="color:red;" ng-show="educationform.year1.$touched && educationform.year1.$error.required"> Required! </span><br />
+                                    <!--<span style="color:red;" ng-show="educationform.year1.$untouched && educationform.year1.$error.required"> Required! </span><br />-->
+                                    <!--<input id="ExamPassYear" name="ExamPassYear" type="date" class=" form-control" ng-model="ObjEdu.ExamPassYear">-->
+                                </div>
+                            </div>
+
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Exam Seat Number<span style="color:red;"> *</span></label>
+                                </div>
+                                <div class="col-sm-8 col-lg-10">
+                                    <input id="ExamSeatNumber" name="ExamSeatNumber1" type="text" class=" form-control" ng-model="ObjEdu.ExamSeatNumber" required />
+                                    <span style="color:red;" ng-show="educationform.ExamSeatNumber1.$touched && educationform.ExamSeatNumber1.$error.required"> Required! </span><br />
+                                    <!--<span style="color:red;" ng-show="educationform.ExamSeatNumber1.$untouched && educationform.ExamSeatNumber1.$error.required"> Required! </span><br />-->
+                                </div>
+                            </div>
+
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Exam Certificate Number<span style="color:red;"> *</span></label>
+                                </div>
+                                <div class="col-sm-8 col-lg-10">
+                                    <input id="ExamCertificateNumber" name="ExamCertificateNumber1" type="text" class=" form-control" ng-model="ObjEdu.ExamCertificateNumber" required />
+                                    <span style="color:red;" ng-show="educationform.ExamCertificateNumber1.$touched && educationform.ExamCertificateNumber1.$error.required"> Required! </span><br />
+                                    <!--<span style="color:red;" ng-show="educationform.ExamCertificateNumber1.$untouched && educationform.ExamCertificateNumber1.$error.required"> Required! </span><br />-->
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row" ng-show="ObjEdu.ResultStatus=='Result_With_Marksheet'">
+
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Mark Obtained</label>
+                                </div>
+                                <div class="col-sm-8 col-lg-10">
+                                    <input id="MarkObtained" name="MarkObtained1" type="number" class=" form-control" ng-model="ObjEdu.MarkObtained"
+                                           allow-pattern="\d" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                           maxlength="4" />
+                                    <span id="MarkObtCheck" style="color:red;"></span>
+                                    <!--<span style="color:red;" ng-show="educationform.MarkObtained1.$touched && educationform.MarkObtained1.$error.required"> Required! </span><br />-->
+                                    <!--<span style="color:red;" ng-show="educationform.MarkObtained1.$untouched && educationform.MarkObtained1.$error.required"> Required! </span><br />-->
+                                </div>
+                            </div>
+
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Mark Outof</label>
+                                </div>
+                                <div class="col-sm-8 col-lg-10">
+                                    <input id="MarkOutof" name="MarkOutof1" type="number" class=" form-control input_field" ng-model="ObjEdu.MarkOutof"
+                                           allow-pattern="\d" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                           maxlength="4" />
+                                    <span id="MarkOutofCheck" style="color:red;"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Percentage</label>
+                                </div>
+                                <div class="col-sm-8 col-lg-10" ng-init="percentage()">
+                                    <input id="Percentage" name="Percentage" type="text" class=" form-control input_field"
+                                           ng-model="ObjEdu.Percentage" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Grade</label>
+                                </div>
+                                <div class="col-sm-8 col-lg-10">
+                                    <input id="Grade" name="Grade1" type="text" class=" form-control" ng-model="ObjEdu.Grade" oninput="this.value = this.value.toUpperCase()" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row" ng-show="ObjEdu.ResultStatus=='Result_With_Marksheet'">
+
+
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">CGPA</label>
+                                </div>
+                                <div class="col-sm-8 col-lg-10">
+                                    <input id="CGPA" name="CGPA1" type="number" class=" form-control input_field" ng-model="ObjEdu.CGPA"
+                                           allow-pattern="[\d_\.]" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                           maxlength="5" />
+                                    <span id="CGPACheck" style="color:red;"></span>
+                                    <!--<span style="color:red;" ng-show="educationform.CGPA1.$touched && educationform.CGPA1.$error.required"> Required! </span><br />-->
+                                    <!--<span style="color:red;" ng-show="educationform.CGPA1.$untouched && educationform.CGPA1.$error.required"> Required! </span><br />-->
+                                </div>
+                            </div>
+
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Percentage Equivalence CGPA</label>
+                                </div>
+                                <div class="col-sm-8 col-lg-10">
+                                    <input id="PercentageEquivalenceCGPA" name="PercentageEquivalenceCGPA1" type="number" class=" form-control" ng-model="ObjEdu.PercentageEquivalenceCGPA"
+                                           allow-pattern="[\d_\.]" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                           maxlength="5" />
+                                    <span id="PercentageEquivalenceCGPACheck" style="color:red;"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Are you pass with First Trial?<span style="color:red;"> *</span></label>
+                                </div>
+                                <div class="col-sm-8 col-lg-10">
+                                 
+                                    <label><input ng-value="true" type="radio" name="isfirsttrial1" ng-model="ObjEdu.IsFirstTrial" style="margin-right:15px" required />Yes</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <label><input ng-value="false" type="radio" name="isfirsttrial1" ng-model="ObjEdu.IsFirstTrial" style="margin-right:15px;margin-left:15px" required />&nbsp;No</label>
+
+                                    <!--<span style="color:red;" ng-show="educationform.isfirsttrial1.$untouched && educationform.isfirsttrial1.$error.required"> Required! </span><br />-->
+                                </div>
+                            </div>
+
+                            <div class="form-group col" ng-show="ObjEdu.IsFirstTrial == false">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">No.of Attempt(s)<span style="color:red;"> *</span></label>
+                                </div>
+
+                                <div class="col-sm-8 col-lg-10">
+                                    <input id="NoOfTrails" name="NoOfTrails" type="number" class=" form-control" ng-model="ObjEdu.NoOfTrails"
+                                           allow-pattern="\d" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                           maxlength="2" />
+                                    <span id="NoOfTrails" style="color:red;"></span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row" ng-show="ObjEdu.ResultStatus=='Result_With_Marksheet'">
+
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Are you giving this details of Last Qualifying Exam? <span style="color:red;"> *</span></label>
+                                </div>
+
+                                <div class="col-sm-8 col-lg-10">
+                                    <label><input ng-value="true" type="radio" name="islastqualifyexam1" ng-model="ObjEdu.IsLastQualifyingExam" style="margin-right:15px" required />Yes</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <label><input ng-value="false" type="radio" name="islastqualifyexam1" ng-model="ObjEdu.IsLastQualifyingExam" style="margin-right:15px;margin-left:15px" required />&nbsp;No</label>
+                                    <!--<span style="color:red;" ng-show="educationform.islastqualifyexam1.$untouched && educationform.islastqualifyexam1.$error.required"> Required! </span><br />-->
+                                </div>
+                            </div>
+
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">Class</label>
+                                </div>
+                                <div class="col-sm-8 col-lg-10" ng-init="sendclass()">
+                                    <span class="nullable">
+                                        <select id="cl_Id" ng-model="ObjEdu.ClassId" name="ClassName1" ng-options="cm.Id as cm.ClassName for cm in c6List" [value]="ObjEdu.ClassId" class=" form-control" required>
+                                            {{cm.ClassName}}>
+                                            <option value="">-- Select Class --</option>
+                                        </select>
+                                        <span style="color:red;" ng-show="educationform.ClassName1.$touched && educationform.ClassName1.$error.required"> Required! </span><br />
+                                        <!--<span style="color:red;" ng-show="educationform.ClassName1.$untouched && educationform.ClassName1.$error.required"> Required! </span><br />-->
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group col">
+                                <div class="col-lg-12">
+                                    <label for="userName-2" class="block">In which medium you studied?<span style="color:red;"> *</span></label>
+                                </div>
+                                <div class="col-sm-8 col-lg-10" ng-init="sendlanguage()">
+                                    <!--<input id="TeachingLanguageId" name="TeachingLanguageId" type="text" class=" form-control" ng-model="ObjEdu.TeachingLanguageId">-->
+                                    <span class="nullable">
+                                        <select ng-model="ObjEdu.TeachingLanguageId" name="LanguageName1" ng-options="d.Id as d.LanguageName for d in c2List" [value]="ObjEdu.TeachingLanguageId" class=" form-control" required>
+                                            {{d.LanguageName}}>
+                                            <option value="">-- Choose Medium --</option>
+                                        </select>
+                                        <span style="color:red;" ng-show="educationform.LanguageName1.$touched && educationform.LanguageName1.$error.required"> Required! </span><br />
+                                        <!--<span style="color:red;" ng-show="educationform.LanguageName1.$untouched && educationform.LanguageName1.$error.required"> Required! </span><br />-->
+                                    </span>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="form-group row">
+
+                            <div class="form-group col" ng-show="ObjEdu.ResultStatus=='Result_With_Marksheet'">
+                                <div class="col-sm-2 col-lg-10">
+                                    <label for="userName-2" class="block">Attach Document<span style="color:red;"> *</span></label>&nbsp;
+
+                                </div>
+                                <div class="col-sm-8 col-lg-10">
+                                    <!--<input type="file" id="file1" name="file1" accept=".pdf" ngf-select ng-model="file1" class=" form-control" />-->
+                                    <!--<input type="file" id="file1" accept=".pdf" ngf-select="UploadEduFiles($files)" class=" form-control" /><br />
+                                    <label for="userName-2" class="block">(Only PDF File Format allowed with Maximum Size 1 MB)</label><br />
+                                    <br />
+                                    <label for="userName-2" class="block">{{ObjEdu.AttachDocument}}</label><br />
+                                    <span id="ErrorMsgPassbookImg" style="color:red" ng-show="ObjEdu.AttachDocument != null"></span>
+                                    <span id="SuccessMsgPassbookImg" style="color:green" ng-show="ObjEdu.AttachDocument != null"></span>-->
+                                    <!--<span style="color:red;" ng-show="file_upload_touched == true && image_name == ''"> Required! </span><br />-->
+                                    <!--<span style="color:red;" ng-show="educationform.file1.$touched && educationform.file1.$error.required"> Required! </span><br />-->
+                                    <!--<span style="color:red;" ng-show="educationform.file1.$untouched && educationform.file1.$error.required"> Required! </span><br />-->
+
+                                    <input id="AttachDocument" name="AttachDocument" ng-model="ObjEdu.AttachDocument" type="file" class="form-control" style="width: 78%;display:inline" multiple="multiple" ngf-select="UploadEduFiles($files)" /><br />
+                                    <!--<div layout="row" style="float:right">
+                                        <a href="{{SocialCategoryDocView}}" target="_blank">
+                                            <button type="button" title="View" class="btn btn-info waves-effect waves-light" style="height:40px;">
+                                                <i class="icon-doc" style="color:white"></i>
+                                            </button>
+                                        </a>
+                                    </div>-->
+                                    <span id="ErrorMsgEdu" style="color:red"></span>
+                                    <span id="SuccessMsgEdu" style="color:green"></span>
+                                </div>
+                             
+                                <!-- <div class="col-sm-6 col-lg-6" ng-show="FileNotUploaded">
+         <h5 style="color:red;">Please Upload File Again!<span style="color:red;"></span></h5>
+
+     </div>-->
+
+                            </div>
+
+                            <div class="form-group col" ng-show="ObjEdu.ResultStatus == 'Result_Pending' && ObjEdu.ExaminationBodyId == 2">
+                                <div class="col-sm-2 col-lg-10">
+                                    <label for="userName-2" class="block"><b>Declaration :</b></label>&nbsp;
+
+                                </div>
+                                <div class="col-lg-12">
+                                    Please submit your Document before End Date of Document Upload.
+                                    <label class="check-task">
+                                        <input id="IsDeclare" type="checkbox" value="true" ng-model="ObjEdu.IsDeclared">
+
+                                        <span for="name-2" class="block"><b>Herewith I am giving undertaking that i will submit required Marksheet at the time of document verification if I(Applicant) do not submit the Marksheet then you can cancel application of mine</b></span>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" name="Add" class="btn btn-primary" ng-click="addEduDetails()" ng-show="ShowAddUpdateFlag == 'swAdd'">Add</button>
+
+                    <button type="submit" class="btn btn-primary" ng-click="modifyEduDetailsData(EducationDetailsData)"
+                            ng-show="modifyAdminUserFlag">
+                        Modify
+                    </button>
+
+                    <button type="submit" class="btn btn-primary" ng-click="UpdateEducationDetailsDataInPreVerification()" ng-show="ShowAddUpdateFlag == 'swUpdate'">Update</button>
+
+                    <!--<button type="button" class="btn btn-primary" ng-click="deleteEduDetails()" ng-hide="modifyAdminUserFlag">Delete</button>-->
+
+                    <button type="button" class="btn btn-default" ng-click="cancelEduDetails()" data-dismiss="modal">Cancel</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Education Details Edit modal End -->
+
+    <!-- Personal Details Edit modal start -->
+    <div class="modal fade" id="Personal-modal" tabindex="-1" role="dialog" style="display: none;">
+        <div class="modal-dialog" style="max-width: 750px!important;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Personal Details</h5>&nbsp;&nbsp;<br />
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-b-3">
+                    <fieldset>
+                        <div class="form-group row">
+
+                            <div class="col-sm-2">
+                                <div class="col-sm-16">
+                                    <label for="name-2" class="block">Gender </label>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-2 col-md-3 col-lg-4">
+
+                                <div class="form-check">
+                                    <input id="gender1" class="form-check-input" type="radio" name="gender1" value="Male" ng-model="ObjPersonal.Gender" />
+                                    <label class="form-check-label" for="flexRadioDefault1">Male</label>
+                                </div>
+                                <div class="form-check">
+                                    <input id="gender2" class="form-check-input" type="radio" name="gender2" value="Female" ng-model="ObjPersonal.Gender" />
+                                    <label class="form-check-label" for="flexRadioDefault2">Female</label>
+                                </div>
+                                <div class="form-check">
+                                    <input id="gender3" class="form-check-input" type="radio" name="gender3" value="Transgender/ThirdGender" ng-model="ObjPersonal.Gender" />
+                                    <label class="form-check-label" for="flexRadioDefault3">Transgender/ Third Gender</label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-2 col-md-8 col-lg-6">
+                                <label for="name-2" class="block">Is He/She Comes Under Special Quota?<br />(ex-serviceman / Defence person etc.) </label>
+                            </div>
+                            <div class="col-sm-2">
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="ChSocialYes" value="True" name="ApplicantSocial" ng-model="ObjPersonal.myDropDownSC" ng-click="EnableSocialCategory()" ng-checked="CategoryRadioValue == 'True'" />
+                                    <label class="form-check-label" for="flexRadioDefault1">Yes</label>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-2">
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="ChSocialYes" value="False" name="ApplicantSocial" ng-model="ObjPersonal.myDropDownSC" ng-click="EnableSocialCategory()" ng-checked="CategoryRadioValue == 'False'" />
+                                    <label class="form-check-label" for="flexRadioDefault2">No</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" id="ifSocialYes" style="display: none;">
+                            <div class="col-sm-2 col-md-6 col-lg-6" ng-init="SocialCategoryMasterGet()">
+                                <label for="name-2" class="block">Category/ Quota </label>
+                                <select id="SocId" class="form-control" ng-model="ObjPersonal.SocialCategoryId" name="SocId" ng-pattern="/^[^0$]/"
+                                        ng-options="d.Id as d.SocialCategoryName for d in scList" [value]="ObjPersonal.SocialCategoryId" required>
+
+                                    <option value="" selected>Select Category</option>
+
+                                </select>
+                                <!--<span style="color:red;margin-left:5px;" ng-show="f1.SocId.$touched && f1.SocId.$error.pattern">Required *</span>-->
+                            </div>
+                            <div class="col-sm-2 col-md-6 col-lg-6" ng-show="IsSocialVisible==0" ng-hide="ObjPersonal.SocialCategoryId==16">
+                                <label for="name-2" class="block">Upload Document (Category/ Quota)</label>
+                                <input id="SocialCat" name="SocialCat" ng-model="SocialCatFileNameUpload" type="file" class="form-control" style="width: 78%;display:inline" multiple="multiple" ngf-select="UploadSocialCatFiles($files)" />
+                                <div layout="row" style="float:right" ng-show="SocialCategoryDocView != undefined && SocialCategoryDocView != null">
+                                    <a href="{{SocialCategoryDocView}}" target="_blank">
+                                        <button type="button" title="View" class="btn btn-info waves-effect waves-light" style="height:40px;">
+                                            <i class="icon-doc" style="color:white"></i>
+                                        </button>
+                                    </a>
+                                </div>
+                                <span id="ErrorMsgSocialCat" style="color:red"></span>
+                                <span id="SuccessMsgSocialCat" style="color:green"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-2 col-md-6 col-lg-6" ng-init="sendApp()">
+                                <label for="name-2" class="block">Reservation Category </label>
+                                <select id="Ac" name="Ac" ng-model="ObjPersonal.ApplicationCategoryId" ng-pattern="/^[^0$]/"
+                                        ng-options="d.Id as d.ApplicationReservationName for d in AppList" [value]="ObjPersonal.ApplicationCategoryId" class="form-control" required>
+
+                                    <option value="" selected>Select Category</option>
+                                    <option value="{{ObjPersonal.ApplicationCategoryId}}"></option>
+
+                                </select>
+
+                            </div>
+                            <div class="col-sm-2 col-md-6 col-lg-6" ng-show="ObjPersonal.ApplicationCategoryId != 3">
+                                <label for="name-2" class="block">Upload Document (Ex.SC,ST,SEBC) Applicable only for Gujarat </label>
+                                <input id="ReservationCat" name="ReservationCat" type="file" ng-model="fileReservationInput" class="form-control" style="width: 78%;display:inline" multiple="multiple" ngf-select="UploadReservationCatFiles($files)" />
+                                <div layout="row" style="float:right" ng-show="ResCatDocView != undefined && ResCatDocView != null">
+                                    <a href="{{ResCatDocView}}" target="_blank">
+                                        <button type="button" title="View" class="btn btn-info waves-effect waves-light" style="height:40px;">
+                                            <i class="icon-doc" style="color:white"></i>
+                                        </button>
+                                    </a>
+                                </div>
+                                <span id="ErrorMsgReservationCat" style="color:red"></span>
+                                <span id="SuccessMsgReservationCat" style="color:green"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" ng-show="ObjPersonal.ApplicationCategoryId == 4">
+                            <div class="col-sm-2 col-md-6 col-lg-6" ng-show="ObjPersonal.ApplicationCategoryId!=3">
+                                <label for="name-2" class="block">Non Creamy Layer Certificate No. </label>
+                                <input type="text" class="form-control" ng-model="ObjPersonal.NCLCertiNo" required>
+                            </div>
+                            <div class="col-sm-2 col-md-6 col-lg-6" ng-show="ObjPersonal.ApplicationCategoryId!=3">
+                                <label for="name-2" class="block">Non Creamy Layer Certificate </label>
+                                <!--<input id="NCLCerti" type="file" class="form-control" style="width: 78%;display:inline" multiple="multiple" ngf-select="UploadNCLCerti($files)" />-->
+                                <input id="NCLCerti" name="NCLCerti" type="file" ng-model="fileNCLInput" class="form-control" style="width: 78%;display:inline" multiple="multiple" ngf-select="UploadNCLCerti($files)" />
+                                <div layout="row" style="float:right" ng-show="NCLCertiView != undefined && NCLCertiView != null">
+                                    <a href="{{NCLCertiView}}" target="_blank">
+                                        <button type="button" title="View" class="btn btn-info waves-effect waves-light" style="height:40px;">
+                                            <i class="icon-doc" style="color:white"></i>
+                                        </button>
+                                    </a>
+                                </div>
+                                <span id="ErrorMsgNCLCerti" style="color:red"></span>
+                                <span id="SuccessMsgNCLCerti" style="color:green"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" ng-show="ObjPersonal.ApplicationCategoryId == 4">
+                            <div class="col-sm-2 col-md-6 col-lg-6" ng-show="ObjPersonal.ApplicationCategoryId!=3">
+                                <label for="name-2" class="block">Non Creamy Layer Certificate Issue Date </label>
+                                <input type="date" class="form-control" ng-model="ObjPersonal.NCLCerti_IsuueDate" min="1950-01-01">
+                            </div>
+                            <div class="col-sm-2 col-md-6 col-lg-6" ng-show="ObjPersonal.ApplicationCategoryId!=3">
+                                <label for="name-2" class="block">Non Creamy Layer Certificate Validity Date </label>
+                                <input type="date" class="form-control" ng-model="ObjPersonal.NCLCertiValidityDate" min="1950-01-01">
+                            </div>
+                        </div>
+
+                        <div class="form-group row" ng-show="ObjPersonal.ApplicationCategoryId == 3">
+                            <div class="col-sm-2 col-md-7 col-lg-6">
+                                <label for="name-2" class="block">Do you belong to Economically Weaker Section (EWS)? (Only Applicable for General Category) </label>
+                            </div>
+                            <div class="col-sm-2">
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="chkYes" value="True" name="ApplicantEWS" ng-model="ObjPersonal.IsEWS" ng-click="EnableDisableEWS()" ng-required="!SocialCat.IsEWS" />
+                                    <label class="form-check-label" for="flexRadioDefault1">Yes</label>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-2">
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="chkNo" value="False" name="ApplicantEWS" ng-model="ObjPersonal.IsEWS" ng-click="EnableDisableEWS()" ng-required="!SocialCat.IsEWS" />
+                                    <label class="form-check-label" for="flexRadioDefault2">No</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" ng-show="ObjPersonal.ApplicationCategoryId==3" style="display:none;" id="iYes">
+                            <div class="col-sm-2 col-md-6 col-lg-6">
+                                <label for="name-2" class="block">Upload Document (EWS) <span style="color:red">*</span></label>
+                                <!--<input type="file" name="EWS_Doc" ng-model="ObjPersonal.EWS_Doc" id="EWS_Doc" class="form-control" ngf-select="UploadEWSDocs($files)" required />
+            <span style="color:blue;text-align:left;font-weight:bold">Note: Only .pdf file format allowed and it Should be below 512KB</span><br /><br />
+            <span id="ErrorMsgRTGSForm" style="color:red" ng-show="ObjPersonal.EWS_Doc != null"></span>
+            <span id="SuccessMsgRTGSForm" style="color:green" ng-show="ObjPersonal.EWS_Doc != null"></span>-->
+
+                                <input id="EWS_Doc" name="EWS_Doc" type="file" ng-model="fileEwsInput" class="form-control" style="width: 78%;display:inline" multiple="multiple" ngf-select="UploadEWSFiles($files)" />
+                                <div layout="row" style="float:right" ng-show="EWSDocView != undefined && EWSDocView != null">
+                                    <a href="{{EWSDocView}}" target="_blank">
+                                        <button type="button" title="View" class="btn btn-info waves-effect waves-light" style="height:40px;">
+                                            <i class="icon-doc" style="color:white"></i>
+                                        </button>
+                                    </a>
+                                </div>
+                                <!--<span style="color:blue;text-align:left;font-weight:bold">Note: Only .pdf file format allowed and it Should be below 512KB</span><br /><br />-->
+                                <span id="ErrorMsgEWS" style="color:red"></span>
+                                <span id="SuccessMsgEWS" style="color:green"></span>
+                            </div>
+
+                            <div class="col-sm-2 col-md-6 col-lg-6">
+                                <label for="name-2" class="block">EWS Certificate No. <span style="color:red">*</span></label>
+                                <input type="text" class="form-control" ng-model="ObjPersonal.EWSCertiNo" required>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row" ng-show="ObjPersonal.ApplicationCategoryId==3" style="display:none;" id="iYes1">
+                            <div class="col-sm-2 col-md-6 col-lg-6">
+                                <label for="name-2" class="block">EWS Certificate Issue Date <span style="color:red">*</span></label>
+                                <input id="ews_isd" type="date" class="form-control" ng-model="ObjPersonal.EWSCerti_IsuueDate" min="1950-01-01">
+                            </div>
+                            <div class="col-sm-2 col-md-6 col-lg-6">
+                                <label for="name-2" class="block">EWS Certificate Validity Date <span style="color:red">*</span></label>
+                                <input id="ews_vald" type="date" class="form-control" ng-model="ObjPersonal.EWSCertiValidityDate" min="1950-01-01">
+                            </div>
+                        </div>
+
+                        <div class="form-group row" ng-show="ObjPersonal.ApplicationCategoryId==3" style="display:none;" id="iYes2">
+                            <div class="col-sm-2 col-md-6 col-lg-6">
+                                <label for="name-2" class="block">Income Assessment Certificate For EWS</label>
+                                <input id="EWS_IADoc" type="file" class="form-control" style="width: 78%;display:inline" multiple="multiple" ngf-select="UploadEWS_IAFiles($files)" />
+                                <div layout="row" style="float:right" ng-show="EWS_IAView != undefined && EWS_IAView != null">
+                                    <a href="{{EWS_IAView}}" target="_blank">
+                                        <button type="button" title="View" class="btn btn-info waves-effect waves-light" style="height:40px;">
+                                            <i class="icon-doc" style="color:white"></i>
+                                        </button>
+                                    </a>
+                                </div>
+                                <span id="ErrorMsgEWS_IADoc" style="color:red"></span>
+                                <span id="SuccessMsgEWS_IADoc" style="color:green"></span>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+
+                    <!--<button type="submit" class="btn btn-primary" ng-click="modifyEduDetailsData(EducationDetailsData)"
+                            ng-show="modifyAdminUserFlag">
+                        Modify
+                    </button>-->
+
+                    <button type="submit" class="btn btn-primary" ng-click="UpdatePersonalDetailsDataInPreVerification()" ng-show="ShowAddUpdateFlag == 'swUpdate'">Update</button>
+
+                    <button type="button" class="btn btn-default" ng-click="cancelEduDetails()" data-dismiss="modal">Cancel</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Personal Details Edit modal End -->
+
+</div>

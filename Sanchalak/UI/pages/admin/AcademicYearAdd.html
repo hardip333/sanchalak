@@ -1,0 +1,93 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="AcademicYearCtrl" ng-init="getAcademicYear()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Add Academic Year Master</h4></div>
+                        <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="AcadYear">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Academic Year Code</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="Academic" class="form-control" ng-model="AcadYear.AcademicYearCode" placeholder="Academic Year Code " required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">From Date</label>
+                                <div class="col-sm-6">                                    
+                                    <input type="date" name="FromDate" class="form-control" ng-model="AcadYear.FromDate" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">To Date</label>
+                                <div class="col-sm-6">
+                                    <input type="date" name="ToDate" class="form-control" ng-model="AcadYear.ToDate" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Is Current Academic Year?</label>
+                                <div class="col-sm-6">
+                                    <label>
+                                        <input type="radio" id="chkYes" ng-value="true" name="IsOpen" ng-model="AcadYear.IsOpen" ng-required="!AcadYear.IsOpen" />  Yes &nbsp;
+                                        <input type="radio" id="chkYes" ng-value="false" name="IsOpen" ng-model="AcadYear.IsOpen" ng-required="!AcadYear.IsOpen" /> No
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="addAcademicYear()">Add</button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetAcademicYear()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="AcademicYearTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="AcadYear in $data">
+                                            <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;text-align:center;"><label>{{AcadYear.IndexId}}</label></td>
+                                            <td data-title="'AcademicYearCode'" filter="{AcademicYearCode: 'text'}" sortable="'AcademicYearCode'" style=" border-top: none;"><label>{{AcadYear.AcademicYearCode}}</label></td>
+                                            <td data-title="'FromDate'" filter="{FromDate: 'text'}" sortable="'FromDate'" style=" border-top: none;"><label>{{AcadYear.FromDateView}}</label></td>
+                                            <td data-title="'ToDate'" filter="{ToDate: 'text'}" sortable="'ToDate'" style=" border-top: none;"><label>{{AcadYear.ToDateView}}</label></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

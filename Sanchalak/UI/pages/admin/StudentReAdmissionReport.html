@@ -1,0 +1,256 @@
+﻿
+<style>
+    ::-webkit-scrollbar {
+        height: 20px !important;
+        overflow: visible;
+        width: 0px;
+        background-color: lightgray;
+    }
+
+    td {
+        white-space: normal !important;
+        text-align: center;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4><b>Student Re-Admission Report</b></h4></div>
+
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form>
+
+                        
+
+                            <div class="form-group row" ng-init="GetFacultyById()">
+                                <div class="col-sm-2">
+                                    <b>Faculty Name:</b><span style="color:red;"> * </span>
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <select class="form-control" ng-model="StuReAdmReport.FacultyId" ng-options="d.FacultyId as d.FacultyName for d in FacultyList" ng-change="GetInstituteListByFacId()">
+                                        <option value="">-- SELECT --</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">
+                                    <b>Institute Name:</b><span style="color:red;"> * </span>
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <select class="form-control" ng-model="StuReAdmReport.InstituteId" ng-options="d.InstituteId as d.InstituteName for d in InstituteList" ng-change="GetAcademicYearList()">
+                                        <option value="">-- SELECT --</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">
+                                    <b>Academic Year:</b><span style="color:red;"> * </span>
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <select class="form-control" ng-model="StuReAdmReport.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicYearList" ng-change="GetProgrammeListByInstIdAcadId()">
+                                        <option value="">-- SELECT --</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2"><b>Programme Name:</b><span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="StuReAdmReport.ProgrammeId" ng-options="d.Id as d.ProgrammeName for d in ProgrammeList" ng-change="GetInstanceNameListByInstIdAcadIdProgId()" class="form-control" required>
+                                                <option value="" disabled selected>-- SELECT --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2"><b>Instance Part Term Name:</b><span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="StuReAdmReport.ProgrammeInstancePartTermId" ng-options="d.Id as d.InstancePartTermName for d in InstanceNameList" class="form-control" required>
+                                                <option value="" disabled selected>-- SELECT --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button" ng-click="GetStudentReAdmissionReportByPIPTID()" ()" class="btn btn-success">&nbsp; Submit</button>
+
+                                        <button class="btn btn-disabled disabled" ng-click="CancelStudentReAdmissionReport()">Cancel</button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div id="overlay" class="col-lg-6 offset-md-2">
+                                <div class="w-100 d-flex justify-content-lg-center align-items-center">
+                                    <div class="spinner"></div>
+                                </div>
+                            </div>
+
+
+
+                        </form>
+                    </div>
+                </div>
+                <div class="col-sm-12" ng-show="IsLabelVisible">
+                    &nbsp;
+
+                    <div class="card">
+                        <form ng-model="ProgramLbl">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">
+                                    <b>Faculty Name :</b>
+                                </label>
+                                <div class="col-sm-3">
+                                    <label>{{ProgramLbl.FacultyName}}</label>
+
+                                </div>
+
+                                <label class="col-sm-3 col-form-label"><b>Branch Name :</b></label>
+                                <div class="col-sm-4">
+                                    <label>{{ProgramLbl.BranchName}} </label>
+                                </div>
+
+                                <label class="col-sm-2 col-form-label">
+                                    <b>Programme Name :</b>
+                                </label>
+
+                                <div class="col-sm-3">
+                                    <label>{{ProgramLbl.ProgrammeName}}</label>
+
+                                </div>
+
+                                <label class="col-sm-3 col-form-label"><b>Instance Part Term Name :</b></label>
+                                <div class="col-sm-4">
+                                    <label>{{ProgramLbl.InstancePartTermName}} </label>
+                                </div>
+
+
+                            </div>
+
+
+                        </form>
+
+                    </div>
+
+
+                </div>
+
+                <div class="card-block" ng-show="StudentReAdmissionTableFlag">
+
+                    <div class="table-responsive">
+
+                        <div>
+                            <div class="float-right"> <button type="button" class="btn btn-success" ng-click="ExportStudentReAdmissionReportInExcel()">Export To Excel</button></div>
+                            <div class="float-left"><h4><b>Student Re-Admission Request Report</b></h4></div>
+                        </div>&nbsp;
+                        <table class="table table-striped table-bordered" ng-table="StudentReAdmissionReportTableParams" show-filter="true">
+
+                            <tbody ng-repeat="ReqPendingDoc in $data">
+
+                                <tr style="text-align:center">
+                                    <td class="expand_data" id="{{'first_col'+$index}}" ng-click="expand_row($index)">+</td>
+                                    <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;text-align:center;"><label>{{ReqPendingDoc.IndexId }}</label></td>
+                                    <td data-title="'Application Id'" filter="{IncStudentAdmissionId: 'text'}" sortable="'IncStudentAdmissionId'" style=" border-top: none;"><label>{{ReqPendingDoc.IncStudentAdmissionId}}</label></td>
+                                    <td data-title="'PRN'" filter="{PRN: 'text'}" sortable="'PRN'" style=" border-top: none;"><label>{{ReqPendingDoc.PRN}}</label></td>
+                                    <td data-title="'Applicant Name'" filter="{NameAsPerMarksheet: 'text'}" sortable="'NameAsPerMarksheet'" style=" border-top: none;text-align:center;"><label>{{ReqPendingDoc.NameAsPerMarksheet}}</label></td>
+                                   
+
+
+                                </tr>
+
+                                <tr id="{{'expand'+$index}}" class="collapse text-wrap">
+                                    <td style="text-wrap:inherit;white-space: normal !important;" colspan="7">
+                                        <div class="row">
+                                            <div class="col-md-6 row">
+                                                <div class="col-md-6"><span><b>Email Id :</b> </span></div>
+                                                <div class="col-md-6"><span>{{ReqPendingDoc.EmailId}}</span></div>
+                                            </div>
+                                            <div class="col-md-6 row">
+                                                <div class="col-md-6"><span><b>Mobile No :</b> </span></div>
+                                                <div class="col-md-6"><span>{{ReqPendingDoc.MobileNo}}</span></div>
+                                            </div>
+
+                                        </div>
+
+                                       
+                                        <div class="row">
+                                            <div class="col-md-6 row">
+                                                <div class="col-md-6"><span><b>Faculty Remark :</b> </span></div>
+                                                <div class="col-md-6"><span>{{ReqPendingDoc.FacultyRemark}}</span></div>
+                                            </div>
+                                            <div class="col-md-6 row">
+                                                <div class="col-md-6"><span><b>Student Hand Written Application :</b> </span></div>
+                                                <div class="col-md-6">
+                                                    <!--<span>{{StuReAdmReq.StudentHandWrittenDocument}}</span>-->
+                                                    <label for="Activity" ng-show="ReqPendingDoc.StudentHandWrittenDocument  != null">
+
+                                                        <a href="https://localhost:44374/Upload/HandWrittenDocForReAdmissionRequest/{{ReqPendingDoc.StudentHandWrittenDocument}}" target="_blank">
+                                                            <button type="button" title="View"
+                                                                    class="btn btn-info waves-effect waves-light" style="min-width:40px;">
+                                                                <i class="icon-doc" style="color:white"></i>
+
+                                                            </button>
+                                                        </a>
+                                                    </label>
+                                                    <label for="Activity" ng-show="ReqPendingDoc.StudentHandWrittenDocument == null">
+                                                        <span style="color:red;">No Document Found..!</span>
+                                                    </label>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    
+
+                                </tr>
+
+                            </tbody>
+
+
+                        </table>
+
+                      
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+
+
+            <div class="card" ng-show="NoRecLabel">
+                <label style="font:bold; font-size:medium; color:red;text-align:center;">No Record Found For Re Admission Request!..</label>
+            </div>
+        </div>
+    </div>
+</div>

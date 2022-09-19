@@ -1,0 +1,1573 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\Microsoft.SourceLink.Common.1.0.0\build\Microsoft.SourceLink.Common.props" Condition="Exists('packages\Microsoft.SourceLink.Common.1.0.0\build\Microsoft.SourceLink.Common.props')" />
+  <Import Project="packages\Microsoft.Build.Tasks.Git.1.0.0\build\Microsoft.Build.Tasks.Git.props" Condition="Exists('packages\Microsoft.Build.Tasks.Git.1.0.0\build\Microsoft.Build.Tasks.Git.props')" />
+  <Import Project="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{05C664F8-BB34-4B66-B147-77CD4A1E1F46}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MSUISApi</RootNamespace>
+    <AssemblyName>MSUISApi</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44374</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.AWT.WinForms, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.AWT.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Beans, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.Beans.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Charsets, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.Charsets.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Cldrdata, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.Cldrdata.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Corba, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.Corba.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Core, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Jdbc, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.Jdbc.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Localedata, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.Localedata.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Management, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.Management.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Media, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.Media.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Misc, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.Misc.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Naming, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.Naming.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Nashorn, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.Nashorn.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Remoting, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.Remoting.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Security, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.SwingAWT, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.SwingAWT.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Text, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Tools, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.Tools.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Util, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.API, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.XML.API.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Bind, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.XML.Bind.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Crypto, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.XML.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Parse, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.XML.Parse.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Transform, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.XML.Transform.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.WebServices, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.XML.WebServices.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.XPath, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.OpenJDK.XML.XPath.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.Runtime, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.Runtime.JNI, Version=8.1.5717.0, Culture=neutral, PublicKeyToken=13235d27fcbfff58, processorArchitecture=MSIL">
+      <HintPath>packages\IKVM.8.1.5717.0\lib\IKVM.Runtime.JNI.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <HintPath>packages\Ionic.Zip-1.9.1.8.1.9.1.8\lib\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>packages\iTextSharp.5.5.13.2\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="MCPG.CCA.Util, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3d7072b2634875da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\MCPG.CCA.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Logging.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="MSUIS-TokenManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\MSUIS-TokenManager\bin\MSUIS-TokenManager.dll</HintPath>
+    </Reference>
+    <Reference Include="PassDec">
+      <HintPath>..\..\Developers\Harsh\PassDec.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz, Version=3.3.3.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>packages\Quartz.3.3.3\lib\net472\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Compression.Base, Version=19.4460.0.55, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>packages\Syncfusion.Compression.Base.19.4.0.55\lib\net46\Syncfusion.Compression.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Licensing, Version=19.4460.0.55, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
+      <HintPath>packages\Syncfusion.Licensing.19.4.0.55\lib\net46\Syncfusion.Licensing.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Pdf.Base, Version=19.4460.0.55, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>packages\Syncfusion.Pdf.WinForms.19.4.0.55\lib\net46\Syncfusion.Pdf.Base.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Diagnostics.DiagnosticSource.4.7.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.Cors.5.2.7\lib\net45\System.Web.Http.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
+    <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
+    <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
+    <Compile Include="Areas\HelpPage\HelpPageAreaRegistration.cs" />
+    <Compile Include="Areas\HelpPage\HelpPageConfigurationExtensions.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\CollectionModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ComplexTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\DictionaryModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\EnumTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\EnumValueDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\IModelDocumentationProvider.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\KeyValuePairModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelDescriptionGenerator.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelNameAttribute.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelNameHelper.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ParameterAnnotation.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ParameterDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\SimpleTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\Models\HelpPageApiModel.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleGenerator.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleKey.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\ImageSample.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\InvalidSample.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\ObjectGenerator.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
+    <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="BAL\BALAcademicYear.cs" />
+    <Compile Include="BAL\BALAppearanceTypeMaster.cs" />
+    <Compile Include="BAL\BALAssessmentMethod.cs" />
+    <Compile Include="BAL\BALBoardOfStudyList.cs" />
+    <Compile Include="BAL\BALBoardOfStudySubjectList.cs" />
+    <Compile Include="BAL\BALCommon.cs" />
+    <Compile Include="BAL\BALCourseAttachVenue.cs" />
+    <Compile Include="BAL\BALCourseScheduleMap.cs" />
+    <Compile Include="BAL\BALDepartmentList.cs" />
+    <Compile Include="BAL\BALEvaluation.cs" />
+    <Compile Include="BAL\BALExamBlocks.cs" />
+    <Compile Include="BAL\BALExamCenter.cs" />
+    <Compile Include="BAL\BALExamEventMaster.cs" />
+    <Compile Include="BAL\BALExamFeeConfigurationHeadMap.cs" />
+    <Compile Include="BAL\BALExamFeeHead.cs" />
+    <Compile Include="BAL\BALExamFeesConfiguration.cs" />
+    <Compile Include="BAL\BALExamFormBarcodePdfGenerationRequest.cs" />
+    <Compile Include="BAL\BALExamFormMaster.cs" />
+    <Compile Include="BAL\BALExamSlotMaster.cs" />
+    <Compile Include="BAL\BALExamVenue.cs" />
+    <Compile Include="BAL\BALFacultyExamMap.cs" />
+    <Compile Include="BAL\BALFacultyExamMapStatus.cs" />
+    <Compile Include="BAL\BALFacultyInstituteList.cs" />
+    <Compile Include="BAL\BALFacultyList.cs" />
+    <Compile Include="BAL\BALInstituteList.cs" />
+    <Compile Include="BAL\BALInstructionMedium.cs" />
+    <Compile Include="BAL\BALMeritListAddOnQuestionParameterConfiguration.cs" />
+    <Compile Include="BAL\BALMeritListConfiguration.cs" />
+    <Compile Include="BAL\BALMeritListEducationParameterConfiguration.cs" />
+    <Compile Include="BAL\BALMeritListInstance.cs" />
+    <Compile Include="BAL\BALMeritListManualParameterConfiguration.cs" />
+    <Compile Include="BAL\BALMeritListSpecialCategoryConfiguration.cs" />
+    <Compile Include="BAL\BALPaper.cs" />
+    <Compile Include="BAL\BALProgramme.cs" />
+    <Compile Include="BAL\BALProgrammeBranchMap.cs" />
+    <Compile Include="BAL\BALProgrammeInstance.cs" />
+    <Compile Include="BAL\BALProgrammeInstancePart.cs" />
+    <Compile Include="BAL\BALProgrammeInstancePartTerm.cs" />
+    <Compile Include="BAL\BALProgrammeLevel.cs" />
+    <Compile Include="BAL\BALProgrammeMode.cs" />
+    <Compile Include="BAL\BALProgrammePart.cs" />
+    <Compile Include="BAL\BALProgrammePartTerm.cs" />
+    <Compile Include="BAL\BALProgrammePattern.cs" />
+    <Compile Include="BAL\BALProgrammeType.cs" />
+    <Compile Include="BAL\BALProvisionalMeritList.cs" />
+    <Compile Include="BAL\BALProvisionalMeritListAddOnInformation.cs" />
+    <Compile Include="BAL\BALProvisionalMeritListEducationDetails.cs" />
+    <Compile Include="BAL\BALProvisionalMeritListManualParameterValues.cs" />
+    <Compile Include="BAL\BALSeatMatrix.cs" />
+    <Compile Include="BAL\BALSeatMatrixAllowedCategoryMapping.cs" />
+    <Compile Include="BAL\BALSeatMatrixSpecialCategoryMapping.cs" />
+    <Compile Include="BAL\BALSpecialisation.cs" />
+    <Compile Include="BAL\BALSubjectList.cs" />
+    <Compile Include="BAL\BALSubSpecialisation.cs" />
+    <Compile Include="BAL\BALTeachingLearning.cs" />
+    <Compile Include="BAL\BALTimeTableMaster.cs" />
+    <Compile Include="Controllers\AddonDetailsReportController.cs" />
+    <Compile Include="Controllers\AddOnInformationController.cs" />
+    <Compile Include="Controllers\AdmAdditionalDocumentsReportController.cs" />
+    <Compile Include="Controllers\AdmApplicationAdmFeeNotPaidController.cs" />
+    <Compile Include="Controllers\AdmApplicationCancelFormController.cs" />
+    <Compile Include="Controllers\AdmApplicationConfigurationController.cs" />
+    <Compile Include="Controllers\AdmApplicationEligibilityStatusController.cs" />
+    <Compile Include="Controllers\AdmApplicationFeesPaidController.cs" />
+    <Compile Include="Controllers\AdmEligibilityCriteriaComponentController.cs" />
+    <Compile Include="Controllers\AdmEligibilityCriteriaController.cs" />
+    <Compile Include="Controllers\AdmEligibilityGroupController.cs" />
+    <Compile Include="Controllers\AdmEligibilitySpecializationController.cs" />
+    <Compile Include="Controllers\AdmEligibleDegreeController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AdmissionFeesReportByAcademicController.cs" />
+    <Compile Include="Controllers\AdmissionFeesReportByFacultyController.cs" />
+    <Compile Include="Controllers\AdmittedStudentController.cs" />
+    <Compile Include="Controllers\AdmPaymentTransactionController.cs" />
+    <Compile Include="Controllers\AdmProgrammeAddOnCriteriaController.cs" />
+    <Compile Include="Controllers\AdmRequiredDocumentsProgramController.cs" />
+    <Compile Include="Controllers\AdmSpecializationMasterController.cs" />
+    <Compile Include="Controllers\AppearanceTypeMasterController.cs" />
+    <Compile Include="Controllers\ApplicantAcademicVerificationPendingReportController.cs" />
+    <Compile Include="Controllers\ApplicantsAdmissionInformationDetailsController.cs" />
+    <Compile Include="Controllers\ApplicationConfigurationByAcademic.cs" />
+    <Compile Include="Controllers\ApplicationFeeReport.cs" />
+    <Compile Include="Controllers\ApplicationGroupPreferenceReportController.cs" />
+    <Compile Include="Controllers\ApplicationListController.cs" />
+    <Compile Include="Controllers\ApplicationPaymentReportController.cs" />
+    <Compile Include="Controllers\ApplicationPreferenceReportController.cs" />
+    <Compile Include="Controllers\ApplicationStatisticsController.cs" />
+    <Compile Include="Controllers\ApprovedByAcademicsReportController.cs" />
+    <Compile Include="Controllers\ApprovedByFacultyReportController.cs" />
+    <Compile Include="Controllers\BlockAllocationController.cs" />
+    <Compile Include="Controllers\BlockApplicantsFromAdmissionController.cs" />
+    <Compile Include="Controllers\BranchChangeRequestController.cs" />
+    <Compile Include="Controllers\CancelledByAcademicsController.cs" />
+    <Compile Include="Controllers\CancelledByFacultyController.cs" />
+    <Compile Include="Controllers\CancelledByStudentController.cs" />
+    <Compile Include="Controllers\CenterWiseBlockReportController.cs" />
+    <Compile Include="Controllers\ComponentDropDownController.cs" />
+    <Compile Include="Controllers\CopyCourseProgrammeDefinationController.cs" />
+    <Compile Include="Controllers\CountryMasterController.cs" />
+    <Compile Include="Controllers\CourseAttachVenueController.cs" />
+    <Compile Include="Controllers\CourseScheduleMapController.cs" />
+    <Compile Include="Controllers\DailyPaperReportController.cs" />
+    <Compile Include="Controllers\DashboardAcademicController.cs" />
+    <Compile Include="Controllers\DatewiseCenterwisePaperReportController.cs" />
+    <Compile Include="Controllers\DeanSignController.cs" />
+    <Compile Include="Controllers\DecodePasswordController.cs" />
+    <Compile Include="Controllers\DepartmentReportsController.cs" />
+    <Compile Include="Controllers\DownloadWrittenTestListController.cs" />
+    <Compile Include="Controllers\DualAdmissionByAcademicController.cs" />
+    <Compile Include="Controllers\EligibilityCriteriaConfigurationController.cs" />
+    <Compile Include="Controllers\EligibilitySpecializationController.cs" />
+    <Compile Include="Controllers\EligibilityStatusMasterController.cs" />
+    <Compile Include="Controllers\EligibiltyStatisticsReportController.cs" />
+    <Compile Include="Controllers\EligibleStudentsReportController.cs" />
+    <Compile Include="Controllers\EmployeeRegistrationController.cs" />
+    <Compile Include="Controllers\EventClosureController.cs" />
+    <Compile Include="Controllers\ExamBlocksController.cs" />
+    <Compile Include="Controllers\ExamCenterController.cs" />
+    <Compile Include="Controllers\ExamConfigStatusController.cs" />
+    <Compile Include="Controllers\ExamEventDateWiseReport.cs" />
+    <Compile Include="Controllers\ExamEventMasterController.cs" />
+    <Compile Include="Controllers\ExamFeeConfigurationController.cs" />
+    <Compile Include="Controllers\ExamFeeConfigurationHeadMapController.cs" />
+    <Compile Include="Controllers\ExamFeeHeadController.cs" />
+    <Compile Include="Controllers\ExamFeePublishConfigurationController.cs" />
+    <Compile Include="Controllers\ExamFeesConfigurationController.cs" />
+    <Compile Include="Controllers\ExamFormDiscrepancyStatisticsController.cs" />
+    <Compile Include="Controllers\ExamFormMasterController.cs" />
+    <Compile Include="Controllers\ExamFormMasterListGeneratedController.cs" />
+    <Compile Include="Controllers\ExaminationBodyController.cs" />
+    <Compile Include="Controllers\ExamScheduleReportController.cs" />
+    <Compile Include="Controllers\ExamSlotMasterController.cs" />
+    <Compile Include="Controllers\ExamVenueController.cs" />
+    <Compile Include="Controllers\ExamVenueExamCenterController.cs" />
+    <Compile Include="Controllers\ExamFormDiscController.cs" />
+    <Compile Include="Controllers\FacultyExamMapController.cs" />
+    <Compile Include="Controllers\FacultyInstituteMapController.cs" />
+    <Compile Include="Controllers\FacultyWiseCategoryReport.cs" />
+    <Compile Include="Controllers\FeeCategoryChangeAfterAdmissionController.cs" />
+    <Compile Include="Controllers\FeeCategoryChangeController.cs" />
+    <Compile Include="Controllers\FeeConfigurationController.cs" />
+    <Compile Include="Controllers\FeeTypeFeeCategoryMapController.cs" />
+    <Compile Include="Controllers\FeeTypeFeeHeadMapController.cs" />
+    <Compile Include="Controllers\FileUploadController.cs" />
+    <Compile Include="Controllers\GenCityController.cs" />
+    <Compile Include="Controllers\GenderLocalOutsideCountController.cs" />
+    <Compile Include="Controllers\GeneralRegisterController.cs" />
+    <Compile Include="Controllers\GenReservationCategoryController.cs" />
+    <Compile Include="Controllers\GetEligibleStudentListController.cs" />
+    <Compile Include="Controllers\GetStudentStatisticsController.cs" />
+    <Compile Include="Controllers\GroupAndPaperReportController.cs" />
+    <Compile Include="Controllers\HallTicketController.cs" />
+    <Compile Include="Controllers\HallticketInstructionConfigurationController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IncAcademicYearController.cs" />
+    <Compile Include="Controllers\IncInstitutePartTermPaperMapController.cs" />
+    <Compile Include="Controllers\IncProgInstPartTermGroupController.cs" />
+    <Compile Include="Controllers\IncProgInstPartTermPaperMapController.cs" />
+    <Compile Include="Controllers\IncStudentAcademicInformationByReportController.cs" />
+    <Compile Include="Controllers\IncStudentReAdmissionRequestController.cs" />
+    <Compile Include="Controllers\InstancePreferenceCountController.cs" />
+    <Compile Include="Controllers\InstituteBranchMapController.cs" />
+    <Compile Include="Controllers\InstituteGroupChangeController.cs" />
+    <Compile Include="Controllers\InstitutePartTermMapController.cs" />
+    <Compile Include="Controllers\InstitutePartTermPaperMapController.cs" />
+    <Compile Include="Controllers\InstituteQueryController.cs" />
+    <Compile Include="Controllers\InstituteSubjectMapController.cs" />
+    <Compile Include="Controllers\InstructionMediumController.cs" />
+    <Compile Include="Controllers\InwardStatisticsController.cs" />
+    <Compile Include="Controllers\LandingPageInstructionNameController.cs" />
+    <Compile Include="Controllers\LaunchProgrammePartTermController.cs" />
+    <Compile Include="Controllers\LaunchResultConfigurationController.cs" />
+    <Compile Include="Controllers\MandateController.cs" />
+    <Compile Include="Controllers\ManualEntryOfFeeController.cs" />
+    <Compile Include="Controllers\MeritListAddOnQuestionParameterConfigurationController.cs" />
+    <Compile Include="Controllers\MeritListEducationParameterConfigurationController.cs" />
+    <Compile Include="Controllers\MeritListInstanceController.cs" />
+    <Compile Include="Controllers\MeritListManualParameterConfigurationController.cs" />
+    <Compile Include="Controllers\MeritListSpecialCategoryConfigurationController.cs" />
+    <Compile Include="Controllers\MobileEmailDataController.cs" />
+    <Compile Include="Controllers\MstAdmissionCommitteeController.cs" />
+    <Compile Include="Controllers\MstApplicationFeeController.cs" />
+    <Compile Include="Controllers\MstAssessmentMethodController.cs" />
+    <Compile Include="Controllers\MstBoardOfStudyController.cs" />
+    <Compile Include="Controllers\MstBoardOfStudySubjectMapController.cs" />
+    <Compile Include="Controllers\MstCentralAdmissionController.cs" />
+    <Compile Include="Controllers\MstChoiceTypeController.cs" />
+    <Compile Include="Controllers\MstDepartmentController.cs" />
+    <Compile Include="Controllers\MstDesignationController.cs" />
+    <Compile Include="Controllers\MstDocumentController.cs" />
+    <Compile Include="Controllers\MstEvaluationController.cs" />
+    <Compile Include="Controllers\MstExaminationPatternController.cs" />
+    <Compile Include="Controllers\MstFacultyController.cs" />
+    <Compile Include="Controllers\MstFeeCategoryController.cs" />
+    <Compile Include="Controllers\MstFeeCategoryTypeController.cs" />
+    <Compile Include="Controllers\MstFeeHeadController.cs" />
+    <Compile Include="Controllers\MstFeeSubHeadController.cs" />
+    <Compile Include="Controllers\MstFeeTypeController.cs" />
+    <Compile Include="Controllers\MstGroupCodeController.cs" />
+    <Compile Include="Controllers\MstGroupTypeController.cs" />
+    <Compile Include="Controllers\MstInstituteController.cs" />
+    <Compile Include="Controllers\MstInstituteProgrammeMapController.cs" />
+    <Compile Include="Controllers\MstInstituteTypeController.cs" />
+    <Compile Include="Controllers\MstInstructionMediumController.cs" />
+    <Compile Include="Controllers\MstPaperController.cs" />
+    <Compile Include="Controllers\MstPaperTeachingLearningMapController.cs" />
+    <Compile Include="Controllers\MstPreferenceCodeMapController.cs" />
+    <Compile Include="Controllers\MstPreferenceGroupController.cs" />
+    <Compile Include="Controllers\MstPreRequisiteLableController.cs" />
+    <Compile Include="Controllers\MstPreRequisiteTypeController.cs" />
+    <Compile Include="Controllers\MstProgramInstanceController.cs" />
+    <Compile Include="Controllers\MstProgrammeController.cs" />
+    <Compile Include="Controllers\MstProgrammeInstancePartTermController.cs" />
+    <Compile Include="Controllers\MstProgrammeLevelController.cs" />
+    <Compile Include="Controllers\MstProgrammeModeController.cs" />
+    <Compile Include="Controllers\MstProgrammePartController.cs" />
+    <Compile Include="Controllers\MstProgrammePartTermController.cs" />
+    <Compile Include="Controllers\MstProgrammePartTermGroupMapController.cs" />
+    <Compile Include="Controllers\MstProgrammePartTermPaperMapController.cs" />
+    <Compile Include="Controllers\MstProgrammeTypeController.cs" />
+    <Compile Include="Controllers\MstSpecialisationController.cs" />
+    <Compile Include="Controllers\MstStudentAdmissionFeeController.cs" />
+    <Compile Include="Controllers\MstStudentTransferRequestController.cs" />
+    <Compile Include="Controllers\MstSubjectController.cs" />
+    <Compile Include="Controllers\MstTeachingLearningAssessmentMapController.cs" />
+    <Compile Include="Controllers\MstTeachingLearningMethodController.cs" />
+    <Compile Include="Controllers\MstUniversitySectionController.cs" />
+    <Compile Include="Controllers\MstUniversitySectionNewController.cs" />
+    <Compile Include="Controllers\MstUserController.cs" />
+    <Compile Include="Controllers\MstUserNewController.cs" />
+    <Compile Include="Controllers\MultipleProgrammesAdmittedList.cs" />
+    <Compile Include="Controllers\NotApprovedByAcademicController.cs" />
+    <Compile Include="Controllers\NotApprovedByFacultyController.cs" />
+    <Compile Include="Controllers\NotificationTypeController.cs" />
+    <Compile Include="Controllers\OESPaperRegPendingController.cs" />
+    <Compile Include="Controllers\PaperPRNStatisticsController.cs" />
+    <Compile Include="Controllers\PaperSelectedController.cs" />
+    <Compile Include="Controllers\PaperSelectionReportController.cs" />
+    <Compile Include="Controllers\PaperWiseInwardController.cs" />
+    <Compile Include="Controllers\PaperWiseStudentCountController.cs" />
+    <Compile Include="Controllers\PaperWiseStudentListController.cs" />
+    <Compile Include="Controllers\PaymentDetailsController.cs" />
+    <Compile Include="Controllers\PendingApprovedByAcademicController.cs" />
+    <Compile Include="Controllers\PostApplicantVerificationController.cs" />
+    <Compile Include="Controllers\PostApprovalList.cs" />
+    <Compile Include="Controllers\PostConfigurationAdmissionController.cs" />
+    <Compile Include="Controllers\PostVerificationAddOnCriteria.cs" />
+    <Compile Include="Controllers\PreConfigurationAdmissionController.cs" />
+    <Compile Include="Controllers\PreExamDataReportController.cs" />
+    <Compile Include="Controllers\PreExaminationStatisticsController.cs" />
+    <Compile Include="Controllers\PreExamStatisticsforStudentListController.cs" />
+    <Compile Include="Controllers\PreferenceWiseReportController.cs" />
+    <Compile Include="Controllers\PrerequisiteController.cs" />
+    <Compile Include="Controllers\PreRequisitePaperListController.cs" />
+    <Compile Include="Controllers\PreVerificationNotApprovedController.cs" />
+    <Compile Include="Controllers\PreVerificationPendingControllers.cs" />
+    <Compile Include="Controllers\PreVerificationPendingVerifiedController.cs" />
+    <Compile Include="Controllers\PreVerificationVerifriedController.cs" />
+    <Compile Include="Controllers\PrnGeneratedController.cs" />
+    <Compile Include="Controllers\PRNNotGeneratedController.cs" />
+    <Compile Include="Controllers\ProfileFormController.cs" />
+    <Compile Include="Controllers\ProgDefStatisticsAcademicsController.cs" />
+    <Compile Include="Controllers\ProgDefStatisticsFacultyController.cs" />
+    <Compile Include="Controllers\ProgDefStatusAcademicsController.cs" />
+    <Compile Include="Controllers\ProgrammeBranchMapController.cs" />
+    <Compile Include="Controllers\ProgrammeInstancePartController.cs" />
+    <Compile Include="Controllers\ProgrammeWiseMarksCreditDetailsController.cs" />
+    <Compile Include="Controllers\ProgrammeWisePaperTLMDetailsController.cs" />
+    <Compile Include="Controllers\ProvisionallyEligibleStudentsReportController.cs" />
+    <Compile Include="Controllers\ProvisionalMeritListAddOnInformationController.cs" />
+    <Compile Include="Controllers\ProvisionalMeritListController.cs" />
+    <Compile Include="Controllers\ProvisionalMeritListEducationDetailsController.cs" />
+    <Compile Include="Controllers\ProvisionalMeritListManualParameterValuesController.cs" />
+    <Compile Include="Controllers\ProvisionalResultController.cs" />
+    <Compile Include="Controllers\PublishHallTicketController.cs" />
+    <Compile Include="Controllers\ReconciliationController.cs" />
+    <Compile Include="Controllers\RefundCaseByAcademicController.cs" />
+    <Compile Include="Controllers\RefundCaseByAccountController.cs" />
+    <Compile Include="Controllers\RefundCaseByAuditController.cs" />
+    <Compile Include="Controllers\RefundCaseCancelByAcademicController.cs" />
+    <Compile Include="Controllers\RefundCaseCancelByAccountController.cs" />
+    <Compile Include="Controllers\RefundCaseCancelByAuditController.cs" />
+    <Compile Include="Controllers\RefundCaseCancelRefundReport.cs" />
+    <Compile Include="Controllers\RefundCaseRefundReport.cs" />
+    <Compile Include="Controllers\RefundRequestByAcademicsController.cs" />
+    <Compile Include="Controllers\RefundRequestByAccountController.cs" />
+    <Compile Include="Controllers\RefundRequestByAuditController.cs" />
+    <Compile Include="Controllers\RefundRequestByFacultyController.cs" />
+    <Compile Include="Controllers\RefundRequestByStudentController.cs" />
+    <Compile Include="Controllers\RefundStudentReportForAcademicsController.cs" />
+    <Compile Include="Controllers\RefundStudentReportForFacultyController.cs" />
+    <Compile Include="Controllers\ReplacePaperController.cs" />
+    <Compile Include="Controllers\ReportForJrSupervisorAllBlockController.cs" />
+    <Compile Include="Controllers\ReportForJrSupervisorCenterWiseController.cs" />
+    <Compile Include="Controllers\ReportForJrSupervisorController.cs" />
+    <Compile Include="Controllers\ReportForJrSupervisorIAExamController.cs" />
+    <Compile Include="Controllers\RequiredDocumentListController.cs" />
+    <Compile Include="Controllers\RequiredDocumentPendingListController.cs" />
+    <Compile Include="Controllers\RequiredDocumentsSubmittedByApplicantController.cs" />
+    <Compile Include="Controllers\ResBasisForAwardingController.cs" />
+    <Compile Include="Controllers\ResCalculationController.cs" />
+    <Compile Include="Controllers\ResConfigAPHController.cs" />
+    <Compile Include="Controllers\ResCourseEvalSystemController.cs" />
+    <Compile Include="Controllers\ResDefineAPHController.cs" />
+    <Compile Include="Controllers\ResExemptionConfigController.cs" />
+    <Compile Include="Controllers\ResExemptionDependencyController.cs" />
+    <Compile Include="Controllers\ResGPATemplateConfigController.cs" />
+    <Compile Include="Controllers\ResGPATemplateController.cs" />
+    <Compile Include="Controllers\ResGradeLevelsController.cs" />
+    <Compile Include="Controllers\ResGradeScalesController.cs" />
+    <Compile Include="Controllers\ResMarksLevelsController.cs" />
+    <Compile Include="Controllers\ResMarksTemplateConfigController.cs" />
+    <Compile Include="Controllers\ResMarksTemplateController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\SeatingArrangementReportController.cs" />
+    <Compile Include="Controllers\SeatMatrixAllowedCategoryMappingController.cs" />
+    <Compile Include="Controllers\SeatMatrixController.cs" />
+    <Compile Include="Controllers\SeatMatrixSpecialCategoryMappingController.cs" />
+    <Compile Include="Controllers\SeatNumberWiseBlockChangeController.cs" />
+    <Compile Include="Controllers\SecBarcodeController.cs" />
+    <Compile Include="Controllers\SectionwiseblankmarksheetController.cs" />
+    <Compile Include="Controllers\SocialCategoryController.cs" />
+    <Compile Include="Controllers\StateMasterController.cs" />
+    <Compile Include="Controllers\StudentAdmissionFeesPaidReportController.cs" />
+    <Compile Include="Controllers\StudentBlockChangeController.cs" />
+    <Compile Include="Controllers\StudentListByVenueController.cs" />
+    <Compile Include="Controllers\StudentPartTermPaperListController.cs" />
+    <Compile Include="Controllers\StudentPaymentPendingReportController.cs" />
+    <Compile Include="Controllers\StudentPendingForFeeCategoryMappingController.cs" />
+    <Compile Include="Controllers\StudentQueryMasterFacultyController.cs" />
+    <Compile Include="Controllers\StudentReAdmissionReportController.cs" />
+    <Compile Include="Controllers\StudentRequestController.cs" />
+    <Compile Include="Controllers\StudentTransferRequestReport.cs" />
+    <Compile Include="Controllers\StudentWisePaperListController.cs" />
+    <Compile Include="Controllers\SubSpecialisationController.cs" />
+    <Compile Include="Controllers\TestLoginController.cs" />
+    <Compile Include="Controllers\TimeSlotController.cs" />
+    <Compile Include="Controllers\TimeTableMasterController.cs" />
+    <Compile Include="Controllers\TimeTableScheduled.cs" />
+    <Compile Include="Controllers\TransferCertiController.cs" />
+    <Compile Include="Controllers\TransferCertificateReportController.cs" />
+    <Compile Include="Controllers\UfmAbsentReportController.cs" />
+    <Compile Include="Controllers\UserNotificationAndroidController.cs" />
+    <Compile Include="Controllers\UserNotificationController.cs" />
+    <Compile Include="Controllers\UserRoleMapController.cs" />
+    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\VenueAllocationController.cs" />
+    <Compile Include="Controllers\VenueMasterController.cs" />
+    <Compile Include="Controllers\VenueReAllocationController.cs" />
+    <Compile Include="Controllers\VerificationReportController.cs" />
+    <Compile Include="Controllers\VerifiedApplicantForStudentProcessController.cs" />
+    <Compile Include="Controllers\VerifyApplicantByAcademicController.cs" />
+    <Compile Include="Controllers\VerifyApplicantProfileFormController.cs" />
+    <Compile Include="Controllers\VerifyAssessmentReportController.cs" />
+    <Compile Include="Controllers\VerifyStructureReportController.cs" />
+    <Compile Include="Controllers\WrittenTestHallTicketConfigurationController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AddonDetailsReport.cs" />
+    <Compile Include="Models\AddOnInformation.cs" />
+    <Compile Include="Models\AdmAdditionalDocumentsReport.cs" />
+    <Compile Include="Models\AdmApplicantAdditionalDocument.cs" />
+    <Compile Include="Models\AdmApplicantsSubmittedDocuments.cs" />
+    <Compile Include="Models\AdmApplicationAdmFeeNotPaid.cs" />
+    <Compile Include="Models\AdmApplicationCancelForm.cs" />
+    <Compile Include="Models\AdmApplicationConfiguration.cs" />
+    <Compile Include="Models\AdmApplicationEducationDetails.cs" />
+    <Compile Include="Models\AdmApplicationEligibilityStatus.cs" />
+    <Compile Include="Models\AdmEligibilityCriteria.cs" />
+    <Compile Include="Models\AdmEligibilityCriteriaComponent.cs" />
+    <Compile Include="Models\AdmEligibilityGroup.cs" />
+    <Compile Include="Models\AdmEligibilitySpecialization.cs" />
+    <Compile Include="Models\AdmEligibleDegree.cs" />
+    <Compile Include="Models\AdmittedStudent.cs" />
+    <Compile Include="Models\AdmPaymentTransaction.cs" />
+    <Compile Include="Models\AdmProgrammeAddOnCriteria.cs" />
+    <Compile Include="Models\AdmRequiredDocumentsProgram.cs" />
+    <Compile Include="Models\AdmSpecializationMaster.cs" />
+    <Compile Include="Models\AdmStudentAddOnInformation.cs" />
+    <Compile Include="Models\Applicant.cs" />
+    <Compile Include="Models\ApplicantAcademicVerificationPendingReport.cs" />
+    <Compile Include="Models\ApplicantFormDocument.cs" />
+    <Compile Include="Models\ApplicantsAdmissionInformationDetails.cs" />
+    <Compile Include="Models\ApplicationGroupPreferenceReport.cs" />
+    <Compile Include="Models\ApplicationList.cs" />
+    <Compile Include="Models\ApplicationListShort.cs" />
+    <Compile Include="Models\ApplicationPaymentReport.cs" />
+    <Compile Include="Models\ApplicationPreferenceReport.cs" />
+    <Compile Include="Models\ApplicationStatistics.cs" />
+    <Compile Include="Models\ApprovedByAcademics.cs" />
+    <Compile Include="Models\ApprovedByFacultyReport.cs" />
+    <Compile Include="Models\BarcodePDF.cs" />
+    <Compile Include="Models\Bean.cs" />
+    <Compile Include="Models\BlankMarksheet.cs" />
+    <Compile Include="Models\BlockAdmission.cs" />
+    <Compile Include="Models\BlockApplicantsFromAdmission.cs" />
+    <Compile Include="Models\BloodGroup.cs" />
+    <Compile Include="Models\BOSH_Helper.cs" />
+    <Compile Include="Models\CancelledByAcademics.cs" />
+    <Compile Include="Models\CancelledByFaculty.cs" />
+    <Compile Include="Models\CancelledByStudent.cs" />
+    <Compile Include="Models\CenterWiseBlockReport.cs" />
+    <Compile Include="Models\ChoiceType.cs" />
+    <Compile Include="Models\CopyCourseProgrammeDefination.cs" />
+    <Compile Include="Models\CountryMaster.cs" />
+    <Compile Include="Models\CountryStateMaster.cs" />
+    <Compile Include="Models\DailyPaperReport.cs" />
+    <Compile Include="Models\DatewiseCenterwisePaperReport.cs" />
+    <Compile Include="Models\DeanSign.cs" />
+    <Compile Include="Models\DistrictMaster.cs" />
+    <Compile Include="Models\DownloadWrittenTestList.cs" />
+    <Compile Include="Models\DualAdmissionByAcademic.cs" />
+    <Compile Include="Models\EligibilitySpecialization.cs" />
+    <Compile Include="Models\EligibilityStatusMaster.cs" />
+    <Compile Include="Models\EligibiltyStatisticsReport.cs" />
+    <Compile Include="Models\EligibleStudentsReport.cs" />
+    <Compile Include="Models\EmployeeRegistration.cs" />
+    <Compile Include="Models\ExamFeeConfiguration.cs" />
+    <Compile Include="Models\ExamFeePublishConfiguration.cs" />
+    <Compile Include="Models\ExamFormBarcode.cs" />
+    <Compile Include="Models\ExamFormDiscrepancyStatistics.cs" />
+    <Compile Include="Models\ExamFormMasterListGenerated.cs" />
+    <Compile Include="Models\ExaminationBody.cs" />
+    <Compile Include="Models\ExaminationHallTicket.cs" />
+    <Compile Include="Models\ExamScheduleReport.cs" />
+    <Compile Include="Models\ExamVenueExamCenter.cs" />
+    <Compile Include="Models\FacultyWiseCategoryReport.cs" />
+    <Compile Include="Models\FeeConfiguration.cs" />
+    <Compile Include="Models\FeeModule.cs" />
+    <Compile Include="Models\FeesPayInstructions.cs" />
+    <Compile Include="Models\GenCity.cs" />
+    <Compile Include="Models\GenderLocalOutsideCount.cs" />
+    <Compile Include="Models\GeneralStatusInfo.cs" />
+    <Compile Include="Models\GenericConfiguration.cs" />
+    <Compile Include="Models\GenMaritalStatus.cs" />
+    <Compile Include="Models\GenReservationCategory.cs" />
+    <Compile Include="Models\ExamfFormDisc.CS" />
+    <Compile Include="Models\getFeeDetails.cs" />
+    <Compile Include="Models\GetInstitute.cs" />
+    <Compile Include="Models\HallticketInstructionConfiguration.cs" />
+    <Compile Include="Models\IncProgrammeInstancePartTerm.cs" />
+    <Compile Include="Models\IncStudentAcademicInformationByReport.cs" />
+    <Compile Include="Models\IncStudentReAdmissionRequest.cs" />
+    <Compile Include="Models\InstancePreferenceCount.cs" />
+    <Compile Include="Models\InstituteBranchMap.cs" />
+    <Compile Include="Models\InstitutePartTermMap.cs" />
+    <Compile Include="Models\InstituteQuery.cs" />
+    <Compile Include="Models\InstituteSubjectMap.cs" />
+    <Compile Include="Models\InwardStatistics.cs" />
+    <Compile Include="Models\JobScheduler.cs" />
+    <Compile Include="Models\LandingPageInstructionName.cs" />
+    <Compile Include="Models\LaunchResultConfiguration.cs" />
+    <Compile Include="Models\Mandate.cs" />
+    <Compile Include="Models\ManualEntryOfFee.cs" />
+    <Compile Include="Models\MobileEmailData.cs" />
+    <Compile Include="Models\MstAdmissionCommittee.cs" />
+    <Compile Include="Models\MstCentralAdmission.cs" />
+    <Compile Include="Models\MstDesignation.cs" />
+    <Compile Include="Models\MstDocument.cs" />
+    <Compile Include="Models\MstGroupCode.cs" />
+    <Compile Include="Models\MstGroupType.cs" />
+    <Compile Include="Models\MstInstituteProgrammeMap.cs" />
+    <Compile Include="Models\MstInstituteType.cs" />
+    <Compile Include="Models\MstPreferenceCodeMap.cs" />
+    <Compile Include="Models\MstPreferenceGroup.cs" />
+    <Compile Include="Models\MstPreRequisiteLable.cs" />
+    <Compile Include="Models\MstPreRequisiteType.cs" />
+    <Compile Include="Models\MstProgrammePartTermPaperMap.cs" />
+    <Compile Include="Models\MstStudentTransferRequest.cs" />
+    <Compile Include="Models\MstUniversitySection.cs" />
+    <Compile Include="Models\MstUniversitySectionNew.cs" />
+    <Compile Include="Models\MstUser.cs" />
+    <Compile Include="Models\MstUserNew.cs" />
+    <Compile Include="Models\MultipleProgrammesAdmittedList.cs" />
+    <Compile Include="Models\NotApprovedByAcademic.cs" />
+    <Compile Include="Models\NotApprovedByFacultyReport.cs" />
+    <Compile Include="Models\NotificationType.cs" />
+    <Compile Include="Models\OESRegPendingStatistics.cs" />
+    <Compile Include="Models\PaperListGetByExamFormMaster.cs" />
+    <Compile Include="Models\PaperPRNStatistics.cs" />
+    <Compile Include="Models\PaperSelected.cs" />
+    <Compile Include="Models\PaperSelectionReport.cs" />
+    <Compile Include="Models\PaperWiseInward.cs" />
+    <Compile Include="Models\PaperWiseStudentCount.cs" />
+    <Compile Include="Models\PaperWiseStudentList.cs" />
+    <Compile Include="Models\PaymentDetails.cs" />
+    <Compile Include="Models\PendingApprovedByAcademic.cs" />
+    <Compile Include="Models\PostApplicantVerification.cs" />
+    <Compile Include="Models\PostConfigurationAdmission.cs" />
+    <Compile Include="Models\PreConfigurationAdmission.cs" />
+    <Compile Include="Models\PreExaminationStatistics.cs" />
+    <Compile Include="Models\PreExamStatisticsforStudentList.cs" />
+    <Compile Include="Models\PreferenceWiseReport.cs" />
+    <Compile Include="Models\PreProgInstance.cs" />
+    <Compile Include="Models\PreRequisitePaperList.cs" />
+    <Compile Include="Models\PreVerificationNotApproved.cs" />
+    <Compile Include="Models\PreVerificationPending.cs" />
+    <Compile Include="Models\PreVerificationPendingVerified.cs" />
+    <Compile Include="Models\PreVerificationVerifried.cs" />
+    <Compile Include="Models\PrnGenerated.cs" />
+    <Compile Include="Models\PRNNotGenerated.cs" />
+    <Compile Include="Models\ProfileForm.cs" />
+    <Compile Include="Models\ProgDefStatusAcademics.cs" />
+    <Compile Include="Models\progfromFaculty.cs" />
+    <Compile Include="Models\ProgrammeDefinationStatisticsAcademic.cs" />
+    <Compile Include="Models\ProgrammeDefinationStatisticsFaculty.cs" />
+    <Compile Include="Models\ProgrammeWiseMarksCreditDetails.cs" />
+    <Compile Include="Models\ProgrammeWisePaperTLMDetails.cs" />
+    <Compile Include="Models\ProvisionallyEligibleStudentsReport.cs" />
+    <Compile Include="Models\Reconciliation.cs" />
+    <Compile Include="Models\RefundCaseByAcademic.cs" />
+    <Compile Include="Models\RefundCaseByAccount.cs" />
+    <Compile Include="Models\RefundCaseByAudit.cs" />
+    <Compile Include="Models\RefundCaseCancelByAcademic.cs" />
+    <Compile Include="Models\RefundCaseCancelByAccount.cs" />
+    <Compile Include="Models\RefundCaseCancelByAudit.cs" />
+    <Compile Include="Models\RefundRequestByAcademics.cs" />
+    <Compile Include="Models\RefundRequestByAccount.cs" />
+    <Compile Include="Models\RefundRequestByAudit.cs" />
+    <Compile Include="Models\RefundRequestByFaculty.cs" />
+    <Compile Include="Models\RefundRequestByStudent.cs" />
+    <Compile Include="Models\RefundStudentReportForAcademics.cs" />
+    <Compile Include="Models\RefundStudentReportForFaculty.cs" />
+    <Compile Include="Models\ReportForJrSupervisor.cs" />
+    <Compile Include="Models\ReportForJrSupervisorCenterWise.cs" />
+    <Compile Include="Models\ReportForJrSupervisorIAExam.cs" />
+    <Compile Include="Models\RequiredDocumentList.cs" />
+    <Compile Include="Models\RequiredDocumentPendingList.cs" />
+    <Compile Include="Models\RequiredDocumentsSubmittedByApplicant.cs" />
+    <Compile Include="Models\ResBasisForAwarding.cs" />
+    <Compile Include="Models\ResCalculation.cs" />
+    <Compile Include="Models\ResConfigAPH.cs" />
+    <Compile Include="Models\ResCourseEvalSystem.cs" />
+    <Compile Include="Models\ResDefineAPH.cs" />
+    <Compile Include="Models\ResExemptionConfig.cs" />
+    <Compile Include="Models\ResExemptionDependency.cs" />
+    <Compile Include="Models\ResGPATemplate.cs" />
+    <Compile Include="Models\ResGPATemplateConfig.cs" />
+    <Compile Include="Models\ResGradeLevels.cs" />
+    <Compile Include="Models\ResGradeScales.cs" />
+    <Compile Include="Models\ResMarksLevels.cs" />
+    <Compile Include="Models\ResMarksTemplate.cs" />
+    <Compile Include="Models\ResMarksTemplateConfig.cs" />
+    <Compile Include="Models\ResultDataConsolidated.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\RolePermissionMap.cs" />
+    <Compile Include="Models\SeatingArrangementReport.cs" />
+    <Compile Include="Models\SecBarcode.cs" />
+    <Compile Include="Models\Sectionwiseblankmarksheet.cs" />
+    <Compile Include="Models\SocialCategory.cs" />
+    <Compile Include="Models\StateMaster.cs" />
+    <Compile Include="Models\StudentAdmissionFeesPaidReport.cs" />
+    <Compile Include="Models\StudentBlockChange.cs" />
+    <Compile Include="Models\StudentBonafied.cs" />
+    <Compile Include="Models\StudentForPaper.cs" />
+    <Compile Include="Models\StudentListByVenue.cs" />
+    <Compile Include="Models\StudentListWithUnMappedFeeCategory.cs" />
+    <Compile Include="Models\StudentPaymentPendingReport.cs" />
+    <Compile Include="Models\StudentProfile.cs" />
+    <Compile Include="Models\StudentQueryMasterFaculty.cs" />
+    <Compile Include="Models\StudentReAdmissionReport.cs" />
+    <Compile Include="Models\StudentWisePaperList.cs" />
+    <Compile Include="Models\TestLogin.cs" />
+    <Compile Include="Models\TimeSlot.cs" />
+    <Compile Include="Models\TimeTableScheduled.cs" />
+    <Compile Include="Models\TransferCertificate.cs" />
+    <Compile Include="Models\TransferCertificateReport.cs" />
+    <Compile Include="Models\UserNotification.cs" />
+    <Compile Include="Models\UserNotificationAndroid.cs" />
+    <Compile Include="Models\UserRoleMap.cs" />
+    <Compile Include="Models\UserTypeMaster.cs" />
+    <Compile Include="Models\Validations.cs" />
+    <Compile Include="Models\Function.cs" />
+    <Compile Include="Models\Returns.cs" />
+    <Compile Include="Models\VenueAllocation.cs" />
+    <Compile Include="Models\VenueMaster.cs" />
+    <Compile Include="Models\VenueReAllocation.cs" />
+    <Compile Include="Models\VerifyApplicantProfileForm.cs" />
+    <Compile Include="Models\WrittenTestHallTicketConfiguration.cs" />
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\Antlr3.Runtime.pdb" />
+    <Content Include="bin\AWSSDK.Core.dll" />
+    <Content Include="bin\AWSSDK.S3.dll" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\MSUIS-TokenManager.dll" />
+    <Content Include="bin\MSUISApi.dll" />
+    <Content Include="bin\MSUISApi.pdb" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\roslyn\csc.exe" />
+    <Content Include="bin\roslyn\csi.exe" />
+    <Content Include="bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll" />
+    <Content Include="bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll" />
+    <Content Include="bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll" />
+    <Content Include="bin\roslyn\Microsoft.Win32.Primitives.dll" />
+    <Content Include="bin\roslyn\System.AppContext.dll" />
+    <Content Include="bin\roslyn\System.Collections.Immutable.dll" />
+    <Content Include="bin\roslyn\System.Console.dll" />
+    <Content Include="bin\roslyn\System.Diagnostics.DiagnosticSource.dll" />
+    <Content Include="bin\roslyn\System.Diagnostics.FileVersionInfo.dll" />
+    <Content Include="bin\roslyn\System.Diagnostics.StackTrace.dll" />
+    <Content Include="bin\roslyn\System.Globalization.Calendars.dll" />
+    <Content Include="bin\roslyn\System.IO.Compression.dll" />
+    <Content Include="bin\roslyn\System.IO.Compression.ZipFile.dll" />
+    <Content Include="bin\roslyn\System.IO.FileSystem.dll" />
+    <Content Include="bin\roslyn\System.IO.FileSystem.Primitives.dll" />
+    <Content Include="bin\roslyn\System.Net.Http.dll" />
+    <Content Include="bin\roslyn\System.Net.Sockets.dll" />
+    <Content Include="bin\roslyn\System.Reflection.Metadata.dll" />
+    <Content Include="bin\roslyn\System.Runtime.InteropServices.RuntimeInformation.dll" />
+    <Content Include="bin\roslyn\System.Security.Cryptography.Algorithms.dll" />
+    <Content Include="bin\roslyn\System.Security.Cryptography.Encoding.dll" />
+    <Content Include="bin\roslyn\System.Security.Cryptography.Primitives.dll" />
+    <Content Include="bin\roslyn\System.Security.Cryptography.X509Certificates.dll" />
+    <Content Include="bin\roslyn\System.Text.Encoding.CodePages.dll" />
+    <Content Include="bin\roslyn\System.Threading.Tasks.Extensions.dll" />
+    <Content Include="bin\roslyn\System.ValueTuple.dll" />
+    <Content Include="bin\roslyn\System.Xml.ReaderWriter.dll" />
+    <Content Include="bin\roslyn\System.Xml.XmlDocument.dll" />
+    <Content Include="bin\roslyn\System.Xml.XPath.dll" />
+    <Content Include="bin\roslyn\System.Xml.XPath.XDocument.dll" />
+    <Content Include="bin\roslyn\vbc.exe" />
+    <Content Include="bin\roslyn\VBCSCompiler.exe" />
+    <Content Include="bin\System.Net.Http.Formatting.dll" />
+    <Content Include="bin\System.Net.Http.Formatting.xml" />
+    <Content Include="bin\System.Web.Cors.dll" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Helpers.xml" />
+    <Content Include="bin\System.Web.Http.Cors.dll" />
+    <Content Include="bin\System.Web.Http.Cors.xml" />
+    <Content Include="bin\System.Web.Http.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.xml" />
+    <Content Include="bin\System.Web.Http.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Optimization.xml" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.xml" />
+    <Content Include="bin\WebGrease.dll" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll" />
+    <Content Include="packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.pdb" />
+    <Content Include="packages\bootstrap.3.4.1\contentFiles\Content\bootstrap-theme.css" />
+    <Content Include="packages\bootstrap.3.4.1\contentFiles\Content\bootstrap-theme.min.css" />
+    <Content Include="packages\bootstrap.3.4.1\contentFiles\Content\bootstrap.css" />
+    <Content Include="packages\bootstrap.3.4.1\contentFiles\Content\bootstrap.min.css" />
+    <Content Include="packages\bootstrap.3.4.1\contentFiles\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="packages\bootstrap.3.4.1\contentFiles\Scripts\bootstrap.js" />
+    <Content Include="packages\bootstrap.3.4.1\contentFiles\Scripts\bootstrap.min.js" />
+    <Content Include="packages\bootstrap.3.4.1\content\Content\bootstrap-theme.css" />
+    <Content Include="packages\bootstrap.3.4.1\content\Content\bootstrap-theme.min.css" />
+    <Content Include="packages\bootstrap.3.4.1\content\Content\bootstrap.css" />
+    <Content Include="packages\bootstrap.3.4.1\content\Content\bootstrap.min.css" />
+    <Content Include="packages\bootstrap.3.4.1\content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="packages\bootstrap.3.4.1\content\Scripts\bootstrap.js" />
+    <Content Include="packages\bootstrap.3.4.1\content\Scripts\bootstrap.min.js" />
+    <Content Include="packages\bootstrap.3.4.1\LICENSE.txt" />
+    <None Include="packages\jQuery.3.4.1\Content\Scripts\jquery-3.4.1-vsdoc.js" />
+    <Content Include="packages\jQuery.3.4.1\Content\Scripts\jquery-3.4.1.js" />
+    <Content Include="packages\jQuery.3.4.1\Content\Scripts\jquery-3.4.1.min.js" />
+    <Content Include="packages\jQuery.3.4.1\Content\Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="packages\jQuery.3.4.1\Content\Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="packages\jQuery.3.4.1\Tools\jquery-3.4.1.intellisense.js" />
+    <Content Include="packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll" />
+    <Content Include="packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll" />
+    <Content Include="packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.xml" />
+    <Content Include="packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll" />
+    <Content Include="packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.xml" />
+    <Content Include="packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll" />
+    <Content Include="packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\system.web.optimization.xml" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.xml" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\netstandard2.0\System.Net.Http.Formatting.dll" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\netstandard2.0\System.Net.Http.Formatting.xml" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\portable-wp8%252Bnetcore45%252Bnet45%252Bwp81%252Bwpa81\System.Net.Http.Formatting.dll" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\portable-wp8%252Bnetcore45%252Bnet45%252Bwp81%252Bwpa81\System.Net.Http.Formatting.xml" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.xml" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.Cors.5.2.7\lib\net45\System.Web.Http.Cors.dll" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.Cors.5.2.7\lib\net45\System.Web.Http.Cors.xml" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.xml" />
+    <Content Include="packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll" />
+    <Content Include="packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.xml" />
+    <Content Include="packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll" />
+    <Content Include="packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.xml" />
+    <Content Include="packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll" />
+    <Content Include="packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll" />
+    <Content Include="packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.xml" />
+    <Content Include="packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.xml" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\Icon.png" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\net461\cs\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\net461\de\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\net461\es\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\net461\fr\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\net461\it\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\net461\ja\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\net461\ko\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\net461\Microsoft.Build.Tasks.Git.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\net461\pl\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\net461\pt-BR\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\net461\ru\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\net461\System.Collections.Immutable.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\net461\tr\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\net461\zh-Hans\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\net461\zh-Hant\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\netcoreapp2.0\cs\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\netcoreapp2.0\de\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\netcoreapp2.0\es\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\netcoreapp2.0\fr\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\netcoreapp2.0\it\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\netcoreapp2.0\ja\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\netcoreapp2.0\ko\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\netcoreapp2.0\Microsoft.Build.Tasks.Git.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\netcoreapp2.0\pl\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\netcoreapp2.0\pt-BR\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\netcoreapp2.0\ru\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\netcoreapp2.0\tr\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\netcoreapp2.0\zh-Hans\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\tools\netcoreapp2.0\zh-Hant\Microsoft.Build.Tasks.Git.resources.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\csc.exe" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\csi.exe" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\Microsoft.Build.Tasks.CodeAnalysis.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\Microsoft.CodeAnalysis.CSharp.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\Microsoft.CodeAnalysis.CSharp.Scripting.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\Microsoft.CodeAnalysis.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\Microsoft.CodeAnalysis.Scripting.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\Microsoft.CodeAnalysis.VisualBasic.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\Microsoft.DiaSymReader.Native.amd64.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\Microsoft.DiaSymReader.Native.x86.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\System.AppContext.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\System.Collections.Immutable.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\System.Diagnostics.StackTrace.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\System.IO.FileSystem.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\System.IO.FileSystem.Primitives.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\System.Reflection.Metadata.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\vbc.exe" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\VBCSCompiler.exe" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\csc.exe" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\csi.exe" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\Microsoft.Build.Tasks.CodeAnalysis.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\Microsoft.CodeAnalysis.CSharp.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\Microsoft.CodeAnalysis.CSharp.Scripting.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\Microsoft.CodeAnalysis.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\Microsoft.CodeAnalysis.Scripting.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\Microsoft.CodeAnalysis.VisualBasic.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\Microsoft.DiaSymReader.Native.amd64.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\Microsoft.DiaSymReader.Native.x86.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\Microsoft.Win32.Primitives.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.AppContext.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Collections.Immutable.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Console.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Diagnostics.DiagnosticSource.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Diagnostics.FileVersionInfo.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Diagnostics.StackTrace.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Globalization.Calendars.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.IO.Compression.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.IO.Compression.ZipFile.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.IO.FileSystem.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.IO.FileSystem.Primitives.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Net.Http.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Net.Sockets.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Reflection.Metadata.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Runtime.InteropServices.RuntimeInformation.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Security.Cryptography.Algorithms.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Security.Cryptography.Encoding.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Security.Cryptography.Primitives.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Security.Cryptography.X509Certificates.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Text.Encoding.CodePages.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Threading.Tasks.Extensions.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.ValueTuple.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Xml.ReaderWriter.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Xml.XmlDocument.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Xml.XPath.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\System.Xml.XPath.XDocument.dll" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\vbc.exe" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\VBCSCompiler.exe" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\Icon.png" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\net461\cs\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\net461\de\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\net461\es\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\net461\fr\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\net461\it\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\net461\ja\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\net461\ko\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\net461\Microsoft.SourceLink.Common.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\net461\pl\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\net461\pt-BR\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\net461\ru\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\net461\tr\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\net461\zh-Hans\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\net461\zh-Hant\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\netcoreapp2.0\cs\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\netcoreapp2.0\de\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\netcoreapp2.0\es\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\netcoreapp2.0\fr\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\netcoreapp2.0\it\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\netcoreapp2.0\ja\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\netcoreapp2.0\ko\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\netcoreapp2.0\Microsoft.SourceLink.Common.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\netcoreapp2.0\pl\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\netcoreapp2.0\pt-BR\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\netcoreapp2.0\ru\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\netcoreapp2.0\tr\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\netcoreapp2.0\zh-Hans\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\tools\netcoreapp2.0\zh-Hant\Microsoft.SourceLink.Common.resources.dll" />
+    <Content Include="packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="packages\Modernizr.2.8.3\Content\Scripts\modernizr-2.8.3.js" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\lib\net20\Newtonsoft.Json.dll" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\lib\net20\Newtonsoft.Json.xml" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\lib\net35\Newtonsoft.Json.dll" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\lib\net35\Newtonsoft.Json.xml" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\lib\net40\Newtonsoft.Json.dll" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\lib\net40\Newtonsoft.Json.xml" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.xml" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\lib\netstandard1.0\Newtonsoft.Json.dll" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\lib\netstandard1.0\Newtonsoft.Json.xml" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\lib\netstandard1.3\Newtonsoft.Json.dll" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\lib\netstandard1.3\Newtonsoft.Json.xml" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\lib\netstandard2.0\Newtonsoft.Json.dll" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\lib\netstandard2.0\Newtonsoft.Json.xml" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\lib\portable-net40+sl5+win8+wp8+wpa81\Newtonsoft.Json.dll" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\lib\portable-net40+sl5+win8+wp8+wpa81\Newtonsoft.Json.xml" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\lib\portable-net45+win8+wp8+wpa81\Newtonsoft.Json.dll" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\lib\portable-net45+win8+wp8+wpa81\Newtonsoft.Json.xml" />
+    <Content Include="packages\WebGrease.1.6.0\lib\WebGrease.dll" />
+    <Content Include="packages\WebGrease.1.6.0\tools\WG.EXE" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\HelpPage\Views\Web.config" />
+    <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\ResourceModel.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\Index.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\TextSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\SimpleTypeModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\Samples.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\Parameters.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ModelDescriptionLink.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\KeyValuePairModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\InvalidSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ImageSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\HelpPageApiModel.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\EnumTypeModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\DictionaryModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ComplexTypeModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include="bin\MSUISApi.dll.config" />
+    <Content Include="bin\roslyn\csc.exe.config" />
+    <Content Include="bin\roslyn\csc.rsp" />
+    <Content Include="bin\roslyn\csi.exe.config" />
+    <Content Include="bin\roslyn\csi.rsp" />
+    <Content Include="bin\roslyn\Microsoft.CSharp.Core.targets" />
+    <Content Include="bin\roslyn\Microsoft.Managed.Core.targets" />
+    <Content Include="bin\roslyn\Microsoft.VisualBasic.Core.targets" />
+    <Content Include="bin\roslyn\vbc.exe.config" />
+    <Content Include="bin\roslyn\vbc.rsp" />
+    <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
+    <Content Include="packages\Antlr.3.5.0.2\.signature.p7s" />
+    <Content Include="packages\Antlr.3.5.0.2\Antlr.3.5.0.2.nupkg" />
+    <Content Include="packages\bootstrap.3.4.1\.signature.p7s" />
+    <Content Include="packages\bootstrap.3.4.1\bootstrap.3.4.1.nupkg" />
+    <Content Include="packages\bootstrap.3.4.1\contentFiles\Content\bootstrap-theme.css.map" />
+    <Content Include="packages\bootstrap.3.4.1\contentFiles\Content\bootstrap-theme.min.css.map" />
+    <Content Include="packages\bootstrap.3.4.1\contentFiles\Content\bootstrap.css.map" />
+    <Content Include="packages\bootstrap.3.4.1\contentFiles\Content\bootstrap.min.css.map" />
+    <Content Include="packages\bootstrap.3.4.1\contentFiles\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages\bootstrap.3.4.1\contentFiles\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="packages\bootstrap.3.4.1\contentFiles\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="packages\bootstrap.3.4.1\contentFiles\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="packages\bootstrap.3.4.1\content\Content\bootstrap-theme.css.map" />
+    <Content Include="packages\bootstrap.3.4.1\content\Content\bootstrap-theme.min.css.map" />
+    <Content Include="packages\bootstrap.3.4.1\content\Content\bootstrap.css.map" />
+    <Content Include="packages\bootstrap.3.4.1\content\Content\bootstrap.min.css.map" />
+    <Content Include="packages\bootstrap.3.4.1\content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages\bootstrap.3.4.1\content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="packages\bootstrap.3.4.1\content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="packages\bootstrap.3.4.1\content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="packages\jQuery.3.4.1\.signature.p7s" />
+    <Content Include="packages\jQuery.3.4.1\Content\Scripts\jquery-3.4.1.min.map" />
+    <Content Include="packages\jQuery.3.4.1\Content\Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="packages\jQuery.3.4.1\jQuery.3.4.1.nupkg" />
+    <Content Include="packages\jQuery.3.4.1\Tools\common.ps1" />
+    <Content Include="packages\jQuery.3.4.1\Tools\install.ps1" />
+    <Content Include="packages\jQuery.3.4.1\Tools\uninstall.ps1" />
+    <Content Include="packages\Microsoft.AspNet.Cors.5.2.7\.signature.p7s" />
+    <Content Include="packages\Microsoft.AspNet.Cors.5.2.7\Microsoft.AspNet.Cors.5.2.7.nupkg" />
+    <Content Include="packages\Microsoft.AspNet.Mvc.5.2.7\.signature.p7s" />
+    <Content Include="packages\Microsoft.AspNet.Mvc.5.2.7\Content\Web.config.install.xdt" />
+    <Content Include="packages\Microsoft.AspNet.Mvc.5.2.7\Content\Web.config.uninstall.xdt" />
+    <Content Include="packages\Microsoft.AspNet.Mvc.5.2.7\Microsoft.AspNet.Mvc.5.2.7.nupkg" />
+    <Content Include="packages\Microsoft.AspNet.Razor.3.2.7\.signature.p7s" />
+    <Content Include="packages\Microsoft.AspNet.Razor.3.2.7\Microsoft.AspNet.Razor.3.2.7.nupkg" />
+    <Content Include="packages\Microsoft.AspNet.Web.Optimization.1.1.3\.signature.p7s" />
+    <Content Include="packages\Microsoft.AspNet.Web.Optimization.1.1.3\Microsoft.AspNet.Web.Optimization.1.1.3.nupkg" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.5.2.7\.signature.p7s" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.5.2.7\Microsoft.AspNet.WebApi.5.2.7.nupkg" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.Client.5.2.7\.signature.p7s" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.Client.5.2.7\Microsoft.AspNet.WebApi.Client.5.2.7.nupkg" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.Core.5.2.7\.signature.p7s" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.Core.5.2.7\Content\web.config.transform" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.Core.5.2.7\Microsoft.AspNet.WebApi.Core.5.2.7.nupkg" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.Cors.5.2.7\.signature.p7s" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.Cors.5.2.7\Microsoft.AspNet.WebApi.Cors.5.2.7.nupkg" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\.signature.p7s" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\ApiDescriptionExtensions.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\App_Start\HelpPageConfig.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Controllers\HelpController.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\HelpPage.css.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\HelpPageAreaRegistration.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\HelpPageConfigurationExtensions.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\ModelDescriptions\CollectionModelDescription.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\ModelDescriptions\ComplexTypeModelDescription.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\ModelDescriptions\DictionaryModelDescription.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\ModelDescriptions\EnumTypeModelDescription.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\ModelDescriptions\EnumValueDescription.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\ModelDescriptions\IModelDocumentationProvider.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\ModelDescriptions\KeyValuePairModelDescription.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\ModelDescriptions\ModelDescription.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\ModelDescriptions\ModelDescriptionGenerator.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\ModelDescriptions\ModelNameAttribute.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\ModelDescriptions\ModelNameHelper.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\ModelDescriptions\ParameterAnnotation.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\ModelDescriptions\ParameterDescription.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\ModelDescriptions\SimpleTypeModelDescription.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Models\HelpPageApiModel.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\SampleGeneration\HelpPageSampleGenerator.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\SampleGeneration\HelpPageSampleKey.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\SampleGeneration\ImageSample.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\SampleGeneration\InvalidSample.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\SampleGeneration\ObjectGenerator.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\SampleGeneration\SampleDirection.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\SampleGeneration\TextSample.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Help\Api.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Help\DisplayTemplates\ComplexTypeModelDescription.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Help\DisplayTemplates\DictionaryModelDescription.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Help\DisplayTemplates\EnumTypeModelDescription.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Help\DisplayTemplates\HelpPageApiModel.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Help\DisplayTemplates\ImageSample.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Help\DisplayTemplates\InvalidSample.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Help\DisplayTemplates\KeyValuePairModelDescription.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Help\DisplayTemplates\ModelDescriptionLink.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Help\DisplayTemplates\Parameters.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Help\DisplayTemplates\Samples.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Help\DisplayTemplates\SimpleTypeModelDescription.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Help\DisplayTemplates\TextSample.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Help\Index.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Help\ResourceModel.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Shared\_Layout.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\Web.config" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\Views\_ViewStart.cshtml.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Content\Areas\HelpPage\XmlDocumentationProvider.cs.pp" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.HelpPage.5.2.7\Microsoft.AspNet.WebApi.HelpPage.5.2.7.nupkg" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\.signature.p7s" />
+    <Content Include="packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\Microsoft.AspNet.WebApi.WebHost.5.2.7.nupkg" />
+    <Content Include="packages\Microsoft.AspNet.WebPages.3.2.7\.signature.p7s" />
+    <Content Include="packages\Microsoft.AspNet.WebPages.3.2.7\Content\Web.config.install.xdt" />
+    <Content Include="packages\Microsoft.AspNet.WebPages.3.2.7\Content\Web.config.uninstall.xdt" />
+    <Content Include="packages\Microsoft.AspNet.WebPages.3.2.7\Microsoft.AspNet.WebPages.3.2.7.nupkg" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\.signature.p7s" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\buildMultiTargeting\Microsoft.Build.Tasks.Git.props" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\buildMultiTargeting\Microsoft.Build.Tasks.Git.targets" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\build\Microsoft.Build.Tasks.Git.props" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\build\Microsoft.Build.Tasks.Git.targets" />
+    <Content Include="packages\Microsoft.Build.Tasks.Git.1.0.0\Microsoft.Build.Tasks.Git.1.0.0.nupkg" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\.signature.p7s" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.Extensions.props" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.Extensions.props" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\content\net45\app.config.install.xdt" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\content\net45\app.config.uninstall.xdt" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\content\net45\web.config.install.xdt" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\content\net45\web.config.uninstall.xdt" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\content\net46\app.config.install.xdt" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\content\net46\app.config.uninstall.xdt" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\content\net46\web.config.install.xdt" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\content\net46\web.config.uninstall.xdt" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1.nupkg" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\net45\install.ps1" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\net45\uninstall.ps1" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\csc.exe.config" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\csc.rsp" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\csi.rsp" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\Microsoft.CSharp.Core.targets" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\Microsoft.VisualBasic.Core.targets" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\vbc.exe.config" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\vbc.rsp" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\Roslyn45\VBCSCompiler.exe.config" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\csc.exe.config" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\csc.rsp" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\csi.exe.config" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\csi.rsp" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\Microsoft.CSharp.Core.targets" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\Microsoft.Managed.Core.targets" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\Microsoft.VisualBasic.Core.targets" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\vbc.exe.config" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\vbc.rsp" />
+    <Content Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\VBCSCompiler.exe.config" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\.signature.p7s" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\buildMultiTargeting\Microsoft.SourceLink.Common.props" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\buildMultiTargeting\Microsoft.SourceLink.Common.targets" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\build\InitializeSourceControlInformation.targets" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\build\Microsoft.SourceLink.Common.props" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\build\Microsoft.SourceLink.Common.targets" />
+    <Content Include="packages\Microsoft.SourceLink.Common.1.0.0\Microsoft.SourceLink.Common.1.0.0.nupkg" />
+    <Content Include="packages\Microsoft.Web.Infrastructure.1.0.0.0\.signature.p7s" />
+    <Content Include="packages\Microsoft.Web.Infrastructure.1.0.0.0\Microsoft.Web.Infrastructure.1.0.0.0.nupkg" />
+    <Content Include="packages\Modernizr.2.8.3\.signature.p7s" />
+    <Content Include="packages\Modernizr.2.8.3\Modernizr.2.8.3.nupkg" />
+    <Content Include="packages\Modernizr.2.8.3\Tools\common.ps1" />
+    <Content Include="packages\Modernizr.2.8.3\Tools\install.ps1" />
+    <Content Include="packages\Modernizr.2.8.3\Tools\uninstall.ps1" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\.signature.p7s" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\LICENSE.md" />
+    <Content Include="packages\Newtonsoft.Json.12.0.2\Newtonsoft.Json.12.0.2.nupkg" />
+    <Content Include="packages\WebGrease.1.6.0\.signature.p7s" />
+    <Content Include="packages\WebGrease.1.6.0\WebGrease.1.6.0.nupkg" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Upload\BlankMarksheet\MSU_Logo.png" />
+    <Content Include="Upload\Photo\1202100002_photo.png" />
+    <Content Include="Upload\Photo\1202100004_photo.png" />
+    <Content Include="Upload\Photo\1202100005_photo.png" />
+    <Content Include="Upload\Photo\1202100007_photo.png" />
+    <Content Include="Upload\Photo\1202100021_photo.png" />
+    <Content Include="Upload\Photo\8021000046_photo.png" />
+    <Content Include="Upload\RefundPassbookPhoto\1000000014_8021003346_PassBook_InstGroupChange_31_12_2021.jpg" />
+    <Content Include="Upload\RequiredDocuments\1202100003_71_details_open.png" />
+    <Content Include="Upload\RequiredDocuments\1202100003_71_logo.png" />
+    <Content Include="Upload\RequiredDocuments\1202100003_72_complete.png" />
+    <Content Include="Upload\RequiredDocuments\1202100003_72_details_close.png" />
+    <Content Include="Upload\RequiredDocuments\1202100003_72_logo1.png" />
+    <Content Include="Upload\RequiredDocuments\1202100003_72_pattern2.png" />
+    <Content Include="Upload\RequiredDocuments\1202100003_72_pattern7.png" />
+    <Content Include="Upload\RequiredDocuments\1202100003_72_select-arrow.png" />
+    <Content Include="Upload\RequiredDocuments\1202100003_72_signature.png" />
+    <Content Include="Upload\Signature\1000000010_DeanSign.png" />
+    <Content Include="Upload\Signature\1000000014_DeanSign.png" />
+    <Content Include="Upload\Signature\1202100005_signature.png" />
+    <Content Include="Upload\Signature\1000000027_DeanSign.png" />
+    <Content Include="Upload\Signature\1202100021_signature.png" />
+    <Content Include="Upload\Signature\8021000046_signature.png" />
+    <Content Include="Upload\SingleHallTicket\MSU_Logo.png" />
+    <Content Include="Upload\StudentQueryImageDocument\1202100006_StudentQueryImage_10_4_2021_152241.jpeg" />
+    <Content Include="Upload\StudentQueryImageDocument\1202100006_StudentQueryImage_10_4_2021_152241.png" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Upload\AdditionalDocuments\1202100009_sample_21_3_2021_184013.pdf" />
+    <Content Include="Upload\AdditionalDocuments\1202100022_download %281%29_19_3_2021_162022.pdf" />
+    <Content Include="Upload\AdditionalDocuments\1202100022_test %281%29_19_3_2021_162022.pdf" />
+    <Content Include="Upload\AdditionalDocuments\1202100026_Table_19_3_2021_151210.pdf" />
+    <Content Include="Upload\AdditionalDocuments\1202100026_test_final_19_3_2021_161035.pdf" />
+    <Content Include="Upload\Documents\1202100014_Aadhar.pdf" />
+    <Content Include="Upload\Documents\1202100014_DOB.pdf" />
+    <Content Include="Upload\Documents\1202100014_EWS.pdf" />
+    <Content Include="Upload\Documents\1202100014_PC.pdf" />
+    <Content Include="Upload\Documents\1202100014_PhotoId.pdf" />
+    <Content Include="Upload\Documents\1202100014_Reservation.pdf" />
+    <Content Include="Upload\Documents\1202100014_SocialCat.docx" />
+    <Content Include="Upload\Documents\1202100023_Aadhar.docx" />
+    <Content Include="Upload\Documents\1202100023_DOB.pdf" />
+    <Content Include="Upload\Documents\1202100023_EWS.pdf" />
+    <Content Include="Upload\Documents\1202100023_PC.pdf" />
+    <Content Include="Upload\Documents\1202100023_PhotoId.pdf" />
+    <Content Include="Upload\Documents\1202100023_SocialCat.pdf" />
+    <Content Include="Upload\Documents\1202100027_Edu.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100002_49_adddd.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100002_49_Certificate.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100002_50_Certificate.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100002_51_Certificate.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100003_31_Certificate.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100003_65_Certificate.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100003_67_Certificate.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100003_67_Justin Sir Reference %281%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100003_67_xtt.docx" />
+    <Content Include="Upload\RequiredDocuments\1202100004_94_Table %284%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100004_94_Table %285%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100004_94_test_final.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100005_25_letstry.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100005_25_Table %281%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100005_25_Table %284%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100005_25_test_final.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100005_26_exchange leave format.docx" />
+    <Content Include="Upload\RequiredDocuments\1202100005_26_letstry.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100005_26_test %287%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100005_26_test %289%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100005_59_Certificate.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100006_1_2_Table %285%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100006_1_3_Table %284%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100006_1_3_testor.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100006_1_5_Table %282%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100006_1_6_Table %283%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100006_2_2_Table %285%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100006_2_3_Table %283%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100006_2_5_Table %284%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100006_2_6_Table %281%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100006_31_Certificate.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100006_3_2_Table %285%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100006_3_3_letstry.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100006_3_5_Table %281%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100006_3_6_testor.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100007_1_Table %281%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100007_1_Table %282%29.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100007_1_Table.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100009_520210000001_3_sample.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100011_49_17_exchange 1 day.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100011_49_1_exchange 1 day.pdf" />
+    <Content Include="Upload\RequiredDocuments\1202100011_49_2_exchange 2.pdf" />
+    <Content Include="Upload\RequiredDocuments\undefined_2_test_final.pdf" />
+    <Content Include="Upload\SocialDocument\1202100001_3_AppCatDoc.pdf" />
+    <Content Include="Upload\SocialDocument\1202100001_AppCatDoc.pdf" />
+    <Content Include="Upload\SocialDocument\1202100002_3_AppCatDoc.pdf" />
+    <Content Include="Upload\SocialDocument\1202100005_1_AppCatDoc.pdf" />
+    <Content Include="Upload\SocialDocument\1202100006_1_AppCatDoc.pdf" />
+    <Content Include="Upload\SocialDocument\1202100007_1_AppCatDoc.pdf" />
+    <Content Include="Upload\SocialDocument\1202100011_1_AppCatDoc.pdf" />
+    <Content Include="Upload\SocialDocument\1202100021_3_AppCatDoc.pdf" />
+    <Content Include="Upload\FeeChangeRefundRTGSForm\1000000021_520290195603_RTGSForm_FeeChange_10_12_2021.pdf" />
+    <Content Include="Upload\SingleHallTicket\8021000064MSUIS_PDF_HallTicket.pdf" />
+    <Content Include="Upload\SingleHallTicket\8021068838MSUIS_PDF_HallTicket.pdf" />
+    <Content Include="Upload\Barcode\SecondaryBarcode\ECO1106C01_SecBarcode.pdf" />
+    <Content Include="Upload\BlankMarksheet\BlankMarksheetForFinancial Accounting.pdf" />
+    <Content Include="Upload\FacultyImportExcel\1000000149_ImportExcelFile_26_10_2021.xlsx" />
+    <Content Include="Upload\InstituteGroupChangeRTGSForm\1000000014_8021003346_RTGSForm_InstGroupChange_31_12_2021.pdf" />
+    <Content Include="Upload\InstituteQueryImageDocument\1000000008_InstituteQueryImageDoc_3_5_2021_16175.xls" />
+    <Content Include="Upload\UserNotificationImageDocument\UserNotificationImageDoc.pdf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Upload\Barcode\PrimaryBarcode\" />
+    <Folder Include="Upload\DualAdmissionDocuments\" />
+    <Folder Include="Upload\HallTicketSignature\" />
+    <Folder Include="Upload\HandWrittenDocForReAdmissionRequest\" />
+    <Folder Include="Upload\MSUISExamBarcode\" />
+    <Folder Include="Views\AdmApplicationConfiguration\" />
+    <Folder Include="Views\AdminController\" />
+    <Folder Include="Views\FACULTYDEMO\" />
+    <Folder Include="Views\FileUpload\" />
+    <Folder Include="Views\MstFaculty\" />
+    <Folder Include="Views\StudentRegitration\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.min.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>56410</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44374/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>https://localhost:44374/</IISAppRootUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.Build.Tasks.Git.1.0.0\build\Microsoft.Build.Tasks.Git.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Build.Tasks.Git.1.0.0\build\Microsoft.Build.Tasks.Git.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.Build.Tasks.Git.1.0.0\build\Microsoft.Build.Tasks.Git.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Build.Tasks.Git.1.0.0\build\Microsoft.Build.Tasks.Git.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.SourceLink.Common.1.0.0\build\Microsoft.SourceLink.Common.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.SourceLink.Common.1.0.0\build\Microsoft.SourceLink.Common.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.SourceLink.Common.1.0.0\build\Microsoft.SourceLink.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.SourceLink.Common.1.0.0\build\Microsoft.SourceLink.Common.targets'))" />
+  </Target>
+  <Import Project="packages\Microsoft.Build.Tasks.Git.1.0.0\build\Microsoft.Build.Tasks.Git.targets" Condition="Exists('packages\Microsoft.Build.Tasks.Git.1.0.0\build\Microsoft.Build.Tasks.Git.targets')" />
+  <Import Project="packages\Microsoft.SourceLink.Common.1.0.0\build\Microsoft.SourceLink.Common.targets" Condition="Exists('packages\Microsoft.SourceLink.Common.1.0.0\build\Microsoft.SourceLink.Common.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

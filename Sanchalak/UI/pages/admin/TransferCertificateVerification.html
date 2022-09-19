@@ -1,0 +1,119 @@
+﻿<body>
+    <script type="text/javascript">
+        //function getPrn() {
+
+        //    let urlstring = window.location.href;
+        //    let paramString = urlstring.split('?')[1];
+        //    let param_arr = paramString.split('&');
+        //    let pair1 = [];
+        //    pair1 = param_arr[0].split('=');
+        //    var prn1 = pair1[1];
+        //    return [prn1];
+        //}
+
+        function getProgId() {
+
+            debugger;
+            let urlstring = window.location.href;
+            let paramString = urlstring.split('?')[1];
+            let param_arr = paramString.split('&');
+            let pair1 = []; let pair2 = []; let pair3 = [];
+            pair1 = param_arr[0].split('=');
+            pair2 = param_arr[1].split('=');
+            //pair3 = param_arr[2].split('=');
+            let progId = [];
+            progId[0] = pair1[1];
+            progId[1] = pair2[1];
+            //progId[2] = pair3[1];
+            return [progId];
+        }
+    </script>
+
+    <style>
+        th, td {
+            font-size: 20px;
+        }
+    </style>
+
+
+
+    <div class="page-body" ng-controller="TransferCertiController" ng-init="VerifyTransferCertificate()">
+        <div class="card">
+            <div class="card-block" id="disp1">
+                <div class="col-sm-12">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-sm-3">
+                            <img src="/assets/images/MSUB_Logo.png" class="logoImg mt-4 ml-4" style="height:80%" />
+                        </div>
+                        <div class="col-sm-9 mt-4">
+                            <center>
+                                <h2>THE MAHARAJA SAYAJIRAO UNIVERSITY OF BARODA</h2>
+                                <h3>Fatehgunj,Vadodara-390002,Gujarat,INDIA</h3>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+
+                <hr style="width:100%" ; size="2" color=black>
+
+                <div class="col-sm-12 text-center">
+                    <p class="headingLead"><u><strong>{{Student.CertificateName}}</strong></u></p><br />
+                </div>
+
+                <!--<div class="col-sm-12">
+        <div class="row">
+            <div rowspan="4" class="col-sm-3 text-left">
+                <img data-ng-src="data:egpassport/png;base64,{{Student.StudentPhoto}}" class="avatar" style="border-color:deepskyblue ; border-style:solid ; border-width:3px;" width="200" height="200" />
+            </div>
+
+            <div class="col-sm-9 mt-4">
+                <div class="col-sm-12">
+                    <p class="headingLead">NAME     :     {{Student.NameAsPerMarksheet}}</p>
+                </div>
+                <div class="col-sm-12">
+                    <p class="headingLead">PROGRAMME : {{Student.ProgrammeName}}</p>
+                </div>
+                <div class="col-sm-12">
+                    <p class="headingLead">ISSUE DATE : {{Student.IssueDate}}</p>
+                </div>
+                <div class="col-sm-12">
+                    <p class="headingLead">ISSUING AUTHORITY : {{Student.AuthorityType}}</p>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+                <table class="center">
+                    <tr>
+                        <td align="center" width="250px" rowspan="4">
+                            <img data-ng-src="data:egpassport/png;base64,{{Student.StudentPhoto}}" class="avatar" style="border-color:deepskyblue ; border-style:solid ; border-width:3px;" width="200" height="200" />
+                        </td>
+                        <td width="30%">NAME</td>
+                        <td width="10%">:</td>
+                        <td>{{Student.NameAsPerMarksheet}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>PROGRAMME</td>
+                        <td>:</td>
+                        <td>{{Student.ProgrammeName}}</td>
+                    </tr>
+                    <tr>
+                        <td>ISSUE DATE</td>
+                        <td>:</td>
+                        <td>{{Student.IssueDate}}</td>
+                    </tr>
+                    <tr>
+                        <td>ISSUING AUTHORITY</td>
+                        <td>:</td>
+                        <td>{{Student.AuthorityType}}</td>
+                    </tr>
+                </table>
+
+                <!--<div class="col-sm-12 mt-5 text-center">
+                    <p class="headingLead" style="color:red">**{{Student.IssueReason}}**</p>
+                </div>-->
+            </div>
+        </div>
+    </div>
+</body>

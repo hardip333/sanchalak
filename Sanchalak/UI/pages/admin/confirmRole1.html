@@ -1,0 +1,60 @@
+﻿<!--<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sign-in-modal').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: true
+        });
+    });
+</script>-->
+  
+
+<div>
+    <div class="main-body">
+        <!-- Page body start -->
+        <div class="page-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- Login card start -->
+                    <div class="card">
+                        <div class="card-header">
+                            <!--<h5>Logo Here</h5>-->
+                            <!--<img width="170" height="172" src="https://www.msubaroda.ac.in/asset/images/msulogo412.png" alt="">-->
+                            <span>The Maharaja Sayajirao University of Baroda</span>
+                        </div>
+                        <form>
+                            <div class="card-block">
+                                <div class="text-center">
+                                    <img width="170" height="172" src="https://www.msubaroda.ac.in/asset/images/msulogo412.png" alt=""><br /><br />
+                                    <h5>The Maharaja Sayajirao University of Baroda</h5>
+                                </div>
+
+                                <div class="j-wrapper j-wrapper-400">
+                                    <!--<form id="j-pro" novalidate>-->
+                                        <div>
+                                            <div class="mb-3"><h5>Please select your role</h5></div>
+                                            <div class="j-unit">
+                                                <div class="j-input">
+                                                    <select name="select" class="form-control" style="width:auto;" ng-model="roleName.Id" ng-options="d.TypeWithId as d.RoleName +' - '+  d.NameforDisplay +' - '+  d.DesignationName for d in roleInfo" >
+                                                        <option value="">Please select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="j-footer mt-5 text-center">
+                                            <!--<button type="submit" class="btn btn-primary" ng-click="login()">Sign in</button>-->
+                                            <button type="button" class="btn btn-primary" ng-click="confirmRoleSubmit();">Submit</button>
+                                            <button type="button" class="btn btn-default" ng-click="logoutUserProcess();" data-dismiss="modal">Logout</button>
+                                        </div>
+                                    <!--</form>-->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Login card end -->
+                </div>
+            </div>
+        </div>
+        <!-- Page body end -->
+    </div>
+</div>

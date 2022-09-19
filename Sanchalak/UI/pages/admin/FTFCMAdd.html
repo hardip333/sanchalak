@@ -1,0 +1,77 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="FTFCMCtrl" ng-init="getFTFCMList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Fee Type and Category Mapping</h4>
+                </div>
+                <div class="card-block">
+                    <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Back</button><br /><br />
+                    <form ng-model="FTFCM">     
+                        <div class="form-group row" ng-init="getAcademicList()">
+                            <label for="Activity" class="col-sm-2 col-form-label">Academic Year Code <span style="color:red">*</span>:</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <select class="form-control" ng-model="FTFCM.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AYList" [value]="FTFCM.AcademicYearId" name="AcademicYear" required>
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="myForm.AcademicYear.$touched && myForm.AcademicYear.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div> 
+                        <div class="form-group row" ng-init="getFTList()">
+                            <label for="Activity" class="col-sm-2 col-form-label">Fee Type Name <span style="color:red">*</span>:</label>
+                            <div class="col-sm-8 col-lg-10">
+                                <span class="nullable">
+                                    <select name="FeeType" ng-model="FTFCM.FeeTypeId" ng-options="d.Id as d.FeeTypeName for d in c1List" [value]="FTFCM.FeeTypeName" class="form-control" ng-change="CategoryGet()" required>
+                                        <option value="" disabled selected>--SELECT--</option>
+                                    </select>
+                                    <span ng-show="myForm.FeeType.$touched && myForm.FeeType.$invalid" style="color:red">The Field is required.</span>
+                                </span>
+                            </div>
+                        </div>
+                                                
+                        <div class="form-group row" ng-init="getFCList()">
+                            <label for="Activity" class="col-sm-2 col-form-label">Fee Category Name <span style="color:red">*</span>:</label>
+                            <div class="col-sm-10">
+                                <div ng-repeat="FC in c2List">
+                                    <input ng-model="FTFCM.FeeCategoryList[FC.Id]" type='checkbox' ng-checked="FC.boolCheck" ng-disabled="FC.boolCheck"/>
+                                    <label>{{FC.FeeCategoryName}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button class="btn btn-success" ng-click="addFTFCM()">Add </button>
+                                <button class="btn btn-disabled disabled" ng-click="cancelFTFCM()">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered"  id="example-2" ng-table="FTFCMTableParams" show-filter="true">
+                                    <tbody ng-repeat="FTFCM in $data">                                        
+                                        <tr>
+                                            <td data-title="'Academic Year'" filter="{AcademicYearCode: 'text'}" sortable="'AcademicYearCode'" style="text-align:center;"><label>{{FTFCM.AcademicYearCode}}</label></td>
+                                            <td data-title="'Fee Type Name'" filter="{FeeTypeName: 'text'}" sortable="'FeeTypeName'" style="text-align:center;"><label>{{FTFCM.FeeTypeName}}</label></td>
+                                            <td data-title="'Fee Category Name'" filter="{FeeCategoryName: 'text'}" sortable="'FeeCategoryName'" style="text-align:center;"><label>{{FTFCM.FeeCategoryName}}</label></td>
+                                            </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>                  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

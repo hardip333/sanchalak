@@ -1,0 +1,195 @@
+﻿app.controller('VerificationReportCtrl', function ($scope, $http, $rootScope, $localStorage, $state, $cookies, $mdDialog, NgTableParams) {
+    $rootScope.pageTitle = "Programme Part Term Detail";
+
+    $scope.PostProgInst = {};
+   
+
+    
+
+    $scope.resetProgInstPartTerm = function () {
+        $scope.PostProgInst = {};
+    };
+
+    $scope.getFacultyById = function () {
+        $http({
+            method: 'POST',
+            url: 'api/MstFaculty/MstFacultyGetbyId',
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $scope.Faculty = response.obj[0];
+                $scope.PostProgInst.FacultyId = $scope.Faculty.Id;
+                $scope.getIncProgPartTermByFacIdList();
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+
+    $scope.getIncProgPartTermByFacIdList = function () {
+        $scope.Institute = {};
+        $scope.Institute.InstituteId = $scope.Faculty.InstituteId;
+        $http({
+            method: 'POST',
+            url: 'api/MstProgrammeInstancePartTerm/PostProgPartTermGetByFacultyId',
+            data: $scope.Institute,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $scope.ProgPartTermByFacIdList = response.obj;
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+
+    $scope.DDContentData = [{
+        Id: 1,
+        Name: "All",
+        Value: "ALL",
+    }, {
+        Id: 2,
+        Name: "Pending with Incomplete",
+        Value: "PWI"
+    }, {
+        Id: 3,
+        Name: "Pending with Complete",
+        Value: "PWC"
+    }, {
+        Id: 4,
+        Name: "Not Verified",
+        Value: "NV"
+    }, {
+        Id: 5,
+        Name: "Verified",
+        Value: "VERIFIED"
+    }, {
+        Id: 6,
+        Name: "Verified and Not-Approved",
+        Value: "VANA"
+    }, {
+        Id: 7,
+        Name: "Verified but No-Status",
+        Value: "VBNS"
+    }, {
+        Id: 8,
+        Name: "Verified and Provisionally Approved",
+        Value: "VAPA"
+    }]
+            
+    $scope.GetStudentData = function () {
+        $localStorage.InstancePartTermId = $scope.PostProgInst.ProgrammeInstancePartTermId;
+        $scope.StudentData = {};
+        $http({
+            method: 'POST',
+            url: 'api/VerificationReport/VerificationReportGet',
+            data: $scope.PostProgInst,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+                if (response.response_code == "0") {
+                    $state.go('login');
+                }
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    if (response.response_code == "201") {
+                        $scope.StudentData = {};
+
+                    }
+                }
+                else {
+
+                    $scope.StudentData = response.obj.Item1;
+                    $scope.ShowEyeButton = response.obj.Item2;
+                    $scope.ShowVerifyButton = response.obj.Item3;
+                    if ($.fn.dataTable.isDataTable('#example')) {
+                        $('#example').dataTable().fnClearTable();
+                        $('#example').DataTable().destroy();
+                    }
+                    
+                    $(document).ready(function () {
+                        $('#example').DataTable({
+                            "ordering": false,
+                            dom: 'Bfrtip',
+                            buttons: [
+                                { extend: 'csv', title: 'Student Report for' + $scope.StudentData[0].InstancePartTermName + ' Detail ', exportOptions: { columns: "thead th:not(.noExport)" } }
+                                ,
+                                { extend: 'excel', title: 'Student Report for' + $scope.StudentData[0].InstancePartTermName + ' Detail ', exportOptions: { columns: "thead th:not(.noExport)" } }
+                                , { extend: 'pdf', title: 'Student Report for' + $scope.StudentData[0].InstancePartTermName + ' Detail ', exportOptions: { columns: "thead th:not(.noExport)" } }
+                                , { extend: 'print', title: 'Student Report for' + $scope.StudentData[0].InstancePartTermName + ' Detail ', exportOptions: { columns: "thead th:not(.noExport)" } }
+
+                            ]
+                        });
+                    });
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+    //Function for gwt FullProgNameByProgPTID
+    $scope.PostGetFullProgNameByProgPTID = function () {
+
+        $http({
+            method: 'POST',
+            url: 'api/MstProgrammeInstancePartTerm/PostGetFullProgNameByProgPTID',
+            data: { IncProgInstancePartTermId: $scope.PostProgInst.ProgrammeInstancePartTermId },
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $scope.GetFullProgNameByProgPTID = response.obj[0];
+                console.log($scope.GetFullProgNameByProgPTID);
+                $localStorage.PostVerify = {};
+                $localStorage.PostVerify.ProgrammeName = $scope.GetFullProgNameByProgPTID.ProgrammeName;
+                $localStorage.PostVerify.BranchName = $scope.GetFullProgNameByProgPTID.BranchName;
+                $localStorage.PostVerify.AcademicYearCode = $scope.GetFullProgNameByProgPTID.AcademicYearCode;
+            })
+            .error(function (res) {
+                alert(res);
+            });
+    };
+
+    $scope.GetDocList = function (Student) {
+        $scope.DocList = {};
+        $http({
+            method: 'POST',
+            url: 'api/VerificationReport/FetchDocbyAppId',
+            data: Student,
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+                if (response.response_code == "0") {
+                    $state.go('login');
+                }
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    if (response.response_code == "201") {
+                        $scope.DocList = {};
+
+
+                    }
+                }
+                else {
+                    $scope.DocList = response.obj;
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+
+    };
+
+    $scope.VerifyApplicant = function (AppId, ApplicantRegistrationId, InstPartTermId, InstPartTermName) {
+        $localStorage.InstancePartTermId = InstPartTermId;
+        $localStorage.VerificationAppId = AppId;
+        $localStorage.InstancePartTermName = InstPartTermName;
+        $localStorage.VerificationAppRegId = ApplicantRegistrationId;
+        $state.go('PostApplicantVerification'); 
+    };
+
+});
+
+
+

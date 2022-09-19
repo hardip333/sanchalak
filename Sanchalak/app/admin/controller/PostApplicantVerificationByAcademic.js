@@ -1,0 +1,545 @@
+﻿
+app.controller('PostApplicantVerificationByAcademicCtrl', function ($scope, $http, $rootScope, $localStorage, $state, $cookies, $mdDialog, NgTableParams) {
+    $rootScope.pageTitle = "Post Applicant Verification By Academic Section";
+    //$scope.PostApplicantConfig = {};
+    $scope.EligibilityStatus = "";
+    $scope.remarks = "";
+    $scope.docName = "";
+    $scope.PendingDocListFlag = "";
+    $scope.FeeCategoryPartTermMapId = 0;
+    $scope.PostApplicantConfigTableparam = new NgTableParams(
+        {}, {
+        dataset: $scope.PostApplicantData
+    });
+
+    $scope.testclick = function (abc) {
+
+           
+        if (abc == "DOBDoc") {
+
+            if ($scope.ObjPersonal.DOBDoc != undefined && $scope.ObjPersonal.DOBDoc != null &&
+                $scope.ObjPersonal.DOBDoc != "") {
+
+                $("#imageID").attr('src', $scope.ObjPersonal.DOBDoc);
+            }
+            else {
+
+                $("#imageID").attr('src', "No File");
+            }
+        }
+        if (abc == "PhotoIdDoc") {
+
+            if ($scope.ObjPersonal.PhotoIdDoc != undefined && $scope.ObjPersonal.PhotoIdDoc != null &&
+                $scope.ObjPersonal.PhotoIdDoc != "") {
+
+                $("#imageID").attr('src', $scope.ObjPersonal.PhotoIdDoc);
+            }
+            else {
+
+                $("#imageID").attr('src', "No File");
+            }
+        }
+        if (abc == "AadharDoc") {
+
+            if ($scope.ObjPersonal.AadharDoc != undefined && $scope.ObjPersonal.AadharDoc != null &&
+                $scope.ObjPersonal.AadharDoc != "") {
+
+                $("#imageID").attr('src', $scope.ObjPersonal.AadharDoc);
+            }
+            else {
+
+                $("#imageID").attr('src', "No File");
+            }
+        }
+        if (abc == "SocialCategoryDoc") {
+
+            if ($scope.ObjPersonal.SocialCategoryDoc != undefined && $scope.ObjPersonal.SocialCategoryDoc != null &&
+                $scope.ObjPersonal.SocialCategoryDoc != "") {
+
+                $("#imageID").attr('src', $scope.ObjPersonal.SocialCategoryDoc);
+            }
+            else {
+
+                $("#imageID").attr('src', "No File");
+            }
+        }
+        if (abc == "ReservationCategoryDoc") {
+
+            if ($scope.ObjPersonal.ReservationCategoryDoc != undefined && $scope.ObjPersonal.ReservationCategoryDoc != null &&
+                $scope.ObjPersonal.ReservationCategoryDoc != "") {
+
+                $("#imageID").attr('src', $scope.ObjPersonal.ReservationCategoryDoc);
+            }
+            else {
+
+                $("#imageID").attr('src', "No File");
+            }
+        }
+        if (abc == "NCLCerti") {
+
+            if ($scope.ObjPersonal.NCLCerti != undefined && $scope.ObjPersonal.NCLCerti != null &&
+                $scope.ObjPersonal.NCLCerti != "") {
+
+                $("#imageID").attr('src', $scope.ObjPersonal.NCLCerti);
+            }
+            else {
+
+                $("#imageID").attr('src', "No File");
+            }
+        }
+        if (abc == "EWSDoc") {
+
+            if ($scope.ObjPersonal.EWSDoc != undefined && $scope.ObjPersonal.EWSDoc != null &&
+                $scope.ObjPersonal.EWSDoc != "") {
+
+                $("#imageID").attr('src', $scope.ObjPersonal.EWSDoc);
+            }
+            else {
+
+                $("#imageID").attr('src', "No File");
+            }
+        }  
+        if (abc == "EWS_IADoc") {
+
+            if ($scope.ObjPersonal.EWS_IADoc != undefined && $scope.ObjPersonal.EWS_IADoc != null &&
+                $scope.ObjPersonal.EWS_IADoc != "") {
+
+                $("#imageID").attr('src', $scope.ObjPersonal.EWS_IADoc);
+            }
+            else {
+
+                $("#imageID").attr('src', "No File");
+            }
+        } 
+        if (abc == "PCDoc") {
+
+            if ($scope.ObjPersonal.PCDoc != undefined && $scope.ObjPersonal.PCDoc != null &&
+                $scope.ObjPersonal.PCDoc != "") {
+
+                $("#imageID").attr('src', $scope.ObjPersonal.PCDoc);
+            }
+            else {
+
+                $("#imageID").attr('src', "No File");
+            }
+        }  
+        if (abc == "ApplicantPhoto") {
+
+            if ($scope.ObjPersonal.ApplicantPhoto != undefined && $scope.ObjPersonal.ApplicantPhoto != null &&
+                $scope.ObjPersonal.ApplicantPhoto != "") {
+
+                $("#imageID").attr('src', $scope.ObjPersonal.ApplicantPhoto);
+            }
+            else {
+
+                $("#imageID").attr('src', "No File");
+            }
+        }
+        if (abc == "ApplicantSignature") {
+
+            if ($scope.ObjPersonal.ApplicantSignature != undefined && $scope.ObjPersonal.ApplicantSignature != null &&
+                $scope.ObjPersonal.ApplicantSignature != "") {
+
+                $("#imageID").attr('src', $scope.ObjPersonal.ApplicantSignature);
+            }
+            else {
+
+                $("#imageID").attr('src', "No File");
+            }
+        }  
+    }
+   
+    $scope.testclickEdu = function (i, ObjEducation) {
+        
+        $scope.ObjEdu = ObjEducation;
+
+        if ($scope.ObjEdu[i].AttachDocument != undefined && $scope.ObjEdu[i].AttachDocument != null &&
+            $scope.ObjEdu[i].AttachDocument != "") {
+
+            $("#imageID").attr('src', $scope.ObjEdu[i].AttachDocument);
+        }
+        else {
+
+            $("#imageID").attr('src', "No File");
+        }
+    }
+
+    $scope.testclickReq = function (i, ObjSubmittedDoc) {
+        
+        $scope.sdocument = ObjSubmittedDoc;
+
+        if ($scope.sdocument[i].FileNameofDocumnetBySystem != undefined && $scope.sdocument[i].FileNameofDocumnetBySystem != null &&
+            $scope.sdocument[i].FileNameofDocumnetBySystem != "") {
+
+            $("#imageID").attr('src', $scope.sdocument[i].FileNameofDocumnetBySystem);
+        }
+        else {
+
+            $("#imageID").attr('src', "No File");
+        }
+    }
+    $scope.testclickAdd = function (i, ObjAdditional) {
+        
+        $scope.additional = ObjAdditional;
+
+        if ($scope.additional[i].DocFileName != undefined && $scope.additional[i].DocFileName != null &&
+            $scope.additional[i].DocFileName != "") {
+
+            $("#imageID").attr('src', $scope.additional[i].DocFileName);
+        }
+        else {
+
+            $("#imageID").attr('src', "No File");
+        }
+    }
+
+    $scope.resetPostApplicantConfig = function () {
+        $scope.PostApplicantData = {};
+    };
+
+    //Spinner ON
+    $scope.onSpinner = function on() {
+        document.getElementById("overlay").style.display = "flex";
+    }
+
+    //Spinner OFF
+    $scope.offSpinner = function off() {
+        document.getElementById("overlay").style.display = "none";
+    }
+
+    $scope.expand_row = function (id) {
+        let element = document.getElementById('expand' + id).classList
+        if (element.contains("collapse")) {
+            document.getElementById("first_col" + id).innerHTML = "-"
+            element.remove("collapse")
+        } else {
+            document.getElementById("first_col" + id).innerHTML = "+"
+            element.add("collapse")
+        }
+    }
+
+    $scope.getEmailByKeyName = function (data) {
+        return $http({
+            method: 'POST',
+            url: 'api/PostApplicantVerification/GenericConfigurationGetByKeyName',
+            data: { KeyName: data },
+            headers: { "Content-Type": 'application/json' }
+        })
+    };
+
+    //Function for Get Applicant All Details
+    $scope.getPostApplicantConfig = function () {
+
+        $scope.InstPartTerm = $localStorage.InstancePartTermName;
+        $scope.InstituteId = $localStorage.InstituteId;
+        $scope.InstPartTermId = $localStorage.InstancePartTermId;
+        $scope.AcademicYearId = $localStorage.AcademicYearId;
+        $scope.ApplicantRegId = $localStorage.VerificationAppRegId;
+        $scope.FacultyId = $localStorage.FacultyId;
+        $scope.FacultyEligibilityStatus = $localStorage.FacultyEligibilityStatus;
+        //alert("Check FacultyEligibilityStatus : " + $localStorage.FacultyEligibilityStatus);
+
+        $http({
+            method: 'POST',
+            url: 'api/VerifyApplicantByAcademic/getAdmApplicantRegistrationIdByAdmApplicationId',
+            data: {
+                InstPartTermId: $scope.InstPartTermId,
+                AcademicYearId: $scope.AcademicYearId,
+                Id: $localStorage.VerificationAppId,
+                EligibilityStatus: $scope.FacultyEligibilityStatus
+            },
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                if (response.response_code == "0") {
+                    $state.go('login');
+
+                } else if (response.response_code != "200") {
+                    $rootScope.broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    $scope.ApplicantData = response.obj;
+
+                    $scope.ObjPersonal = $scope.ApplicantData.objApplicant;
+                    $scope.ObjEducation = $scope.ApplicantData.objEduLst;
+                    $scope.ObjSubmittedDoc = $scope.ApplicantData.objSubDocsLst;
+                    $scope.ObjAdditional = $scope.ApplicantData.objAdditionalDocsLst;
+                    $scope.ObjAddOn = $scope.ApplicantData.objAddOnDocsLst;
+                    $scope.ObjAdmAppInfo = $scope.ApplicantData.objAdmApplicationinfo;
+                    $scope.ObjAcademic = $scope.ApplicantData.objAcademicInfo;
+                    $scope.ObjEligibilityStatus = $scope.ApplicantData.objFeeLst
+
+                    for (var i = 0; i < $scope.ObjEligibilityStatus.length; i++) {
+                        if ($scope.ObjEligibilityStatus[i].ApplicationIDStatus == "True") {
+                            $scope.EligibilityStatus = $scope.ObjEligibilityStatus[i].EligibilityStatus;
+                            $scope.FeeCategoryPartTermMapId = $scope.ObjEligibilityStatus[i].FeeCategoryPartTermMapId;
+                            $scope.remarks = $scope.ObjEligibilityStatus[i].AdminRemarkByFaculty
+                        }
+                    }
+                    $scope.RemarkByAcademics = $scope.ObjAcademic.AdminRemarkByAcademics;
+                    if ($scope.ObjAcademic.IsPRNGenerated==true && $scope.ObjAcademic.EligibilityByAcademics == 'Eligible') {
+                        $scope.disableFlag = true;
+                    }
+
+                    if ($scope.ObjAcademic.IsPRNGenerated == true && $scope.ObjAcademic.EligibilityByAcademics == 'Provisionally_Eligible') {
+                        $scope.showStatusFlag = true;
+                    }
+
+                    //For Selected IsEWS Radio
+                    if ($scope.ObjPersonal.IsEWS == 1 || $scope.ObjPersonal.IsEWS == "True") {
+                        $scope.ObjPersonal.IsEWS = "True";
+                    }
+                    else {
+                        $scope.ObjPersonal.IsEWS = "False";
+                    }
+
+                    $scope.CheckallVerifyTrue();
+
+                }
+            })
+            .error(function (res) {
+                $rootScope.broadcast('dialog', "Error", "alert", res.obj);
+            });
+    };
+
+    //Function for Update AdmApplicationAcademicRemarks
+    $scope.UpdateAdmApplicationAcademicRemarks = function () {
+
+        let count = 0;
+        var checkSubmittedDocStatus = true;
+
+        for (var i = 0; i < $scope.ObjSubmittedDoc.length; i++) {
+
+            if ($scope.ObjSubmittedDoc[i].IsVerifiedByAcademic == 'True' && $scope.ObjSubmittedDoc[i].Id != 0) {
+                count = count + 1;
+            }
+        }
+
+        for (var i = 0; i < $scope.ObjSubmittedDoc.length; i++) {
+            if ((($scope.ObjSubmittedDoc[i].Id != 0) && ($scope.ObjSubmittedDoc[i].IsVerifiedByAcademic == "False" || $scope.ObjSubmittedDoc[i].IsVerifiedByAcademic == null) && (count < 2))
+                || (($scope.ObjSubmittedDoc[i].Id == 0 && $scope.ObjSubmittedDoc[i].IsCompulsoryDocument == "True")
+                && ($scope.ObjSubmittedDoc[i].IsVerifiedByAcademic == null))) {
+                $scope.checkSubmittedDocStatus = $scope.ObjSubmittedDoc[i].IsVerifiedByAcademic;
+                checkSubmittedDocStatus = false;
+                break;
+            }
+        }
+
+        $scope.getEmailByKeyName('Fac_Verify_Stu_Email').then(function (response) {
+        $scope.EmailKeyName = response.data.obj[0].Value;
+        $scope.ObjAcademic.EmailKeyName = $scope.EmailKeyName;
+
+        $scope.ObjAcademic.FirstName = $scope.ObjPersonal.FirstName;
+        $scope.ObjAcademic.MiddleName = $scope.ObjPersonal.MiddleName;
+        $scope.ObjAcademic.LastName = $scope.ObjPersonal.LastName;
+        $scope.ObjAcademic.MobileNo = $scope.ObjPersonal.MobileNo;
+        $scope.ObjAcademic.EmailId = $scope.ObjPersonal.EmailId;
+
+        $scope.CheckPendingDocList();
+        $scope.ObjAcademic.PendingDocList = $scope.PendingDocListFlag;
+
+        $scope.ObjAcademic.Id = $localStorage.VerificationAppId;
+        $scope.ObjAcademic.ApplicantRegId = $localStorage.VerificationAppRegId;
+
+        var academiceligibilitystatus = document.getElementById("academiceligibilitystatus");
+
+        //if (($scope.ObjAcademic.EligibilityByAcademics == 'Eligible' || $scope.ObjAcademic.EligibilityByAcademics == 'Provisionally_Eligible') &&
+        //    (checkSubmittedDocStatus == false)) {
+        //    alert("Required Documents Verification Pending.");
+        //}
+        if (academiceligibilitystatus.value == "") {
+            alert("Please select Eligibility Satus...!");
+        }
+        else if ((academiceligibilitystatus.value == 'Not_Eligible' || academiceligibilitystatus.value == 'Provisionally_Eligible' || academiceligibilitystatus.value == 'Pending') &&
+            ($scope.ObjAcademic.AdminRemarkByAcademics == null || $scope.ObjAcademic.AdminRemarkByAcademics == "" || $scope.ObjAcademic.AdminRemarkByAcademics === undefined)) {
+            alert("Please Add Remarks...!");
+        }
+
+        else {
+            $scope.CheckAcademicRemarks();
+            $scope.onSpinner();
+            $http({
+                method: 'POST',
+                url: 'api/PostApplicantVerification/UpdateAdmApplicationAcademicRemarks',
+                data: $scope.ObjAcademic,
+                headers: { "Content-Type": 'application/json' }
+            })
+                .success(function (response) {
+                    $rootScope.showLoading = false;
+
+                    if (response.response_code != "200") {
+                        $scope.offSpinner();
+                        alert(response.obj);
+                        $localStorage.BacktoPostPageAcademic.SubmitFlag = true;
+                        $localStorage.BacktoPostPageAcademic.ApprovedByAcademics = 11;
+                        $localStorage.BacktoPostPageAcademic.AcademicStatus = academiceligibilitystatus.value;
+                        $localStorage.BacktoPostPageAcademic.AdminRemarkByAcademics = $scope.ObjAcademic.AdminRemarkByAcademics;
+                        $localStorage.BacktoPostPageAcademic.Index1 = $localStorage.AcademicVerificationData.map(function (item) { return item.Id; }).indexOf($localStorage.VerificationAppId);
+
+                        $scope.backToPostConfigListforAcademic();
+                        $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                    }
+                    else {
+                        $scope.offSpinner();
+                        alert(response.obj);
+                        $localStorage.BacktoPostPageAcademic.SubmitFlag = true;
+                        $localStorage.BacktoPostPageAcademic.ApprovedByAcademics = 11;
+                        $localStorage.BacktoPostPageAcademic.AcademicStatus = academiceligibilitystatus.value;
+                        $localStorage.BacktoPostPageAcademic.AdminRemarkByAcademics = $scope.ObjAcademic.AdminRemarkByAcademics;
+                        $localStorage.BacktoPostPageAcademic.Index1 = $localStorage.AcademicVerificationData.map(function (item) { return item.Id; }).indexOf($localStorage.VerificationAppId);
+
+                        $scope.backToPostConfigListforAcademic();
+                    }
+                })
+                .error(function (res) {
+                    $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+                });
+        }
+        });
+    };
+
+    //Function for go back to list of Post Configuration Page
+    $scope.backToPostConfigListforAcademic = function () {
+        
+        $scope.onSpinner();
+        $localStorage.BacktoPostPageAcademic.Flag = true;
+        $localStorage.BacktoPostPageAcademic.InstituteId = $scope.InstituteId;
+        $localStorage.BacktoPostPageAcademic.ProgPTID = $scope.InstPartTermId;
+        $localStorage.BacktoPostPageAcademic.AcademicYearId = $scope.AcademicYearId;
+        $localStorage.BacktoPostPageAcademic.FacultyId = $scope.FacultyId;
+        $localStorage.BacktoPostPageAcademic.FacultyEligibilityStatus = $scope.FacultyEligibilityStatus;
+        //$scope.offSpinner();
+        $state.go('PostConfigurationByAcademic');
+    };
+
+    //Function for check old and new AcademicRemarks
+    $scope.CheckAcademicRemarks = function () {
+
+        if ($scope.ObjAcademic.AdminRemarkByAcademics != null && $scope.ObjAcademic.AdminRemarkByAcademics != "" && $scope.ObjAcademic.AdminRemarkByAcademics != undefined) {
+        var A = "";
+        var B = "";
+        var C = "";
+        var diff = "";
+
+        A = $scope.RemarkByAcademics;
+
+        B = $scope.ObjAcademic.AdminRemarkByAcademics;
+
+        diff = (diffMe, diffBy) => diffMe.split(diffBy).join('')
+
+        C = diff(B, A)
+        $scope.ObjAcademic.AdminRemarkByAcademics = C;
+        }
+    };
+
+    $scope.getdocName = function (docName, index = -1) {
+        $scope.docName = docName;
+        if (index > -1) {
+            $scope.DocTableIndex = index;
+        }
+    }
+
+    $scope.updateDocStatus = function (docName, index = -1,docStatusValue, docObject) {
+
+        $scope.docName = docName;
+        if (index > -1) {
+            $scope.DocTableIndex = index;
+        }
+
+        if ($scope.DocTableIndex < $scope.ObjSubmittedDoc.length && $scope.docName == $scope.ObjSubmittedDoc[$scope.DocTableIndex].NameOfTheDocument) {
+            $scope.ObjSubmittedDoc[$scope.DocTableIndex].IsVerifiedByAcademic = docStatusValue;
+            $scope.UpdateSubmittedDocStatusByAcademic($scope.ObjSubmittedDoc[$scope.DocTableIndex], $scope.DocTableIndex);
+        }
+
+    };
+
+    $scope.CheckPendingDocList = function () {
+
+        var checkSubmittedDocStatus = true;
+        for (var i = 0; i < $scope.ObjSubmittedDoc.length; i++) {
+            if (($scope.ObjSubmittedDoc[i].Id != 0 && ($scope.ObjSubmittedDoc[i].IsVerifiedByAcademic == 'False' || $scope.ObjSubmittedDoc[i].IsVerifiedByAcademic == null))
+                || (($scope.ObjSubmittedDoc[i].Id == 0 && $scope.ObjSubmittedDoc[i].IsCompulsoryDocument == "True")
+                    && ($scope.ObjSubmittedDoc[i].IsVerifiedByAcademic == null))) {
+                $scope.checkSubmittedDocStatus = $scope.ObjSubmittedDoc[i].IsVerifiedByAcademic;
+                checkSubmittedDocStatus = false;
+                break;
+            }
+        }
+
+        if (checkSubmittedDocStatus == false) {
+            checkSubmittedDocStatus = "-Required Document ";
+        }
+        else {
+            checkSubmittedDocStatus = "";
+        }
+
+        $scope.PendingDocListFlag = checkSubmittedDocStatus;
+    };
+
+    $scope.CheckallVerifyTrue = function () {
+
+        let count = 0;
+        $scope.checkDocFlag = false;
+        var checkSubmittedDocStatus = true;
+
+        for (var i = 0; i < $scope.ObjSubmittedDoc.length; i++) {
+
+            if ($scope.ObjSubmittedDoc[i].IsVerifiedByAcademic == 'True' && $scope.ObjSubmittedDoc[i].Id != 0) {
+                count = count + 1;
+            }
+        }
+
+        for (var i = 0; i < $scope.ObjSubmittedDoc.length; i++) {
+
+            if (($scope.ObjSubmittedDoc[i].Id != 0 && ($scope.ObjSubmittedDoc[i].IsVerifiedByAcademic == 'False' || $scope.ObjSubmittedDoc[i].IsVerifiedByAcademic == null) && (count<2))
+                || (($scope.ObjSubmittedDoc[i].Id == 0 && $scope.ObjSubmittedDoc[i].IsCompulsoryDocument == "True")
+                && ($scope.ObjSubmittedDoc[i].IsVerifiedByAcademic == null))) {
+                $scope.checkSubmittedDocStatus = $scope.ObjSubmittedDoc[i].IsVerifiedByAcademic;
+                checkSubmittedDocStatus = false;
+                break;
+            }
+        }
+      
+        if (checkSubmittedDocStatus == false) {
+            $scope.checkDocFlag = true;
+        }
+        else {
+            $scope.checkDocFlag = false;
+        }
+
+    };
+
+    //Function for Update AdmApplicantSubmittedDocStatus
+    $scope.UpdateSubmittedDocStatusByAcademic = function (sdocumentId, index) {
+
+        $http({
+            method: 'POST',
+            url: 'api/PostApplicantVerification/UpdateSubmittedDocStatusByAcademic',
+            data: {
+                AdmissionApplicationId: $localStorage.VerificationAppId,
+                SubDocId: sdocumentId.Id,
+                IsVerifiedByAcademic: sdocumentId.IsVerifiedByAcademic
+            },
+            headers: { "Content-Type": 'application/json' }
+        })
+            .success(function (response) {
+                $rootScope.showLoading = false;
+
+                if (response.response_code != "200") {
+                    $rootScope.$broadcast('dialog', "Error", "alert", response.obj);
+                }
+                else {
+                    //alert(response.obj);
+                    $scope.ObjSubmittedDoc[index].IsVerifiedByAcademic = sdocumentId.IsVerifiedByAcademic;
+                    $scope.docName = "";
+                    $scope.DocTableIndex = -1;
+                    $scope.CheckallVerifyTrue();
+                }
+            })
+            .error(function (res) {
+                $rootScope.$broadcast('dialog', "Error", "alert", res.obj);
+            });
+
+    };
+
+});

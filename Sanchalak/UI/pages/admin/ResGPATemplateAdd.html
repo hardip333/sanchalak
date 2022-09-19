@@ -1,0 +1,102 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-init="getGPATemplateList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>GPA Template</h4></div>
+                        <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light "><i class="ti-pencil-alt"></i>  Modify  </button></div>
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form name="form">
+
+                            <div class="form-group row" ng-init="getGradeScaleList()">
+                                <div class="col-sm-2">Select Grade Point Scale<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="GTemplate.GradeScaleId" ng-options="d.Id as d.GradeScaleName for d in GradeScaleList" class="form-control" name="GradeScaledropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getMstEvaluationList()">
+                                <div class="col-sm-2">Select Evaluation System<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="GTemplate.MstEvaluationId" ng-options="d.Id as d.EvaluationName for d in MstEvaluationList" class="form-control" name="Evaluationdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Template Name<span style="color:red;"> * </span></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="GTemplate.GPATemplateName" placeholder="Template Name" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Description<span style="color:red;"> * </span></label>
+                                <div class="col-sm-6">
+                                    <textarea type="text" class="form-control" ng-model="GTemplate.GPATemplateDescription" placeholder="Description" required></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Enter No. of Intervals<span style="color:red;"> * </span></label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" ng-model="GTemplate.NoofIntervals" placeholder="No. of Intervals" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-10">
+                                        <button class="btn btn-success" ng-click="addGPATemplate()">Add </button>
+                                        <button class="btn btn-disabled disabled" ng-click="cancelGPATemplate()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" id="example-2" ng-table="GPATemplateTableParams" show-filter="true">
+                            <tbody>
+                                <tr ng-repeat="GTemplate in $data">
+                                    <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top: none; text-align: center;"><label>{{ GTemplate.IndexId }}</label></td>
+                                    <!--<td data-title="'Grade Scale Id'" filter="{GradeScaleId: 'text'}" sortable="'GradeScaleId'" style="border-top:none;"><label>{{GTemplate.GradeScaleId}}</label></td>
+    <td data-title="'Mst Evaluation Id'" filter="{MstEvaluationId: 'text'}" sortable="'MstEvaluationId'" style="border-top:none;"><label>{{GTemplate.MstEvaluationId}}</label></td>-->
+                                    <td data-title="'Grade Scale Name'" filter="{GradeScaleName: 'text'}" sortable="'GradeScaleName'" style="border-top:none;"><label>{{GTemplate.GradeScaleName}}</label></td>
+                                    <td data-title="'EvaluationName'" filter="{EvaluationName: 'text'}" sortable="'EvaluationName'" style="border-top:none;"><label>{{GTemplate.EvaluationName}}</label></td>
+                                    <td data-title="'Template Name'" filter="{GPATemplateName: 'text'}" sortable="'GPATemplateName'" style="border-top:none;"><label>{{GTemplate.GPATemplateName}}</label></td>
+                                    <td data-title="'Description'" filter="{GPATemplateDescription: 'text'}" sortable="'GPATemplateDescription'" style="border-top:none;"><label>{{GTemplate.GPATemplateDescription}}</label></td>
+                                    <td data-title="'No. of Intervals'" filter="{NoofIntervals: 'text'}" sortable="'NoofIntervals'" style="border-top: none; text-align: center;"><label>{{GTemplate.NoofIntervals}}</label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

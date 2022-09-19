@@ -1,0 +1,254 @@
+﻿
+<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+
+<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>POST ADMISSION (FACULTY VERIFICATION)</h4></div>
+
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="PostProgInst" novalidate>
+
+                            <div class="form-group row" ng-init="getFacultyById()">
+                                <div class="col-sm-2">Faculty Name</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <label>{{Faculty.FacultyName}} - {{Faculty.Id}}</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">Instiute Name</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <label>{{Faculty.InstituteName}} - {{Faculty.InstituteId}}</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getAcademicList()">
+                                <div class="col-sm-2">Academic Year<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="PostProgInst.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcadList" [value]="PostProgInst.AcademicYearId" ng-change="getIncProgPartTermByFacIdList()" class="form-control" name="ProgInstdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Programme PartTerm Instance Name<span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="PostProgInst.ProgrammeInstancePartTermId" ng-change="PostGetFullProgNameByProgPTID()" ng-options="d.Id as d.InstancePartTermName for d in ProgPartTermByFacIdList" [value]="PostProgInst.ProgrammeInstancePartTermId" class="form-control" name="ProgPartTermdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Select Status<span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select class=" form-control" id="ddlstatus" name="EligibilityStatus" ng-model="PostProgInst.EligibilityStatus" [value]="PostProgInst.EligibilityStatus">
+                                                <option value="" selected disabled>-- Select Eligibility Status --</option>
+                                                <option value="All">All</option>
+                                                <option value="Pending">Pending</option>
+                                                <option value="Not_Approved">Not Approved</option>
+                                                <option value="Provisionally_Approved">Provisionally Approved</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button" ng-click="getApplicantListByProgPartTerm(PostProgInst.ProgrammeInstancePartTermId)" class="btn btn-success">&nbsp; Submit</button>
+                                        <!--<button class="btn btn-success" ng-click="addEligibilityGroup()">Add</button>-->
+                                        <button class="btn btn-disabled disabled" ng-click="cancelPostProgInsPartTermList()">Cancel</button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div>
+                        <div class="form-group row" ng-model="ModelFacultyCount">
+                            <div class="col-sm-12" ng-if="PostProgInstPartTermTableparam != null">
+                                <h6>
+                                    <b style="color:blue">Total Applicants: </b><label style="color:blue">{{ModelFacultyCount.TotalCountforFaculty}}</label> |
+                                    <b style="color:green">Provisionally Approved: </b><label style="color:green">{{ModelFacultyCount.ProApprovedCountforFaculty}}</label> |
+                                    <b style="color:green">Not Approved: </b><label style="color:green">{{ModelFacultyCount.NotApprovedCountforFaculty}}</label> |
+                                    <b style="color:green">Pending: </b><label style="color:green">{{ModelFacultyCount.PendingCountforFaculty}}</label>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+
+                                <table class="table table-striped table-bordered" id="VerificationListTable">
+                                    <thead>
+                                        <tr style="text-align:center;">
+                                            <!--<th><label></label></th>-->
+                                            <th><label>Sr. No.</label></th>
+                                            <th><label>Action</label></th>
+                                            <th><label>Application Form No.</label></th>
+                                            <th><label>Name</label></th>
+                                            <th><label>Faculty Status</label></th>
+                                            <th><label>Academic Status</label></th>
+                                            <th><label>Faculty Remarks</label></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="PostProgInst in VerificationList">
+                                            <!--<th class="expand_data" id="{{'first_col'+$index}}" ng-click="expand_row($index)">+</th>-->
+                                            <th><label>{{PostProgInst.IndexId}}</label></th>
+                                            <td data-title="'Actions'">
+                                                <div layout="row">
+                                                    <span flex></span>
+                                                    <button type="button" ng-hide="{{PostProgInst.ApprovedByFaculty}}>0" ng-click="VerifyApplicant(PostProgInst.Id,PostProgInst.InstancePartTermName,PostProgInst.ApplicantRegistrationId,PostProgInst.AcademicYearId)" class="btn btn-info">&nbsp;Verify</button>
+                                                    <button type="button" ng-show="{{PostProgInst.ApprovedByFaculty}}>0" ng-click="VerifyApplicant(PostProgInst.Id,PostProgInst.InstancePartTermName,PostProgInst.ApplicantRegistrationId,PostProgInst.AcademicYearId)" class="btn btn-success" style="width:85px;">&nbsp;Edit</button>
+                                                </div>
+                                            </td>
+                                            <th style="text-align:center;"><label>{{PostProgInst.Id}}</label></th>
+                                            <th><label>{{PostProgInst.FullName}}</label></th>
+                                            <th><label>{{PostProgInst.EligibilityStatus}}</label></th>
+                                            <th><label>{{PostProgInst.EligibilityByAcademics}}</label></th>
+                                            <th><label>{{PostProgInst.AdminRemarkByFaculty}}</label></th>
+
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+
+                                <!--<table class="table table-striped table-bordered" id="VerificationList" show-filter="true">
+                                    <tbody ng-repeat="PostProgInst in VerificationListTable">
+                                        <tr>
+                                            <td class="expand_data" id="{{'first_col'+$index}}" ng-click="expand_row($index)">+</td>
+                                            <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;text-align:center"><label>{{PostProgInst.IndexId}}</label></td>
+                                            <td data-title="'Actions'">
+                                                <div layout="row">
+                                                    <span flex></span>
+                                                    <button type="button" ng-hide="{{PostProgInst.ApprovedByFaculty}}>0" ng-click="VerifyApplicant(PostProgInst.Id,PostProgInst.InstancePartTermName,PostProgInst.ApplicantRegistrationId,PostProgInst.AcademicYearId)" class="btn btn-info">&nbsp;Verify</button>
+                                                    <button type="button" ng-show="{{PostProgInst.ApprovedByFaculty}}>0" ng-click="VerifyApplicant(PostProgInst.Id,PostProgInst.InstancePartTermName,PostProgInst.ApplicantRegistrationId,PostProgInst.AcademicYearId)" class="btn btn-success" style="width:85px;">&nbsp;Edit</button>-->
+                                                    <!--<button type="button" ng-show="{{PostProgInst.ApprovedByFaculty}}>0" ng-click="VerifyApplicant(PostProgInst.Id,PostProgInst.InstancePartTermName,PostProgInst.ApplicantRegistrationId)" ng-disabled="PostProgInst.IsVerificationSms == true || PostProgInst.IsVerificationEmail == true" class="btn btn-success" style="width:85px;">&nbsp;Edit</button>-->
+                                                <!--</div>
+                                            </td>
+                                            <td data-title="'Application Form No.'" filter="{Id: 'text'}" sortable="'Id'" style="border-top:none;text-align:center"><label>{{PostProgInst.Id}}</label></td>
+                                            <td data-title="'Name'" filter="{FullName: 'text'}" sortable="'FullName'" style="border-top:none;"><label>{{PostProgInst.FullName}}</label></td>-->
+                                            <!--<td data-title="'Category'" filter="{ApplicationReservationCode: 'text'}" sortable="'ApplicationReservationCode'" style="border-top:none;"><label>{{PostProgInst.ApplicationReservationCode}}</label></td>-->
+                                            <!--<td data-title="'Fee Attached Status'" filter="{FeeCategoryName: 'text'}" sortable="'FeeCategoryName'" style="border-top:none;"><label>{{PostProgInst.FeeCategoryName}}</label></td>-->
+                                            <!--<td data-title="'Academic Remarks'" filter="{AdminRemarkByAcademics: 'text'}" sortable="'AdminRemarkByAcademics'" style="border-top:none;"><label>{{PostProgInst.AdminRemarkByAcademics}}</label></td>-->
+                                            <!--<td data-title="'Faculty Status'" filter="{EligibilityStatus: 'text'}" sortable="'EligibilityStatus'" style="border-top:none;text-align:center;"><label>{{PostProgInst.EligibilityStatus}}</label></td>
+                                            <td data-title="'Academic Status'" filter="{EligibilityByAcademics: 'text'}" sortable="'EligibilityByAcademics'" style="border-top:none;text-align:center;"><label>{{PostProgInst.EligibilityByAcademics}}</label></td>
+                                            <td data-title="'Faculty Remarks'" filter="{AdminRemarkByFaculty: 'text'}" sortable="'AdminRemarkByFaculty'" style="border-top:none;"><label>{{PostProgInst.AdminRemarkByFaculty}}</label></td>-->
+                                            <!--<td data-title="'InstancePartTermName'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style="border-top:none;"><label>{{PostProgInst.InstancePartTermName}}</label></td>-->
+
+
+                                        <!--</tr>
+
+                                        <tr id="{{'expand'+$index}}" class="collapse">
+                                            <td colspan="8">
+                                                <div class="row">
+                                                    <div class="col-md-5 row">
+                                                        <div class="col-md-5"><span><b>Fee Attached Status : </b></span></div>
+                                                        <div class="col-md-4">
+                                                            <span>{{PostProgInst.FeeCategoryName}}</span>
+                                                            <span ng-if="PostProgInst.FeeCategoryName == ''">--</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-5 row">
+                                                        <div class="col-md-5"><span><b>Academic Status : </b></span></div>
+                                                        <div class="col-md-4">
+                                                            <span>{{PostProgInst.EligibilityByAcademics}}</span>
+                                                            <span ng-if="PostProgInst.EligibilityByAcademics == ''">--</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5 row">
+                                                        <div class="col-md-5"><span><b>Academic Remarks : </b></span></div>
+                                                        <div class="col-md-5">
+                                                            <span>{{PostProgInst.AdminRemarkByAcademics}}</span>
+                                                            <span ng-if="PostProgInst.AdminRemarkByAcademics == ''">--</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-5 row">
+                                                        <div class="col-md-5"><span><b>Verification Status : </b></span></div>
+                                                        <div class="col-md-4">
+                                                            <span>{{PostProgInst.VerificationStatus}}</span>
+                                                            <span ng-if="PostProgInst.VerificationStatus == ''">--</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5 row">
+                                                        <div class="col-md-5"><span><b>Verification Remarks : </b></span></div>
+                                                        <div class="col-md-5">
+                                                            <span>{{PostProgInst.VerificationRemarks}}</span>
+                                                            <span ng-if="PostProgInst.VerificationRemarks == ''">--</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>-->
+                                <div ng-if="checkDataExists">
+                                    <div style="color:red;margin:1px;text-align:center;padding:10px;">No Records available for Particular Programme.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

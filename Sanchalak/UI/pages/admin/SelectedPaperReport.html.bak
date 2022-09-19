@@ -1,0 +1,159 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left">
+                            <h4>Student List Base on Paper</h4>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <!--<button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light">Back</button><br /><br />-->
+                    <div class="col-md-12 offset-md-2">
+                        <form name="Studentdata">
+
+                            <div class="form-group row" ng-init="getFacultyById()">
+                                <label for="Activity" class="col-sm-2 col-form-label">Institute Name:</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <label>{{SRBP.InstituteName}}</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row" ng-init="IncAcademicYearListGet()">
+                                <label for="Activity" class="col-sm-2 col-form-label">Academic Year Code:</label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="SRBP.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicList" ng-change="ProgrammeGetbyInstId()" [value]="SRBP.AcademicYearId" name="AcademicYear">
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-2 col-form-label">Programme Name:</label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="SRBP.ProgrammeId" ng-options="d.Id as d.ProgrammeName for d in ProgrammeList" ng-change="ProgPartInstListGet()" [value]="GAPR.ProgrammeId" name="Programme">
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-2 col-form-label">Programme Part Name:</label>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="SRBP.ProgrammeInstancePartId" ng-options="d.Id as d.PartShortName for d in ProgPartList" [value]="ProgInst.ProgrammePartId" class="form-control" name="ProgPartShortNamedropdown" ng-change="BranchGet()" required>
+                                                <option value="" disabled selected>--SELECT--</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-2 col-form-label">Branch Name:</label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="SRBP.SpecialisationId" ng-options="d.Id as d.BranchName for d in BList" [value]="GAPR.ProgrammeId" name="Programme" ng-change="PTsGet()">
+                                            <!--ng-change="PTsGet()"-->
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-2 col-form-label">Semester Name:</label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="SRBP.ProgrammeInstancePartTerm" ng-options="d.InstancePartTermName for d in PTList" [value]="SRBP.ProgrammeInstancePartTermId" name="ProgrammeInstancePartTerm" ng-change="GetPaperList()">
+                                            <!--ng-change="PTsGet()"-->
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-2 col-form-label">Paper Name:</label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="SRBP.PaperId" ng-options="d.Id as d.PaperName for d in PaperList" [value]="SRBP.PaperId" name="Paper">
+                                            <!--ng-change="PTsGet()"-->
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="GetStudentList()">Student List</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card" ng-show="ShowTableFlag">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table id="example" class="table table-striped table-bordered">
+                                    <thead>
+
+                                        <tr>
+                                            <th><label>PRN</label></th>
+                                            <th><label>Student Name</label></th>
+                                            <th><label>Email Id</label></th>
+                                            <th><label>Mobile No</label></th>
+                                            <th><label>Paper Name</label></th>
+
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+
+                                        <tr ng-repeat="Student in StudentList">
+                                            <td><label>{{Student.PRN}}</label></td>
+                                            <td><label>{{Student.NameAsPerMarksheet}}</label></td>
+                                            <td><label>{{Student.EmailId}}</label></td>
+                                            <td><label>{{Student.MobileNo}}</label></td>
+                                            <td><label>{{Student.PaperName}}</label></td>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" ng-hide="ShowTableFlag">
+                        <div class="card-block">
+                            <label>No Student</label>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1 @@
+﻿<select class="form-control" style="margin-bottom:14px;" type="text" placeholder="Slot" title="Slot" ng-options="ExamSlot.Id as ExamSlot.SlotName for ExamSlot in ExamSlotMasterListGetActiveList"></select>

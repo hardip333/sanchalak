@@ -1,0 +1,542 @@
+﻿
+<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+
+    .Bulk-Sms-Btn {
+        display: block;
+        width: 100%;
+        border: none;
+        background-color: deepskyblue;
+        color: white;
+        padding: 10px 25px;
+        text-align:center;
+        font-size: 16px;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
+<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h5><b>ENTRANCE TEST HALL TICKET CONFIGURATION</b></h5></div>
+                    </div>
+
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="WTHTConfig" novalidate>
+
+                            <div class="form-group row" ng-init="getFacultyById()">
+                                <div class="col-sm-2"><b>Faculty Name:</b></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <label>{{Faculty.FacultyName}} - {{Faculty.Id}}</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getAcademicList()">
+                                <div class="col-sm-2"><b>Academic Year:</b><span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="WTHTConfig.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcadList" ng-change="ProgrammeGetbyFacAcadId()" class="form-control" required>
+                                                <option value="" disabled selected>--SELECT--</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-2 col-form-label"><b>Programme Name:</b><span style="color:red;"> *</span></label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="WTHTConfig.ProgrammeId" ng-options="d.Id as d.ProgrammeName for d in ProgrammeList" ng-change="PIPTGetByProgId()" [value]="StudentWisePaperList.ProgrammeId" name="Programme">
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="Activity" class="col-sm-2 col-form-label"><b>Instance Part Term Name:</b><span style="color:red;"> *</span></label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select class="form-control" ng-model="WTHTConfig.ProgrammeInstancePartTermId" ng-options="d.Id as d.InstancePartTermName for d in PTList" [value]="StudentWisePaperList.ProgrammeInstancePartTermId" name="ProgrammeInstancePartTerm">
+
+                                            <option value="" disabled selected>--SELECT--</option>
+                                        </select>
+
+                                    </span>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button" ng-click="GetVenue()" class="btn btn-success">&nbsp; Submit</button>
+
+                                        <button class="btn btn-disabled disabled" ng-click="cancelWrittenTestHallTicketConfiguration()">Cancel</button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+
+
+                    </div>
+
+
+
+
+                </div>
+
+                <div class="card-block" ng-show="IsVenueFormList">
+
+
+                    <div class="card-header">
+                        <h5><b>ATTACH EXAM DETAILS FOR HALL TICKET INSTRUCTION CONFIGURATION</b></h5>
+                    </div>
+
+
+                    <div class="card">
+                        &nbsp;&nbsp;
+                        <div class="col-md-12 offset-md-2">
+
+                            <!--<div class="form-group row">
+                    <div class="col-sm-2"><b>Venue Name:</b><span style="color:red;"> *</span></div>
+                    <div class="col-sm-6">
+                        <div>
+                            <textarea rows="5" class="form-control" ng-model="WTHTConfig.Venue"></textarea>
+
+
+                        </div>
+                    </div>
+                </div>-->
+                            <div class="form-group row">
+                                <label class="col-sm-2"><b>Exam Date:</b><span style="color:red;"> *</span></label>
+                                <div class="col-sm-6">
+                                    <input name="FromDate" id="txtExamDate" type="date" class="form-control" ng-model="WTHTConfig.ExamDate" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">
+                                    <label for="ActivityNameDetails" class="block"><b>Start Time:</b><span style="color:red;"> *</span></label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="time" id="txtStartTime" ng-model="WTHTConfig.DtStartTime" placeholder="StartTime" class="form-control" required>
+
+                                </div>
+                                <!--value="{{ExamSlotMaster.StartTime | "HH:mm:ss"}}"-->
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">
+                                    <label for="ActivityNameDetails" class="block"><b>End Time:</b><span style="color:red;"> *</span> </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="time" id="txtEndTime" ng-model="WTHTConfig.DtEndTime" class="form-control" placeholder="EndTime" required />
+                                    <!--<span ng-show="myForm.EndTime.$touched && myForm.EndTime.$invalid" style="color:red">The EndTime is required.</span>-->
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <button type="button" ng-click="UpdateAttachVenue()" class="btn btn-success">&nbsp;Save</button>
+                                        <!--<button class="btn btn-disabled disabled" ng-click="cancelAttachVenue()">Cancel</button>-->
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-12 offset-md-2">
+                    <div class="form-group row" ng-show="IsVisibleRadioBtn">
+                        <div class="col-sm-2"><b>Applicant List:</b><span style="color:red;"> *</span></div>
+                        <div class="col-sm-6">
+                            <div>
+                                <input type="radio" id="rr" ng-model="RadioALL" name="All_Applicant" value="All_Applicant" ng-click="GetAllStudentVenueDetailsbyPIPTId(RadioALL)">
+                                <label for="css"><b>All</b></label><br />
+                                <input type="radio" id="tr" ng-model="RadioVerified" name="Verified" value="Verified_Applicant" ng-click="GetPreVerifiedStudentVenueDetailsbyPIPTId(RadioVerified)">
+                                <label for="css"><b>Pre Verified Application(Only)</b></label><br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2">
+
+                        </div>
+                        <div class="col-sm-8" ng-show="IsVisibleImportExcelBtn">
+                            <button type="button" ng-click="ExportStudentlistForAttachVenue()" class="btn btn-success">Export To Excel</button>
+                            <label style="color:red;">Note:Click Here to Download the Students List for <br /> Upload Venue/ Block / Address / EntranceTestSeatNo</label>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="card-block" ng-show="ImportExcelFile">
+                    <div class="card-header">
+                        <h5><b>Upload Venue/Block/Address/SeatNo Details File</b></h5>
+                    </div>
+                    <div class="card">
+                        &nbsp;&nbsp;
+                        <div class="col-md-12 offset-md-2">
+
+                            <form>
+                                <div class="form-group row">
+                                    <div class="col-sm-2">
+                                        <b>Upload Excel File :</b><span style="color:red;"> * </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input type="file" class="form-control" id="ngexcelfile" required />
+                                    </div><br />
+                                    <span id="ErrorMsgUploadFile" style="color:red"></span>
+                                    <span id="SuccessMsgUploadFile" style="color:green"></span>
+
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-2">
+
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="ReadStudentExcelFile()">Import Excel</button>
+                                    </div>
+
+
+                                </div>
+
+                           
+
+
+
+
+                            </form>
+
+
+
+
+
+
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+
+                <div class="form-group row"  ng-show="ImportExcelFile">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-6">
+                                <h5><span style="color:blue">Note: Check below steps for uploading Excel File.</span></h5>
+                                <div><b>1.Create Excel like Following Format for Import.</b></div>
+                                <div><b>2.Please Verify the Excel Before Upload.</b></div>
+                                <div><b>3.Please Remove the Title of the Excel Before Upload.</b></div>
+                                <div><b>4.ApplicationId/VenueName/Address/BlockName/EntranceTestSeatNo Should not be null.</b></div>
+                                <p></p>
+                            </div>
+                        </div>                   
+                            
+                        <div class="form-group row">
+                            <div class="col-md-10">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>PRN</th>
+                                            <th>ApplicationId</th>
+                                            <th>ApplicantName</th>
+                                            <th>MobileNo </th>
+                                            <th>EmailId</th>
+                                            <th>VenueName</th>
+                                            <th>Address</th>
+                                            <th>BlockName</th>
+                                            <th>EntranceTestSeatNo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>8022xxxx78</td>
+                                            <td>52xxxxx90</td>
+                                            <td>SSSS</td>
+                                            <td>9999999999</td>
+                                            <td>xyz@gmail.com</td>
+                                            <td>XXXX</td>
+                                            <td>YYYY</td>
+                                            <td>ZZZZ</td>
+                                            <td>1</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>8022xxxx56</td>
+                                            <td>52xxxxx95</td>
+                                            <td>SSSS</td>
+                                            <td>9999999999</td>
+                                            <td>xyz@gmail.com</td>
+                                            <td>XXXX</td>
+                                            <td>YYYY</td>
+                                            <td>ZZZZ</td>
+                                            <td>2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>8022xxxx56</td>
+                                            <td>52xxxxx99</td>
+                                            <td>SSSS</td>
+                                            <td>9999999999</td>
+                                            <td>xyz@gmail.com</td>
+                                            <td>XXXX</td>
+                                            <td>YYYY</td>
+                                            <td>ZZZZ</td>
+                                            <td>3</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <table border=1 ng-hide="true">
+                                    <thead>
+                                        <tr>
+                                            <th>ApplicationId</th>
+                                            <th>VenueName</th>
+                                            <th>Address</th>
+                                            <th>BlockName</th>
+                                            <th>EntranceTestSeatNo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="exceljson in data">
+                                            <td>{{exceljson.ApplicationId}}</td>
+                                            <td>{{exceljson.VenueName}}</td>
+                                            <td>{{exceljson.Address}}</td>
+                                            <td>{{exceljson.BlockName}}</td>
+                                            <td>{{exceljson.EntranceTestSeatNo}}</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                    </div>
+                   
+                </div>
+                <div class="form-group row" ng-show="IsVisibleApplicantCount" ng-model="ModelSMSEmail">
+                    <div class="col-sm-12" ng-if="StudentVenueDetailsTableParams != null">
+                        <h6>
+                            <b style="color:blue">Total Applicants: </b><label style="color:blue">{{ModelSMSEmail.TotalCount}}</label> |
+                            <b style="color:green">SMS Sent: </b><label style="color:green">{{ModelSMSEmail.SMSSuccessCount}}</label> |
+                            <b style="color:green"> Email Sent: </b><label style="color:green">{{ModelSMSEmail.EmailSuccessCount}}</label>
+                        </h6>
+                    </div>
+                </div>
+
+                <div class="col-sm-12" ng-show="IsVenueVisible">
+                    <div>
+                        <h5><b>VENUE DETAILS FOR APPLICANT</b></h5>
+                    </div>&nbsp;&nbsp;
+
+                    <div class="card">
+                        <form ng-model="ApplicantVenueDetails">
+
+                            <div class="form-group row">
+
+                                <label class="col-sm-2 col-form-label">
+                                    <b>Instance Part Term Name:</b>
+                                </label>
+
+                                <div class="col-sm-2">
+                                    <label>{{ApplicantVenueDetails.InstancePartTermName}}</label>
+
+                                </div>
+
+
+                                <label class="col-sm-2 col-form-label"><b>Exam Date:</b></label>
+                                <div class="col-sm-2">
+                                    <label>{{ApplicantVenueDetails.ExamDate}} </label>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row">
+
+                                <label class="col-sm-2 col-form-label">
+                                    <b>Start Time:</b>
+                                </label>
+
+                                <div class="col-sm-2">
+                                    <label>{{ApplicantVenueDetails.StartTimeView}}</label>
+
+                                </div>
+
+                                <label class="col-sm-2 col-form-label"><b>End Time:</b></label>
+                                <div class="col-sm-2">
+                                    <label>{{ApplicantVenueDetails.EndTimeView}} </label>
+                                </div>
+
+                            </div>
+
+
+
+
+
+                        </form>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="card-block">
+
+                    <div class="table-responsive" ng-show="IsTableVisible">
+
+                        <table class="table table-striped table-bordered" ng-table="StudentVenueDetailsTableParams" show-filter="true">
+
+                            <tbody>
+                                <tr ng-repeat="WTHTConfig in $data">
+                                    <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;text-align:center;"><label>{{WTHTConfig.IndexId }}</label></td>
+                                    <td data-title="'Actions'">
+                                        <div layout="row">
+                                            <span flex></span>
+                                            <button type="button" ng-click="SendSMSEmailtoStudent(WTHTConfig)" ng-disabled="WTHTConfig.IsEntranceTestSms == true || WTHTConfig.IsEntranceTestEmail == true" class="btn btn-success">Send SMS/EMAIL</button>
+
+                                        </div>
+                                    </td>
+
+                                    <td data-title="'User Name'" filter="{ApplicantUserName: 'text'}" sortable="'ApplicantUserName'" style=" border-top: none; text-align:center;"><label>{{WTHTConfig.ApplicantUserName}}</label></td>
+                                    <td data-title="'Application Id'" filter="{AppId: 'text'}" sortable="'AppId'" style=" border-top: none; text-align:center;"><label>{{WTHTConfig.AppId}}</label></td>
+                                    <td data-title="'Applicant Name'" filter="{NameAsPerMarksheet: 'text'}" sortable="'NameAsPerMarksheet'" style=" border-top: none; text-align:center;"><label>{{WTHTConfig.NameAsPerMarksheet}}</label></td>
+                                    <td data-title="'Mobile No'" filter="{MobileNo: 'text'}" sortable="'MobileNo'" style=" border-top: none; text-align:center;"><label>{{WTHTConfig.MobileNo}}</label></td>
+                                    <td data-title="'Email Id'" filter="{EmailId: 'text'}" sortable="'EmailId'" style=" border-top: none; text-align:center;"><label>{{WTHTConfig.EmailId}}</label></td>
+                                    <td data-title="'Venue Name'" filter="{VenueName: 'text'}" sortable="'VenueName'" style=" border-top: none; text-align:center;">
+                                        <div ng-if="WTHTConfig.VenueName == null" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<label>Not Given</label></span>
+                                        </div>
+                                        <div ng-if="WTHTConfig.VenueName!=null" style="border:unset;padding:unset;">
+                                            <label>{{WTHTConfig.VenueName}}</label>
+                                        </div>
+                                    </td>
+                                    <td data-title="'Address'" filter="{Address: 'text'}" sortable="'Address'" style=" border-top: none; text-align:center;">
+                                        <div ng-if="WTHTConfig.Address == null" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<label>Not Given</label></span>
+                                        </div>
+                                        <div ng-if="WTHTConfig.Address!=null" style="border:unset;padding:unset;">
+                                            <label>{{WTHTConfig.Address}}</label>
+                                        </div>
+                                    </td>
+                                    <td data-title="'Block Name'" filter="{BlockName: 'text'}" sortable="'BlockName'" style=" border-top: none; text-align:center;">
+                                        <div ng-if="WTHTConfig.BlockName == null" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<label>Not Given</label></span>
+                                        </div>
+                                        <div ng-if="WTHTConfig.BlockName!=null" style="border:unset;padding:unset;">
+                                            <label>{{WTHTConfig.BlockName}}</label>
+                                        </div>
+
+                                    </td>
+                                    <td data-title="'Entrance Test Seat No'" filter="{EntranceTestSeatNo: 'text'}" sortable="'EntranceTestSeatNo'" style=" border-top: none; text-align:center;">
+
+                                        <div ng-if="WTHTConfig.EntranceTestSeatNo == 0" style="border:unset;padding:unset;">
+                                            <span style="color:red">&nbsp;<label>Not Given</label></span>
+                                        </div>
+                                        <div ng-if="WTHTConfig.EntranceTestSeatNo>0" style="border:unset;padding:unset;">
+                                            <label>{{WTHTConfig.EntranceTestSeatNo}}</label>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                                <tr class="col-md-12" ng-show="AllSmsFlag == true">
+                                    <td></td>
+                                    <td type="button" ng-click="SendBulkSMStoApplicant(applicantTable)" class="Bulk-Sms-Btn">Send Bulk SMS</td>
+
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+
+                    <div class="card" ng-show="NoRecLabelForVerifiedApplicant">
+                        <label style="font:bold; text-align:center; font-size:medium; color:red;">No Pre Verified Applicant Record Found!You Cannot Attach Venue Details</label>
+                    </div>
+
+
+
+                </div>
+
+
+                <div class="card" ng-show="NoRecLabel">
+                    <label style="font:bold; text-align:center; font-size:medium; color:red;">No ExamDate / StartTime / EndTime Attached For Particular Programme.Please Update!</label>
+                </div>
+
+                <div class="card" ng-show="checkDataExists == true">
+                    <label style="font:bold; text-align:center; font-size:medium; color:red;">No Applicant Record For Particular Programme.You Cannot Attach Venue Details!</label>
+                </div>
+
+
+                <div id="overlay" class="col-lg-6 offset-md-2">
+                    <div class="w-100 d-flex justify-content-lg-center align-items-center">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+
+                <!-- Column Rendering table start -->
+
+            </div>
+        </div>
+    </div>
+</div>

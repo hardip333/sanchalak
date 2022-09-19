@@ -1,0 +1,167 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .button-size {
+        width: 11rem !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="PaperTLMCtrl">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Define Paper - Teaching Learning Method</h4>
+                </div>
+
+                <div class="card-block">                   
+
+                    <div class="form-group row" ng-init="MstPaperGet()">
+                        <label class="col-sm-2 col-form-label"><b>Paper Name:</b></label>
+                        <div class="col-sm-6">
+                            {{MstPaperTeachingLearningMap.PaperName}}
+                        </div>
+                    </div>
+
+                    <div class="form-group row" ng-init="MstPaperGet()">
+                        <label class="col-sm-2 col-form-label"><b>Paper Code:</b></label>
+                        <div class="col-sm-6">
+                            {{MstPaperTeachingLearningMap.PaperCode}}
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row" ng-init="MstTeachingLearningMethodGet()">
+                        <label class="col-sm-2 col-form-label"><b>Teaching Learning Method Name :</b></label>
+                        <div class="col-sm-6">
+                            <div ng-repeat="TLM in TLMList">
+                                <input ng-model="TLM.selected" type="checkbox" ng-checked="TLM.TLMCheckedStatus" ng-change="CheckChangeTLM(TLM, TLM.selected)" ng-disabled="TLM.TLMCheckedStatus" />
+                                <label>
+                                    {{TLM.TeachingLearningMethodName}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-18">
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <button class="btn btn-success" ng-click="MstAssessmentByTLM()">Get Assessment Method </button>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12" ng-show="showSecond">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Configure Assesment Marks</h4>
+                </div>
+
+                <div class="card-block">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" id="example-2">
+                            <tbody>
+                                <tr>
+                                    <td data-title="'Teaching Leaarning Method'" style="border-top:none;"><label><b>Teaching Leaarning Method</b></label></td>
+                                    <td data-title="'Assessment Method'" style="border-top:none;"><label><b>Assessment Method</b></label></td>
+                                </tr>
+
+                                <tr ng-repeat="TLM_AM in TLM_AM_MapList">
+                                    <td style="{{test=$index}}" rowspan="{{ Math.ceil(TLM_AM.AssessmentMethodList.length/2) }}" ng-model="ObjPaperTLMAM.TeachingLearningMethodId">{{TLM_AM.TeachingLearningMethodName}} </td>
+                                    <td colspan="7">
+                                        <table ng-table="">
+                                            <tbody>
+                                                <tr ng-repeat="AM in TLM_AM.AssessmentMethodList">
+                                                    <td>
+                                                        <input ng-model="ObjPaperTLMAM[$index][test].selected" type='checkbox' ng-checked="AM.AMCheckedStatus" ng-change="CheckChangeAM(AM, ObjPaperTLMAM[$index][test].selected,TLM_AM)" ng-disabled="AM.AMCheckedStatus" />
+                                                        <label>
+                                                            {{AM.AssessmentMethodName}}
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-18">
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <button class="btn btn-success" ng-click="AddPaperTLMAMMap()">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+
+        <div class="col-sm-12" ng-show="showThird">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Configure Assesment Marks</h4>
+                </div>
+
+                <div class="card-block">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" id="example-2">
+                            <tbody>
+                                <tr>
+                                    <td data-title="'Teaching Leaarning Method'" style="border-top:none;"><label><b>Teaching Leaarning Method</b></label></td>
+                                    <td data-title="'Assessment Method'" style="border-top:none;"><label><b>Assessment Method</b></label></td>                                    
+                                    <td data-title="'No.Of Credits'" style="border-top:none;"><label><b>No. Of Credits</b></label></td>                                    
+                                    <td data-title="'No.Of Lectures Per Week'" style="border-top:none;"><label><b>Lectures Per Week</b></label></td>                                    
+                                    <td data-title="'No.Of Hours Per Week'" style="border-top:none;"><label><b>Hours Per Week</b></label></td>                                    
+                                    <td data-title="'Assessment Marks'" style="border-top:none;"><label><b>Assessment Marks</b></label></td>
+                                    <td data-title="'Assessment Type'" style="border-top:none;"><label><b>Assessment Type</b></label></td>
+                                    <td data-title="'Assessment Type Max. Marks'" style="border-top:none;"><label><b>Assessment Type Max. Marks</b></label></td>
+                                    <td data-title="'Assessment Type Min. Marks'" style="border-top:none;"><label><b>Assessment Type Min. Marks</b></label></td>                                   
+                                </tr>
+                                <tr ng-repeat="TLM_AM1 in PaperTLMAM">
+                                    <td ng-model="TLM_AM1.TeachingLearningMethodId">{{TLM_AM1.TeachingLearningMethodName}} </td>
+                                    <td><label>{{TLM_AM1.AssessmentMethodName}}</label></td>         
+                                    <td><input ng-model="TLM_AM1.NoOfCredits" value="{{TLM_AM1.NoOfCredits}}" type="number" allow-Pattern="\d" /> </td>
+                                    <td><input ng-model="TLM_AM1.NoOfLecturesPerWeek" value="{{TLM_AM1.NoOfLecturesPerWeek}}" type="number" allow-Pattern="\d" /> </td>
+                                    <td><input ng-model="TLM_AM1.NoOfHoursPerWeek" value="{{TLM_AM1.NoOfHoursPerWeek}}" type="number" allow-Pattern="\d" /> </td>
+                                    <td><input ng-model="TLM_AM1.AssessmentMethodMarks" value="{{TLM_AM1.AssessmentMethodMarks}}" type="number" allow-Pattern="\d" /> </td>
+                                    <td>
+                                        <div ng-repeat="AssessType in TLM_AM1.AssessType">
+                                            <input ng-model="AssessType.CheckBox" type="checkbox"/><label> &nbsp; {{AssessType.ATName}} </label><br />                                            
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div ng-repeat="AssessType in TLM_AM1.AssessType">
+                                            <input ng-model="AssessType.Max" type="number"/><br />                                          
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div ng-repeat="AssessType in TLM_AM1.AssessType">
+                                            <input ng-model="AssessType.Min" type="number"/><br />                                           
+                                        </div>
+                                    </td>
+                                   
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div><br/>
+                    <div class="col-md-18">
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <button class="btn btn-success" ng-click="checkValidation()">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+</div>

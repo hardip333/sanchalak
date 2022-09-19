@@ -1,0 +1,180 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .button-size {
+        width: 11rem !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Student Transfer Request Report</h4></div>
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="TransferRequestReport">
+
+                            <div class="form-group row" ng-init="IncAcademicYearListGet()">
+                                <div class="col-sm-2">Academic Year Code:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="TransferRequestReport.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicList" [value]="TransferRequestReport.AcademicYearId" ng-change="FacultyGet()" class="form-control" name="AcadYearName" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Faculty Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="TransferRequestReport.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" [value]="TransferRequestReport.FacultyId" ng-change="getProgrammeInstanceListByAcadId()" class="form-control" name="FacultyName" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Instance/Object Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="TransferRequestReport.ProgrammeInstanceId" ng-options="d.Id as d.InstanceName for d in InstList" [value]="TransferRequestReport.ProgrammeInstanceId" ng-change="getProgrammePartListByProgInstId()" class="form-control" name="Progdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Programme Part Short Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="TransferRequestReport.ProgrammePartId" ng-options="d.Id as d.PartShortName for d in ProgPartList" [value]="TransferRequestReport.ProgrammePartId" ng-change="getBranchListByProgInstId()" class="form-control" name="ProgPartShortNamedropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Branch Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="TransferRequestReport.SpecialisationId" ng-options="d.Id as d.BranchName for d in BranchList" [value]="TransferRequestReport.SpecialisationId" ng-change="getProgPartTermListByProgInstPartId()" class="form-control" name="spedropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Programme Part Term Short Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="TransferRequestReport.ProgrammeInstancePartTermId" ng-options="d.Id as d.PartTermShortName for d in ProgPartTermList" [value]="TransferRequestReport.ProgrammePartTermId" class="form-control" name="ProgPartTermShortNamedropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button" ng-click="getStudentTransferRequestData();" class="btn btn-success">&nbsp; Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-block">
+                        <div class="table-responsive">
+                            <table  class="table table-striped table-bordered" id="StudentTransferRequestReport" ng-table="StudentTransferRequestReportTableParams" show-filter="true">
+                                <tbody>
+                                    <tr ng-repeat="TransferRequestReport in $data">
+
+                                        <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                        <td data-title="'PRN'" filter="{StudentPRN: 'text'}" sortable="'StudentPRN'" style="border-top:none;">
+                                            <label>{{TransferRequestReport.StudentPRN}}</label>
+                                        </td>
+                                        <td data-title="'Faculty Name'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style="border-top:none;">
+                                            <label>{{TransferRequestReport.FacultyName}}</label>
+                                        </td>
+                                        <td data-title="'Programme Instance Part Term Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstancePartTermName'" style="border-top:none;">
+                                            <label>{{TransferRequestReport.InstancePartTermName}}</label>
+                                        </td>
+                                        <td data-title="'Source Institute'" filter="{SourceInst: 'text'}" sortable="'SourceInst'" style="border-top:none;">
+                                            <label>{{TransferRequestReport.SourceInst}}</label>
+                                        </td>
+                                        <td data-title="'Source Institute Status'" filter="{SourceInstituteStatus1: 'text'}" sortable="'SourceInstituteStatus1'" style="border-top:none;">
+                                            <label>{{TransferRequestReport.SourceInstituteStatus1}}</label>
+                                        </td>
+                                        <td data-title="'Source Request Processed On'" filter="{SourceRequestProcessedOnView: 'text'}" sortable="'SourceRequestProcessedOnView'" style="border-top:none;">
+                                            <label>{{TransferRequestReport.SourceRequestProcessedOnView}}</label>
+                                        </td>
+                                        <td data-title="'Destination Institute'" filter="{DestInst: 'text'}" sortable="'DestInst'" style="border-top:none;">
+                                            <label>{{TransferRequestReport.DestInst}}</label>
+                                        </td>
+                                        <td data-title="'Destination Institute Status'" filter="{DestinationInstituteStatus1: 'text'}" sortable="'DestinationInstituteStatus1'" style="border-top:none;">
+                                            <label>{{TransferRequestReport.DestinationInstituteStatus1}}</label>
+                                        </td>
+                                        <td data-title="'Destination Request Processed On'" filter="{DestinationRequestProcessedOn: 'text'}" sortable="'DestinationRequestProcessedOn'" style="border-top:none;">
+                                            <label>{{TransferRequestReport.DestinationRequestProcessedOnView}}</label>
+                                        </td>
+                                        <td data-title="'Transfer Requested On'" filter="{RequestedOnView: 'text'}" sortable="'RequestedOnView'" style="border-top:none;">
+                                            <label>{{TransferRequestReport.RequestedOnView}}</label>
+                                        </td>
+                                        <td data-title="'Is Fee Category Changed ?'" filter="{IsFeeCategoryChangedSts: 'text'}" sortable="'IsFeeCategoryChangedSts'" style="border-top:none;">
+                                            <label>{{TransferRequestReport.IsFeeCategoryChangedSts}}</label>
+                                        </td>
+                                        <td data-title="'Changed Fee Category Name'" filter="{FeeCategoryName: 'text'}" sortable="'FeeCategoryName'" style="border-top:none;">
+                                            <label>{{TransferRequestReport.FeeCategoryName}}</label>
+                                        </td>
+
+                                    </tr>
+                                 
+                                </tbody>
+                            </table>
+                        </div>
+                        <div layout="row" style="margin-top:3px" class="float-right">
+
+                            <button ng-click="exportDataByProgInstPartTermId();" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="min-width:40px;">Export to Excel </button>
+
+                        </div>
+                     
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

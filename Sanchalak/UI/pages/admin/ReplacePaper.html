@@ -1,0 +1,181 @@
+﻿
+<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+   
+</style>
+<script src="../../../bower_components/jquery/js/jquery-3.2.1.min.js"></script>
+<script src="../../../bower_components/select2/js/select3.min.js"></script>
+
+<link href='../../../bower_components/select2/css/select3.min.css' rel='stylesheet' type='text/css'>
+
+<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Replace Paper</h4></div>
+                    </div>
+
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="ReplacePaper" novalidate>
+                            <div class="form-group row" ng-init="getAcademicList()">
+                                <div class="col-sm-2">Select Academic Year<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ReplacePaper.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcadList" ng-change="getFacultyById()" [value]="ReplacePaper.AcademicYearId" class="form-control" name="ProgInstdropdown" required>
+                                                <option value="" disabled selected>-- select Academic Year --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">Select Faculty Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ReplacePaper.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList  | orderBy:'FacultyList'" class="form-control" ng-change="getProgrammeGetByFacId()" name="Instdropdown" required>
+                                                <option value="" disabled selected>-- select Faculty --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Select Programme Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ReplacePaper.ProgrammeId" ng-options="d.ProgrammeId as d.ProgrammeName for d in ProgList" ng-change="getSpecialisationGetByFacultyId(ReplacePaper.FacultyId,ReplacePaper.ProgrammeId)" class="form-control" id="Instdropdown1" name="Instdropdown" required>
+                                                <option value="" disabled selected>-- select Programme Name --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">Select Branch Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ReplacePaper.SpecialisationId" ng-options="d.SpecialisationId as d.BranchName for d in SpecList" class="form-control" ng-change="getProgrammeInstancePart(ReplacePaper.AcademicYearId,ReplacePaper.FacultyId, ReplacePaper.ProgrammeId,ReplacePaper.SpecialisationId)" id="Instdropdown1" name="Instdropdown" required>
+                                                <option value="" disabled selected>-- select Branch Name --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">Select Programme Instance Part Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ReplacePaper.ProgrammeInstancePartId" ng-options="d.ProgrammeInstancePartId as d.InstancePartName for d in ProgInstPartList" class="form-control" ng-change="getProgrammeInstancePartTerm(ReplacePaper.AcademicYearId,ReplacePaper.FacultyId, ReplacePaper.ProgrammeId,ReplacePaper.SpecialisationId,ReplacePaper.ProgrammeInstancePartId)" id="Instdropdown1" name="Instdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">Select Programme Instance Part Term Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ReplacePaper.IncProgInstancePartTermId" ng-options="d.IncProgInstancePartTermId as d.InstancePartTermName for d in ProgInstPartTermList" class="form-control" id="Instdropdown1" name="Instdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button" ng-click="getSourcePaperId(ReplacePaper.IncProgInstancePartTermId)" class="btn btn-success">&nbsp; Submit</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">Source Paper Id<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ReplacePaper.SourcePaperId" ng-options="d.SourcePaperId as d.SourcePaperNameCode for d in SourcePaperList" ng-change="getDestinationPaperId(ReplacePaper.IncProgInstancePartTermId)" class="form-control" id="Instdropdown1" name="Instdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">Destination Paper Id<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select id='selUser' ng-model="ReplacePaper.DestinationPaperId" ng-options="d.DestinationPaperId as d.DestinationPaperNameCode for d in DestinationPaperList" class="form-control" id="Instdropdown1" name="Instdropdown" iple="" tabindex="-1" aria-hidden="true" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button"  ng-click="getReplacePaper(ReplacePaper.IncProgInstancePartTermId)" class="btn btn-success">&nbsp; Submit</button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        // Initialize select2
+        $("#selUser").select2();
+
+        // Read selected option
+        $('#but_read').click(function () {
+            var username = $('#selUser option:selected').text();
+            var userid = $('#selUser').val();
+
+            $('#result').html("id : " + userid + ", name : " + username);
+        });
+    });
+</script>

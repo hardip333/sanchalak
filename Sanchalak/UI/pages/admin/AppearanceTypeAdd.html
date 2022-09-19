@@ -1,0 +1,60 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="AppearanceTypeMasterCtrl"  ng-init="getAppearanceTypeMaster()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Appearance Type Master</h4></div>
+                        <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+                    </div>                  
+                </div>
+
+                <div class="card-block">
+                    
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="AppearanceTypeMaster">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Appearance Type<span style="color:red">*</span>:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="AppearanceType" class="form-control" ng-model="AppearanceTypeMaster.AppearanceType" placeholder="Type Appearance Type" required />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="addAppearanceTypeMaster()">Add</button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetAppearanceTypeMaster()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="AppearanceTypeMasterTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="AppearanceTypeMaster in $data">
+                                            <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                            <td data-title="'Appearance Type'" filter="{AppearanceType: 'text'}" sortable="'AppearanceType'" style=" border-top: none;"><label>{{AppearanceTypeMaster.AppearanceType}}</label></td>                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

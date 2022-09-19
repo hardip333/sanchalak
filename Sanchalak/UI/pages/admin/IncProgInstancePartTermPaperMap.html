@@ -1,0 +1,248 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .button-size {
+        width: 11rem !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="IncProgInstPartTermPaperMapCtrl">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Add Programme Instance Part Term Paper Map</h4>
+
+                </div>
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="IncProgInstPartTermPaperMap">
+
+                            <div class="form-group row" ng-init="IncAcademicYearListGet()">
+                                <div class="col-sm-2">Academic Year Code:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="IncProgInstPartTermPaperMap.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicList" [value]="IncProgInstPartTermPaperMap.AcademicYearId" ng-change="FacultyGet()" class="form-control" name="AcadYearName" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Faculty Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="IncProgInstPartTermPaperMap.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" [value]="IncProgInstPartTermPaperMap.FacultyId" ng-change="getProgrammeInstanceListByAcadId()" class="form-control" name="FacultyName" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Instance/Object Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="IncProgInstPartTermPaperMap.ProgrammeInstanceId" ng-options="d.Id as d.InstanceName for d in InstList" [value]="IncProgInstPartTermPaperMap.ProgrammeInstanceId" ng-change="getProgrammePartListByProgInstId()" class="form-control" name="Progdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Programme Part Short Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="IncProgInstPartTermPaperMap.ProgrammePartId" ng-options="d.Id as d.PartShortName for d in ProgPartList" [value]="IncProgInstPartTermPaperMap.ProgrammePartId" ng-change="getBranchListByProgInstId()" class="form-control" name="ProgPartShortNamedropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Branch Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="IncProgInstPartTermPaperMap.SpecialisationId" ng-options="d.Id as d.BranchName for d in BranchList" [value]="IncProgInstPartTermPaperMap.SpecialisationId" ng-change="getProgPartTermListByProgInstPartId()" class="form-control" name="spedropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Programme Part Term Short Name:</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="IncProgInstPartTermPaperMap.ProgrammeInstancePartTermId" ng-options="d.Id as d.PartTermShortName for d in ProgPartTermList" [value]="IncProgInstPartTermPaperMap.ProgrammePartTermId" class="form-control" name="ProgPartTermShortNamedropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="ShowList()">Submit </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="card-header" ng-show="PaperDataTable">
+                        <h5>Attached Paper List</h5>
+                    </div>
+                    <div class="card-block" ng-show="NoRecLabel">
+                        <label id="NoRecLbl" style="font:bold; font-size:medium; color:red;">No Attached Paper Found.</label>
+                    </div>
+                    <div class="card" ng-show="PaperDataTable">
+                        <div class="card-block">
+                            <form name="form1">
+
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="PaperAttachedTable" ng-table="AttachedPaperTable" show-filter="true">
+                                        <tbody>
+                                            <tr ng-repeat="AttachedPaperObj in $data">
+                                                <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                                <td data-title="'SubjectName'" filter="{SubjectName: 'text'}" sortable="'SubjectName'" style="border-top:none;"><label>{{AttachedPaperObj.SubjectName}}</label></td>
+                                                <td data-title="'PaperName'" filter="{PaperName: 'text'}" sortable="'PaperName'" style="border-top:none;"><label>{{AttachedPaperObj.PaperName}}</label></td>
+                                                <td data-title="'PaperCode'" filter="{PaperCode: 'text'}" sortable="'PaperCode'" style="border-top:none;"><label>{{AttachedPaperObj.PaperCode}}</label></td>
+
+                                                <td data-title="'Actions'">
+                                                    <div layout="row">
+                                                        <span flex></span>
+                                                        <button type="button" ng-click="displayPaper(AttachedPaperObj)" class="btn btn-info btn-icon mr-2" data-target="#large-Modal" data-toggle="modal"><span class="icofont ion-eye"></span></button>
+                                                        <button type="button" ng-click="DetachFrmLst(AttachedPaperObj)" class="btn btn-success ml-2 button-size"><i class="fa fa-toggle-off"></i>Detach</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card-header" ng-show="PaperDataTable1">
+                        <h5>Not Attached Paper List</h5>
+                    </div>
+                    <div class="card-block" ng-show="NoRecLabel1">
+                        <label id="NoRecLbl1" style="font:bold; font-size:medium; color:red;">No Detached Paper Found.</label>
+                    </div>
+                    <div class="card" ng-show="PaperDataTable1">
+                        <div class="card-block">
+                            <form name="form2">
+
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="PaperAttachedTable1" ng-table="AllPaperLstTable" show-filter="true">
+                                        <tbody>
+                                            <tr ng-repeat="PaperObject in $data">
+                                                <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ $index + 1 }}</label></td>
+                                                <td data-title="'SubjectName'" filter="{SubjectName: 'text'}" sortable="'SubjectName'" style="border-top:none;"><label>{{PaperObject.SubjectName}}</label></td>
+                                                <td data-title="'PaperName'" filter="{PaperName: 'text'}" sortable="'PaperName'" style="border-top:none;"><label>{{PaperObject.PaperName}}</label></td>
+                                                <td data-title="'PaperCode'" filter="{PaperCode: 'text'}" sortable="'PaperCode'" style="border-top:none;"><label>{{PaperObject.PaperCode}}</label></td>
+
+                                                <td data-title="'Actions'">
+                                                    <div layout="row">
+                                                        <span flex></span>
+                                                        <button type="button" ng-click="displayPaper(PaperObject)" class="btn btn-info btn-icon mr-2" data-target="#large-Modal" data-toggle="modal"><span class="icofont ion-eye"></span></button>
+                                                        <button type="button" ng-click="AttachToLst(PaperObject)" class="btn btn-success ml-2 button-size"><i class="fa fa-toggle-off"></i>Attach</button>
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="large-Modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Paper Detail - {{paper.PaperName}}</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5></h5>
+                                    <table class="table table-striped table-bordered">
+                                        <tr>
+                                            <td>Subject-Name:</td>
+                                            <td>{{paper.SubjectName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Paper-Name:</td>
+                                            <td>{{paper.PaperName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Paper-Code:</td>
+                                            <td>{{paper.PaperCode}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>IsCredit:</td>
+                                            <td>{{paper.IsCreditSts}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Credits:</td>
+                                            <td>{{paper.Credits}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>EvaluationName:</td>
+                                            <td>{{paper.EvaluationName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Maximum-Marks:</td>
+                                            <td>{{paper.MaxMarks}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Minimum-Marks:</td>
+                                            <td>{{paper.MinMarks}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>IsSeparatePassingHead:</td>
+                                            <td>{{paper.IsSeparatePassingHeadSts}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Active-Status:</td>
+                                            <td>{{paper.IsActiveSts}}</td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <!--<button type="button" class="btn btn-default waves-effect " data-dismiss="modal" disabled>Close</button>-->
+                                    <button type="button" class="btn btn-primary waves-effect waves-light " data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+        </div>
+    </div>
+</div>

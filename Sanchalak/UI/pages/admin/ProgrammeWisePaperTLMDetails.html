@@ -1,0 +1,145 @@
+﻿<style>
+
+    ::-webkit-scrollbar {
+        height: 20px !important;
+        overflow: visible;
+        width: 0px;
+        background-color: lightgray;
+    }
+</style>
+<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>
+<script src="../../../app/admin/controller/alasql.js"></script>
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Programme Wise Paper TLM Details</h4></div>
+
+                    </div>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="PaperTLM">
+
+                            <div class="form-group row" ng-init="MstFacultyGet();">
+                                <div class="col-sm-2">Select Faculty:<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgPaperTLM.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" class="form-control" ng-change="MstInstituteGetByFacultyId();" id="Instdropdown1" name="Instdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Select Institute:<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgPaperTLM.InstituteId" ng-options="d.InstituteId as d.InstituteName for d in InstituteList" class="form-control" ng-change="IncAcademicYearGet();" id="Instdropdown1" name="Instdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Select Academic Year Code:<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ProgPaperTLM.AcademicYearId" ng-options="d.AcademicYearId as d.AcademicYearCode for d in AcademicYearList" class="form-control" ng-change="getMstInstituteInstNameById();" id="Instdropdown1" name="Instdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button" ng-click="getProgrammeWisePaperTLMList();" class="btn btn-success">&nbsp; Submit</button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetProgrammeWisePaperTLMList();">Cancel</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-block">
+                        <div class="table-responsive" ng-show="IsTableVisible">
+                            <table class="table table-striped table-bordered" id="example-2" ng-table="ProgrammeWisePaperTLMTableParams" show-filter="true">
+                                <tbody>
+                                    <tr ng-repeat="ProgPaperTLM in $data">
+                                        <td data-title="'Sr.No'" filter="{$index: 'text'}" sortable="'$index'" style="border-top:none;"><label>{{ProgPaperTLM.IndexId }}</label></td>
+                                        <td data-title="'Faculty Name'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style=" border-top: none; text-align:center;"><label>{{ProgPaperTLM.FacultyName}}</label></td>
+                                        <td data-title="'Programme Name'" filter="{ProgrammeName: 'text'}" sortable="'ProgrammeName'" style=" border-top: none; text-align:center;"><label>{{ProgPaperTLM.ProgrammeName}}</label></td>
+                                        <td data-title="'Part Name'" filter="{PartName: 'text'}" sortable="'PartName'" style=" border-top: none; text-align:center;"><label>{{ProgPaperTLM.PartName}}</label></td>
+                                        <td data-title="'Part Term Name'" filter="{PartTermName: 'text'}" sortable="'PartTermName'" style=" border-top: none; text-align:center;"><label>{{ProgPaperTLM.PartTermName}}</label></td>
+                                        <td data-title="'Instance Part Term Name'" filter="{InstancePartTermName: 'text'}" sortable="'InstanceName'" style=" border-top: none; text-align:center;"><label>{{ProgPaperTLM.InstancePartTermName}}</label></td>
+                                        <td data-title="'Branch Name'" filter="{BranchName: 'text'}" sortable="'BranchName'" style=" border-top: none; text-align:center;"><label>{{ProgPaperTLM.BranchName}}</label></td>
+                                        <td data-title="'Paper Code'" filter="{PaperCode: 'text'}" sortable="'PaperCode'" style=" border-top: none; text-align:center;"><label>{{ProgPaperTLM.PaperCode}}</label></td>
+                                        <td data-title="'Paper Name'" filter="{PaperName: 'text'}" sortable="'PaperName'" style=" border-top: none; text-align:center;"><label>{{ProgPaperTLM.PaperName}}</label></td>
+                                        <td data-title="'Paper Credit'" filter="{PaperCredit: 'text'}" sortable="'PaperCredit'" style=" border-top: none; text-align:center;"><label>{{ProgPaperTLM.PaperCredit}}</label></td>
+                                        <td data-title="'Max Marks'" filter="{MaxMarks: 'text'}" sortable="'MaxMarks'" style=" border-top: none; text-align:center;"><label>{{ProgPaperTLM.MaxMarks}}</label></td>
+                                        <td data-title="'Min Marks'" filter="{MinMarks: 'text'}" sortable="'MinMarks'" style=" border-top: none; text-align:center;"><label>{{ProgPaperTLM.MinMarks}}</label></td>
+                                        <td data-title="'TLM'" filter="{TLM: 'text'}" sortable="'TLM'" style=" border-top: none; text-align:center;"><label>{{ProgPaperTLM.TLM}}</label></td>
+                                        <td data-title="'AM'" filter="{AM: 'text'}" sortable="'AM'" style=" border-top: none; text-align:center;"><label>{{ProgPaperTLM.AM}}</label></td>
+                                        <td data-title="'Assessment Method Marks'" filter="{AssessmentMethodMarks: 'text'}" sortable="'TLM'" style=" border-top: none; text-align:center;"><label>{{ProgPaperTLM.AssessmentMethodMarks}}</label></td>
+                                        <td data-title="'Follow Credit System'" filter="{FollowCreditSystem: 'text'}" sortable="'TLM'" style=" border-top: none; text-align:center;"><label>{{ProgPaperTLM.FollowCreditSystem}}</label></td>
+                                        <td data-title="'Assessment Type'" filter="{AssessmentType: 'text'}" sortable="'TLM'" style=" border-top: none; text-align:center;"><label>{{ProgPaperTLM.AssessmentType}}</label></td>
+                                        <td data-title="'Assessment Type MaxMarks'" filter="{AssessmentTypeMaxMarks: 'text'}" sortable="'TLM'" style=" border-top: none; text-align:center;"><label>{{ProgPaperTLM.AssessmentTypeMaxMarks}}</label></td>
+                                        <td data-title="'Assessment Type MinMarks'" filter="{AssessmentTypeMinMarks: 'text'}" sortable="'TLM'" style=" border-top: none; text-align:center;"><label>{{ProgPaperTLM.AssessmentTypeMinMarks}}</label></td>
+                                        
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="card" ng-show="NoRecLabel">
+                            <label style="font:bold; text-align:center; font-size:medium; color:red;">No Record Found..!</label>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div id="overlay" class="col-lg-6 offset-md-2">
+                    <div class="w-100 d-flex justify-content-lg-center align-items-center">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div layout="row" ng-show="IsExcelButton" style="margin-top:3px" class="float-right">
+
+                <button ng-click="exportData()" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="min-width:40px;">Export to Excel </button>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>

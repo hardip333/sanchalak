@@ -1,0 +1,245 @@
+﻿
+<style>
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+
+
+    .card .card-block ul {
+        float: right !important;
+    }
+
+    /*   for table*/
+    .card .card-block table tr {
+        padding-bottom: 20px;
+    }
+
+    .table td {
+        padding: .25rem;
+    }
+
+    .table label{
+        margin-bottom:0px;
+        margin-top:8px;
+    }
+
+ /*  for button in table*/
+    .table button {
+        width: 45px;
+        height: 40px;
+        padding: 0px;
+    }
+
+    .table button i {
+            margin-right: 0px;
+        }
+
+    /*  for sort indicator*/
+    .ng-table th.sortable .sort-indicator {
+        padding-right: 18px;
+        position: relative;
+        white-space: normal;
+    }
+
+        .ng-table th.sortable .sort-indicator:after, .ng-table th.sortable .sort-indicator:before {
+            content: "";
+            border-width: 0 4px 4px;
+            border-style: solid;
+            border-color: #000 transparent;
+            visibility: hidden;
+            right: 5px;
+            top: 50%;
+            position: absolute;
+            opacity: .3;
+        }
+
+    .ng-table th.sortable.sort-desc .sort-indicator:after {
+        border-bottom: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid #000;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:before {
+        opacity: 1;
+        visibility: hidden;
+    }
+
+    .ng-table th.sortable .sort-indicator:hover:after {
+        opacity: 1;
+        visibility: hidden;
+    }
+
+
+</style>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+
+
+
+            <div class="card" style="margin-bottom:15px;">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> 
+                            <h4 style="margin-bottom:0px;">Exam Blocks</h4>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row clearfix">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card" style="margin-bottom: 100px;">
+                        <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                            <h3 class="card-title" style="font-size:18px;">Exam Blocks Detail</h3>
+                        </div>
+                        <div class="card-body" style="padding:10px 20px 20px 20px;">
+
+                            <label class="form-label">Exam Center</label>
+                            <div>
+                                <span class="nullable">
+                                    <examcenter-select style="margin-bottom:3px;" ng-model="block.ExamCenterId" ng-change="getExamVenueListGetActive(block.ExamCenterId)"></examcenter-select>
+                                </span>
+                            </div>
+
+                            <label class="form-label">Exam Venue</label>
+                            <div>
+                                <span class="nullable">
+                                    <examvenue-select style="margin-bottom:3px;" ng-model="block.ExamVenueId"></examvenue-select>
+                                </span>
+                            </div>
+
+
+                            <div layout="row" style="height:25px;">
+                                <label class="form-label">Class Name</label>
+                                <span flex></span>
+                                <p class="input-length">{{block.Name.length}} / 100</p>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="example-text-input" placeholder="Enter Class Name" ng-model="block.Name" limit-to="100">
+                            </div>
+
+                            <div layout="row" style="height:25px;">
+                                <label class="form-label">Room No</label>
+                                <span flex></span>
+                                <p class="input-length">{{block.RoomNo.length}} / 50</p>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="example-text-input" placeholder="Enter Room No" ng-model="block.RoomNo" limit-to="50">
+                            </div>
+
+                            <div layout="row" style="height:25px;">
+                                <label class="form-label">Sequence No </label>
+                                <span flex></span>
+                                <p class="input-length">{{block.SequenceNo.length}} / 3</p>
+                            </div>
+                            <div class="form-group">
+                                <input type="number" class="form-control" name="example-text-input" placeholder="Enter Sequence No" ng-model="block.SequenceNo" limit-to-number="3">
+                            </div>
+
+                            <div layout="row" style="height:25px;">
+                                <label class="form-label">Total Bench </label>
+                                <span flex></span>
+                                <p class="input-length">{{block.TotalBench.length}} 5</p>
+                            </div>
+                            <div class="form-group">
+                                <input type="number" class="form-control" name="example-text-input" placeholder="Enter Total Bench" ng-model="block.TotalBench" limit-to="5">
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="amount" ng-model="block.IsDualCapacityAvailable " checked="checked" />
+                                <label class="form-label" style="margin-left:10px;">Is Dual Capacity Available </label>
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="amount2" ng-model="block.IncludeInAutoAllocation" checked="checked" />
+                                <label class="form-label" style="margin-left:10px;">Include In Auto Allocation  </label>
+                            </div>
+
+
+                        </div>
+                        <div class="card-footer">
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <button type="button" ng-click="saveExamBlock(block)" class="btn btn-success">Save</button>
+                                        <button class="btn btn-secondary" ng-click="cancelExamBlock()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--<a href="" class="btn btn-block btn-info btn-sm" ng-click="saveClassMaster()" style="cursor:pointer;">Save</a>-->
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-8 col-md-6">
+                    <div class="card">
+                        <div class="card-header" style="padding:16px 20px;border-bottom:1px solid rgba(0,40,100,0.12);">
+                            <h3 class="card-title" style="font-size:18px;">List of Exam Blocks</h3>
+                        </div>
+
+                        <div class="card-block">
+                            <div class="table-responsive" >
+                                <table id="ApplicationStatsId" class="table table-striped table-bordered" ng-table="blockTableParams" show-filter="true" style="font-size:13px;">
+                                    <tbody>
+                                        <tr style="text-align:center;" ng-repeat="block in $data" >
+                                            <!--<td data-title="'Exam Center'" filter="{'ExamCenter': 'text'}" sortable="'ExamCenter'" style="border-top: none; text-align: left; width:250px; white-space: unset !important; ">
+                                                <label style="text-align:left;align-content:flex-start;">{{block.ExamCenter}}</label>
+                                            </td>-->
+                                            <td data-title="'Exam Venue'" filter="{'ExamVenue ': 'text'}" sortable="'ExamVenue '" style="border-top: none; text-align: left; width: 250px; white-space: unset !important; ">
+                                                <label style="text-align:left;align-content:flex-start;">{{block.ExamVenue }}</label>
+                                            </td>
+
+                                            <td data-title="'Class Name'" filter="{'Name':'text'}" sortable="'Name'" style="border-top: none; text-align: left; width:100px; white-space: unset !important; ">
+                                                <label style="text-align:left;align-content:flex-start;">{{block.Name}} </label>
+                                            </td>
+                                            <td data-title="'Room No'" filter="{'RoomNo':'text'}" sortable="'RoomNo'" style="border-top: none; width:5%; white-space: unset !important; ">
+                                                <label>{{block.RoomNo}}</label>
+                                            </td>
+                                            <td data-title="'Seq. No'" filter="{'SequenceNo': 'text'}" sortable="'SequenceNo'" style="border-top: none; text-align: left; width: 10%; white-space: unset !important; ">
+                                                <label style="text-align:left;align-content:flex-start;">{{block.SequenceNo}} </label>
+                                            </td>
+                                            <td data-title="'Total Bench'" filter="{'TotalBench':'text'}" sortable="'TotalBench'" style="border-top: none; width: 10%; white-space: unset !important; ">
+                                                <label>{{block.TotalBench}}</label>
+                                            </td>
+                                            <td data-title="'Is Dual Capacity Available'" filter="{'IsDualCapacityAvailable':'text'}" sortable="'IsDualCapacityAvailable'" style="border-top: none; width:5%; white-space: unset !important; ">
+                                                <!--<label >{{block.IsDualCapacityAvailable}}</label>-->
+                                                <label ng-show="block.IsDualCapacityAvailable === true">Yes </label>
+                                                <label ng-show="block.IsDualCapacityAvailable === false || block.IsDualCapacityAvailable === null ">No </label>
+                                            </td>
+                                            <td data-title="'Include In Auto Allocation'" filter="{'IncludeInAutoAllocation':'text'}" sortable="'IncludeInAutoAllocation'" style="border-top: none; width: 5%; white-space: unset !important; ">
+                                                <!--<label>{{block.IncludeInAutoAllocation}}</label>-->
+                                                <label ng-show="block.IncludeInAutoAllocation === true">Yes </label>
+                                                <label ng-show="block.IncludeInAutoAllocation === false || block.IncludeInAutoAllocation === null  ">No </label>
+                                            </td>
+                                            <td data-title="'Actions'" style="border-top:none;">
+                                                <div layout="row" style="padding:0px;">
+                                                    <span flex></span>
+                                                    <button type="button" ng-click="editExamBlock(block)" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><span class="icofont icofont-ui-edit"></span></button>
+                                                    <!--<button title="Show" ng-click="hideExamBlock(block)" class="btn btn-secondary ml-2 button-size" ng-hide="block.IsActive"><i class="fas fa-toggle-off"></i></button>
+                                                    <button title="Hide" ng-click="showExamBlock(block)" class="btn btn-success ml-2 button-size" ng-show="block.IsActive"><i class="fas fa-toggle-on"></i></button>-->
+
+                                                    <!--<md-button title="Delete" ng-click="removeItem(Examevent)" class="md-raised" style="min-width:40px;background-color:#f00e0e;color:white"><i class="fa fa-trash-o"></i></md-button> -->
+                                                    <span flex></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

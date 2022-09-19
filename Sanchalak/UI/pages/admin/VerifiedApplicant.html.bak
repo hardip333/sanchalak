@@ -1,0 +1,331 @@
+﻿
+<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+    td {
+        white-space: normal !important;
+    }
+</style>
+
+
+<!--<div id="overlay">
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <div class="spinner"></div>
+    </div>
+</div>-->
+
+
+<!-- Page body start -->
+<div class="page-body">
+    <div id="overlay">
+        <div class="w-100 d-flex justify-content-center align-items-center">
+            <div class="spinner"></div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"><h4>PRN Generation</h4></div>
+
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="VerifiedApplicant" novalidate>
+
+                            <!--<div class="form-group row" ng-init="getFacultyById()">
+                            <div class="col-sm-2">Faculty Name</div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <span class="nullable">
+                                        <label>{{Faculty.FacultyName}} - {{Faculty.Id}}</label>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-2">Instiute Name</div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <span class="nullable">
+                                        <label>{{Faculty.InstituteName}} - {{Faculty.InstituteId}}</label>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" ng-init="getIncProgPartTermByFacIdList()">
+                            <div class="col-sm-2">Programme Part Term Instance Name </div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <span class="nullable">
+                                        <select ng-model="VerifiedApplicant.ProgrammeInstancePartTermId" ng-options="d.Id as d.InstancePartTermName for d in ProgPartTermByFacIdList" [value]="VerifiedApplicant.ProgrammeInstancePartTermId" class="form-control" name="ProgPartTermdropdown" required>
+                                            <option value="" disabled selected>-- select --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>-->
+
+                            <div class="form-group row" ng-init="getFacultyById()">
+                                <div class="col-sm-3">Select Faculty<span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select id="ddlfaculty" ng-model="VerifiedApplicant.Id" ng-options="d.Id as d.FacultyName for d in Faculty  | orderBy:'FacultyList'" class="form-control" ng-change="getIncProgPartTermByFacIdList()" name="Instdropdown" required>
+                                                <option value="" disabled selected>-- Select Faculty --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-3">Semester Name<span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select id="ddlPTID" ng-model="VerifiedApplicant.ProgrammeInstancePartTermId" ng-options="d.Id as d.InstancePartTermName for d in ProgPartTermByFacIdList" [value]="VerifiedApplicant.ProgrammeInstancePartTermId" class="form-control" name="ProgPartTermdropdown" required>
+                                                <option value="" disabled selected>-- Select Semester --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button" ng-click="getVerifiedApplicantListByProgPartTerm(VerifiedApplicant.ProgrammeInstancePartTermId)" class="btn btn-success">&nbsp; Submit</button>
+                                        <!--<button class="btn btn-success" ng-click="addEligibilityGroup()">Add</button>-->
+                                        <!--<button class="btn btn-disabled disabled" ng-click="cancelPostProgInsPartTermList()">Cancel</button>-->
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+
+
+
+
+                    <!--<div class="col-md-12 offset-md-2">
+                <form ng-model="VerifiedApplicant" novalidate>
+
+                    <div class="form-group row" ng-init="getFacultyById()">
+                        <div class="col-sm-2">Faculty Name</div>
+                        <div class="col-sm-6">
+                            <div>
+                                <span class="nullable">
+                                    <label>{{Faculty.FacultyName}} - {{Faculty.Id}}</label>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2">Instiute Name</div>
+                        <div class="col-sm-6">
+                            <div>
+                                <span class="nullable">
+                                    <label>{{Faculty.InstituteName}} - {{Faculty.InstituteId}}</label>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" ng-init="getIncProgPartTermByFacIdList()">
+                        <div class="col-sm-2">Programme Part Term Instance Name </div>
+                        <div class="col-sm-6">
+                            <div>
+                                <span class="nullable">
+                                    <select ng-model="VerifiedApplicant.ProgrammeInstancePartTermId" ng-options="d.Id as d.InstancePartTermName for d in ProgPartTermByFacIdList" [value]="VerifiedApplicant.ProgrammeInstancePartTermId" class="form-control" name="ProgPartTermdropdown" required>
+                                        <option value="" disabled selected>-- select --</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                    </div>-->
+                    <!--<div class="col-md-12 offset-md-2">-->
+                    <!--<div class="form-group row">
+                    <div class="col-sm-6">
+                        <button type="button" ng-click="getVerifiedApplicantListByProgPartTerm(VerifiedApplicant.ProgrammeInstancePartTermId)" class="btn btn-success">&nbsp; Get verified applicants list</button>
+
+                    </div>
+                </div>-->
+                    <!--</div>-->
+                    <!--</form>
+                </div>-->
+                </div>
+
+            </div>
+
+
+        </div>
+        <div id="overlay">
+            <div class="w-100 d-flex justify-content-center align-items-center">
+                <div class="spinner"></div>
+            </div>
+        </div>
+        <div class="col-sm-12" ng-show="DataTableBlock">
+            <div class="card">
+                <div class="card-header">
+                    <div class="float-left"><h4>List To Be Generate PRN</h4><h6 class="text-danger">Note: Once you make applicant as a student, You will not able to revert it.</h6></div>
+                    <div class="float-right" ng-show="TransferAll"><button ng-click="ProceedToMakeAllStudent(VerifiedApplicant.ProgrammeInstancePartTermId)" class="btn btn-info" data-type="inverse" data-animation-in="animated fadeInUp" data-animation-out="animated fadeOutUp">Bulk PRN</button></div>
+                </div>
+                <div class="card-block">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="VerifiedApplicantListByInstPartTerm" ng-table="VerifiedApplicantListByInstPartTermTableParam" show-filter="true">
+                            <tbody ng-repeat="VerifiedApplicant in $data" ng-class="{'bg-info':VerifiedApplicant.IsAdmitted==1}">
+                                <tr class="text-center">
+                                    <td class="expand_data" id="{{'first_col'+VerifiedApplicant.UserName}}" ng-click="expand_row(VerifiedApplicant.UserName)">+</td>
+                                    <td data-title="'Sr.No'" filter="{SerializeNumber: 'text'}" sortable="'SerializeNumber'" style="border-top:none;"><label>{{ VerifiedApplicant.SerializeNumber}}</label></td>
+                                    <td data-title="'UserName'" filter="{UserName: 'text'}" sortable="'UserName'" style="border-top:none;"><label>{{VerifiedApplicant.UserName}}</label></td>
+                                    <td data-title="'FullName'" filter="{LastName: 'text'}" sortable="'LastName'" style="border-top:none;"><label>{{VerifiedApplicant.LastName}}&nbsp;{{VerifiedApplicant.FirstName}}&nbsp;{{VerifiedApplicant.MiddleName}}</label></td>
+                                    <td data-title="'Faculty Approval'" filter="{IsApprovedByFaculty: 'text'}" sortable="'IsApprovedByFaculty'" style="border-top:none;"><label>{{VerifiedApplicant.IsApprovedByFaculty==1?'Confirm':'Pending'}}</label></td>
+                                    <td data-title="'Academic Approval'" filter="{IsApprovedByAcademic: 'text'}" sortable="'IsApprovedByAcademic'" style="border-top:none;"><label>{{VerifiedApplicant.IsApprovedByAcademic==1?'Confirm':'Pending'}}</label></td>
+                                    <td data-title="'Academic Eligibility Status'" filter="{EligibilityByAcademics: 'text'}" sortable="'EligibilityByAcademics'" style="border-top:none;"><label>{{VerifiedApplicant.EligibilityByAcademics}}</label></td>
+                                    
+                                    <td data-title="'Admitted As Student'" filter="{IsAdmitted: 'text'}" sortable="'IsAdmitted'" style="border-top:none;"><label>{{VerifiedApplicant.IsAdmitted==0?'No':'Yes'}}</label></td>
+                                    <td data-title="'Actions'">
+                                        <div layout="notifications row" ng-hide="VerifiedApplicant.IsAdmitted==1">
+                                            <span flex></span>
+                                            <button ng-click="ProceedToMakeSingleStudent(VerifiedApplicant.UserName)" class="btn btn-info" data-type="inverse" data-animation-in="animated fadeInUp" data-animation-out="animated fadeOutUp">Make Student</button>
+                                        </div>
+                                        <div class="text-center h6" ng-hide="VerifiedApplicant.IsAdmitted==0"><b>Made Student</b></div>
+                                    </td>
+                                </tr>
+                                <tr id="{{'expand'+VerifiedApplicant.UserName}}" class="collapse">
+                                    <td colspan="8">
+                                        <div class="row">
+                                            <div class="col-md-5 row">
+                                                <div class="col-md-5"><span>Cancel By Student : </span></div>
+                                                <div class="col-md-5"><span>{{VerifiedApplicant.IsCancelledByStudent==0?'No':'Yes'}}</span></div>
+                                            </div>
+                                            <div class="col-md-5 row">
+                                                <div class="col-md-5"><span>Cancel By Faculty : </span></div>
+                                                <div class="col-md-5"><span>{{VerifiedApplicant.IsCancelledByFaculty==0?'No':'Yes'}}</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-5 row">
+                                                <div class="col-md-5"><span>Cancel By Academics : </span></div>
+                                                <div class="col-md-5"><span>{{VerifiedApplicant.IsCancelledByAcademics==0?'No':'Yes'}}</span></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12" ng-show="DataTableBlock2">
+            <div class="card">
+                <div class="card-header">
+                    <div class="float-left">
+                        <h4>Send Email and SMS To Student(Credentials for Student LogIn with Student Portal Link)</h4>
+                        <hr />
+                        <h6>
+                            <b class="text-primary">Total Student : {{TransferredStudentLengthGet}}</b> |
+                            <b class="text-success">SMS Send : {{IsSMSSendSMSCountSend}}</b> |
+                            <b class="text-danger">SMS Pending : {{IsSMSSendSMSCountPending}}</b> |
+                            <b class="text-success">Email Send : {{IsEmailSendEmailCountSend}}</b> |
+                            <b class="text-danger">Email Pending : {{IsEmailSendEmailCountPending}}</b>
+                        </h6> 
+                    </div>
+                    <div class="float-right">
+                        <button ng-click="SendEmailToAllTransferredStudent(VerifiedApplicant.ProgrammeInstancePartTermId)" ng-show="BulkMail" class="btn btn-info btn-md" data-type="inverse" data-animation-in="animated fadeInUp" data-animation-out="animated fadeOutUp">Send Email to all</button><br /><br />
+                        <button ng-click="SendSMSToAllTransferredStudent(VerifiedApplicant.ProgrammeInstancePartTermId)" ng-show="BulkSMS" class="btn btn-info" data-type="inverse" data-animation-in="animated fadeInUp" data-animation-out="animated fadeOutUp">Send SMS to all</button>
+                    </div>
+                </div>
+                <div class="card-block">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="TransferredStudentGetByProgrammeInstancePartTermId" ng-table="TransferredStudentGetByProgrammeInstancePartTermIdTableParam" show-filter="true">
+                            <tbody ng-repeat="TransferredStudentGetByProgrammeInstancePartTermId in $data" ng-class="{'bg-info':TransferredStudentGetByProgrammeInstancePartTermId.IsSMSSend==1 && TransferredStudentGetByProgrammeInstancePartTermId.IsEmailSend==1}">
+                                <tr class="text-center">
+                                    <!-- <td class="expand_data" id="{{'first_col'+TransferredStudentGetByProgrammeInstancePartTermId.PRN}}" ng-click="expand_row1(TransferredStudentGetByProgrammeInstancePartTermId.PRN)">+</td>-->
+                                    
+                                    <td data-title="'Sr.No'" filter="{SerializeNumber: 'text'}" sortable="'SerializeNumber'" style="border-top:none;"><label>{{TransferredStudentGetByProgrammeInstancePartTermId.SerializeNumber}}</label></td>
+                                    <td data-title="'PRN'" filter="{PRN: 'text'}" sortable="'PRN'" style="border-top:none;"><label>{{TransferredStudentGetByProgrammeInstancePartTermId.PRN}}</label></td>
+                                    <td data-title="'FullName'" filter="{FullName: 'text'}" sortable="'FullName'" style="border-top:none;"><label>{{TransferredStudentGetByProgrammeInstancePartTermId.FullName}}</label></td>
+                                    <td data-title="'EmailId'" filter="{EmailId: 'text'}" sortable="'EmailId'" style="border-top:none;"><label>{{TransferredStudentGetByProgrammeInstancePartTermId.EmailId}}</label></td>
+                                    <td data-title="'MobileNo'" filter="{MobileNo: 'text'}" sortable="'MobileNo'" style="border-top:none;"><label>{{TransferredStudentGetByProgrammeInstancePartTermId.MobileNo}}</label></td>
+                                    <td data-title="'Admitted As Student'" filter="{IsAdmitted: 'text'}" sortable="'IsAdmitted'" style="border-top:none;"><label>{{VerifiedApplicant.IsAdmitted==0?'No':'Yes'}}</label></td>
+                                    <td data-title="'Email'">
+                                        <div layout="notifications row" ng-hide="TransferredStudentGetByProgrammeInstancePartTermId.IsEmailSend==1">
+                                            <span flex></span>
+                                            <div class="text-center h6 text-danger"><b>Email Pending</b></div>
+                                            <!--<button ng-click="SendEmailToSingleTransferredStudent(TransferredStudentGetByProgrammeInstancePartTermId.PRN,TransferredStudentGetByProgrammeInstancePartTermId.FullName,TransferredStudentGetByProgrammeInstancePartTermId.EmailId)" class="btn btn-info">
+                                                &nbsp;<i class="ion-android-mail"></i>
+                                            </button>-->
+                                        </div>
+                                        <div class="text-center h6" ng-hide="TransferredStudentGetByProgrammeInstancePartTermId.IsEmailSend==0" ng-class="{'text-info':TransferredStudentGetByProgrammeInstancePartTermId.IsSMSSend==0 && TransferredStudentGetByProgrammeInstancePartTermId.IsEmailSend==1}"><b>Email Sent</b></div>
+                                    </td>
+                                    <td data-title="'SMS'">
+                                        <div layout="notifications row" ng-hide="TransferredStudentGetByProgrammeInstancePartTermId.IsSMSSend==1">
+                                            <span flex></span>
+                                            <button ng-click="SendSMSToSingleTransferredStudent(TransferredStudentGetByProgrammeInstancePartTermId.PRN,TransferredStudentGetByProgrammeInstancePartTermId.MobileNo)" class="btn btn-info">&nbsp;<i class="icofont icofont-ui-messaging"></i></button>
+                                            <!--data-type="inverse" data-animation-in="animated fadeInUp" data-animation-out="animated fadeOutUp"-->
+                                        </div>
+                                        <div class="text-center h6" ng-hide="TransferredStudentGetByProgrammeInstancePartTermId.IsSMSSend==0" ng-class="{'text-info':TransferredStudentGetByProgrammeInstancePartTermId.IsSMSSend==1 && TransferredStudentGetByProgrammeInstancePartTermId.IsEmailSend==0}"><b>SMS Sent</b></div>
+                                    </td>
+                                </tr>
+                                <!--<tr id="{{'expand'+TransferredStudentGetByProgrammeInstancePartTermId.PRN}}" class="collapse">
+                                <td colspan="9">
+                                    <div class="row">
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>Email Sended : </span></div>
+                                            <div class="col-md-5"><span>{{TransferredStudentGetByProgrammeInstancePartTermId.IsEmailSend==0?'No':'Yes'}}</span></div>
+                                        </div>
+                                        <div class="col-md-6 row">
+                                            <div class="col-md-6"><span>SMS Sended : </span></div>
+                                            <div class="col-md-5"><span>{{TransferredStudentGetByProgrammeInstancePartTermId.IsSMSSend==0?'No':'Yes'}}</span></div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>-->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+<!--<script>
+    $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    $(document).ready(function() {
+        $('[data-toggle="popover"]').popover({
+            html: true,
+            content: function() {
+                return $('#primary-popover-content').html();
+            }
+        });
+    });
+</script>-->

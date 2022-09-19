@@ -1,0 +1,233 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="ProgrammeCtrl" ng-init="getProgrammeList()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Add Programme Master</h4></div>
+                        <div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light ">Back</button></div>
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="Programme" name="form">
+
+                            <div class="form-group row" ng-init="getFacultyList()">
+                                <div class="col-sm-2">Faculty Name</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="Programme.FacultyId" ng-options="d.Id as d.FacultyName for d in FacList" [value]="Programme.FacultyId" class="form-control" name="Facdropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Programme Name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="Programme.ProgrammeName" placeholder="Type Programme Name " required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Abbreviation of Programme</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="Programme.ProgrammeCode" placeholder="Type Programme Code " required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Programme Description</label>
+                                <div class="col-sm-6">
+                                    <textarea id="ProgDescTb" name="ProgDesc" ng-model="Programme.ProgrammeDescription" type="text" class=" form-control" placeholder="Programme Description" required ></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getProgrammeLevelList()">
+                                <div class="col-sm-2">Programme Level</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="Programme.ProgrammeLevelId" ng-options="d.Id as d.ProgrammeLevelName for d in ProgLevelList" [value]="Programme.ProgrammeLevelId" class="form-control" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getProgrammeModeList()">
+                                <div class="col-sm-2">Programme Mode</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="Programme.ProgrammeModeId" ng-options="d.Id as d.ProgrammeModeName for d in ProgModeList" [value]="Programme.ProgrammeModeId" class="form-control" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getProgrammeTypeList()">
+                                <div class="col-sm-2">Programme Type</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="Programme.ProgrammeTypeId" ng-options="d.Id as d.ProgrammeTypeName for d in ProgTypeList" [value]="Programme.ProgrammeTypeId" class="form-control" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getEvaluationList()">
+                                <div class="col-sm-2">Evaluation Mode/Type</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="Programme.EvaluationId" ng-options="d.Id as d.EvaluationName for d in EvalList" [value]="Programme.EvaluationId" class="form-control" name="evadropdown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getInstMediumList()">
+                                <div class="col-sm-2">Instruction of Medium</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="Programme.InstructionMediumId" ng-options="d.Id as d.InstructionMediumName for d in MediumList" [value]="Programme.InstructionMediumId" class="form-control" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Follow CBCS System?</label>
+                                <div class="col-sm-6">
+                                    <label>
+                                        <input type="radio" id="ISCBCSYesRb" ng-value="true" name="CBCSRb" ng-model="Programme.IsCBCS" ng-required="!Programme.IsCBCS" />  Yes &nbsp;
+                                        <input type="radio" id="ISCBCSNoRb" ng-value="false" name="CBCSRb" ng-model="Programme.IsCBCS" ng-required="!Programme.IsCBCS" /> No
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!--<div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Separate Passing Head</label>
+                                <div class="col-sm-6">
+                                    <label>
+                                        <input type="radio" id="chkYes1" ng-value="true" name="HeadRb" ng-model="Programme.IsSepartePassingHead" ng-required="!Programme.IsSepartePassingHead" />  Yes &nbsp;
+                                        <input type="radio" id="chkNo1" ng-value="false" name="HeadRb" ng-model="Programme.IsSepartePassingHead" ng-required="!Programme.IsSepartePassingHead" /> No
+                                    </label>
+                                </div>
+                            </div>-->
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Max Marks</label>
+                                <div class="col-sm-6">
+                                    <input type="number" name="max" class="form-control" ng-model="Programme.MaxMarks" allow-Pattern="\d" placeholder="Type Max Marks " required>
+                                    <!--<div style="color: red" ng-show="form.max.$error.min">Minimum Marks are not greater than Maximum Marks</div> min="{{Programme.MinMarks}}" -->
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Min Marks</label>
+                                <div class="col-sm-6">
+                                    <input type="number" name="min" class="form-control" ng-model="Programme.MinMarks" allow-Pattern="\d" placeholder="Type Min Marks " required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Max Credits</label>
+                                <div class="col-sm-6">
+                                    <input type="number" name="maxCredit" id="credit" class="form-control" ng-model="Programme.MaxCredits" allow-Pattern="\d" placeholder="Type Max Credits " required>
+                                    <!--<div style="color: red" ng-show="form.maxCredit.$error.min">Minimum Credits are not greater than Maximum Credits</div> min="{{Programme.MinCredits}}" -->
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Min Credits</label>
+                                <div class="col-sm-6">
+                                    <input type="number" name="minCredit" id="credit" class="form-control" ng-model="Programme.MinCredits" allow-Pattern="\d" placeholder="Type Min Credits " required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Programme Duration(In Months)</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" ng-model="Programme.ProgrammeDuration" allow-Pattern="\d" placeholder="Duration(In Months)" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Programme Validity(In Months)</label>
+                                <div class="col-sm-6">
+                                    <input onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" class="form-control" ng-model="Programme.ProgrammeValidity" allow-Pattern="\d" placeholder="Validity(In Months)" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Total Part(s)</label>
+                                <div class="col-sm-6">
+                                    <input type="number" id="totalPart" class="form-control" ng-model="Programme.TotalParts" allow-Pattern="\d" placeholder="Number of Part(s)/Year(s)" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="addProgramme()">Add</button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetProgramme()">Cancel</button>
+                                        <button class="btn btn-disabled" ng-click="defineProgrammePart()" ng-show="showDefineBtn">Define Programme Part</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="example-2" ng-table="ProgTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="Programme in $data">
+                                            <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;text-align:center;"><label>{{Programme.IndexId}}</label></td>
+                                            <td data-title="'FacultyName'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style="border-top:none;"><label>{{Programme.FacultyName}}</label></td>
+                                            <td data-title="'ProgrammeName'" filter="{ProgrammeName: 'text'}" sortable="'ProgrammeName'" style="border-top:none;"><label>{{Programme.ProgrammeName}}</label></td>
+                                            <td data-title="'ProgrammeCode'" filter="{ProgrammeCode: 'text'}" sortable="'ProgrammeCode'" style="border-top:none;"><label>{{Programme.ProgrammeCode}}</label></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

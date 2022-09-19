@@ -1,0 +1,200 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body">
+    <div id="overlay">
+        <div class="w-100 d-flex justify-content-center align-items-center">
+            <div class="spinner"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"><h4>Department Student Report</h4></div>
+
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="DepartmentReportParam" novalidate>
+
+                            <div class="form-group row" ng-init="getFacultyById()">
+                                <div class="col-sm-2">Faculty Name :</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <label>{{DepartmentReportParam.FacultyName}}</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Instiute Name :</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <label>{{DepartmentReportParam.InstituteName}}</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Department Name :</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <label>{{DepartmentReportParam.DepartmentName}}</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Academic Year :<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="DepartmentReportParam.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicYearList" ng-change="getProgrammeListByFacInstDepId(DepartmentReportParam.AcademicYearId)" [value]="DepartmentReportParam.AcademicYearId" class="form-control" name="AcademicYearDropDown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Programme Name :<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="DepartmentReportParam.ProgrammeId" ng-options="d.Id as d.ProgrammeName for d in ProgrammeList" ng-change="getProgInstPartTermGetByFacAcProgId(DepartmentReportParam.ProgrammeId)" [value]="DepartmentReportParam.ProgrammeId" class="form-control" name="ProgrammeNameDropDown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2">Semester Name :<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="DepartmentReportParam.InstancePartTermId" ng-options="d.Id as d.InstancePartTermName for d in IncProgrammeInstancePartTermList" [value]="DepartmentReportParam.InstancePartTermId" class="form-control" name="IncProgrammeInstancePartTermDropDown" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-12" ng-init="ReportType='StudentData'">
+                                    <label>
+                                        <input type="radio" id="StudentData" ng-value='"StudentData"' name="ReportType" ng-model="DepartmentReportParam.ReportType" ng-required="!DepartmentReportParam.ReportType" />  Student Data &nbsp;
+                                        <input type="radio" id="StudentWisePaperData" ng-value='"StudentWisePaperData"' name="ReportType" ng-model="DepartmentReportParam.ReportType" ng-required="!DepartmentReportParam.ReportType" /> Student Wise Paper Data
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button type="button" ng-click="getStudentByIncProgrammeInstancePartTermId(DepartmentReportParam.ReportType)" class="btn btn-success">&nbsp; Get Student</button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="col-sm-12" ng-show="StudentData">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"><h4>Student List</h4></div>
+
+                    </div>
+                </div>
+                <div class="card-block">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="DepartmentStudentListTableParam" ng-table="DepartmentStudentListTableParam" show-filter="true">
+                            <tbody ng-repeat="DepartmentStudent in $data">
+                                <tr class="text-center">
+
+                                    <td data-title="'Sr.No'" filter="{SerializeNumber: 'text'}" sortable="'SerializeNumber'" style="border-top:none;"><label>{{ DepartmentStudent.SerializeNumber}}</label></td>
+                                    <td data-title="'Admission Number'" filter="{StudentAdmissionId: 'text'}" sortable="'StudentAdmissionId'" style="border-top:none;"><label>{{DepartmentStudent.StudentAdmissionId}}</label></td>
+                                    <td data-title="'PRN'" filter="{PRN: 'text'}" sortable="'PRN'" style="border-top:none;"><label>{{DepartmentStudent.PRN}}</label></td>
+                                    <td data-title="'Student'" filter="{StudentName: 'text'}" sortable="'StudentName'" style="border-top:none;"><label>{{DepartmentStudent.StudentName}}</label></td>
+                                    <td data-title="'Mobile'" filter="{MobileNo: 'text'}" sortable="'MobileNo'" style="border-top:none;"><label>{{DepartmentStudent.MobileNo}}</label></td>
+                                    <td data-title="'Email'" filter="{EmailId: 'text'}" sortable="'EmailId'" style="border-top:none;"><label>{{DepartmentStudent.EmailId}}</label></td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12" ng-show="a">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"><h4>Student List</h4></div>
+
+                    </div>
+                </div>
+                <div class="card-block">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="DepartmentStudentListTableParam" ng-table="DepartmentStudentListTableParam" show-filter="true">
+                            <tbody ng-repeat="DepartmentStudent in $data">
+                                <tr class="text-center">
+
+                                    <td data-title="'Sr.No'" filter="{SerializeNumber: 'text'}" sortable="'SerializeNumber'" style="border-top:none;"><label>{{ DepartmentStudent.SerializeNumber}}</label></td>
+                                    <td data-title="'Admission Number'" filter="{StudentAdmissionId: 'text'}" sortable="'StudentAdmissionId'" style="border-top:none;"><label>{{DepartmentStudent.StudentAdmissionId}}</label></td>
+                                    <td data-title="'PRN'" filter="{PRN: 'text'}" sortable="'PRN'" style="border-top:none;"><label>{{DepartmentStudent.PRN}}</label></td>
+                                    <td data-title="'Student'" filter="{StudentName: 'text'}" sortable="'StudentName'" style="border-top:none;"><label>{{DepartmentStudent.StudentName}}</label></td>
+                                    <td data-title="'Mobile'" filter="{MobileNo: 'text'}" sortable="'MobileNo'" style="border-top:none;"><label>{{DepartmentStudent.MobileNo}}</label></td>
+                                    <td data-title="'Email'" filter="{EmailId: 'text'}" sortable="'EmailId'" style="border-top:none;"><label>{{DepartmentStudent.EmailId}}</label></td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>

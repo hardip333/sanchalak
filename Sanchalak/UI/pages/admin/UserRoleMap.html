@@ -1,0 +1,298 @@
+﻿
+
+<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+    .button-size {
+        width: 11rem !important;
+    }
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+
+
+<!-- Page body start -->
+<div class="page-body" ng-controller="UserRoleMapCtrl" ng-init="UserRoleMapGet()">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h4>User-Role Map Master</h4>
+
+
+                </div>
+                <div class="card-block">
+
+                    <div class="col-md-12 offset-md-2">
+                        <form ng-model="UserRoleMap">
+
+                            <div class="form-group row" ng-init="MstUserGetforMap()">
+                                <label class="col-sm-2 col-form-label">Select User <span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <select id="ddlUser" name="User" class="form-control required" ng-model="UserRoleMap.UserId"
+                                            ng-options="d.Id as d.UserName for d in MstUserList" [value]="d.UserName">
+                                        <option value="" disabled selected hidden>-- Select User --</option>
+                                    </select>
+                                    <!--<span style="color:red;margin-left:5px;" ng-show="UserForm.mari.$touched && UserForm.mari.$error.pattern">Required *<br /></span>-->
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="MstRoleGet()">
+                                <label class="col-sm-2 col-form-label">Select Role <span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select id="ddlRole" name="Role" class="form-control required" ng-model="UserRoleMap.RoleId"
+                                                ng-options="d.Id as d.RoleName for d in RoleList" [value]="d.RoleName">
+                                            <option value="" disabled selected hidden>-- Select Role --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="MstDesignationGet()">
+                                <label class="col-sm-2 col-form-label">Select Designation <span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select id="ddlDesignation" name="Designation" class="form-control required" ng-model="UserRoleMap.DesignationId"
+                                                ng-options="d.Id as d.DesignationName for d in MstDesignationList" [value]="d.DesignationName" >
+                                            <option value="" disabled selected hidden>-- Select Designation --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+
+                                <label class="col-sm-2 col-form-label">Is Tennure Period? <span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <div class="form-radio">
+                                        <div class="radio radio-inline">
+                                            <label>
+                                                <input type="radio" name="Tennure" value="True" id="IsTennureYes" data-bv-field="Tennure" ng-model="UserRoleMap.Tennure">
+                                                <i class="helper"></i>Yes
+                                            </label>
+                                        </div>
+                                        <div class="radio radio-inline">
+                                            <label>
+                                                <input type="radio" name="Tennure" value="False" id="IsTennureNo" data-bv-field="Tennure" ng-model="UserRoleMap.Tennure">
+                                                <i class="helper"></i>No
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2">Tennure Start Date</label>
+                                <div class="col-sm-6">
+                                    <input id="TennureStartDate" name="TennureStartDate" type="date" class="form-control" ng-model="UserRoleMap.StartDate" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2">Tennure End Date</label>
+                                <div class="col-sm-6">
+                                    <input id="TennureEndDate" name="TennureEndDate" type="date" class="form-control" ng-model="UserRoleMap.EndDate" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">User Assign To? <span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <div class="form-radio">
+                                        <div class="radio radio-inline">
+                                            <label>
+                                                <input type="radio" name="UserLevelType" value="University" id="University" data-bv-field="UserLevelType" ng-model="UserRoleMap.UserLevelType">
+                                                <i class="helper"></i>University
+                                            </label>
+                                        </div>
+                                        <div class="radio radio-inline">
+                                            <label>
+                                                <input type="radio" name="UserLevelType" value="Institute" id="Institute" data-bv-field="UserLevelType" ng-model="UserRoleMap.UserLevelType">
+                                                <i class="helper"></i>Institute
+                                            </label>
+                                        </div>
+                                        <div class="radio radio-inline">
+                                            <label>
+                                                <input type="radio" name="UserLevelType" value="Faculty" id="Faculty" data-bv-field="UserLevelType" ng-model="UserRoleMap.UserLevelType">
+                                                <i class="helper"></i>Faculty
+                                            </label>
+                                        </div>
+                                        <div class="radio radio-inline">
+                                            <label>
+                                                <input type="radio" name="UserLevelType" value="Department" id="Department" data-bv-field="UserLevelType" ng-model="UserRoleMap.UserLevelType">
+                                                <i class="helper"></i>Department
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="MstUniversitySectionGet()" ng-show="UserRoleMap.UserLevelType == 'University'">
+                                <label class="col-sm-2 col-form-label">Select University Section <span style="color:red">*</span></label>
+                                <div class="col-sm-6">
+                                    <span class="nullable">
+                                        <select id="ddlRole" name="Role" class="form-control required" ng-model="UserRoleMap.UniversitySectionId"
+                                                ng-options="d.Id as d.UniversitySectionName for d in MstUniversitySectionList" [value]="d.UniversitySectionName" >
+                                            <option value="" disabled selected hidden>-- Select University Section --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="getFacultyById()" ng-show="UserRoleMap.UserLevelType == 'Faculty' || UserRoleMap.UserLevelType == 'Department' || UserRoleMap.UserLevelType == 'Institute'">
+                                <div class="col-sm-2">Select Faculty</div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select id="ddlfaculty" ng-model="UserRoleMap.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList  | orderBy:'FacultyList'" class="form-control" ng-change="getPostInstitutebyFaculty();" name="Instdropdown" >
+                                                <option value="" disabled selected>-- Select Faculty --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-show="UserRoleMap.UserLevelType == 'Department'">
+                                <div class="col-sm-2">Select Institute<span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select id="ddlInstID" ng-model="UserRoleMap.InstituteId" ng-options="d.Id as d.InstituteName for d in ProgPartTermByInstituteList" [value]="UserRoleMap.Id" class="form-control" ng-change="MstDepartmentGetForMap();" name="Institutedropdown" >
+                                                <option value="" disabled selected>-- Select Institute --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-show="UserRoleMap.UserLevelType == 'Department'">
+                                <div class="col-sm-2">Select Department<span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select id="ddlDeptId" ng-model="UserRoleMap.DepartmentId" ng-options="d.Id as d.SubjectName for d in DepartmentList" class="form-control" name="Departmentdropdown" >
+                                                <option value="" disabled selected>-- Select Department --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" ng-init="MstInstituteGet()" ng-show="UserRoleMap.UserLevelType == 'Institute'">
+                                <div class="col-sm-2">Select Institute<span style="color:red;"> *</span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select id="ddlInstID" ng-model="UserRoleMap.InstituteId" ng-options="d.Id as d.InstituteName for d in MstInstituteList" [value]="UserRoleMap.Id" class="form-control" name="Institutedropdown" >
+                                                <option value="" disabled selected>-- Select Institute --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 offset-md-2">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success" ng-click="UserRoleMapAdd()" ng-show="UpdateBtnFlag == false">Add </button>
+                                        <button class="btn btn-success" ng-click="UserRoleMapEdit()" ng-show="UpdateBtnFlag == true">Update </button>
+                                        <button class="btn btn-disabled disabled" ng-click="resetUserRoleMap()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered" id="UserRoleMap" ng-table="UserRoleMapTableParams" show-filter="true">
+                                    <tbody>
+                                        <tr ng-repeat="UserRoleMap in $data">
+
+                                            <td data-title="'Actions'" style="text-align:center;width:5px;">
+                                                <div layout="row">
+                                                    <span flex></span>
+
+                                                    <button type="button" ng-click="modifyUserRoleMapData(UserRoleMap)" class="tabledit-edit-button btn btn-primary waves-effect waves-light"><span class="icofont icofont-ui-edit"></span></button>
+                                                    <button type="button" ng-click="UserRoleMapDelete($event,UserRoleMap)" class="tabledit-delete-button btn btn-danger waves-effect waves-light ml-2"><span class="icofont icofont-ui-delete"></span></button>
+
+                                                </div>
+                                            </td>
+                                            <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;text-align:center"><label>{{UserRoleMap.IndexId}}</label></td>
+                                            <td data-title="'User Name'" filter="{UserName: 'text'}" sortable="'UserName'" style="border-top:none;text-align:center;"><label>{{UserRoleMap.UserName}}</label></td>
+                                            <!--<td data-title="'DisplayName'" filter="{DisplayName: 'text'}" sortable="'DisplayName'" style="border-top:none;text-align:center;"><label>{{UserRoleMap.DisplayName}}</label></td>-->
+                                            <td data-title="'Role Name'" filter="{RoleName: 'text'}" sortable="'RoleName'" style="border-top:none;text-align:center;"><label>{{UserRoleMap.RoleName}}</label></td>
+                                            <td data-title="'Designation'" filter="{DesignationName: 'text'}" sortable="'DesignationName'" style="border-top:none;text-align:center;"><label>{{UserRoleMap.DesignationName}}</label></td>
+
+                                            <td data-title="'Tennure Start Date'" filter="{StartDateView: 'text'}" sortable="'StartDateView'" style="border-top: none; text-align: center;">
+                                                <span ng-if="UserRoleMap.StartDateView != null"><label>{{UserRoleMap.StartDateView}}</label></span>
+                                                <span ng-if="UserRoleMap.StartDateView == null || UserRoleMap.StartDateView == ''"><label>--</label></span>
+
+                                            </td>
+
+                                            <td data-title="'Tennure End Date'" filter="{EndDateView: 'text'}" sortable="'EndDateView'" style="border-top: none; text-align: center;">
+                                                <span ng-if="UserRoleMap.EndDateView != null"><label>{{UserRoleMap.EndDateView}}</label></span>
+                                                <span ng-if="UserRoleMap.EndDateView == null || UserRoleMap.EndDateView == ''"><label>--</label></span>
+
+                                            </td>
+                                            <td data-title="'Is Tennure Period?'" filter="{Tennure: 'text'}" sortable="'Tennure'" style="border-top: none; text-align: center;">
+                                                <span ng-if="UserRoleMap.Tennure != null"><label>{{UserRoleMap.Tennure}}</label></span>
+                                                <span ng-if="UserRoleMap.Tennure == null"><label>--</label></span>
+
+                                            </td>
+
+                                            <td data-title="'Faculty Name'" filter="{FacultyName: 'text'}" sortable="'FacultyName'" style="border-top: none; text-align: center;">
+                                                <span ng-if="UserRoleMap.FacultyName != null"><label>{{UserRoleMap.FacultyName}}</label></span>
+                                                <span ng-if="UserRoleMap.FacultyName == null || UserRoleMap.FacultyName == ''"><label>--</label></span>
+
+                                            </td>
+
+
+                                            <td data-title="'Department Name'" filter="{DepartmentName: 'text'}" sortable="'DepartmentName'" style="border-top: none; text-align: center;">
+                                                <span ng-if="UserRoleMap.DepartmentName != null"><label>{{UserRoleMap.DepartmentName}}</label></span>
+                                                <span ng-if="UserRoleMap.DepartmentName == null || UserRoleMap.DepartmentName == ''"><label>--</label></span>
+
+                                            </td>
+
+                                            <td data-title="'Institute Name'" filter="{InstituteName: 'text'}" sortable="'InstituteName'" style="border-top: none; text-align: center;">
+                                                <span ng-if="UserRoleMap.InstituteName != null"><label>{{UserRoleMap.InstituteName}}</label></span>
+                                                <span ng-if="UserRoleMap.InstituteName == null || UserRoleMap.InstituteName == ''"><label>--</label></span>
+
+                                            </td>
+
+
+                                            <td data-title="'University Section Name'" filter="{UniversitySectionName: 'text'}" sortable="'UniversitySectionName'" style="border-top: none; text-align: center;">
+                                                <span ng-if="UserRoleMap.UniversitySectionName != null"><label>{{UserRoleMap.UniversitySectionName}}</label></span>
+                                                <span ng-if="UserRoleMap.UniversitySectionName == null || UserRoleMap.UniversitySectionName == ''"><label>--</label></span>
+
+                                            </td>
+
+                                            <td data-title="'User Level Type'" filter="{UserLevelType: 'text'}" sortable="'UserLevelType'" style="border-top: none; text-align: center;">
+                                                <span ng-if="UserRoleMap.UserLevelType != null"><label>{{UserRoleMap.UserLevelType}}</label></span>
+                                                <span ng-if="UserRoleMap.UserLevelType == null || UserRoleMap.UserLevelType == ''"><label>--</label></span>
+
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                           
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,431 @@
+﻿<style>
+    .md-dialog-is-showing {
+        top: auto !important;
+    }
+</style>
+
+<!-- Page body start -->
+<div class="page-body" >
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Result Calculation</h4></div>
+                        <!--<div class="float-right"> <button type="button" ng-click="backToList()" class="tabledit-edit-button btn btn-primary waves-effect waves-light "><i class="ti-pencil-alt"></i>  Modify  </button></div>-->
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <div class="col-md-12 offset-md-2">
+                        <form name="form">
+                            <div class="form-group row" ng-init="AcademicYearGet()">
+                                <div class="col-sm-2">Academic Year<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ResCal.AcademicYearId" ng-options="d.Id as d.AcademicYearCode for d in AcademicList" class="form-control" name="Facultydropdown" ng-change="FacultyGet()" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">Faculty Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ResCal.FacultyId" ng-options="d.Id as d.FacultyName for d in FacultyList" class="form-control" ng-change="getProgrammeInstanceListByAcadId()" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-2">Programme Name<span style="color:red;"> * </span></div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <span class="nullable">
+                                            <select ng-model="ResCal.ProgramInstanceId" ng-options="d.Id as d.ProgrammeName+'-'+d.AcademicYear for d in InstList" class="form-control" ng-change="getResCalByProgInsIdList()" required>
+                                                <option value="" disabled selected>-- select --</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                        <!--<div class="form-group row">
+                            <div class="col-sm-2">Select Programme Name<span style="color:red;"> * </span></div>
+                            <div class="col-sm-6">
+                                <div>
+                                    <span class="nullable">
+                                        <select ng-model="ResCal.ProgramInstanceId" ng-options="d.Id as d.InstanceName for d in ProgInstList" ng-change="getResCalByProgInsIdList();" class="form-control" name="ProgInstdropdown" required>
+                                            <option value="" disabled selected>-- select --</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+
+                <div class="card-block" ng-if="ResCal.ProgramInstanceId > 0">
+                    <div class="table-responsive" ng-if="ProgInstPartList.length > 0">
+                        <table class="table table-striped table-bordered">
+                            <thead style="vertical-align: middle">
+                                <tr>
+                                    <th>Programme Part</th>
+                                    <th>Programme Part Term</th>
+                                    <th>
+                                        Is Result Calculation<br /> Applicable
+                                        <input type="checkbox" id="SelAllCalc" name="ResCalc1" ng-model="ResCal.SelAllCalc" ng-click="checkAllResCalc();" value='true'>
+                                    </th>
+                                    <th>
+                                        Attach Result<br /> Class
+                                        <input type="checkbox" id="SelAllClass" name="ResClass" ng-model="ResCal.SelAllClass" ng-click="checkAllResClass();" value='true'>
+                                    </th>
+                                    <th>Result Calculation<br /> Template Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="ResCal in ProgInstPartList">
+                                    <!--<td data-title="'Sr.No'" ><label>{{ $index + 1 }}</label></td>-->
+                                    <td data-title="'Programme Part'"><label>{{ResCal.PartName}}</label></td>
+                                    <td data-title="'Programme Part Term'" style="white-space:break-spaces; display:contents;"><label>{{ResCal.InstancePartTermName}}</label></td>
+                                    <td data-title="'Is Result Calculation Applicable'" style="border-top:none; text-align:center;">
+                                        <input type="checkbox" id="ResCalc" ng-model="ResCal.IsResCalcApplicable" name="ResCalc1" value="true">
+                                    </td>
+                                    <td data-title="'Attach Result Class'" style="border-top:none; text-align:center;">
+                                        <input type="checkbox" id="AttachRes" name="AttachRes1" ng-model="ResCal.AttachResultClass" value='true'>
+                                    </td>
+                                    <td data-title="'Result Calculation Template Name'">
+                                        <span ng-if="ResCal.TemplateName!=null && (ResCal.IsResCalcApplicable==true || ResCal.AttachResultClass==true)">
+                                            <label>  {{ResCal.TemplateName}}</label>
+                                        </span>
+                                        <span ng-if="MarksTempByIdList.MarksTemplateName!=null && (ResCal.IsResCalcApplicable==true || ResCal.AttachResultClass==true) && ResCal.TemplateName==null">
+                                            <label>  {{MarksTempByIdList.MarksTemplateName}}</label>
+                                        </span>
+                                        <span ng-if="GPATemplateByIdList.GPATemplateName!=null && (ResCal.IsResCalcApplicable==true || ResCal.AttachResultClass==true) && ResCal.TemplateName==null">
+                                            <label>  {{GPATemplateByIdList.GPATemplateName}}</label>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div ng-if="ProgInstPartList.length == 0" class="row" style="color:red;margin:1px;border:1px solid;text-align:center;padding:10px;">
+                        <span style="text-align:center;">Programme Part or Programme Part Term not Configured</span>
+                    </div>
+                </div>
+                    <div class="card-block">
+                        <div class="col-md-12 offset-md-2">
+                            <form name="form">
+                              
+                                <div class="form-group row" ng-init="getResMstEvaluation()">
+                                    <div class="col-sm-2">Select Evaluation System<span style="color:red;"> * </span></div>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <span class="nullable">
+                                                <select ng-model="ResCal.MstEvaluationId" ng-options="d.Id as d.EvaluationName for d in EvaluationList" class="form-control" ng-change="MstEvalResCal()" id="Evaluationdropdown" ng-disabled="ShowResCalc">
+                                                    <option value="" disabled selected>-- select --</option>
+                                                </select>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row"  ng-show="ResCal.MstEvaluationId==3">
+                                    <div class="col-sm-2">Select Mark Template Name<span style="color:red;"> * </span></div>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <span class="nullable">
+                                                <select ng-model="ResCal.MarkTemplateId" ng-options="d.Id as d.MarksTemplateName for d in MarksTempList" class="form-control" ng-change="getMarksTemplateByIdList()" id="MarksTemplatedropdown" ng-disabled="ShowResCalc" required>
+                                                    <option value="" disabled selected>-- select --</option>
+                                                </select>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <span ng-if="ResCal.MarkTemplateId>0">
+                                            <button type="button" ng-click="getMarksTemplateByIdList()" class="btn btn-info btn-icon mr-2" data-target="#large-Modal" data-toggle="modal"><span class="icofont ion-eye"></span></button>
+                                            <!--<button class="btn btn-success" ng-click="getMarksTemplateByIdList()" ng-disabled="ShowResCalc"> Apply </button>-->
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group row" ng-show="ResCal.MstEvaluationId!=3">
+                                    <div class="col-sm-2">Select Grade Scale<span style="color:red;"> * </span></div>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <span class="nullable">
+                                                <select ng-model="ResCal.GradeScaleId" ng-options="d.Id as d.GradeScaleName for d in GradeScaleList" ng-change="getGPATemplateByGScaleIdAndEvalIdList()" class="form-control" id="GradeScaledropdown" ng-disabled="ShowResCalc" required>
+                                                    <option value="" disabled selected>-- select --</option>
+                                                </select>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row" ng-show="ResCal.MstEvaluationId!=3">
+                                    <div class="col-sm-2">Select Grade Template Name<span style="color:red;"> * </span></div>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <span class="nullable">
+                                                <select ng-model="ResCal.GradeTemplateId" ng-options="d.Id as d.GPATemplateName for d in GPATemplateGScaleIdAndEvalIdList" class="form-control" ng-change="getGPATemplateByIdList()" id="GradeTemplatedropdown" ng-disabled="ShowResCalc" required>
+                                                    <option value="" disabled selected>-- select --</option>
+                                                </select>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <span ng-if="ResCal.GradeTemplateId>0">
+
+                                            <button type="button" ng-click="getGPATemplateByIdList()" class="btn btn-info btn-icon mr-2" data-target="#large-Modal1" data-toggle="modal"><span class="icofont ion-eye"></span></button>
+                                            <!--<button class="btn btn-success" ng-click="getGPATemplateByIdList()" ng-disabled="ShowResCalc"> Apply </button>-->
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!--<div class="col-md-12 offset-md-2">
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <button class="btn btn-success" ng-click="getResIncProgInstancePartGetByProgInstId()">   Submit  </button>
+                <button class="btn btn-disabled disabled" ng-click="cancelResCal()">Cancel</button>
+            </div>
+        </div>
+    </div>-->
+
+                            </form>
+                        </div>
+
+                        <!--<div class="table-responsive">
+                <table class="table table-striped table-bordered" id="example-2" ng-table="MarksLevelTableParams1" >
+                    <thead style="vertical-align: middle">
+                        <tr>
+                            <th>Programme Part</th>
+                            <th>Programme Part Term</th>
+                            <th>
+                                Is Result<br/> Calculation Applicable <br/>
+                                <input type="checkbox" id="SelAllCalc" name="ResCalc1" ng-model="ResCal.SelAllCalc" ng-click="checkAllResCalc();" value='true'>
+                            </th>
+                            <th>
+                                Attach Result<br/> Class<br/>
+                                <input type="checkbox" id="SelAllClass" name="ResClass" ng-model="ResCal.SelAllClass" ng-click="checkAllResClass();" value='true'>
+                            </th>
+                            <th>Result Calculation<br/> Template Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="ResCal in ProgInstPartList">-->
+                        <!--<td data-title="'Sr.No'" ><label>{{ $index + 1 }}</label></td>-->
+                        <!--<td data-title="'Programme Part'"><label>{{ResCal.PartName}}</label></td>
+                            <td data-title="'Programme Part Term'"><label>{{ResCal.InstancePartTermName}}</label></td>
+                            <td data-title="'Is Result Calculation Applicable'" style="border-top:none; text-align:center;">
+                                <input type="checkbox" id="ResCalc" ng-model="ResCal.IsResCalcApplicable" name="ResCalc1"  value="true">
+                            </td>
+                            <td data-title="'Attach Result Class'" style="border-top:none; text-align:center;">
+                            <input type="checkbox" id="AttachRes" name="AttachRes1" ng-model="ResCal.AttachResultClass"  value='true'></td>
+                            <td data-title="'Result Calculation Template Name'">
+                                <span ng-if="ResCal.TemplateName!=null && (ResCal.IsResCalcApplicable==true || ResCal.AttachResultClass==true)" >
+                                    <label>  {{ResCal.TemplateName}}</label>
+                                </span>
+                                <span ng-if="MarksTempByIdList.MarksTemplateName!=null && (ResCal.IsResCalcApplicable==true || ResCal.AttachResultClass==true) && ResCal.TemplateName==null">
+                                    <label>  {{MarksTempByIdList.MarksTemplateName}}</label>
+                                </span>
+                                <span ng-if="GPATemplateByIdList.GPATemplateName!=null && (ResCal.IsResCalcApplicable==true || ResCal.AttachResultClass==true) && ResCal.TemplateName==null">
+                                    <label>  {{GPATemplateByIdList.GPATemplateName}}</label>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>-->
+                    <div layout="row" style="margin-top:3px" class="float-right">
+                        <!--<span ng-if="ResCal.MarkTemplateId>0">
+        <button class="btn btn-success" ng-click="getMarksTemplateByIdList()"> Apply Template </button>&nbsp;&nbsp;
+    </span>
+    <span ng-if="ResCal.GradeTemplateId>0">
+        <button class="btn btn-success" ng-click="getGPATemplateByIdList()"> Apply Template </button>&nbsp;&nbsp;
+    </span>-->
+                        <button ng-click="addResCal()" ng-disabled="deleteExemConfig" class="btn btn-primary" style="min-width:40px;"> Attach Template </button>&nbsp;&nbsp;
+                        <button ng-click="deleteResCal($event)" ng-disabled="deleteExemConfig" class="btn btn-primary" style="min-width:40px;">Delete </button>&nbsp;&nbsp;
+                        <button ng-click="LaunchResConfiguration()" ng-disabled="deleteExemConfig" class="btn btn-primary" style="min-width:40px;">Launch </button>
+                    </div>
+                        <div class="modal fade" id="large-Modal" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Mark Template Detail</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h5></h5>
+                                        <table class="table table-striped table-bordered">
+                                            <tr>
+                                                <td>Template Name:</td>
+                                                <td>{{MarksTempByIdList.MarksTemplateName}}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Description:</td>
+                                                <td>{{MarksTempByIdList.MarksTemplateDescription}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Enter No. of Intervals:</td>
+                                                <td>{{MarksTempByIdList.NoofIntervals}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Use this template with:</td>
+                                                <td>{{MarksTempByIdList.TemplateUsedwith}}</td>
+                                            </tr>
+                                            <tr></tr>
+
+                                            <tr>
+                                                <td colspan="2">
+                                                    <table class="table table-striped table-bordered">
+                                                        <thead style="vertical-align: middle; text-align:center;">
+                                                            <tr>
+                                                                <th>Sr.No</th>
+                                                                <th>Class Name</th>
+                                                                <th>From (%)</th>
+                                                                <th> To (%)</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            <tr ng-repeat="TempConfig in MarksTempConfigList">
+                                                                <td data-title="'Sr.No'" sortable="'$index'" style="border-top:none;">
+                                                                    <label>{{ $index + 1 }}</label>
+                                                                </td>
+                                                                <td data-title="'Class Name'">
+                                                                    <label>{{TempConfig.MarksLevelName}}</label>
+                                                                </td>
+                                                                <td data-title="'From (%)'">
+                                                                    <label>{{TempConfig.RangeFrom}}</label>
+                                                                </td>
+                                                                <td data-title="'To (%)'">
+                                                                    <label>{{TempConfig.RangeTo}}</label>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+
+                                                    </table>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary waves-effect waves-light " data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="large-Modal1" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Grade Template Detail</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h5></h5>
+                                        <table class="table table-striped table-bordered">
+                                            <tr>
+                                                <td>Grade Point Scale:</td>
+                                                <td>{{GPATemplateByIdList.GradeScaleName}}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Evaluation System:</td>
+                                                <td>{{GPATemplateByIdList.EvaluationName}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Template Name:</td>
+                                                <td>{{GPATemplateByIdList.GPATemplateName}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Description: </td>
+                                                <td>{{GPATemplateByIdList.GPATemplateDescription}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Enter No. of Intervals: </td>
+                                                <td>{{GPATemplateByIdList.NoofIntervals}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <table class="table table-striped table-bordered">
+                                                        <thead style="vertical-align: middle; text-align:center;">
+                                                            <tr>
+                                                                <th>Sr.<br />No</th>
+                                                                <th>Grade<br /> Abbreviation</th>
+                                                                <th>Mark From<br /> (%)</th>
+                                                                <th> Mark To<br /> (%)</th>
+                                                                <th> GPA From<br /> (%)</th>
+                                                                <th> GPA To<br /> (%)</th>
+                                                                <th> Grade<br /> Point</th>
+                                                                <th> Status</th>
+                                                                <th> Description</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            <tr ng-repeat="GTempConfig in GradeTempConfigList">
+                                                                <td data-title="'No.'" style="border-top: none;">
+                                                                    <label>{{ $index + 1 }}</label>
+                                                                </td>
+                                                                <td data-title="'Grade Abbreviation'">
+                                                                    <label>{{GTempConfig.GradeAbbrev}}</label>
+                                                                </td>
+                                                                <td data-title="'Mark From (%)'">
+                                                                    <label>{{GTempConfig.MarkPercentRangeFrom}}</label>
+                                                                </td>
+                                                                <td data-title="'Mark To (%)'">
+                                                                    <label>{{GTempConfig.MarkPercentRangeTo}}</label>
+                                                                </td>
+
+                                                                <td data-title="'GPA From (%)'">
+                                                                    <label>{{GTempConfig.GPAFrom}}</label>
+                                                                </td>
+                                                                <td data-title="'GPA To (%)'">
+                                                                    <label>{{GTempConfig.GPATo}}</label>
+                                                                </td>
+                                                                <td data-title="'Grade Point'">
+                                                                    <label>{{GTempConfig.GradePoint}}</label>
+                                                                </td>
+                                                                <td data-title="'Status'">
+                                                                    <label>{{GTempConfig.Status}}</label>
+                                                                </td>
+                                                                <td data-title="'Description'">
+                                                                    <label>{{GTempConfig.GradeLevelName}}</label>
+                                                                </td>
+
+                                                            </tr>
+                                                        </tbody>
+
+
+                                                    </table>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary waves-effect waves-light " data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+﻿
+<style>
+    .card-block .pagination li {
+        margin-right: 10px !important;
+    }
+
+
+
+    .card .card-block ul {
+        float: right !important;
+    }
+</style>
+<script src="../../../app/admin/controller/alasql.js"></script>
+<!-- Page body start -->
+<div class="page-body" ng-controller="CopyCourseProgrammeDefinationCtrl" ng-init="getCopyCourseDefination(ProgrammePartTermId, DestinationAcademicYearId, SourceAcademicYearId)">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Basic Form Inputs card start -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="float-left"> <h4>Copy Course Definition</h4></div>
+
+                    </div>
+                </div>
+
+                <div class="card" ng-model="FinalModel">
+                    <div class="card-block">
+                        <div class="table-responsive">
+                            
+                            <table class="table table-striped table-bordered" id="example-2" ng-table="CopyCourseDefinationTableParams" show-filter="true">
+                                
+                                <tbody>
+                                    <tr ng-repeat="FinalModel in CCD">
+                                        <td data-title="'Sr.No'" filter="{IndexId: 'text'}" sortable="'IndexId'" style="border-top:none;text-align:center;"><label>{{FinalModel.IndexId}}</label></td>
+                                        <td data-title="'Part Term Name'" filter="{ProgrammePartTermName: 'text'}" sortable="'ProgrammePartTermName'" style=" border-top: none;"><label>{{FinalModel.PartTermName}}</label></td>
+                                        <td data-title="'Destination Academic Year'" filter="{DestinationAcademicYearCode: 'text'}" sortable="'DestinationAcademicYearCode'" style=" border-top: none;">
+                                            <lable>{{FinalModel.DestinationAcademicYearCode}}</lable>
+                                        </td>
+                                        <td data-title="'SourceAcademicYear'" filter="{SourceAcademicYear: 'text'}" sortable="'SourceAcademicYear'" style=" border-top: none;">
+                                            <lable>{{FinalModel.SourceAcademicYearCode}}</lable>
+                                        </td>
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+							<div ng-if="contentPresent">
+                                    <h2 style="font-size:medium; text-align:center">There are no  selection by your end. No Record Found.</h2>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
